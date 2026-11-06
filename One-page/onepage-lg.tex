@@ -1,0 +1,85 @@
+% !TEX program = lualatex
+% =============================================================
+% OnePage LG — Hanaro / Antes / Depois / Resultado
+%
+%   BASEADO ESTRITAMENTE NO MODELO CORPORATIVO FORNECIDO.
+%   Este arquivo altera somente o conteudo. Layout, cores, fontes,
+%   coordenadas, icones e motor grafico permanecem em onepagelg.sty.
+%
+%   Compilar: lualatex onepage-lg.tex   (2x)
+% =============================================================
+\documentclass{article}
+\usepackage{onepagelg}
+\begin{document}
+
+% ======================= CABECALHO E RODAPE =======================
+\avisotopo{LGE — Uso Interno}
+\titulo{1. Hanaro — Scrap \& IF Cost}
+\subtitulo{Plataforma para centralizar dados de Material Scrap / IF Cost, ampliar a rastreabilidade e automatizar o fluxo de gestão de perdas.}
+\colunas{Antes}{Depois}{Resultado}
+\rodape{| \ C\,O\,N\,F\,I\,D\,E\,N\,C\,I\,A\,L\ |}{0 / 7}
+
+% ======================= COLUNA 1 — ANTES =======================
+\tituloantes{Contexto / Problema}
+\textoantes{Dados de Scrap ainda dependem de consolidação manual e de fontes
+  distribuídas, gerando retrabalho e divergências nos indicadores de produção.}
+
+% Textos mantidos curtos para respeitar a densidade do modelo original.
+\ponto[1.18]{ico-repetitivo.png}{A consolidação manual do Scrap exige esforço operacional recorrente.}
+\ponto[1.08]{ico-sobrecarga.png}{Produção e Qualidade precisam cruzar informações antes da análise.}
+\ponto[0.90]{ico-planilhas.png}{Regras de escopo e ajustes ainda dependem de planilhas.}
+
+\alerta{ico-seguranca.png}{Baixa rastreabilidade e divergências entre fontes}
+
+% quadro de baixo: titulo, o fluxo "de ... para ..." e os numeros de impacto
+\tituloquadro{Situação atual}
+\fluxo{De 1,5h a 2h/dia}{até 504 h/ano}
+\destaque[0.96]{ico-pessoas.png}{Fluxo manual e fragmentado}
+\destaque[0.96]{ico-oportunidades.png}{Sem base única para Scrap / IF Cost}
+
+% ======================= COLUNA 2 — DEPOIS =======================
+\titulodepois{Melhoria Esperada}
+\textodepois{O Hanaro centraliza os dados de Material Scrap / IF Cost, padroniza a
+  ingestão e conecta monitoramento, revisões, relatórios e planos de ação em um
+  fluxo único e rastreável.}
+
+\melhoria{Fluxo único, da ingestão à análise, revisão e ação.}
+\melhoria{Base preparada para automação via RPA e PoCs controladas de IA.}
+
+\abas{HANARO}{DADOS}
+
+% \area{angulo}{rotulo} — o rotulo se posiciona sozinho pelo angulo
+\area{90}{Ingestão}
+\area{45}{Scrap}
+\area{0}{IF Cost}
+\area{-45}{Revisões}
+\area{270}{Metas}
+\area{225}{Relatórios}
+\area{180}{Ações}
+\area{135}{Alertas}
+
+\afirmacao{Dashboard e Modo TV apoiam o monitoramento e a priorização.}
+\afirmacao{Revisões, evidências e planos de ação ampliam a rastreabilidade.}
+\afirmacao{RPA e IA local seguem como frentes de prospecção técnica / PoC, sem bloquear o MVP.}
+
+\ilustracoes{robo-analista.png}{troca.png}{lg-ia.png}
+
+% ======================= COLUNA 3 — RESULTADO =======================
+\tituloresultado{Efeito da Melhoria}
+
+\efeito{Criar uma visão única e confiável de Scrap / IF Cost}
+\efeito{Ampliar a rastreabilidade da ocorrência até a ação}
+\efeito{Reduzir a consolidação manual e acelerar decisões}
+
+% \graficobarra{categoria}{rotulo do valor}{altura em cm}
+\graficoeixo{Fluxo}
+\graficobarra{Antes}{Manual}{1.04}
+\graficobarra{Hanaro}{Integrado}{2.42}
+\graficonota{MVP + governança}
+
+\impacto{ico-areas.png}{Impacto no Negócio}{Produção / Qualidade}
+\resultado{Meta M3}{Módulo funcional validado}
+
+% =============================================================
+\onepage
+\end{document}
