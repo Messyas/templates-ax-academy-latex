@@ -1,0 +1,112 @@
+% !TEX program = lualatex
+% =============================================================================
+%  Guia Rápido de Uso — Hanaro — modelo AX Academy / IFAM
+%
+%  COMPILAR COM:  lualatex guia-rapido.tex     (duas vezes: sumário e páginas)
+%
+%  Todo o estilo mora em axacademy-guia.sty. Aqui ficam só os dados do guia e
+%  a ordem dos capítulos, que estão em caps/. As telas ficam em img/.
+%
+%  O conteúdo é o do Hanaro, o sistema de controle de perdas (scrap) da Linha
+%  Final, e serve de gabarito para os outros projetos: telas reais do MVP,
+%  oito passos, duas partes com um capítulo cada. Ver README.md.
+%
+%  Sem número de equipe em nenhum lugar do guia: a autoria é a equipe do Polo
+%  INOVA. Subtítulo e tagline vazios tiram o texto da capa, da folha de rosto
+%  e da contracapa.
+% =============================================================================
+\documentclass[11pt,a4paper,oneside,openany]{book}
+\usepackage{axacademy-guia}
+
+% ---------- DADOS DESTE GUIA ----------
+\guiatitulo{Guia Rápido\\de Uso}
+\guiasubtitulo{}
+\guiasistema{Hanaro}
+\guiatagline{}
+\guiaequipe{equipe do Polo INOVA}
+\guiaano{2026}
+\guiaversao{1.0}
+\guiacidade{Manaus, Amazonas --- Brasil}
+\guiacliente{LG Electronics do Brasil}
+\guiareferencia{}
+
+% ---------- CONTATO (folha de rosto) ----------
+% Campo vazio some da folha de rosto, com o ícone. O suporte do Hanaro é feito
+% pelo próprio sistema (Capítulo 6), por isso não há e-mail.
+\guiaemail{}
+\guiasite{www.ifam.edu.br}
+\guiaendereco{INOVA --- Polo de Inovação do IFAM\\
+    Av. Gov. Danilo de Matos Areosa, 1975 --- Distrito Industrial I\\
+    Manaus/AM --- CEP 69075-351}
+
+% ---------- AVISO DA CAPA ----------
+% Quebras explícitas: a caixa comporta três linhas curtas.
+\guiaaviso{LEIA ANTES DO\\PRIMEIRO ACESSO}
+
+% ---------- MARCA DO SISTEMA ----------
+% O Hanaro tem o logotipo inteiro em arquivo (art/marca/hanaro-assinatura.pdf),
+% então o ícone fica vazio e o nome não é composto em texto.
+\guiamarcaicone{}
+\guiamarcatexto{hanaro-assinatura}
+
+% ---------- IMAGEM DA CAPA ----------
+% Vazio: capa sem imagem. Para pôr uma, nomeie um arquivo de img/.
+\guiacapaimagem{}
+
+% ---------- TEXTO DA CONTRACAPA ----------
+% Sai logo abaixo das marcas da AX Academy e do IFAM.
+\guiasobreaequipe{Guia de uso rápido baseado no estado do projeto em outubro de 2026}
+
+\begin{document}
+
+% ---------- ABERTURA ----------
+\guiacapa
+\guiafolhaderosto
+\guiaavisodeuso
+
+% ---------- HISTÓRICO DE REVISÕES ----------
+\begin{guiahistorico}
+    \guiarevisao{1.0}{Outubro de 2026}{AX Academy}{Emissão inicial.}
+\end{guiahistorico}
+
+\begin{remark}[info]
+Este guia cobre o uso básico do Hanaro pelo perfil Gestor. Quaisquer outros dados e
+informações adicionais do projeto, por favor consulte o manual completo.
+\end{remark}
+
+\clearpage
+
+\guiasobreax
+
+\guiapagina{Sobre o sistema}{%
+    O Hanaro é o sistema web de controle das perdas produtivas (\emph{scrap}) da
+    Linha Final. Ele recebe o relatório \emph{Other Account Transaction Text}
+    exportado do GERP, consolida a base de scrap e publica o IF Cost no Dashboard e
+    no Modo TV, exibido nas telas da fábrica.
+
+    Antes dele, o analista de Produção reprocessava à mão a planilha enviada pela
+    Qualidade, de 1,5 a 2 horas por dia, para converter os valores, recortar o
+    escopo e eleger os ofensores do período.
+
+    O fluxo básico tem oito passos: entrar no sistema, enviar o relatório do GERP,
+    conferir a execução, ler o Dashboard, revisar a Base de Scrap, consultar a
+    análise de uma ocorrência, aplicar um modelo de análise em lote e exibir o Modo
+    TV. A \autoref{sec:fluxo} apresenta esse fluxo em BPMN; o \autoref{cap:passos}
+    descreve cada passo com a tela correspondente.
+}
+
+\guiasumario
+
+% ---------- PARTE I ----------
+% Um capítulo só por parte; dentro dele, só seções.
+\part{Visão Geral}
+\include{caps/cap01}
+
+% ---------- PARTE II ----------
+\part{Passo a Passo}
+\include{caps/cap02}
+
+% ---------- FECHAMENTO ----------
+\guiacontracapa
+
+\end{document}

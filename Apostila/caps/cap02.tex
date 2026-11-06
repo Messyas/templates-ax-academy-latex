@@ -1,0 +1,259 @@
+% =============================================================================
+%  Capítulo 2 — Uso Básico do Hanaro (Parte II, Passo a Passo)
+%  Capítulo único da parte, só em seções: os oito passos, as colunas do
+%  histórico de execuções, as telas do Modo TV e o encerramento da sessão.
+%
+%  Cada \passo é uma linha de duas colunas: a tela à esquerda e o texto à
+%  direita, e conta como uma seção do capítulo (2.1, 2.2...). O argumento
+%  opcional lista as posições dos marcadores sobre a tela, como x/y em fração
+%  da imagem, com origem no canto SUPERIOR esquerdo. A numeração segue a
+%  ordem da lista e casa com a lista `elementos'.
+%
+%      \passo[0.335/0.525, 0.665/0.649]{01-login}{Título}{Texto ...}
+% =============================================================================
+\chapter{Uso Básico do Hanaro}\label{cap:passos}
+
+% ---------- acesso e atualização da base ----------
+\passo[0.335/0.525, 0.665/0.649, 0.335/0.772]{01-login}{Entrar no Hanaro}{%
+    Abra o endereço do Hanaro no navegador. A tela de acesso é a primeira a aparecer.
+    \begin{elementos}
+        \item \campo{Usuário}: o nome de usuário cadastrado pelo administrador. Não é
+              o e-mail.
+        \item \campo{Senha}: a senha do usuário. O ícone de olho, no fim do campo,
+              mostra o que foi digitado.
+        \item \botao{Entrar}: valida as credenciais e abre o Dashboard.
+    \end{elementos}
+    Credenciais inválidas mantêm o usuário nesta tela.
+}
+
+\passo[0.115/0.181, 0.845/0.146, 0.31/0.521, 0.69/0.669]{02-enviar-relatorio}{Enviar o relatório do GERP}{%
+    A base de scrap é atualizada pelo relatório \emph{Other Account Transaction
+    Text}. Exporte-o do GERP antes deste passo.
+    \begin{elementos}
+        \item \caminho{Execuções}, no menu lateral: abre a tela
+              \textbf{Execuções e atualização}.
+        \item \botao{Enviar relatório}: abre a janela \textbf{Atualizar base por
+              relatório}.
+        \item \textbf{Área do arquivo}: um clique abre a escolha do arquivo exportado
+              do GERP. O nome do arquivo escolhido aparece no lugar de
+              \emph{Selecionar relatório GERP}.
+        \item \botao{Processar relatório}: envia o arquivo. O Hanaro registra uma
+              nova execução, conferida no passo seguinte.
+    \end{elementos}
+    \botao{Cancelar} fecha a janela sem enviar.
+}
+
+\begin{remark}
+O arquivo precisa ser o \emph{Other Account Transaction Text}, em texto separado por
+tabulação (TSV), com codificação UTF-8 ou CP1252, como indica a própria janela.
+Planilha salva em outro formato não serve.
+\end{remark}
+
+\passo[0.148/0.378, 0.98/0.378, 0.871/0.242]{03-execucoes}{Conferir a execução}{%
+    A execução nova entra no topo do \textbf{Histórico de rotinas}.
+    \begin{elementos}
+        \item \textbf{Linha da execução}: o identificador (\texttt{EXE-...}), a
+              origem e o gatilho. Um clique na linha abre os \textbf{Detalhes da
+              execução}, com o arquivo de origem e as contagens.
+        \item \textbf{Status}: \emph{Na fila} enquanto a execução aguarda o
+              processamento e \emph{Concluído} ao final. Ao lado, o
+              \textbf{Snapshot} passa de \emph{Não publicado} a \emph{Publicado}.
+        \item \botao{Filtrar}: restringe o histórico.
+    \end{elementos}
+    As colunas estão descritas na \autoref{tab:historico}.
+}
+
+\begin{remark}[info]
+O Dashboard passa a refletir o arquivo novo quando o snapshot da execução fica
+\emph{Publicado}. Até lá, ele mostra a base da execução anterior.
+\end{remark}
+
+\section{Colunas do histórico}
+
+% Tabela curta: vai inteira, em `table', para não partir entre páginas.
+\begin{table}[H]
+\caption{Colunas do histórico de rotinas.}\label{tab:historico}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{4.4cm}X@{}}
+    \toprule
+    \guiacabtabela
+    \thead{Coluna} & \thead{Conteúdo} \\
+    \midrule
+    \textbf{Execution ID / Processo} & Identificador da execução e nome do relatório
+                                       processado \\
+    \textbf{Origem}                  & Sistema de onde veio o arquivo: GERP \\
+    \textbf{Gatilho}                 & Como a execução começou. \emph{Manual}: pelo
+                                       envio do relatório no passo~2 \\
+    \textbf{Início}, \textbf{Fim} e \textbf{Duração}
+                                     & Data e hora do processamento e o tempo que ele
+                                       levou \\
+    \textbf{Recebidos}               & Registros lidos no arquivo \\
+    \textbf{Válidos}                 & Registros aceitos na base de scrap \\
+    \textbf{Rejeitados}              & Registros recusados na validação \\
+    \textbf{Snapshot}                & \emph{Publicado} quando a base processada já
+                                       alimenta os indicadores; \emph{Não publicado}
+                                       antes disso \\
+    \textbf{Status}                  & \emph{Na fila} enquanto aguarda;
+                                       \emph{Concluído} ao final \\
+    \bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{remark}
+Com \textbf{Rejeitados} acima de zero, parte do arquivo ficou fora da base. Abra os
+detalhes da execução e acione o suporte em \caminho{Ajuda e suporte}, no pé do menu
+lateral, com o identificador da execução.
+\end{remark}
+
+% ---------- indicadores e ocorrências ----------
+\passo[0.30/0.114, 0.36/0.214, 0.66/0.114, 0.45/0.322, 0.924/0.503, 0.27/0.725]{04-dashboard}{Ler o Dashboard}{%
+    O Dashboard é a tela que abre depois do acesso. No alto, à direita,
+    \emph{Atualizado às} indica a hora da última atualização.
+    \begin{elementos}
+        \item \textbf{Impacto absoluto}: chave que alterna os indicadores entre o IF
+              Cost em dólar e o Scrap Rate, em percentual.
+        \item \textbf{Indicadores}: IF Cost acumulado, target, atingimento do target,
+              diferença para a meta e variação sobre o mesmo acumulado do ano
+              anterior.
+        \item \textbf{Controles}: o botão com o ícone de tela abre o Modo TV
+              (passo~8); \botao{YTD anterior} escolhe a base de comparação;
+              \botao{Filtros} recorta os dados; \textbf{Valor monetário} alterna
+              entre dólar e quantidade, em unidades.
+        \item \textbf{Target × realizado mensal}: realizado do ano, referência do ano
+              anterior e target, mês a mês.
+        \item \textbf{Top 10 produtos / áreas}: o IF Cost por produto ou área.
+        \item \textbf{Top 10 linhas} e \textbf{Top 10 modelos}: os rankings de
+              ofensores. Mais abaixo, componentes e ofensores.
+    \end{elementos}
+}
+
+\begin{remark}[dica]
+Cada quadro tem o seu botão \botao{Filtros} e um botão de tabela, que abre os mesmos
+números em linhas e colunas. Passar o cursor sobre um ponto do gráfico mostra os
+valores do mês.
+\end{remark}
+
+\passo[0.12/0.178, 0.555/0.194, 0.135/0.337, 0.70/0.1]{05-base-scrap}{Revisar a Base de Scrap}{%
+    A lista traz as ocorrências consolidadas pelas execuções. Ao lado do título, o
+    total de ocorrências, o valor em dólar e a quantidade.
+    \begin{elementos}
+        \item \caminho{Base de Scrap}, no menu lateral: abre a tela.
+        \item \textbf{Ordem e filtros}: \botao{Data da transação} escolhe o campo da
+              ordem e \botao{Decrescente} a inverte; a lista \botao{Todos} filtra
+              pelo status da análise; \botao{Filtrar} abre os demais filtros.
+        \item \textbf{Ocorrência}: organização e produto, data, item, descrição,
+              ordem, quantidade, valor, tipo de scrap, status da análise
+              (\emph{Não analisado} ou \emph{Revisado}), responsável e relatório. Um
+              clique abre a análise (passo~6).
+        \item \botao{Aplicar Modelo} e \botao{Selecionar itens}: levam uma análise já
+              feita a várias ocorrências (passo~7).
+    \end{elementos}
+}
+
+\passo[0.39/0.138, 0.195/0.349, 0.195/0.507, 0.195/0.652, 0.577/0.87]{06-ocorrencia}{Consultar a análise de uma ocorrência}{%
+    A janela \textbf{Análise de scrap} reúne o que se sabe da ocorrência. Role a
+    janela para ver todas as seções.
+    \begin{elementos}
+        \item \textbf{Status da análise}: \emph{Revisado}, como nesta ocorrência, ou
+              \emph{Não analisado}.
+        \item \textbf{Custo}: tipo de custo, modelo e quantidade. Acima, \textbf{Onde
+              e quando} traz a data e a hora.
+        \item \textbf{Contenção imediata}: a ação tomada na linha para conter o
+              problema.
+        \item \textbf{Evidências e fotos}: as imagens anexadas à análise.
+        \item \botao{Criar relatório desta análise}: abre um relatório de análise a
+              partir desta ocorrência.
+    \end{elementos}
+    O coração, no alto, guarda a análise como modelo para o passo seguinte.
+}
+
+\passo[0.565/0.09, 0.145/0.494, 0.313/0.632, 0.685/0.768]{07-modelo-lote}{Aplicar um modelo em lote}{%
+    Quando o mesmo problema se repete em várias ocorrências, a análise de uma serve
+    de modelo para as outras.
+    \begin{elementos}
+        \item \textbf{Modelo em uso}: em \botao{Aplicar Modelo}, escolha o modelo em
+              \textbf{Modelos salvos} e clique em \botao{Usar este modelo}. A faixa
+              no alto confirma a escolha.
+        \item \textbf{Ocorrências marcadas}: com \botao{Selecionar itens}, marque as
+              ocorrências e clique em \botao{Aplicar modelo aos itens selecionados},
+              acima da lista. Abre esta janela.
+        \item \textbf{Reaproveitar imagens do relatório de referência}: copia as
+              fotos do modelo para todas as ocorrências marcadas.
+        \item \botao{Aplicar modelo aos itens selecionados}: grava a análise do
+              modelo nas ocorrências marcadas.
+    \end{elementos}
+}
+
+\begin{remark}
+Ocorrências inativas ou que já têm relatório são ignoradas na aplicação, como avisa a
+própria janela. Copiar as fotos replica as mesmas evidências em todas as ocorrências
+marcadas: use só quando as fotos valem para todas.
+\end{remark}
+
+% ---------- Modo TV ----------
+\passo[0.395/0.069, 0.712/0.083, 0.2/0.865, 0.5/0.865, 0.785/0.865]{08-modo-tv}{Exibir o Modo TV}{%
+    O Modo TV mostra os indicadores em tela cheia, para as TVs da fábrica. Ele abre
+    pelo botão com o ícone de tela, nos controles do Dashboard (passo~4).
+    \begin{elementos}
+        \item \textbf{Tela em exibição}: o título da tela. Na tela Fábrica,
+              \botao{Mês} e \botao{Ano} escolhem o período.
+        \item \textbf{Dados até}: a data do último dado da base e, ao lado, a data e
+              a hora atuais.
+        \item \textbf{Telas}: \botao{Executivo}, \botao{Fábrica}, \botao{Ofensores} e
+              \botao{Prioridades}, descritas na \autoref{tab:telastv}. Um clique leva
+              direto à tela.
+        \item \textbf{Rotação}: as setas passam de tela, \botao{Pausar} para a
+              rotação automática e \textbf{Intervalo} define o tempo de cada tela.
+        \item \botao{Tema Claro}, \botao{Tela cheia} e \botao{Sair}: trocam o fundo
+              escuro pelo claro, ocupam a tela inteira e voltam ao Dashboard.
+    \end{elementos}
+}
+
+\begin{remark}[dica]
+Na TV da linha, deixe a \textbf{Rotação automática} ligada e use \botao{Tela cheia}:
+as quatro telas se alternam sem intervenção. O contador no fim da barra, como
+\emph{2/4}, indica a tela atual.
+\end{remark}
+
+\section{Telas do Modo TV}
+
+% Tabela curta: vai inteira, em `table', para não partir entre páginas.
+\begin{table}[H]
+\caption{As quatro telas do Modo TV.}\label{tab:telastv}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{2.4cm}L{3.9cm}X@{}}
+    \toprule
+    \guiacabtabela
+    \thead{Botão} & \thead{Título da tela} & \thead{O que mostra} \\
+    \midrule
+    \textbf{Executivo}   & Visão Executiva
+                         & IF Cost acumulado, mesmo período do ano anterior, variação e
+                           target acumulado; evolução do IF Cost no ano, no ano anterior
+                           e no target; os três componentes mais afetados \\
+    \textbf{Fábrica}     & Ranking de ocorrências por linha
+                         & Ocorrências do período, linha com mais ocorrências, linhas
+                           monitoradas e período anterior; ranking das linhas de
+                           montagem, com a variação; setores com mais ocorrências \\
+    \textbf{Ofensores}   & Principais ofensores do período
+                         & Os cinco defeitos e as oito linhas de maior IF Cost; o part
+                           number e o defeito mais críticos \\
+    \textbf{Prioridades} & Ocorrências prioritárias
+                         & As ocorrências críticas de maior custo, com a descrição;
+                           situação das revisões (pendentes, em revisão e
+                           justificadas) e categorias predominantes \\
+    \bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Encerramento da sessão}
+
+O nome do usuário fica no pé do menu lateral. O botão \botao{\faEllipsisV}, ao lado
+dele, leva ao \textbf{Perfil}. Ali, a seção \textbf{Sessões ativas} lista os
+dispositivos conectados à conta: \botao{Encerrar sessão} desconecta um deles e
+\botao{Encerrar outras sessões} desconecta todos, menos o atual.
+
+Em computador compartilhado, encerre a sessão ao terminar e feche o navegador.
+
+\fimdecapitulo

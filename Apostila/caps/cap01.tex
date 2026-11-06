@@ -1,0 +1,226 @@
+% =============================================================================
+%  Capítulo 1 — Antes de Começar (Parte I, Visão Geral)
+%  Capítulo único da parte: público, requisitos de acesso, como ler o guia e
+%  o fluxo de uso em BPMN, com a legenda e o mapa passo -> tela -> página.
+% =============================================================================
+\chapter{Antes de Começar}
+
+\section{Público e escopo}
+
+Este guia se destina ao usuário com perfil \textbf{Gestor}, que mantém a base de
+scrap atualizada e acompanha o IF Cost da Linha Final. A leitura completa leva cerca
+de quinze minutos.
+
+\begin{itemize}
+    \item \textbf{Coberto:} acesso, envio do relatório do GERP, conferência da
+          execução, Dashboard, Base de Scrap, análise de uma ocorrência, aplicação de
+          modelo em lote e Modo TV.
+    \item \textbf{Não coberto:} relatórios de análise, alertas e regras de
+          notificação, configurações (classificações de material, tipos de scrap,
+          programa do ano) e administração de usuários.
+\end{itemize}
+
+\section{Requisitos de acesso}
+
+\begingroup
+\guiazebra
+\small
+\noindent\begin{longtable}{@{}L{4.0cm}L{11.5cm}@{}}
+    \toprule
+    \guiacabtabela
+    \thead{Item} & \thead{Requisito} \\
+    \midrule
+    \endhead
+    \bottomrule
+    \endlastfoot
+    Navegador           & Navegador atualizado. As telas deste guia foram capturadas no
+                          Google Chrome \\
+    Endereço do sistema & Informado pela equipe na liberação do acesso \\
+    Credenciais         & Usuário e senha do Hanaro, cadastrados pelo administrador \\
+    Perfil              & Gestor \\
+    Arquivo de entrada  & Relatório \emph{Other Account Transaction Text} exportado do
+                          GERP, em texto separado por tabulação (TSV), com codificação
+                          UTF-8 ou CP1252 \\
+    Modo TV             & TV ou monitor da linha com navegador, para a exibição em tela
+                          cheia \\
+\end{longtable}
+\endgroup
+
+\begin{remark}
+O usuário só entra no Hanaro depois de cadastrado e ativado pelo administrador do
+sistema. Sem esse cadastro, a tela de acesso recusa as credenciais.
+\end{remark}
+
+\section{Como ler este guia}
+
+O \autoref{cap:passos} descreve o uso em \textbf{passos}. Cada passo ocupa uma linha
+da página, dividida em duas colunas:
+
+\begin{itemize}
+    \item \textbf{à esquerda, a tela} do sistema, exatamente como o usuário a vê;
+    \item \textbf{à direita, o texto} do passo: o que fazer, em que ordem e o que o
+          sistema responde.
+\end{itemize}
+
+Os números em vermelho sobre a tela, como \marca{1} e \marca{2}, indicam os elementos
+citados no texto ao lado, na mesma ordem. O número do passo, no selo
+\colorbox{guiavermelho}{\color{white}\guiahead\bfseries\fontsize{7.5}{7.5}\selectfont PASSO 1},
+é o mesmo que aparece no diagrama BPMN da \autoref{sec:fluxo}.
+
+Botões e opções da interface aparecem em destaque, como \botao{Entrar}. Um caminho de
+menu é escrito como \caminho{Menu\seta Execuções}.
+
+As caixas ao longo do texto têm três tipos:
+
+\begin{remark}
+\textbf{Atenção.} Condição que impede o passo de ser concluído ou que exige
+correção.
+\end{remark}
+
+\begin{remark}[dica]
+\textbf{Dica.} Atalho ou forma mais rápida de concluir o passo.
+\end{remark}
+
+\begin{remark}[info]
+\textbf{Informação.} Comportamento do sistema que convém conhecer, sem ação
+necessária.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+%  Fluxo de uso em BPMN
+%
+%  O diagrama usa os estilos `bpmn ...' do axacademy-guia.sty. As raias são
+%  COLUNAS e o fluxo desce: assim o diagrama cabe em pé, nos 16 cm da largura
+%  do texto. Coordenadas em cm, com y = 0 no topo das raias.
+%
+%  A seção abre página nova: o diagrama vai em `figure[H]', que não flutua, e
+%  precisa da página inteira. Com oito passos, as tarefas têm uma linha só e
+%  as linhas do diagrama ficam a 1,15 cm uma da outra; com mais passos,
+%  divida o fluxo em dois diagramas.
+% ---------------------------------------------------------------------------
+\clearpage
+\section{Fluxo de uso}\label{sec:fluxo}
+
+O fluxo básico vai do acesso ao Modo TV. A raia \textbf{Gestor} reúne o que o
+usuário faz; a raia \textbf{Hanaro}, o que o sistema faz em resposta. As tarefas com
+borda vermelha são os passos deste guia: o número no canto é o do passo e leva à
+página em que ele é descrito.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,
+        bpmn tarefa/.append style={text width=4.4cm,minimum height=0.72cm}]
+    % A caixa de medida é a das raias, exata: sem ela, a espessura do contorno
+    % passa 0,7 pt da largura do texto.
+    \useasboundingbox (0,0) rectangle (16,-13.35);
+    % ---- raias ----
+    \bpmnraia{0}{8}{13.35}{Gestor}
+    \bpmnraia{8}{8}{13.35}{Hanaro}
+
+    % ---- gestor ----
+    \node[bpmn inicio] (ini) at (4,-1.05) {};
+    \node[bpmn rotulo,anchor=west] at ([xshift=4pt]ini.east)
+        {Relatório do GERP\\disponível};
+    \bpmnpasso{p1}{4,-2.15}{1}{Entrar com usuário e senha}
+    \bpmnpasso{p2}{4,-4.45}{2}{Enviar o relatório do GERP}
+    \bpmnpasso{p3}{4,-6.75}{3}{Conferir a execução}
+    \bpmnpasso{p4}{4,-7.90}{4}{Ler o Dashboard}
+    \bpmnpasso{p5}{4,-9.05}{5}{Revisar a Base de Scrap}
+    \bpmnpasso{p6}{4,-10.20}{6}{Consultar a análise do caso}
+    \bpmnpasso{p7}{4,-11.35}{7}{Aplicar o modelo em lote}
+    \bpmnpasso{p8}{4,-12.50}{8}{Exibir o Modo TV}
+
+    % ---- sistema ----
+    \node[bpmn tarefa] (s1) at (12,-2.15) {Validar as credenciais};
+    \bpmngateway{g1}{12,-3.30}
+    \node[bpmn rotulo,anchor=west] at ([xshift=3pt]g1.east) {Credenciais\\válidas?};
+    \node[bpmn tarefa] (s2) at (12,-4.45) {Abrir o Dashboard};
+    \node[bpmn tarefa] (s3) at (12,-5.60) {Processar o arquivo enviado};
+    \node[bpmn tarefa] (s4) at (12,-6.75) {Publicar o snapshot da base};
+    \node[bpmn tarefa] (s5) at (11.6,-12.50) {Girar as telas do Modo TV};
+    \node[bpmn fim] (fim) at (14.95,-12.50) {};
+    \node[bpmn rotulo,anchor=south,align=center] at ([yshift=3pt]fim.north)
+        {Indicadores\\na fábrica};
+
+    % ---- fluxos ----
+    \draw[bpmn fluxo] (ini) -- (p1);
+    \draw[bpmn fluxo] (p1) -- (s1);
+    \draw[bpmn fluxo] (s1) -- (g1);
+    \draw[bpmn fluxo] (g1) -- node[bpmn rotulo,anchor=west,xshift=2pt] {Sim} (s2);
+    \draw[bpmn fluxo] (g1.west) -- node[bpmn rotulo,anchor=south,pos=0.25] {Não}
+        (4,-3.30) -- (p1.south);
+    \draw[bpmn fluxo] (s2) -- (p2);
+    \draw[bpmn fluxo] (p2.south) |- (s3.west);
+    \draw[bpmn fluxo] (s3) -- (s4);
+    \draw[bpmn fluxo] (s4) -- (p3);
+    \draw[bpmn fluxo] (p3) -- (p4);
+    \draw[bpmn fluxo] (p4) -- (p5);
+    \draw[bpmn fluxo] (p5) -- (p6);
+    \draw[bpmn fluxo] (p6) -- (p7);
+    \draw[bpmn fluxo] (p7) -- (p8);
+    \draw[bpmn fluxo] (p8) -- (s5);
+    \draw[bpmn fluxo] (s5) -- (fim);
+\end{tikzpicture}
+\caption{Fluxo básico de uso do Hanaro pelo Gestor, em BPMN. Os números indicam os
+passos do \autoref{cap:passos}.}
+\label{fig:bpmn}
+\end{figure}
+
+\section{Leitura do diagrama}
+
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.6}
+\noindent\begin{tabularx}{\textwidth}{@{}M{2.4cm}X@{}}
+    \toprule
+    \guiacabtabela
+    \thead{Símbolo} & \thead{Significado} \\
+    \midrule
+    \tikz[baseline=-0.6ex]\node[bpmn inicio,minimum size=0.42cm]{};
+        & Início do fluxo: o evento que leva o usuário ao sistema. \\
+    \tikz[baseline=-0.6ex]\node[bpmn tarefa,text width=1.2cm,minimum height=0.5cm,
+            font=\fontsize{7}{8}\selectfont]{Tarefa};
+        & Tarefa executada pelo usuário ou pelo sistema, conforme a raia em que está. \\
+    \tikz[baseline=-0.6ex]{\node[bpmn tarefa,draw=guiavermelho,line width=1.1pt,
+            text width=1.2cm,minimum height=0.5cm,font=\fontsize{7}{8}\selectfont] (t) {Passo};
+            \node[guia marcador,minimum size=11pt,font=\guiahead\bfseries\fontsize{7}{7}\selectfont]
+            at (t.north west) {3};}
+        & Tarefa descrita neste guia. O número é o do passo; no PDF, ele leva à página
+          correspondente. \\
+    \tikz[baseline=-0.6ex]{\bpmngateway{g}{0,0}}
+        & Decisão. O fluxo segue por um único caminho, conforme a condição escrita ao
+          lado. \\
+    \tikz[baseline=-0.6ex]\draw[bpmn fluxo] (0,0) -- (1.2,0);
+        & Sequência: a próxima tarefa só começa quando a anterior termina. \\
+    \tikz[baseline=-0.6ex]\node[bpmn fim,minimum size=0.42cm]{};
+        & Fim do fluxo. \\
+    \bottomrule
+\end{tabularx}
+\endgroup
+
+\section{Mapa dos passos}
+
+\begingroup
+\guiazebra
+\small
+\noindent\begin{longtable}{@{}P{1.3cm}L{3.2cm}L{8.4cm}P{1.4cm}@{}}
+    \toprule
+    \guiacabtabela
+    \thead{Passo} & \thead{Tela} & \thead{Ação principal} & \thead{Página} \\
+    \midrule
+    \endhead
+    \bottomrule
+    \endlastfoot
+    \marca{1} & Acesso           & Informar usuário e senha e clicar em \botao{Entrar}       & \pagina{passo:1} \\
+    \marca{2} & Execuções        & Selecionar o arquivo do GERP e clicar em
+                                   \botao{Processar relatório}                               & \pagina{passo:2} \\
+    \marca{3} & Execuções        & Conferir o status e o snapshot da execução                & \pagina{passo:3} \\
+    \marca{4} & Dashboard        & Ler o IF Cost acumulado, o target e os rankings           & \pagina{passo:4} \\
+    \marca{5} & Base de Scrap    & Filtrar e revisar as ocorrências de scrap                 & \pagina{passo:5} \\
+    \marca{6} & Análise de scrap & Ler o custo, a contenção e as evidências da ocorrência    & \pagina{passo:6} \\
+    \marca{7} & Base de Scrap    & Marcar as ocorrências e aplicar o modelo de análise       & \pagina{passo:7} \\
+    \marca{8} & Modo TV          & Abrir o Modo TV e controlar a rotação das telas           & \pagina{passo:8} \\
+\end{longtable}
+\endgroup
+
+\fimdecapitulo

@@ -1,0 +1,147 @@
+% !TEX program = lualatex
+% =============================================================================
+%  Guia Rápido de Uso em folha única — Hanaro — modelo AX Academy / IFAM
+%
+%  COMPILAR COM:  lualatex guia-flyer.tex      (uma passada basta)
+%
+%  O passo a passo (Parte II) do Guia Rápido de Uso, modelo 13, numa folha A3
+%  paisagem: os oito passos em grade de 4 x 2, cada um com a tela, os
+%  marcadores e o texto. Os textos são os do guia, encurtados para caber no
+%  cartão; as telas e as posições dos marcadores são as mesmas.
+%
+%  Todo o estilo mora em axacademy-flyer.sty. Ver README.md.
+% =============================================================================
+\documentclass{article}
+\usepackage{axacademy-flyer}
+
+% ---------- DADOS DA FOLHA ----------
+\flyerchamada{PASSO A PASSO \textperiodcentered{} PERFIL GESTOR}
+\flyertitulo{Guia Rápido de Uso}
+\flyermarca{hanaro-assinatura}
+\flyerrodape{}
+\flyerautoria{Desenvolvido pela equipe do Polo INOVA \textperiodcentered{} AX Academy ---
+    Digital Transformation \textperiodcentered{} Instituto Federal do Amazonas}
+
+\begin{document}
+\begin{flyer}
+
+% ---------- linha 1: acesso e atualização da base ----------
+\flyerpasso[0.335/0.525, 0.665/0.649, 0.335/0.772]{0}{0}{01-login}{Entrar no Hanaro}{%
+    Abra o endereço do Hanaro no navegador.
+    \begin{elementos}
+        \item \campo{Usuário}: o nome de usuário cadastrado pelo administrador. Não é
+              o e-mail.
+        \item \campo{Senha}: o ícone de olho, no fim do campo, mostra o que foi
+              digitado.
+        \item \botao{Entrar}: valida as credenciais e abre o Dashboard.
+    \end{elementos}
+    Credenciais inválidas mantêm o usuário nesta tela.
+
+    \vspace{0.35em}
+    \textbf{Para sair:} \botao{\faEllipsisV}, ao lado do nome do usuário, no pé do menu
+    lateral \seta \textbf{Perfil} \seta \botao{Encerrar sessão}.
+}
+
+\flyerpasso[0.115/0.181, 0.845/0.146, 0.31/0.521, 0.69/0.669]{1}{0}{02-enviar-relatorio}{Enviar o relatório do GERP}{%
+    Exporte do GERP o relatório \emph{Other Account Transaction Text}.
+    \begin{elementos}
+        \item \caminho{Execuções}, no menu lateral.
+        \item \botao{Enviar relatório}: abre a janela \textbf{Atualizar base por
+              relatório}.
+        \item \textbf{Área do arquivo}: um clique abre a escolha do arquivo exportado.
+        \item \botao{Processar relatório}: envia o arquivo e cria uma nova execução.
+    \end{elementos}
+    \flyernota{O arquivo vai em texto separado por tabulação (TSV), em UTF-8 ou
+    CP1252. Planilha salva em outro formato não serve.}
+}
+
+\flyerpasso[0.148/0.378, 0.98/0.378, 0.871/0.242]{2}{0}{03-execucoes}{Conferir a execução}{%
+    A execução nova entra no topo do \textbf{Histórico de rotinas}.
+    \begin{elementos}
+        \item \textbf{Linha da execução}: identificador (\texttt{EXE-...}), origem e
+              gatilho. Um clique abre os detalhes.
+        \item \textbf{Status}: \emph{Na fila}, depois \emph{Concluído}. O
+              \textbf{Snapshot} passa de \emph{Não publicado} a \emph{Publicado}; só
+              então o Dashboard mostra o arquivo novo.
+        \item \botao{Filtrar}: restringe o histórico.
+    \end{elementos}
+    \flyernota{Com \textbf{Rejeitados} acima de zero, acione o suporte em
+    \caminho{Ajuda e suporte}, com o identificador da execução.}
+}
+
+\flyerpasso[0.30/0.114, 0.36/0.214, 0.66/0.114, 0.45/0.322, 0.924/0.503, 0.27/0.725]{3}{0}{04-dashboard}{Ler o Dashboard}{%
+    Primeira tela depois do acesso. \emph{Atualizado às}, no alto, dá a hora da
+    última atualização.
+    \begin{elementos}
+        \item \textbf{Impacto absoluto}: alterna entre IF Cost em dólar e Scrap Rate,
+              em percentual.
+        \item \textbf{Indicadores}: IF Cost acumulado, target, atingimento,
+              diferença para a meta e variação sobre o ano anterior.
+        \item \textbf{Controles}: ícone de tela (Modo TV), \botao{YTD anterior},
+              \botao{Filtros} e \textbf{Valor monetário} (dólar ou unidades).
+        \item \textbf{Target × realizado mensal}, mês a mês.
+        \item \textbf{Top 10 produtos / áreas}.
+        \item \textbf{Top 10 linhas} e \textbf{modelos}: os rankings de ofensores.
+    \end{elementos}
+}
+
+% ---------- linha 2: indicadores, ocorrências e Modo TV ----------
+\flyerpasso[0.12/0.178, 0.555/0.194, 0.135/0.337, 0.70/0.1]{0}{1}{05-base-scrap}{Revisar a Base de Scrap}{%
+    As ocorrências consolidadas, com o total, o valor e a quantidade.
+    \begin{elementos}
+        \item \caminho{Base de Scrap}, no menu lateral.
+        \item \textbf{Ordem e filtros}: \botao{Data da transação},
+              \botao{Decrescente}, status da análise (\botao{Todos}) e
+              \botao{Filtrar}.
+        \item \textbf{Ocorrência}: item, ordem, quantidade, valor, tipo de scrap e
+              status (\emph{Não analisado} ou \emph{Revisado}). Um clique abre a
+              análise.
+        \item \botao{Aplicar Modelo} e \botao{Selecionar itens}: análise em lote
+              (passo~7).
+    \end{elementos}
+}
+
+\flyerpasso[0.39/0.138, 0.195/0.349, 0.195/0.507, 0.195/0.652, 0.577/0.87]{1}{1}{06-ocorrencia}{Consultar a análise de uma ocorrência}{%
+    A janela \textbf{Análise de scrap} reúne o que se sabe da ocorrência.
+    \begin{elementos}
+        \item \textbf{Status da análise}: \emph{Revisado} ou \emph{Não analisado}.
+        \item \textbf{Custo}: tipo de custo, modelo e quantidade. Acima, a data e a
+              hora.
+        \item \textbf{Contenção imediata}: a ação tomada na linha.
+        \item \textbf{Evidências e fotos} anexadas à análise.
+        \item \botao{Criar relatório desta análise}.
+    \end{elementos}
+    O coração, no alto, guarda a análise como modelo para o passo seguinte.
+}
+
+\flyerpasso[0.565/0.09, 0.145/0.494, 0.313/0.632, 0.685/0.768]{2}{1}{07-modelo-lote}{Aplicar um modelo em lote}{%
+    Mesmo problema em várias ocorrências: a análise de uma vale para as outras.
+    \begin{elementos}
+        \item \textbf{Modelo em uso}: \botao{Aplicar Modelo} \seta \textbf{Modelos
+              salvos} \seta \botao{Usar este modelo}.
+        \item \textbf{Ocorrências marcadas}: com \botao{Selecionar itens}, marque-as
+              e clique em \botao{Aplicar modelo aos itens selecionados}.
+        \item \textbf{Reaproveitar imagens}: copia as fotos do modelo para todas.
+        \item \botao{Aplicar modelo aos itens selecionados}: grava a análise.
+    \end{elementos}
+    \flyernota{Ocorrências inativas ou que já têm relatório são ignoradas.}
+}
+
+\flyerpasso[0.395/0.069, 0.712/0.083, 0.2/0.865, 0.5/0.865, 0.785/0.865]{3}{1}{08-modo-tv}{Exibir o Modo TV}{%
+    Os indicadores em tela cheia, para as TVs da fábrica. Abre pelo ícone de tela,
+    nos controles do Dashboard.
+    \begin{elementos}
+        \item \textbf{Tela em exibição}. Na Fábrica, \botao{Mês} e \botao{Ano}
+              escolhem o período.
+        \item \textbf{Dados até}: data do último dado da base.
+        \item \textbf{Telas}: \botao{Executivo}, \botao{Fábrica}, \botao{Ofensores} e
+              \botao{Prioridades}.
+        \item \textbf{Rotação}: setas, \botao{Pausar} e \textbf{Intervalo} de cada
+              tela.
+        \item \botao{Tema Claro}, \botao{Tela cheia} e \botao{Sair}, que volta ao
+              Dashboard.
+    \end{elementos}
+}
+
+\end{flyer}
+\end{document}

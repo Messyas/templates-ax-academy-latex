@@ -1,0 +1,258 @@
+% =============================================================================
+%  axacademy-flyer.sty  -  Guia Rapido de Uso em folha unica, AX Academy / IFAM
+%
+%  O passo a passo do Guia Rapido de Uso (modelo 13) numa so folha A3
+%  paisagem, para imprimir e deixar ao lado do posto. Mesma identidade do
+%  guia: heritage red, LG EI, faixa e paralelogramos, os mesmos marcadores
+%  numerados sobre as telas. A estrutura (titulo, grade de cartoes, rodape com
+%  as marcas) vem do quick guide de folha unica.
+%
+%  A folha inteira e um tikzpicture do tamanho exato do papel, em milimetros,
+%  com a origem no canto SUPERIOR esquerdo e o y crescendo para BAIXO, como as
+%  medidas de uma arte. Os passos vao numa grade de 4 colunas x 2 linhas; cada
+%  \flyerpasso ocupa uma celula.
+%
+%  COMPILAR COM:  lualatex guia-flyer.tex      (uma passada basta)
+%  NAO use pdflatex: a fonte e carregada por arquivo, o que exige fontspec.
+% =============================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{axacademy-flyer}[2026/10/29 v1.0 Guia Rapido em folha unica AX Academy]
+
+\RequirePackage{iftex}
+\ifPDFTeX
+  \GenericError{}{%
+    Este modelo exige lualatex, porque carrega a fonte LG EI por arquivo.
+    Compile com: lualatex guia-flyer.tex%
+  }{}{}
+  \stop
+\fi
+
+% ---------- PACOTES ----------
+\RequirePackage{fontspec}
+\RequirePackage[brazil]{babel}
+\RequirePackage[a3paper,landscape,margin=0pt]{geometry}
+\RequirePackage{graphicx}
+\RequirePackage{xcolor}
+\RequirePackage{enumitem}
+\RequirePackage{tikz}
+\RequirePackage{etoolbox}
+\RequirePackage{fontawesome5}
+\RequirePackage{microtype}
+\usetikzlibrary{calc,shadows}
+
+% ---------- FONTE ----------
+% LG EI, como no guia: Headline nos titulos, Text no corpo.
+\defaultfontfeatures{Ligatures=TeX}
+\IfFileExists{fonts/LGEITextTTF-Regular.ttf}{%
+  \setmainfont{LGEITextTTF-Regular}[
+      Path=fonts/, Extension=.ttf,
+      BoldFont=LGEITextTTF-SemiBold, AutoFakeSlant=0.18]
+  \newfontfamily\guiahead{LGEIHeadlineTTF-Regular}[
+      Path=fonts/, Extension=.ttf,
+      BoldFont=LGEIHeadlineTTF-Bold, AutoFakeSlant=0.18]
+  \newfontfamily\guialight{LGEIHeadlineTTF-Light}[Path=fonts/, Extension=.ttf]
+}{%
+  \PackageWarning{axacademy-flyer}{Pasta fonts/ nao encontrada; usando a
+    fonte instalada no sistema. O resultado pode divergir do modelo.}%
+  \setmainfont{LG EI Text}[BoldFont=* SemiBold, AutoFakeSlant=0.18]
+  \newfontfamily\guiahead{LG EI Headline}[BoldFont=* Bold, AutoFakeSlant=0.18]
+  \newfontfamily\guialight{LG EI Headline Light}
+}
+
+\graphicspath{{img/}{art/marca/}{art/fundo/}}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+% ---------- PALETA (a mesma do guia) ----------
+\definecolor{guiavermelho}{HTML}{A50034}    % heritage red
+\definecolor{guiavivo}{HTML}{E7194A}        % vermelho do "X" da marca AX
+\definecolor{guiatinta}{HTML}{1E0A0A}       % texto
+\definecolor{guiacinza}{HTML}{736B66}       % texto secundario
+\definecolor{guiaborda}{HTML}{D9D2CA}       % filetes e molduras
+\definecolor{guiapapel}{HTML}{FAF8F5}       % fundo da folha
+\definecolor{guiaambar}{HTML}{B7791F}       % nota de atencao
+\AtBeginDocument{\color{guiatinta}}
+
+% =============================================================================
+%  DADOS DA FOLHA
+%  Preencha no .tex raiz, antes do \begin{document}.
+% =============================================================================
+\newcommand{\flyertitulo}[1]{\def\flyervaltitulo{#1}}
+\newcommand{\flyerchamada}[1]{\def\flyervalchamada{#1}}
+\newcommand{\flyermarca}[1]{\def\flyervalmarca{#1}}
+\newcommand{\flyerrodape}[1]{\def\flyervalrodape{#1}}
+\newcommand{\flyerautoria}[1]{\def\flyervalautoria{#1}}
+\flyertitulo{Guia Rápido de Uso}
+\flyerchamada{}
+\flyermarca{}
+\flyerrodape{}
+\flyerautoria{}
+
+% =============================================================================
+%  TEXTO DOS PASSOS
+%  Os mesmos comandos do guia, para o texto ser copiado de la sem ajuste.
+% =============================================================================
+\newcommand{\botao}[1]{\leavevmode{\guiahead\bfseries\color{guiavermelho}#1}}
+\newcommand{\campo}[1]{\textbf{#1}}
+\newcommand{\caminho}[1]{\leavevmode{\guiahead\bfseries #1}}
+\newcommand{\seta}{\,\textcolor{guiacinza}{\faAngleRight}\,}
+
+% Marcadores numerados: o mesmo circulo sobre a tela e no texto.
+\tikzset{
+    guia marcador/.style={circle,fill=guiavermelho,text=white,draw=white,
+        line width=1pt,minimum size=13pt,inner sep=0pt,
+        font=\guiahead\bfseries\fontsize{7.5}{7.5}\selectfont,
+        drop shadow={opacity=0.25,shadow xshift=0.5pt,shadow yshift=-0.5pt}},
+    guia marca/.style={circle,fill=guiavermelho,text=white,minimum size=1.3em,
+        inner sep=0pt,font=\guiahead\bfseries\fontsize{7}{7}\selectfont},
+}
+\DeclareRobustCommand{\marca}[1]{%
+    \leavevmode\tikz[baseline=(m.base)]\node[guia marca] (m) {#1};%
+}
+\newlist{elementos}{enumerate}{1}
+\setlist[elementos]{label={\marca{\arabic*}},leftmargin=1.75em,labelsep=0.4em,
+    itemsep=0.15em,topsep=0.25em,parsep=0pt}
+
+% Nota curta no pe do cartao, com o icone de atencao.
+\newcommand{\flyernota}[1]{%
+    \par\vspace{0.35em}%
+    {\color{guiaambar}\faExclamationTriangle}\hspace{0.4em}%
+    {\color{guiacinza}#1}\par
+}
+
+% =============================================================================
+%  GRADE
+%  Medidas em mm. A folha A3 paisagem tem 420 x 297 mm.
+% =============================================================================
+\def\flyerW{420}            % largura da folha
+\def\flyerH{297}            % altura da folha
+\def\flyerEsq{18}           % inicio do conteudo, depois da faixa
+\def\flyerDir{408}          % fim do conteudo
+\def\flyerTopo{37}          % topo da grade
+\def\flyerColW{93}          % largura do cartao: (408 - 18 - 3 x 6) / 4
+\def\flyerRowH{115}         % altura do cartao
+\def\flyerVao{6}            % vao entre cartoes
+\def\flyerPad{4}            % margem interna do cartao
+\def\flyerImgTopo{15}       % da borda do cartao ao topo da tela
+\def\flyerTxtTopo{64.5}     % da borda do cartao ao topo do texto
+% Largura util dentro do cartao: \flyerColW - 2 x \flyerPad = 85 mm.
+\newlength{\flyerUtil}\setlength{\flyerUtil}{85mm}
+
+\newcounter{flyerpasso}
+
+% Tela com moldura e marcadores; x/y em fracao da imagem, origem no canto
+% superior esquerdo, como no guia. Os mesmos pares do guia servem aqui.
+\newcommand{\flyertela}[2]{%
+    \begin{tikzpicture}
+        \node[anchor=south west,inner sep=0pt] (tela) at (0,0)
+            {\includegraphics[width=\flyerUtil]{#2}};
+        \draw[overlay,guiaborda,line width=0.6pt] (tela.south west) rectangle (tela.north east);
+        \ifblank{#1}{}{%
+            \begin{scope}[overlay,x={(tela.south east)},y={(tela.north west)}]
+                \foreach \mx/\my [count=\mn] in {#1}{%
+                    \node[guia marcador] at (\mx,{1-\my}) {\mn};
+                }
+            \end{scope}%
+        }%
+    \end{tikzpicture}%
+}
+
+% \flyerpasso[marcadores]{coluna}{linha}{tela}{Titulo}{Texto}
+% Coluna de 0 a 3, linha de 0 a 1. O numero do passo e contado na ordem em que
+% os \flyerpasso aparecem.
+\NewDocumentCommand{\flyerpasso}{O{} m m m m +m}{%
+    \stepcounter{flyerpasso}%
+    \pgfmathsetmacro{\cx}{\flyerEsq+#2*(\flyerColW+\flyerVao)}%
+    \pgfmathsetmacro{\cy}{\flyerTopo+#3*(\flyerRowH+\flyerVao)}%
+    \fill[white,rounded corners=2.5mm] (\cx,\cy) rectangle ++(\flyerColW,\flyerRowH);
+    \draw[guiaborda,line width=0.6pt,rounded corners=2.5mm]
+        (\cx,\cy) rectangle ++(\flyerColW,\flyerRowH);
+    % selo e titulo
+    \node[anchor=north west,fill=guiavermelho,text=white,inner xsep=3pt,
+          inner ysep=2.4pt,font=\guiahead\bfseries\fontsize{7.5}{7.5}\selectfont]
+        (selo) at (\cx+\flyerPad,\cy+\flyerPad+0.6) {PASSO \theflyerpasso};
+    \node[anchor=north west,inner sep=0pt,text width=64mm,
+          font=\guiahead\bfseries\fontsize{11.5}{13}\selectfont]
+        at ([xshift=3mm,yshift=1.2pt]selo.north east)
+        {\raggedright\hyphenpenalty=10000 #5\par};
+    % tela
+    \node[anchor=north west,inner sep=0pt] at (\cx+\flyerPad,\cy+\flyerImgTopo)
+        {\flyertela{#1}{#4}};
+    % texto
+    \node[anchor=north west,inner sep=0pt] at (\cx+\flyerPad,\cy+\flyerTxtTopo)
+        {\begin{minipage}[t]{\flyerUtil}
+            \fontsize{8.8}{10.8}\selectfont\raggedright
+            #6
+         \end{minipage}};
+}
+
+% =============================================================================
+%  FOLHA
+% =============================================================================
+% Marcas institucionais do rodape: AX Academy, IFAM e LG. O logotipo da LG e o
+% arquivo oficial (heritage red e cinza), com a area de protecao cortada pelo
+% trim: o desenho fica do mesmo tamanho dos outros dois.
+\newcommand{\flyermarcas}{%
+    \mbox{\raisebox{0.3mm}{\includegraphics[height=7mm]{logo-ax}}%
+    \hspace{6mm}{\color{guiaborda}\rule[-1mm]{0.6pt}{10mm}}\hspace{6mm}%
+    \includegraphics[height=8.4mm]{logo-ifam}%
+    \hspace{6mm}{\color{guiaborda}\rule[-1mm]{0.6pt}{10mm}}\hspace{6mm}%
+    \raisebox{-0.4mm}{\includegraphics[height=9mm,trim=189 187 186 187,clip]{logo-lg}}}%
+}
+
+% Fundo: papel, a mancha de paralelogramos so de contorno atras do titulo, a
+% mancha com realces no canto de baixo e a faixa em degrade na borda esquerda.
+\newcommand{\flyerfundo}{%
+    \begin{scope}
+        \clip (0,0) rectangle (\flyerW,\flyerH);
+        \fill[guiapapel] (0,0) rectangle (\flyerW,\flyerH);
+        \node[anchor=north east,inner sep=0pt,opacity=0.8] at (205,-62)
+            {\includegraphics[width=300mm]{padrao-claro}};
+        \node[anchor=north west,inner sep=0pt] at (300,232)
+            {\includegraphics[width=240mm]{padrao}};
+        \node[anchor=north west,inner sep=0pt] at (0,0)
+            {\reflectbox{\includegraphics[width=8mm,height=\flyerH mm]{faixa}}};
+    \end{scope}%
+}
+
+\newcommand{\flyercabecalho}{%
+    \ifdefempty{\flyervalchamada}{}{%
+        \node[anchor=north west,inner sep=0pt,
+              font=\guiahead\bfseries\fontsize{9}{9}\selectfont,text=guiavermelho]
+            at (\flyerEsq,9.5) {\flyervalchamada};
+    }%
+    \node[anchor=north west,inner sep=0pt,
+          font=\guiahead\bfseries\fontsize{30}{32}\selectfont,text=guiatinta]
+        at (\flyerEsq-0.6,14) {\flyervaltitulo};
+    \ifdefempty{\flyervalmarca}{}{%
+        \node[anchor=north east,inner sep=0pt] at (\flyerDir,12)
+            {\includegraphics[height=12mm]{\flyervalmarca}};
+    }%
+    \fill[guiavermelho] (\flyerEsq,30.5) rectangle (\flyerDir,31.6);
+}
+
+\newcommand{\flyerrodapefolha}{%
+    \draw[guiaborda,line width=0.6pt] (\flyerEsq,277.5) -- (\flyerDir,277.5);
+    \node[anchor=north west,inner sep=0pt] at (\flyerEsq,281) {\flyermarcas};
+    % `flush right', e nao `right': com a LG EI, o `align=right' do TikZ come o
+    % espaco entre as palavras. O bloco fica centrado na altura das marcas; com
+    % \flyerrodape vazio, sai so a linha de autoria.
+    \node[anchor=east,inner sep=0pt,align=flush right,
+          font=\fontsize{8.5}{12}\selectfont,text=guiacinza] at (\flyerDir,285.6)
+        {\ifdefempty{\flyervalrodape}{}{%
+            {\guiahead\bfseries\color{guiatinta}\flyervalrodape}\\}%
+         \flyervalautoria};
+}
+
+% Abre a folha; os \flyerpasso vao dentro.
+\newenvironment{flyer}{%
+    \noindent\begin{tikzpicture}[x=1mm,y=-1mm,inner sep=0pt,outer sep=0pt]
+        \useasboundingbox (0,0) rectangle (\flyerW,\flyerH);
+        \flyerfundo
+        \flyercabecalho
+        \flyerrodapefolha
+}{%
+    \end{tikzpicture}%
+}
+
+\endinput
