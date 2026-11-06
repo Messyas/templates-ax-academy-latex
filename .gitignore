@@ -1,26 +1,42 @@
-# Python / uv
+# ==============================================================================
+# .gitignore - Regras de exclusão para o repositório templates-ax-academy-latex
+# ==============================================================================
+
+# --- Python e uv ---
 .venv/
+.uv/
 __pycache__/
 *.py[cod]
 *$py.class
-.uv/
+*.egg-info/
+.pytest_cache/
+.coverage
 
-# Saidas e artefatos de build (PDFs finais compilados em dist/ ou build/)
+# --- Saídas de compilação (PDFs finais centralizados) ---
 dist/
 build/
 out/
 _build/
 
-# Arquivos auxiliares gerados pelo LaTeX
+# PDFs compilados intermediários nas pastas dos templates (saídas oficiais vão para dist/)
+Apostila/guia-rapido.pdf
+Flyer/guia-flyer.pdf
+One-page/onepage-lg.pdf
+
+# --- Arquivos auxiliares e intermediários gerados pelo LaTeX ---
 *.aux
 *.log
 *.out
 *.toc
+*.ptc
 *.fls
 *.fdb_latexmk
 *.synctex.gz
+*.synctex
 *.bbl
 *.blg
+*.bcf
+*.run.xml
 *.nav
 *.snm
 *.vrb
@@ -30,13 +46,35 @@ _build/
 *.ilg
 *.ind
 *.loa
+*.xdv
+*.upa
+*.upb
+*.dvi
 
-# Editores / SO
-.vscode/
+# --- Variáveis de ambiente, credenciais e segredos locais ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.credentials
+
+# --- Editores, IDEs e ferramentas ---
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 .idea/
 *.swp
 *.swo
+*~
+*.bak
+
+# --- Sistema Operacional e temporários ---
 Thumbs.db
+ehthumbs.db
 Desktop.ini
 .DS_Store
-
+$RECYCLE.BIN/
+temp_installer/
+*.tmp

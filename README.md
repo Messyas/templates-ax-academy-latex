@@ -106,34 +106,51 @@ Para manter o projeto organizado:
 
 ---
 
-## 5. Pré-requisitos do Sistema
+## 5. Guia de Instalação para Novos Colaboradores
 
-Para compilar os relatórios localmente, você precisa de:
+Para novos membros e colaboradores começarem a gerar os relatórios em menos de 5 minutos, siga os 3 passos abaixo no Windows PowerShell:
 
-1. **Python 3.12+** e o gerenciador **`uv`** instalados.
-2. Uma distribuição **LaTeX com `lualatex`**:
-   > [!IMPORTANT]
-   > Os templates utilizam o pacote `fontspec` para carregar fontes TrueType (`.ttf`) diretamente por caminho relativo. **Não use `pdflatex`**. Utilize exclusivamente **`lualatex`**.
+### Passo 1: Instalar o compilador LaTeX (MiKTeX)
 
-### Instalação do compilador no Windows
+> [!TIP]
+> O **MiKTeX** é a opção mais rápida e leve: ele baixa apenas o núcleo essencial (~200 MB) e faz o download automático de pacotes adicionais em segundo plano conforme os relatórios exigirem.
 
-Se ainda não tiver o `lualatex` instalado, escolha uma das opções:
+Abra o PowerShell como Administrador e execute:
 
-#### Opção A: TeX Live (Recomendado via Windows Terminal)
 ```powershell
-winget install --id TeXLive.TeXLive
+# Opção Padrão (Recomendada): Instalação no disco principal da máquina (C:)
+winget install MiKTeX.MiKTeX --accept-source-agreements --accept-package-agreements --silent --custom "--auto-install=yes"
+
+# Opção Alternativa: Caso deseje instalar em outro disco (ex: partição D:)
+winget install MiKTeX.MiKTeX --location "D:\MiKTeX" --accept-source-agreements --accept-package-agreements --silent --custom "--auto-install=yes"
 ```
 
-#### Opção B: MiKTeX (Alternativa mais leve com download sob demanda)
+*Após a conclusão da instalação, feche e abra o terminal para recarregar as variáveis de ambiente (`PATH`). O script de build reconhece automaticamente tanto o disco principal (C:) quanto o secundário (D:), ou qualquer caminho configurado em `templates.config.json`.*
+
+### Passo 2: Instalar o gerenciador `uv` (se ainda não possuir)
+
+O projeto utiliza o `uv` da Astral para gerenciar o Python e o ambiente virtual:
 ```powershell
-winget install MiKTeX.MiKTeX
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-*Após a instalação, feche e abra o terminal novamente para que o comando `lualatex` passe a constar no seu `PATH`.*
+### Passo 3: Sincronizar o projeto e validar
+
+Dentro da pasta do projeto, execute:
+```powershell
+# 1. Sincroniza as dependências Python e cria o ambiente .venv
+uv sync
+
+# 2. Executa o diagnóstico automático do ambiente
+uv run build check
+
+# 3. Compila todos os relatórios para a pasta dist/
+uv run build
+```
 
 ---
 
-## 6. Instalação e Ambiente (`uv`)
+## 6. Configuração e Dependências do Ambiente (`uv`)
 
 Com o `uv` instalado em sua máquina, inicialize as dependências e o ambiente virtual:
 
@@ -292,3 +309,17 @@ Você pode configurar caminhos e nomes de saída no arquivo `templates.config.js
 - Para a **Apostila**: adicione imagens em `Apostila/img/` e artes/marcas em `Apostila/art/marca/` ou `Apostila/art/fundo/`.
 - Para o **Flyer**: adicione capturas em `Flyer/img/`.
 - Para o **OnePage**: adicione os ícones em `One-page/img/`.
+
+---
+
+## 10. Suporte a Agentes de IA (Codex, Claude, Antigravity)
+
+O projeto está totalmente preparado para ser operado por agentes de IA e desenvolvedores assistidos por IA:
+
+- [`AGENTS.md`](./AGENTS.md): Regras de operação rápida e restrições para Codex, Antigravity e Cursor.
+- [`CLAUDE.md`](./CLAUDE.md): Instruções nativas para o Claude Code.
+- [`docs/`](./docs/):
+  - [`docs/AGENTS_GUIDE.md`](./docs/AGENTS_GUIDE.md): Checklist e guia profundo de navegação e compilação para agentes autônomos.
+  - [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md): Diagrama do fluxo de fontes e arquitetura técnica.
+  - [`docs/TEMPLATES.md`](./docs/TEMPLATES.md): Manual dos comandos específicos de cada template.
+

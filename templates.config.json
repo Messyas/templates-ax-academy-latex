@@ -3,6 +3,7 @@
   "output_dir": "dist",
   "fonts_dir": "fonts",
   "clean_aux_after_build": true,
+  "compiler_path": null,
   "templates": {
     "apostila": {
       "name": "Apostila",
@@ -30,4 +31,3 @@
     }
   }
 }
-

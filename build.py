@@ -30,6 +30,7 @@ DEFAULT_CONFIG: Dict[str, Any] = {
     "output_dir": "dist",
     "fonts_dir": "fonts",
     "clean_aux_after_build": True,
+    "compiler_path": None,
     "templates": {
         "apostila": {
             "name": "Apostila",
@@ -63,6 +64,7 @@ AUX_EXTENSIONS = [
     ".log",
     ".out",
     ".toc",
+    ".ptc",
     ".fls",
     ".fdb_latexmk",
     ".synctex.gz",
@@ -103,24 +105,56 @@ def load_config() -> Dict[str, Any]:
     return DEFAULT_CONFIG
 
 
-def get_lualatex_path() -> Optional[str]:
-    # 1. Procura no PATH
+def get_lualatex_path(cfg: Optional[Dict[str, Any]] = None) -> Optional[str]:
+    # 1. Caminho explícito configurado em templates.config.json
+    if cfg and cfg.get("compiler_path"):
+        custom = Path(cfg["compiler_path"])
+        if custom.is_file():
+            return str(custom)
+        if (custom / "lualatex.exe").is_file():
+            return str(custom / "lualatex.exe")
+
+    # 2. Variável de ambiente (opção de override pelo usuário)
+    env_custom = os.environ.get("LUALATEX_PATH") or os.environ.get("MIKTEX_BIN")
+    if env_custom:
+        p = Path(env_custom)
+        if p.is_file():
+            return str(p)
+        if (p / "lualatex.exe").is_file():
+            return str(p / "lualatex.exe")
+
+    # 3. Procura no PATH do sistema operacional
     found = shutil.which("lualatex")
     if found:
         return found
 
-    # 2. Caminhos comuns no Windows
-    candidates = [
-        r"C:\texlive\2026\bin\windows\lualatex.exe",
-        r"C:\texlive\2025\bin\windows\lualatex.exe",
-        r"C:\texlive\2024\bin\windows\lualatex.exe",
-        r"C:\Program Files\MiKTeX\miktex\bin\x64\lualatex.exe",
-        r"C:\Program Files\MiKTeX 2.9\miktex\bin\x64\lualatex.exe",
+    # 4. PADRÃO: Disco principal do sistema (C:\ ou %SystemDrive%)
+    system_drive = os.environ.get("SystemDrive", "C:")
+    primary_candidates = [
+        rf"{system_drive}\Program Files\MiKTeX\miktex\bin\x64\lualatex.exe",
+        rf"{system_drive}\Program Files\MiKTeX 2.9\miktex\bin\x64\lualatex.exe",
         os.path.expandvars(r"%LOCALAPPDATA%\Programs\MiKTeX\miktex\bin\x64\lualatex.exe"),
+        rf"{system_drive}\texlive\2026\bin\windows\lualatex.exe",
+        rf"{system_drive}\texlive\2025\bin\windows\lualatex.exe",
+        rf"{system_drive}\texlive\2024\bin\windows\lualatex.exe",
     ]
-    for c in candidates:
+    for c in primary_candidates:
         if os.path.isfile(c):
             return c
+
+    # 5. OPCIONAL: Outros discos secundários (D:, E:, etc.)
+    secondary_candidates = [
+        r"D:\MiKTeX\miktex\bin\x64\lualatex.exe",
+        r"D:\MiKTeX\bin\x64\lualatex.exe",
+        r"D:\texlive\2026\bin\windows\lualatex.exe",
+        r"D:\texlive\2025\bin\windows\lualatex.exe",
+        r"E:\MiKTeX\miktex\bin\x64\lualatex.exe",
+        r"E:\texlive\2026\bin\windows\lualatex.exe",
+    ]
+    for c in secondary_candidates:
+        if os.path.isfile(c):
+            return c
+
     return None
 
 
@@ -146,7 +180,7 @@ def run_check():
     table.add_column("Detalhes")
 
     # 1. LuaLaTeX
-    lua_bin = get_lualatex_path()
+    lua_bin = get_lualatex_path(cfg)
     if lua_bin:
         try:
             ver = subprocess.run([lua_bin, "--version"], capture_output=True, text=True, check=True)
@@ -267,7 +301,8 @@ def compile_single_template(
         console.print(f"[red]Erro:[/red] Arquivo de entrada {entrypoint} não existe.")
         return False
 
-    lualatex = get_lualatex_path()
+    cfg = load_config()
+    lualatex = get_lualatex_path(cfg)
     if not lualatex:
         console.print(
             "[bold red]Erro crítico:[/bold red] O compilador [bold]lualatex[/bold] não foi encontrado no PATH.\n"
