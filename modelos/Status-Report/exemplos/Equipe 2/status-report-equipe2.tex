@@ -1,0 +1,227 @@
+% =============================================================
+% Status Report (One Page) — Equipe 2 · AX Academy / Digital Transformation
+%   Fase atual: Levantamento de Requisitos. Página 16:9.
+%   Fontes/robô compartilhados em ../fonts e ../img ; fotos em img/.
+%   Compilar: lualatex status-report-equipe2.tex  -- DUAS VEZES.
+%     A segunda passada e que iguala a altura dos cartoes: o
+%     `equal height group` do tcolorbox grava a altura maxima do grupo
+%     no .aux e so a aplica na passada seguinte. Com uma passada so,
+%     cada cartao sai com a altura do proprio conteudo e a linha fica
+%     desalinhada.
+%   >> Campos a atualizar toda semana marcados com  % ATUALIZAR
+% =============================================================
+\documentclass[10pt]{article}
+\usepackage[paperwidth=32cm, paperheight=18cm, top=0.55cm, bottom=0.35cm,
+            left=1.0cm, right=1.0cm]{geometry}
+
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\IfFileExists{../../../fonts/LGEITextTTF-Regular.ttf}{%
+  \newfontfamily\lghead{LGEIHeadlineTTF-Bold}[Path=../../../fonts/, Extension=.ttf]
+  \newfontfamily\lgheadr{LGEIHeadlineTTF-Regular}[Path=../../../fonts/, Extension=.ttf]
+  \setmainfont{LGEITextTTF-Regular}[Path=../../../fonts/, Extension=.ttf, BoldFont=LGEITextTTF-Bold, AutoFakeSlant=0.15]
+  \newfontfamily\lgtext{LGEITextTTF-Regular}[Path=../../../fonts/, Extension=.ttf, BoldFont=LGEITextTTF-Bold]
+}{%
+  \setmainfont{LG EI Text}[BoldFont=* Bold, AutoFakeSlant=0.15]
+  \newfontfamily\lghead{LG EI Headline Bold}
+  \newfontfamily\lgheadr{LG EI Headline}
+  \newfontfamily\lgtext{LG EI Text}[BoldFont=* Bold]
+}
+
+\usepackage{xcolor}
+\definecolor{srred}{HTML}{E7194A}
+\definecolor{srdark}{HTML}{1A1A1A}
+\definecolor{srmut}{HTML}{8A9099}
+\definecolor{srgreen}{HTML}{16A34A}
+\definecolor{sryellow}{HTML}{EAB308}
+\definecolor{srwarn}{HTML}{D9860B}
+\definecolor{srteal}{HTML}{14B8A6}
+\definecolor{srline}{HTML}{E3E3E3}
+\definecolor{srtrack}{HTML}{D6D8DC}
+
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage[most]{tcolorbox}
+\usepackage{fontawesome5}
+\setlength{\parindent}{0pt}
+\pagestyle{empty}
+
+\newtcolorbox{card}[1][]{enhanced, colback=white, colframe=srline, boxrule=0.9pt,
+  arc=5pt, left=9pt, right=9pt, top=5pt, bottom=6pt, before skip=0pt, after skip=0pt, #1}
+\newcommand{\cardtitle}[1]{{\lgheadr\large\color{srdark}#1}\\[1pt]
+  {\color{srline}\rule{\linewidth}{0.7pt}}\\[3pt]}
+\newcommand{\donut}[1]{%
+  \begin{tikzpicture}
+    \draw[line width=7pt, srtrack] (0,0) circle (0.9);
+    \draw[line width=7pt, srred, line cap=round] (90:0.9) arc (90:{90-3.6*#1}:0.9);
+    \node[font=\lghead, text=srdark] at (0,0) {\fontsize{18}{18}\selectfont #1\%};
+  \end{tikzpicture}}
+\newcommand{\barra}[2]{%
+  \begin{tikzpicture}[baseline=-0.5ex]
+    \fill[srtrack, rounded corners=2.5pt] (0,0) rectangle (3.4,0.18);
+    \ifdim #1pt>0pt \fill[#2, rounded corners=2.5pt] (0,0) rectangle ({3.4*#1/100},0.18);\fi
+  \end{tikzpicture}}
+\newcommand{\tarefa}[4]{%
+  {\lgtext\small\bfseries\color{srdark}#1}\\[1pt]
+  \barra{#2}{#3}\hfill{\lgtext\small\bfseries\color{srdark}#2\%}\\[0pt]
+  {\lgtext\scriptsize\color{srmut}#4}\par}
+% Foto circular do membro (nome em uma linha)
+\newcommand{\fotoav}[3]{%
+  \begin{minipage}{2.5cm}\centering
+    \begin{tikzpicture}
+      \begin{scope}\clip (0,0) circle (0.42);
+        \node at (0,0) {\includegraphics[width=1.05cm]{img/circ_#1.png}};\end{scope}
+      \draw[srred, line width=1pt] (0,0) circle (0.42);
+    \end{tikzpicture}\\[1pt]
+    {\lgtext\fontsize{6.4}{7}\selectfont\bfseries\color{srdark}#2}\\[-1pt]
+    {\lgtext\fontsize{6}{7}\selectfont\color{srred}#3}
+  \end{minipage}}
+\newcommand{\kpi}[4]{%
+  \begin{tcolorbox}[enhanced, colback=white, colframe=srline, boxrule=0.8pt, arc=3pt,
+      left=10pt, right=8pt, top=3pt, bottom=4pt,
+      borderline west={3pt}{0pt}{#1}, width=\linewidth, before skip=0pt, after skip=0pt, equal height group=kpi]
+    {\lgtext\scriptsize\color{srmut}#2}\\[2pt]
+    {\lghead\color{srdark}\fontsize{18}{18}\selectfont #3}\\[3pt]
+    {\lgtext\scriptsize\color{#1}#4}
+  \end{tcolorbox}}
+\newcommand{\linkbtn}[2]{%
+  \begin{tcolorbox}[enhanced, colback=white, colframe=srred, boxrule=1pt, arc=4pt,
+      left=1pt, right=1pt, top=3pt, bottom=3pt, halign=center, valign=center,
+      width=\linewidth, height=1.35cm, before skip=0pt, after skip=0pt]
+    {\color{srdark}\fontsize{13}{13}\selectfont #1}\\[3pt]
+    {\lgtext\fontsize{6.6}{7.5}\selectfont\bfseries\color{srred}#2}
+  \end{tcolorbox}}
+\newcommand{\linkbtnoff}[2]{%
+  \begin{tcolorbox}[enhanced, colback=white, colframe=srmut!35, boxrule=1pt, arc=4pt,
+      left=1pt, right=1pt, top=3pt, bottom=3pt, halign=center, valign=center,
+      width=\linewidth, height=1.35cm, before skip=0pt, after skip=0pt]
+    {\color{srmut!65}\fontsize{13}{13}\selectfont #1}\\[3pt]
+    {\lgtext\fontsize{6.6}{7.5}\selectfont\bfseries\color{srmut!75}#2}
+  \end{tcolorbox}}
+\newcommand{\marco}[2]{%
+  {\lgtext\footnotesize\bfseries\color{srdark}#1} {\lgtext\footnotesize\color{srdark}#2}\\[2pt]
+  {\color{srline}\rule{\linewidth}{0.5pt}}\\[3pt]}
+
+\begin{document}
+
+% ═══════════════════════ CABEÇALHO ═══════════════════════
+\noindent
+\begin{minipage}[c]{0.33\textwidth}
+  {\lghead\fontsize{18}{21}\selectfont\color{srdark} AX Academy \textcolor{srmut}{\textbar}
+   Relatórios e \mbox{Dashboard} de Suprimentos}\\[2pt]
+  {\color{srred}\rule{3.0cm}{2.2pt}}\\[6pt]
+  {\lgheadr\normalsize\color{srdark} Área: \textbf{Suprimentos (SCM)}\\[2pt]
+   Manager: \textbf{Exdra Bezerra}}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.51\textwidth}
+  \begin{tcolorbox}[enhanced, colback=white, colframe=srteal, boxrule=1.2pt, arc=12pt,
+      left=3pt, right=3pt, top=4pt, bottom=4pt, before skip=0pt, after skip=0pt, equal height group=hdr]
+    \centering
+    \fotoav{GF}{Gabriel Fernandes}{Líder (PO)}\fotoav{GN}{Gustavo Nunes}{Dev}\fotoav{CM}{Carlos Souza}{Dev}\fotoav{MU}{Marcelo Uchôa}{Dev}\fotoav{RX}{Rebecca Xavier}{Dev}%
+  \end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.15\textwidth}
+  \begin{tcolorbox}[enhanced, colback=white, colframe=srred, boxrule=1.2pt, arc=12pt,
+      left=4pt, right=4pt, top=6pt, bottom=6pt, halign=center, valign=center, before skip=0pt, after skip=0pt, equal height group=hdr]
+    {\lgtext\footnotesize\color{srdark}DURAÇÃO: \textbf{11 semanas}}\\[3pt]
+    {\lgtext\scriptsize\color{srmut}Semana \textbf{\color{srdark}3} de 11}\\[2pt]
+    \begin{tikzpicture}[baseline=0]
+      \fill[srtrack, rounded corners=2pt] (0,0) rectangle (3.0,0.16);
+      \fill[srred, rounded corners=2pt] (0,0) rectangle ({3.0*3/11},0.16);
+    \end{tikzpicture}\\[4pt]
+    {\lgtext\footnotesize\color{srdark}STATUS: \textbf{\color{srgreen}EM ANDAMENTO}}
+  \end{tcolorbox}
+\end{minipage}
+
+\vspace{2pt}
+
+% ═══════════════════════ LINHA 1: 3 CARDS ═══════════════════════
+\noindent
+\begin{minipage}[t]{0.235\textwidth}
+  \begin{card}[equal height group=row1]
+    \cardtitle{Sprint Progress}
+    \centering
+    {\lgtext\footnotesize\color{srdark}SPRINT 00 \textbullet\ \textbf{W32}}\\[0pt]
+    {\lgtext\scriptsize\color{srmut}03/08 a 09/08 \textbullet\ Levantamento de Requisitos}\\[5pt]
+    \donut{67}\\[5pt]           % ATUALIZAR: media das 6 tarefas (92,85,55,15,65,90)
+    {\lgtext\small\bfseries\color{srdark}STATUS: \color{srgreen}EM ANDAMENTO}
+  \end{card}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.45\textwidth}
+  \begin{card}[equal height group=row1]
+    \cardtitle{Main Tasks \textnormal{\lgtext\footnotesize\color{srmut}(levantamento de requisitos)}}
+    \begin{minipage}[t]{0.48\linewidth}
+      \tarefa{1. Especificação e Requisitos}{92}{srgreen}{Documento consolidado do processo.}\vspace{1pt}
+      \tarefa{2. Matriz CSD e entrevistas}{85}{srgreen}{Certezas, suposições e dúvidas.}\vspace{1pt}
+      \tarefa{3. MVP Canvas}{55}{sryellow}{Recorte do escopo mínimo viável.}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.48\linewidth}
+      \tarefa{4. Personas e History Map}{15}{sryellow}{Quem usa e a jornada do usuário.}\vspace{1pt}
+      \tarefa{5. Backlog do MVP}{65}{sryellow}{Itens priorizados a partir dos requisitos.}\vspace{1pt}
+      \tarefa{6. Arquitetura e Fluxo de Processo}{90}{srgreen}{Arquitetura da solução e BPMN.}
+    \end{minipage}
+  \end{card}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.30\textwidth}
+  \begin{card}[equal height group=row1]
+    \cardtitle{Impedimentos}
+    \begin{tcolorbox}[enhanced, colback=sryellow!12, colframe=srwarn!70, boxrule=0.8pt,
+        arc=3pt, left=6pt, right=6pt, top=4pt, bottom=4pt, before skip=0pt, after skip=6pt]
+      {\lgtext\fontsize{6.8}{9}\selectfont\color{srdark}
+      $\bullet$~Acesso ao Smart Office\\
+      $\bullet$~Documentação (planilhas, apresentações, relatórios, tutoriais)\\
+      $\bullet$~Acesso a sistemas e informações\\
+      $\bullet$~Telas do GMES utilizadas\\
+      $\bullet$~Entrevistas para o As-Is (coleta manual dos dados)}
+    \end{tcolorbox}
+    \begin{minipage}[t]{0.315\linewidth}\linkbtn{\faDesktop}{Protótipo navegável}\end{minipage}\hfill
+    \begin{minipage}[t]{0.315\linewidth}\linkbtn{\faFolderOpen}{Documentação}\end{minipage}\hfill
+    \begin{minipage}[t]{0.315\linewidth}\linkbtn{\faColumns}{Kanban}\end{minipage}
+  \end{card}
+\end{minipage}
+
+\vspace{2pt}
+
+% ═══════════════════════ LINHA 2: INDICADORES ═══════════════════════
+{\lghead\large\color{srdark} Indicadores de Desempenho e Impacto}\\[1pt]
+{\color{srline}\rule{\textwidth}{0.7pt}}\\[6pt]
+\noindent
+\begin{minipage}[t]{0.325\textwidth}
+  \kpi{srred}{SERIAIS POR CICLO}{79 mil}{Cruzados entre OWMS, NFP e OQC}   % ATUALIZAR
+\end{minipage}\hfill
+\begin{minipage}[t]{0.325\textwidth}
+  \kpi{srgreen}{FTE MENSAL}{A estimar}{$\blacktriangle$ Definido ao fim do levantamento} % ATUALIZAR
+\end{minipage}\hfill
+\begin{minipage}[t]{0.325\textwidth}
+  \kpi{srgreen}{REDUÇÃO DE CUSTO}{A estimar}{$\blacktriangle$ Economia anual estimada}   % ATUALIZAR
+\end{minipage}
+
+\vspace{2pt}
+
+% ═══════════════════════ LINHA 3: CRONOGRAMA + IMPACTO ═══════════════════════
+\noindent
+\begin{minipage}[t]{0.62\textwidth}
+  {\lghead\large\color{srdark} Cronograma de Entregas}\hfill
+  {\lgtext\small\color{srmut}Status geral:}
+  \tcbox[on line, colback=sryellow!22, colframe=sryellow, boxrule=0.8pt, arc=3pt,
+         left=5pt, right=5pt, top=1pt, bottom=1pt]{\lgtext\footnotesize\bfseries\color{srdark}Em Andamento}\\[1pt]
+  {\color{srline}\rule{\linewidth}{0.7pt}}\\[6pt]
+  \marco{M1 (13/08)}{Documentação de especificação e requisitos + MVP}
+  \marco{M2 (03/09)}{PoC e validação do MVP}
+  \marco{M3 (a definir)}{Módulo de software funcional, testado e validado}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.34\textwidth}
+  {\lghead\large\color{srdark} Descrição / Impacto Estratégico}\\[1pt]
+  {\color{srline}\rule{\linewidth}{0.7pt}}\\[6pt]
+  {\lgtext\small\color{srdark} Consolidação automática dos relatórios e dashboard com alertas, liberando o tempo do gestor de Suprimentos para a tomada de decisão.}
+\end{minipage}
+
+% Mascote AX no canto inferior direito
+\begin{tikzpicture}[remember picture, overlay]
+  \node[anchor=south east] at ([xshift=-0.6cm, yshift=0.35cm]current page.south east)
+    {\includegraphics[height=2.3cm]{../../img/robo.png}};
+\end{tikzpicture}
+
+\end{document}

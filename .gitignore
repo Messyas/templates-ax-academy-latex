@@ -18,10 +18,12 @@ build/
 out/
 _build/
 
-# PDFs compilados intermediários nas pastas dos templates (saídas oficiais vão para dist/)
-Apostila/guia-rapido.pdf
-Flyer/guia-flyer.pdf
-One-page/onepage-lg.pdf
+# PDFs compilados intermediários nas pastas dos templates (saídas oficiais vão exclusivamente para dist/)
+modelos/**/*.pdf
+!modelos/**/art/**/*.pdf
+
+# Link/junction de fontes dentro de modelos/ (fontes canônicas residem exclusivamente em fonts/)
+modelos/fonts/
 
 # --- Arquivos auxiliares e intermediários gerados pelo LaTeX ---
 *.aux

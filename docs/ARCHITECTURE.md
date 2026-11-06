@@ -1,6 +1,6 @@
 # Arquitetura Técnica do Repositório
 
-Este documento detalha o mapa de componentes, convenções de caminhos, hierarquia tipográfica e o motor de automação do projeto.
+Este documento detalha o mapa de componentes, convenções de caminhos, hierarquia tipográfica, segregação de saídas e o motor de automação do projeto.
 
 ---
 
@@ -9,37 +9,59 @@ Este documento detalha o mapa de componentes, convenções de caminhos, hierarqu
 ```text
 templates-ax-academy-latex/
 │
-├── fonts/                       # Repositório global de fontes TrueType (TTF)
-│   ├── LGEIHeadlineTTF-*.ttf   # Variantes da fonte de destaque (Bold, Light, Regular, Semibold, Thin, VF)
-│   └── LGEITextTTF-*.ttf       # Variantes de texto corrido (Bold, Light, Regular, SemiBold)
+├── fonts/                               # Repositório global de fontes TrueType (TTF)
+│   ├── LGEIHeadlineTTF-*.ttf           # Variantes da fonte de destaque (Bold, Light, Regular, Semibold, Thin, VF)
+│   └── LGEITextTTF-*.ttf               # Variantes de texto corrido (Bold, Light, Regular, SemiBold)
 │
-├── Apostila/                    # Guia Rápido multi-página (Book)
-│   ├── axacademy-guia.sty       # Design system, cabeçalhos fancyhdr, tcolorbox, títulos titlesec
-│   ├── guia-rapido.tex          # Ponto de entrada com metadados (\guiatitulo, \guiasistema, etc.)
-│   ├── caps/                    # Conteúdo modularizado
-│   │   ├── cap01.tex            # Visão Geral e fluxo BPMN
-│   │   └── cap02.tex            # Passo a passo com telas e marcadores (\passo)
-│   ├── art/                     # Identidade visual vetorial
-│   │   ├── fundo/               # Faixas e padrões de fundo (PDF vetorial)
-│   │   └── marca/               # Logotipos da AX Academy, IFAM e do sistema
-│   └── img/                     # Capturas de tela numeradas (01-login.png, etc.)
+├── modelos/                             # Diretório centralizado de todos os modelos LaTeX
+│   │
+│   ├── Apostila/                        # 1. Guia Rápido multi-página (Book)
+│   │   ├── axacademy-guia.sty           # Design system, fancyhdr, tcolorbox, titlesec
+│   │   ├── guia-rapido.tex              # Ponto de entrada com metadados
+│   │   ├── caps/                        # Conteúdo modularizado (cap01.tex, cap02.tex)
+│   │   ├── art/                         # Identidade visual vetorial (art/fundo/, art/marca/)
+│   │   └── img/                         # Capturas de tela (01-login.png, etc.)
+│   │
+│   ├── Flyer/                           # 2. Folha única A3 paisagem
+│   │   ├── axacademy-flyer.sty          # Layout em grade TikZ de 4 colunas x 2 linhas
+│   │   ├── guia-flyer.tex               # Declaração dos 8 passos via \flyerpasso
+│   │   ├── art/                         # Marcas institucionais e logos
+│   │   └── img/                         # Capturas de tela
+│   │
+│   ├── OnePage-Sumarizacao/              # 3. Slide executivo corporativo (PT)
+│   │   ├── onepagelg.sty                # Canvas geométrico TikZ 33.87 x 19.05 cm
+│   │   ├── onepage-lg.tex               # Antes / Depois / Resultado
+│   │   └── img/                         # Ícones conceituais
+│   │
+│   ├── Status-Report/                   # 4. Status Report semanal de equipe
+│   │   ├── status-report-equipe3.tex    # Slide 32 x 18 cm com equal height group
+│   │   ├── exemplos/                    # Diagramas de arquitetura e fluxo
+│   │   └── img/                         # Capturas e fotos
+│   │
+│   ├── OnePage-Evidencias/              # 5. OnePage de Evidências do Sprint
+│   │   ├── onepage-evidencias-equipe3.tex # Folha A3 paisagem com 4 cartões de evidências
+│   │   └── img/                         # Fotos e evidências tangíveis
+│   │
+│   ├── OnePage-Corporativo-LGE/         # 6. OnePage executivo corporativo original (EN)
+│   │   ├── onepagelg.sty                # Estilo corporativo com layout widescreen
+│   │   ├── onepage-lg.tex               # AI Deep Dive / AI Core
+│   │   └── img/                         # Ícones corporativos
+│   │
+│   └── referencias/                     # Apresentações e materiais visuais de referência
+│       └── Layout de Report - One Page.pptx
 │
-├── Flyer/                       # Folha única A3 paisagem
-│   ├── axacademy-flyer.sty      # Layout em grade TikZ de 4 colunas x 2 linhas
-│   ├── guia-flyer.tex           # Declaração dos 8 passos resumidos via \flyerpasso
-│   ├── art/                     # Marcas e artes institucionais
-│   └── img/                     # Telas do sistema
+├── dist/                                # Diretório central de saídas segregadas por template
+│   ├── Apostila/guia-rapido.pdf
+│   ├── Flyer/guia-flyer.pdf
+│   ├── OnePage-Sumarizacao/onepage-lg.pdf
+│   ├── Status-Report/status-report-equipe3.pdf
+│   ├── OnePage-Evidencias/onepage-evidencias-equipe3.pdf
+│   └── OnePage-Corporativo-LGE/onepage-corporativo-lg.pdf
 │
-├── One-page/                    # Slide executivo corporativo
-│   ├── onepagelg.sty            # Canvas geométrico TikZ 33.87 x 19.05 cm
-│   ├── onepage-lg.tex           # Declarações semânticas de Antes / Depois / Resultado
-│   └── img/                     # Ícones vetoriais/PNG conceituais
-│
-├── dist/                        # Diretório centralizado de saída dos PDFs finais
-├── build.py                     # CLI de compilação, diagnóstico e limpeza
-├── templates.config.json        # Arquivo de configuração de rotas e passadas
-├── pyproject.toml               # Dependências do ambiente Python gerenciadas pelo uv
-└── .gitignore                   # Exclusão estrita de artefatos temporários
+├── build.py                             # CLI de compilação, diagnóstico e limpeza
+├── templates.config.json                # Configuração de rotas, passadas e subpastas de saída
+├── pyproject.toml                       # Dependências do ambiente Python gerenciadas pelo uv
+└── .gitignore                           # Exclusão estrita de artefatos temporários e binários compilados
 ```
 
 ---
@@ -48,24 +70,35 @@ templates-ax-academy-latex/
 
 A identidade visual utiliza a família corporativa **LG EI**.
 
-### Como a resolução funciona em tempo de compilação:
+Todas as fontes residem exclusivamente na pasta raiz `fonts/`. Os modelos em `modelos/<Template>` acessam as fontes através do seguinte mecanismo:
 
-```mermaid
-flowchart TD
-    A["Início da Compilação no Template"] --> B{"Arquivo ../fonts/LGEITextTTF-Regular.ttf existe?"}
-    B -- Sim --> C["Carrega fontes de ../fonts/ via fontspec Path=../fonts/"]
-    B -- Não --> D{"Arquivo local fonts/LGEITextTTF-Regular.ttf existe?"}
-    D -- Sim --> E["Carrega fontes de fonts/ via fontspec Path=fonts/"]
-    D -- Não --> F["Emite PackageWarning e usa fontes instaladas no SO: LG EI Text / LG EI Headline"]
-```
+1. **Automação via `build.py`**:
+   Ao invocar o `lualatex`, o script injeta no processo a variável `openin_any=a`. Isso flexibiliza a restrição de segurança de travessia do TeX, permitindo que caminhos como `Path=../../fonts/` e `Path=../fonts/` sejam lidos diretamente da raiz sem erro.
 
-Essa lógica garante portabilidade máxima:
-- Dentro deste repositório compartilhado, a pasta raiz `fonts/` atende todos os templates sem duplicação de arquivos.
-- Se uma pasta de template for isolada ou migrada, ela ainda pode receber uma pasta local `fonts/` ou usar as fontes do sistema sem quebrar.
+2. **Junção NTFS Local (`modelos/fonts -> fonts`)**:
+   Para desenvolvedores que executam o `lualatex` manualmente no terminal de dentro da pasta do template, uma junção NTFS em `modelos/fonts` (ignorada no git) garante que `Path=../fonts/` resolva instantaneamente sem dependência de flags extras.
+
+3. **Fallback para Fontes do SO**:
+   Se as fontes locais não forem encontradas, o pacote emite um aviso (`PackageWarning`) e recorre às fontes instaladas no sistema operacional (`LG EI Text` e `LG EI Headline`).
 
 ---
 
-## 3. Resolução de Compilador (LuaLaTeX)
+## 3. Segregação de Saídas (`dist/`)
+
+Para evitar sobrescritas acidentais (por exemplo, múltiplos templates que gerem arquivos com nomes similares como `onepage-lg.pdf`), cada template possui uma subpasta própria dentro de `dist/`:
+
+- `dist/Apostila/`
+- `dist/Flyer/`
+- `dist/OnePage-Sumarizacao/`
+- `dist/Status-Report/`
+- `dist/OnePage-Evidencias/`
+- `dist/OnePage-Corporativo-LGE/`
+
+O script `build.py` cria essas subpastas dinamicamente e direciona os PDFs finais, garantindo total isolamento dos artefatos.
+
+---
+
+## 4. Resolução de Compilador (LuaLaTeX)
 
 O utilitário `build.py` localiza o compilador `lualatex` na seguinte ordem de prioridade:
 
@@ -82,4 +115,3 @@ O utilitário `build.py` localiza o compilador `lualatex` na seguinte ordem de p
    - `E:\MiKTeX\miktex\bin\x64\lualatex.exe`
 
 Isso assegura que o projeto rode imediatamente tanto na máquina de desenvolvedores que instalam no `C:` padrão quanto nos que optam por partições secundárias (`D:`).
-

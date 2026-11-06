@@ -20,15 +20,18 @@ Repositório centralizado de templates de relatórios e documentos em LaTeX para
 
 ---
 
-## 1. Visão Geral dos Templates
+## 1. Visão Geral dos Modelos
 
-O repositório contém três formatos de documentos, cada um adaptado para uma finalidade específica:
+O repositório unifica todos os modelos oficiais de relatórios e apresentações institucionais dentro da pasta **[`modelos/`](./modelos)**. Cada modelo possui sua pasta dedicada e gera seu PDF correspondente em uma subpasta específica dentro de **`dist/`** para evitar colisões e perda de arquivos:
 
-| Template | Diretório | Arquivo Principal | Saída Padrão | Descrição |
+| Modelo | Diretório | Arquivo Principal | Saída Oficial (PDF) | Descrição |
 | :--- | :--- | :--- | :--- | :--- |
-| **Apostila** | `Apostila/` | `guia-rapido.tex` | `dist/guia-rapido.pdf` | Guia Rápido de Uso multi-página (classe `book`, capa composta, sumário, capítulos modulares em `caps/`, marcas em `art/`, capturas em `img/`). Requer 2 passadas para sumário e paginação. |
-| **Flyer** | `Flyer/` | `guia-flyer.tex` | `dist/guia-flyer.pdf` | Folha única em formato **A3 paisagem** com grade 4x2 de cartões. Ideal para guias rápidos plastificados ou afixados ao lado do posto de trabalho. |
-| **OnePage** | `One-page/` | `onepage-lg.tex` | `dist/onepage-lg.pdf` | Slide executivo corporativo de alto impacto no padrão LGE (33.87 x 19.05 cm), estruturado em **Antes / Depois / Resultado**. |
+| **Apostila** | `modelos/Apostila/` | `guia-rapido.tex` | `dist/Apostila/guia-rapido.pdf` | Guia Rápido de Uso multi-página (classe `book`, capa composta, sumário, capítulos em `caps/`, marcas em `art/`, telas em `img/`). Requer 2 passadas. |
+| **Flyer A3** | `modelos/Flyer/` | `guia-flyer.tex` | `dist/Flyer/guia-flyer.pdf` | Folha única em formato **A3 paisagem** com grade 4x2 de cartões. Ideal para guias rápidos afixados no posto de trabalho. Requer 1 passada. |
+| **OnePage Sumarização** | `modelos/OnePage-Sumarizacao/` | `onepage-lg.tex` | `dist/OnePage-Sumarizacao/onepage-lg.pdf` | Slide executivo Antes/Depois/Resultado (33.87 x 19.05 cm) adaptado para o sistema Hanaro. Requer 2 passadas. |
+| **Status Report** | `modelos/Status-Report/` | `status-report-equipe3.tex` | `dist/Status-Report/status-report-equipe3.pdf` | Relatório semanal de sprint (32 x 18 cm) com cartões equalizados via `tcolorbox` e retratos da equipe. Requer 2 passadas. |
+| **OnePage Evidências** | `modelos/OnePage-Evidencias/` | `onepage-evidencias-equipe3.tex` | `dist/OnePage-Evidencias/onepage-evidencias-equipe3.pdf` | Folha A3 paisagem com cartões de evidências de entrega, telas e fotos do sprint. Requer 2 passadas. |
+| **OnePage Corporativo LGE** | `modelos/OnePage-Corporativo-LGE/` | `onepage-lg.tex` | `dist/OnePage-Corporativo-LGE/onepage-corporativo-lg.pdf` | Template original em inglês corporativo LGE (AI Deep Dive / AI Core / 40K hours saved). Requer 2 passadas. |
 
 ---
 
@@ -36,28 +39,33 @@ O repositório contém três formatos de documentos, cada um adaptado para uma f
 
 ```text
 templates-ax-academy-latex/
-├── fonts/                       # 🌟 Pasta global de fontes compartilhadas (raiz)
-│   ├── LGEIHeadlineTTF-*.ttf   # Família de títulos LG EI Headline
-│   └── LGEITextTTF-*.ttf       # Família de texto LG EI Text
-├── Apostila/                    # Template de Guia Rápido multi-página
-│   ├── caps/                    # Capítulos modulares (\include)
-│   ├── art/                     # Marcas e fundos institucionais
-│   ├── img/                     # Capturas de tela do sistema
-│   ├── axacademy-guia.sty       # Pacote de estilos e diagramação
-│   └── guia-rapido.tex          # Documento raiz
-├── Flyer/                       # Template de Folha Única A3 Paisagem
-│   ├── art/                     # Marcas e fundos
-│   ├── img/                     # Capturas de tela dos passos
-│   ├── axacademy-flyer.sty      # Estilos do grid TikZ
-│   └── guia-flyer.tex           # Documento raiz
-├── One-page/                    # Template OnePage corporativo (PPTX-style)
-│   ├── img/                     # Ícones e diagramas
-│   ├── onepagelg.sty            # Motor de layout geométrico
-│   └── onepage-lg.tex           # Conteúdo executivo
-├── dist/                        # 📂 Diretório de saída dos PDFs finais (gerado no build)
-├── build.py                     # Script Python de build, validação e limpeza
-├── pyproject.toml               # Configuração do ambiente e dependências uv
-├── templates.config.json        # Configuração das rotas de saída e parâmetros dos templates
+├── fonts/                             # 🌟 Pasta global de fontes compartilhadas (raiz)
+│   ├── LGEIHeadlineTTF-*.ttf         # Família de títulos LG EI Headline
+│   └── LGEITextTTF-*.ttf             # Família de texto LG EI Text
+├── modelos/                           # 📂 Todos os modelos consolidados
+│   ├── Apostila/                      # Guia Rápido multi-página (Book)
+│   ├── Flyer/                         # Folha única A3 Paisagem
+│   ├── OnePage-Sumarizacao/           # Slide Antes / Depois / Resultado (Hanaro)
+│   ├── Status-Report/                 # Status Report de Sprint com fotos da equipe
+│   │   └── exemplos/                  # Decks de exemplo das outras equipes (1, 2, 4)
+│   ├── OnePage-Evidencias/            # Evidências de Sprint em A3 Paisagem
+│   ├── OnePage-Corporativo-LGE/       # Template original corporativo LGE (inglês)
+│   └── referencias/                   # Layout de Report - One Page.pptx original
+├── dist/                              # 🎯 Diretório de saída organizado por modelo
+│   ├── Apostila/                      # -> guia-rapido.pdf
+│   ├── Flyer/                         # -> guia-flyer.pdf
+│   ├── OnePage-Sumarizacao/           # -> onepage-lg.pdf
+│   ├── Status-Report/                 # -> status-report-equipe3.pdf
+│   ├── OnePage-Evidencias/            # -> onepage-evidencias-equipe3.pdf
+│   └── OnePage-Corporativo-LGE/       # -> onepage-corporativo-lg.pdf
+├── docs/                              # Manuais técnicos e guias de arquitetura
+├── AGENTS.md                          # Instruções para Codex, Antigravity e Cursor
+├── CLAUDE.md                          # Diretrizes para Claude Code
+├── build.py                           # CLI de compilação, diagnóstico e limpeza
+├── pyproject.toml                     # Configuração do ambiente e dependências uv
+├── templates.config.json              # Configuração das rotas de saída e parâmetros dos modelos
+└── README.md                          # Esta documentação
+```
 ├── .gitignore                   # Ignora .venv, dist/ e arquivos temporários do LaTeX
 └── README.md                    # Esta documentação
 ```

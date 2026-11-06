@@ -1,0 +1,193 @@
+% !TEX program = lualatex
+% =============================================================
+% OnePage de Evidencias - Equipe 3 (Hanaro / Scrap) . Sprint 00 (W32)
+%   A3 paisagem, tema LG. Foco: Controle de Scrap e IF Cost (US$).
+%   Compilar: lualatex onepage-evidencias-equipe3.tex  (2x pelo rodape overlay)
+% =============================================================
+\documentclass[11pt]{article}
+\usepackage[a3paper,landscape,top=0.8cm,bottom=1.0cm,left=1.25cm,right=1.25cm]{geometry}
+
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\IfFileExists{../../fonts/LGEITextTTF-Regular.ttf}{%
+  \setmainfont{LGEITextTTF-Regular}[Path=../../fonts/, Extension=.ttf, BoldFont=LGEITextTTF-Bold]
+  \newfontfamily\lghead{LGEIHeadlineTTF-Bold}[Path=../../fonts/, Extension=.ttf]
+}{%
+  \IfFileExists{../fonts/LGEITextTTF-Regular.ttf}{%
+    \setmainfont{LGEITextTTF-Regular}[Path=../fonts/, Extension=.ttf, BoldFont=LGEITextTTF-Bold]
+    \newfontfamily\lghead{LGEIHeadlineTTF-Bold}[Path=../fonts/, Extension=.ttf]
+  }{%
+    \IfFileExists{fonts/LGEITextTTF-Regular.ttf}{%
+      \setmainfont{LGEITextTTF-Regular}[Path=fonts/, Extension=.ttf, BoldFont=LGEITextTTF-Bold]
+      \newfontfamily\lghead{LGEIHeadlineTTF-Bold}[Path=fonts/, Extension=.ttf]
+    }{%
+      \setmainfont{LG EI Text}[BoldFont=* Bold]
+      \newfontfamily\lghead{LG EI Headline Bold}
+    }%
+  }%
+}
+
+\usepackage{xcolor}
+\definecolor{lgred}{RGB}{165,0,52}
+\definecolor{axdark}{RGB}{30,10,10}
+\definecolor{cardline}{RGB}{206,170,172}
+\definecolor{muted}{RGB}{110,95,95}
+\definecolor{tintbg}{RGB}{250,242,244}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{colorlinks=true, urlcolor=lgred}
+\setlist[itemize]{leftmargin=1.15em, itemsep=2.5pt, topsep=1.5pt, parsep=0pt}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\newcommand{\hd}[1]{{\lghead\color{lgred}#1}}
+
+\newtcolorbox{card}[2][]{
+  enhanced, colback=white, colframe=cardline, boxrule=0.6pt, arc=3pt,
+  left=9pt, right=9pt, top=5pt, bottom=6pt,
+  fonttitle=\lghead\large\color{white}, coltitle=white,
+  title=#2, colbacktitle=lgred, toptitle=2.5pt, bottomtitle=2.5pt,
+  before skip=4pt, after skip=4pt, #1
+}
+\newcommand{\evimg}[2]{%
+  \tikz\node[inner sep=0pt, draw=cardline, line width=0.6pt, rounded corners=2pt]
+    {\includegraphics[width=#2]{img/#1}};}
+\newcommand{\evphoto}[2]{%
+  \tikz\node[inner sep=0pt, draw=cardline, line width=0.6pt, rounded corners=2pt]
+    {\includegraphics[width=\linewidth, height=#2, keepaspectratio]{img/#1}};}
+
+\begin{document}
+
+% ===================== CABECALHO =====================
+\begin{tikzpicture}
+  \fill[lgred] (0,0) rectangle (\textwidth,2.05);
+  \node[anchor=west, text=white] at (0.5,1.34)
+    {\lghead\fontsize{30}{34}\selectfont Evidências do Sprint 00\,{\lghead\fontsize{20}{24}\selectfont \ \textbullet\ W32}};
+  \node[anchor=west, text=white!92] at (0.55,0.55)
+    {\large Equipe 3 \;\textbullet\; Automação do Relatório de Scrap (IF Cost) \;\textbullet\; Produção (LG)};
+  \node[anchor=east] at (\textwidth-0.45,1.02) {\includegraphics[height=1.5cm]{img/logo-bw.png}};
+\end{tikzpicture}\\[2pt]
+{\footnotesize\color{muted} AX Academy \textbullet\ Digital Transformation \textbullet\ Programa de Equipes de Projetos \hfill Sprint 00 \textbullet\ W32 \textbullet\ 03 a 09 de agosto de 2026 \textbullet\ Fechamento do levantamento de requisitos}\\[6pt]
+
+% ===================== O DESAFIO (altura fixa) =====================
+\begin{tcolorbox}[enhanced, colback=tintbg, colframe=lgred, boxrule=0pt,
+  leftrule=3pt, arc=1pt, left=11pt, right=11pt, top=6pt, bottom=6pt,
+  height=3.2cm, valign=center, before skip=0pt, after skip=7pt]
+{\hd{\large O Desafio}}\\[2pt]
+{\small O acompanhamento de \textbf{Material Scrap} ainda depende de etapas manuais de extração, tratamento, consolidação, análise e preparação de \textit{reports}. O \textbf{Hanaro} automatiza a entrada e o processamento dos dados provenientes do \textbf{GERP}, consolida os indicadores de perdas, identifica eventos que exigem atenção e disponibiliza os registros de Scrap para revisão e justificativa do analista. Os registros revisados passam a compor os relatórios do período, mantendo rastreabilidade das operações e oferecendo também uma visão executiva em \textbf{Modo TV}.}
+\end{tcolorbox}
+
+% ===================== LINHA A: 3 ENTREGAS =====================
+\noindent\begin{minipage}[t]{0.335\textwidth}
+\begin{card}[equal height group=evid]{Documento de Especificação e Requisitos}
+{\footnotesize
+Principal entrega do Sprint~00. Consolida o entendimento do processo de Scrap levantado em campo:\vspace{2pt}
+\begin{itemize}
+  \item Contexto AS-IS: a consolidação do Scrap consome até \textbf{2 horas diárias} de tratamento manual de planilhas da Qualidade.
+  \item Motor de ingestão e tratamento: \textbf{valor absoluto (ABS)} dos lançamentos e \textbf{filtro de exclusão} de plantas fora da Linha Final (VS/BM).
+  \item Pareto e indicadores: \textbf{Top 3 ofensores} (Módulo, Box, PCB) e \textit{Gap} do IF Cost perante a meta de \textbf{redução de 15\% (YoY)}.
+  \item \textit{Dashboard} executivo em \textbf{Modo TV} e geração de relatórios (Angular, FastAPI, Pandas, PostgreSQL, ECharts).
+\end{itemize}}
+\vspace{5pt}
+{\centering\evimg{doc.png}{3.6cm}\par}
+\vspace{4pt}
+{\scriptsize\color{lgred}\textbf{Foco: Linha Final \textbullet\ IF Cost em US\$ \textbullet\ Top 3 ofensores (Módulo, Box, PCB) \textbullet\ Meta $-$15\% YoY}}
+\end{card}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.335\textwidth}
+\begin{card}[equal height group=evid]{Novo Cronograma Definido}
+{\footnotesize
+Planejamento das \textbf{11 semanas} do projeto (\textbf{20/07 a 01/10/2026}), organizado em seis frentes:\vspace{2pt}
+\begin{itemize}
+  \item Gestão do projeto (toda a duração).
+  \item Levantamento de requisitos (até 31/07).
+  \item Desenvolvimento (ingestão, regras, API e \textit{dashboard}).
+  \item Testes, homologação e \textit{deploy}.
+  \item Integração e validação no cliente.
+  \item Encerramento e transferência.
+\end{itemize}\vspace{3pt}
+
+Três \textbf{macroentregas} guiam a evolução:\vspace{3pt}
+
+{\color{axdark}\textbf{M1 \textbullet\ 13/08}} \ Documentação de especificação e requisitos e MVP.\vspace{2pt}
+
+{\color{axdark}\textbf{M2 \textbullet\ 03/09}} \ PoC e validação do MVP.\vspace{2pt}
+
+{\color{axdark}\textbf{M3 \textbullet\ a definir}} \ Módulo de software funcional, testado e validado.\vspace{5pt}
+
+\textit{Marcos de apoio:} homologação e \textit{deploy} no Smart Office previstos para setembro \textbullet\ apresentação final em 01/10/2026.}
+\end{card}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.315\textwidth}
+\begin{card}[equal height group=evid]{Última Reunião com o Cliente}
+{\footnotesize
+{\color{lgred}\textbf{07/08/2026 \textbullet\ Setor de Produção}}\\[3pt]
+Reunião com representantes da Produção (validação por \textbf{Leandro Corazza} e \textbf{Lucas Cunha}) que firmou o foco no \textbf{Scrap} da Linha Final e no \textbf{IF Cost}, o indicador que mede em dólar o custo da sucata. Ficou definido sanear o escopo para o monitoramento de perdas, deixando a gestão de custos gerais (\textit{Conversion Cost}) para uma fase posterior. O cliente pediu coleta automática a partir do GERP, cálculo do \textit{Gap} contra a meta anual de \textbf{15\%} e apoio à causa-raiz (4M, Pareto e Top 3 ofensores), com dashboard em Modo TV.\par}
+\vspace{5pt}
+{\centering\evphoto{reuniao1.jpg}{4.1cm}\par}
+\end{card}
+\end{minipage}
+
+\vspace{9pt}
+
+% ===================== LINHA B =====================
+\noindent\begin{minipage}[t]{0.38\textwidth}
+\begin{card}[equal height group=fim]{A Equipe e os Resultados}
+{\footnotesize
+\textbf{Equipe 3:} \textbf{André Filipe Aloise} (Líder e P.O.), \textbf{Messyas Gois França} (Dev), \textbf{Gustavo Almada} (Dev), \textbf{Teodório Neto} (Dev) e \textbf{José Oiris} (Dev). Orientação: \textbf{Prof. Anderson Fontoura}.\vspace{5pt}
+
+{\normalsize\lghead\color{lgred}Resultados esperados}\vspace{1pt}
+\begin{itemize}
+  \item Fim do tratamento manual de planilhas e da remoção repetitiva de organizações fora de escopo (VS/BM).
+  \item Visibilidade imediata do \textbf{Top 3 ofensores de Scrap} (Módulo, Box, PCB) e do IF Cost em US\$.
+  \item Acompanhamento do \textit{Gap} de perdas contra a meta de \textbf{redução de 15\% (YoY)}.
+  \item \textit{Dashboard} em Modo TV (Kiosk) e esforço analítico redirecionado à causa-raiz (4M).
+\end{itemize}}
+\end{card}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.37\textwidth}
+\begin{card}[equal height group=fim]{Contatos e Próximos Passos}
+{\footnotesize
+\begin{minipage}[t]{0.5\textwidth}
+{\color{lgred}\textbf{Academia (AX Academy / IFAM)}}\\[2pt]
+\textbf{André Aloise}, Líder e PO\\ \faEnvelope\ aaloise@gmail.com\\[3pt]
+\textbf{Prof. Anderson Fontoura}, Orientador\\ \faEnvelope\ anderson.fontoura@ifam.edu.br
+\end{minipage}\hfill
+\begin{minipage}[t]{0.46\textwidth}
+{\color{lgred}\textbf{Cliente (LG, Produção)}}\\[2pt]
+\textbf{Leandro Corazza}, valida o relatório\\ \faEnvelope\ leandro.corazza@lge.com\\[2pt]
+\textbf{Lucas Cunha}, valida o relatório\\ \faEnvelope\ lucas.d.cunha@lge.com
+\end{minipage}\vspace{7pt}
+
+{\normalsize\lghead\color{lgred}Próximos passos}\vspace{1pt}
+\begin{itemize}
+  \item Implementar o motor de ingestão e estruturação da planilha da Qualidade no \textit{backend}.
+  \item Codificar as regras de negócio (Positivagem \textbf{ABS} e \textbf{Hard-Filter} VS/BM) na API.
+  \item Homologar a interface do \textit{Dashboard Kiosk} (Modo TV) em alta resolução.
+\end{itemize}}
+\end{card}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.23\textwidth}
+\begin{card}[equal height group=fim]{Marca e Protótipo}
+{\centering\evphoto{hanaro_v_app.png}{4.3cm}\par}
+\vspace{4pt}
+{\footnotesize \textbf{Hanaro} \textbullet\ \textit{Dashboard de Scrap.}\\[2pt] Protótipo navegável publicado: \href{https://prototipo-hanaro.vercel.app/}{prototipo-hanaro.vercel.app}.\\[3pt] {\scriptsize\color{lgred}\href{https://www.figma.com/design/pbNEP3Yl9zyluQtocR48x1/hanaro-scrap}{Design (Figma)} \textbullet\ \href{https://trello.com/invite/b/6a7b3b2ae74ac4c06391785b/ATTIc582630a53d71570e26e6a987b1049b08E12CF28/hanaro}{Kanban}}}
+\end{card}
+\end{minipage}
+
+% ===================== RODAPE =====================
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[lgred] (current page.south west) rectangle ([yshift=0.7cm]current page.south east);
+  \node[anchor=west, text=white] at ([xshift=1.5cm, yshift=0.35cm]current page.south west)
+    {\footnotesize\bfseries AX Academy \textbullet\ Digital Transformation};
+  \node[anchor=east, text=white!90] at ([xshift=-1.5cm, yshift=0.35cm]current page.south east)
+    {\footnotesize Equipe 3 \textbullet\ Evidências do Sprint 00 (W32) \textbullet\ Automação do Relatório de Scrap};
+\end{tikzpicture}
+
+\end{document}

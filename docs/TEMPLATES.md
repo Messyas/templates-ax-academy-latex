@@ -1,10 +1,10 @@
-# Guia de Edição e Customização dos Templates
+# Guia de Edição e Customização dos Modelos
 
-Este documento explica como customizar o conteúdo de cada um dos templates disponíveis no repositório.
+Este documento explica como customizar o conteúdo de cada um dos modelos disponíveis na pasta [`modelos/`](../modelos).
 
 ---
 
-## 1. Apostila (`Apostila/guia-rapido.tex`)
+## 1. Apostila (`modelos/Apostila/guia-rapido.tex`)
 
 A Apostila é ideal para manuais de uso detalhados, apostilas de treinamento e guias técnicos completos.
 
@@ -35,7 +35,7 @@ No arquivo `caps/cap02.tex`, cada passo combina a captura de tela com pontos de 
 
 ---
 
-## 2. Flyer A3 (`Flyer/guia-flyer.tex`)
+## 2. Flyer A3 (`modelos/Flyer/guia-flyer.tex`)
 
 O Flyer sintetiza os 8 passos operacionais em uma única folha A3 em paisagem.
 
@@ -63,7 +63,7 @@ O Flyer sintetiza os 8 passos operacionais em uma única folha A3 em paisagem.
 
 ---
 
-## 3. OnePage (`One-page/onepage-lg.tex`)
+## 3. OnePage Sumarização (`modelos/OnePage-Sumarizacao/onepage-lg.tex`)
 
 O OnePage condensa um projeto ou iniciativa em 3 colunas executivas: **Antes**, **Depois** e **Resultado**.
 
@@ -96,4 +96,40 @@ O OnePage condensa um projeto ou iniciativa em 3 colunas executivas: **Antes**, 
 \graficobarra{Depois}{Integrado}{2.42}
 \resultado{Meta M3}{Módulo validado}
 ```
+
+---
+
+## 4. Status Report de Sprint (`modelos/Status-Report/status-report-equipe3.tex`)
+
+Página de 32 × 18 cm (proporção 16:9 de tela cheia). Cartões organizados com `equal height group` do `tcolorbox`.
+
+### O que preencher toda semana:
+- **Sprint Progress:** Percentual do sprint com semana (`W32`) e datas.
+- **Main Tasks:** 6 tarefas principais com barra de progresso `\barra{progresso}{cor}`.
+- **Impedimentos:** O que bloqueia as entregas e ferramentas de apoio.
+- **Indicadores:** Métricas com valor medido, fonte e data.
+- **Cronograma / Marcos:** Linha do tempo com M1..Mn.
+- **Retratos da Equipe:** Imagens circulares em `img/circ_XX.png` (chamadas pelas iniciais dos membros).
+
+---
+
+## 5. OnePage de Evidências (`modelos/OnePage-Evidencias/onepage-evidencias-equipe3.tex`)
+
+Folha única em **A3 Paisagem** com cartões temáticos de evidências geradas durante o sprint.
+
+### Blocos de Evidência:
+```latex
+\begin{card}{Título do Bloco}
+  Texto e lista de entregas.
+  \evimg{arquivo.png}{\linewidth}    % Imagem emoldurada na largura do cartão
+  \evphoto{foto.jpg}{3.2cm}          % Foto com altura máxima proporcional
+\end{card}
+```
+
+---
+
+## 6. OnePage Corporativo LGE (`modelos/OnePage-Corporativo-LGE/onepage-lg.tex`)
+
+O template corporativo padrão em inglês da LGE ("AI Deep Dive" / "AI Core"), fiel ao slide `Layout de Report - One Page.pptx` original. Possui a mesma API semântica do `OnePage-Sumarizacao`, mas com termos e indicadores em inglês.
+
 

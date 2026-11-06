@@ -1,0 +1,90 @@
+% !TEX program = lualatex
+% =============================================================
+% OnePage LG — Before / After / Result
+%
+%   ESTE ARQUIVO E SO CONTEUDO. Preencha os campos abaixo e compile.
+%   Layout, cores, fontes e coordenadas ficam em onepagelg.sty.
+%
+%   Os itens repetiveis (\ponto, \destaque, \melhoria, \afirmacao, \efeito,
+%   \area, \graficobarra) se empilham sozinhos: acrescente ou remova linhas
+%   a vontade, sem mexer em coordenada nenhuma.
+%
+%   Os icones ficam em img/. Trocar o desenho e trocar o nome do arquivo.
+%
+%   Compilar: lualatex onepage-lg.tex   (2x — a pagina usa remember picture)
+% =============================================================
+\documentclass{article}
+\usepackage{onepagelg}
+\begin{document}
+
+% ======================= CABECALHO E RODAPE =======================
+\avisotopo{LGE Internal Use Only}
+\titulo{1. AI Deep Dive}
+\subtitulo{Framework to automate business processes through AI tools and promote LGEAZ as AI Driven Corporation.}
+\colunas{Before}{After}{Result}
+\rodape{| \ C\,O\,N\,F\,I\,D\,E\,N\,T\,I\,A\,L\ |}{0 / 7}
+
+% ======================= COLUNA 1 — BEFORE =======================
+\tituloantes{Background / Issue}
+\textoantes{High dependence on repetitive manual tasks, consuming many hours and
+  reducing productivity and operational efficiency across all departments.}
+
+% \ponto[altura do icone]{icone}{texto}
+\ponto[1.26]{ico-repetitivo.png}{75\% of daily and weekly activities, consuming many hours in each department.}
+\ponto[1.14]{ico-sobrecarga.png}{SCM department overload.}
+\ponto[0.95]{ico-planilhas.png}{Data mostly base on spreadsheets}
+
+\alerta{ico-seguranca.png}{Information security risks}
+
+% quadro de baixo: titulo, o fluxo "de ... para ..." e os numeros de impacto
+\tituloquadro{Current situation}
+\fluxo{40K hours saved}{15\% of total digitization}
+\destaque{ico-pessoas.png}{138 Overworked Employees}
+\destaque{ico-oportunidades.png}{95\% of opportunities not covered by current technologies}
+
+% ======================= COLUNA 2 — AFTER =======================
+\titulodepois{Expected Improvement}
+\textodepois{With the implementation of technologies capable of overcoming the
+  challenge of digital transformation, interconnected processes managed by
+  AI-based automated solutions are expected.}
+
+\melhoria{40\% increase in the level of automation.}
+\melhoria{Monitor impacts of each solution in real time.}
+
+\abas{AI DEEP DIVE}{AI CORE}
+
+% \area{angulo}{rotulo} — o rotulo se posiciona sozinho pelo angulo
+\area{90}{SCM}
+\area{45}{Material}
+\area{0}{Production}
+\area{-45}{Planning}
+\area{270}{Procurement}
+\area{225}{QA}
+\area{180}{RH}
+\area{135}{Tax}
+
+\afirmacao{Project team capable of developing intelligent tools and applied research.}
+\afirmacao{Developers directly connected to business areas.}
+\afirmacao{Able to understand key value process and generate solutions.}
+
+\ilustracoes{robo-analista.png}{troca.png}{lg-ia.png}
+
+% ======================= COLUNA 3 — RESULT =======================
+\tituloresultado{Improvement Effect}
+
+\efeito{Empowering digital transforming}
+\efeito{Promote governance and performance measurement}
+\efeito{Optimize process flows across multiple areas}
+
+% \graficobarra{categoria}{rotulo do valor}{altura em cm}
+\graficoeixo{FTE}
+\graficobarra{Before}{40K}{1.04}
+\graficobarra{After}{150K}{2.42}
+\graficonota{Multiple areas}
+
+\impacto{ico-areas.png}{Department Impacted}{Multiple Areas}
+\resultado{FTE (Expected)}{150K Hours}
+
+% =============================================================
+\onepage
+\end{document}

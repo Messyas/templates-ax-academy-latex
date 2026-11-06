@@ -34,27 +34,57 @@ DEFAULT_CONFIG: Dict[str, Any] = {
     "templates": {
         "apostila": {
             "name": "Apostila",
-            "directory": "Apostila",
+            "directory": "modelos/Apostila",
             "entrypoint": "guia-rapido.tex",
             "output_name": "guia-rapido.pdf",
+            "output_subfolder": "Apostila",
             "passes": 2,
             "description": "Guia Rápido de Uso multi-página (classe book, sumário, capítulos em caps/)",
         },
         "flyer": {
             "name": "Flyer",
-            "directory": "Flyer",
+            "directory": "modelos/Flyer",
             "entrypoint": "guia-flyer.tex",
             "output_name": "guia-flyer.pdf",
+            "output_subfolder": "Flyer",
             "passes": 1,
             "description": "Guia Rápido em folha única A3 paisagem (grade de 4x2 cartões com capturas)",
         },
-        "onepage": {
-            "name": "OnePage",
-            "directory": "One-page",
+        "onepage-sumarizacao": {
+            "name": "OnePage-Sumarizacao",
+            "directory": "modelos/OnePage-Sumarizacao",
             "entrypoint": "onepage-lg.tex",
             "output_name": "onepage-lg.pdf",
+            "output_subfolder": "OnePage-Sumarizacao",
             "passes": 2,
-            "description": "OnePage corporativo LGE (layout 33.87 x 19.05 cm, Antes / Depois / Resultado)",
+            "description": "OnePage corporativo LGE Hanaro (layout 33.87 x 19.05 cm, Antes / Depois / Resultado)",
+        },
+        "status-report": {
+            "name": "Status-Report",
+            "directory": "modelos/Status-Report",
+            "entrypoint": "status-report-equipe3.tex",
+            "output_name": "status-report-equipe3.pdf",
+            "output_subfolder": "Status-Report",
+            "passes": 2,
+            "description": "Status Report semanal de equipe (layout 32 x 18 cm, equal height group)",
+        },
+        "onepage-evidencias": {
+            "name": "OnePage-Evidencias",
+            "directory": "modelos/OnePage-Evidencias",
+            "entrypoint": "onepage-evidencias-equipe3.tex",
+            "output_name": "onepage-evidencias-equipe3.pdf",
+            "output_subfolder": "OnePage-Evidencias",
+            "passes": 2,
+            "description": "OnePage de Evidências do Sprint (A3 paisagem, cartões de telas e fotos)",
+        },
+        "onepage-corporativo": {
+            "name": "OnePage-Corporativo-LGE",
+            "directory": "modelos/OnePage-Corporativo-LGE",
+            "entrypoint": "onepage-lg.tex",
+            "output_name": "onepage-corporativo-lg.pdf",
+            "output_subfolder": "OnePage-Corporativo-LGE",
+            "passes": 2,
+            "description": "OnePage original corporativo LGE em inglês (AI Deep Dive / AI Core)",
         },
     },
 }
@@ -251,12 +281,14 @@ def run_list():
     table.add_column("Descrição")
 
     for key, t in cfg.get("templates", {}).items():
+        subfolder = t.get("output_subfolder", "")
+        out_target = f"{out_dir}/{subfolder}/{t['output_name']}" if subfolder else f"{out_dir}/{t['output_name']}"
         table.add_row(
             key,
             t["name"],
             t["directory"],
             t["entrypoint"],
-            f"{out_dir}/{t['output_name']}",
+            out_target,
             str(t.get("passes", 1)),
             t.get("description", ""),
         )
@@ -327,9 +359,13 @@ def compile_single_template(
             entrypoint.name,
         ]
 
+        run_env = os.environ.copy()
+        run_env["openin_any"] = "a"
+
         result = subprocess.run(
             cmd,
             cwd=tdir,
+            env=run_env,
             capture_output=True,
             text=True,
         )
@@ -358,7 +394,14 @@ def compile_single_template(
         return False
 
     out_dir_path.mkdir(parents=True, exist_ok=True)
-    target_pdf = out_dir_path / output_name
+    subfolder = t_info.get("output_subfolder")
+    if subfolder:
+        target_dir = out_dir_path / subfolder
+        target_dir.mkdir(parents=True, exist_ok=True)
+        target_pdf = target_dir / output_name
+    else:
+        target_pdf = out_dir_path / output_name
+
     shutil.copy2(source_pdf, target_pdf)
 
     elapsed = time.time() - start_time
@@ -456,13 +499,16 @@ def cli(
     """Compila os templates LaTeX para PDF.
 
     Comandos e ações:
-      uv run build              -> Compila todos os relatórios para a pasta dist/
-      uv run build apostila     -> Compila somente o Guia Rápido (Apostila)
-      uv run build flyer        -> Compila somente o Flyer A3
-      uv run build onepage      -> Compila somente o OnePage LG
-      uv run build check        -> Verifica LuaLaTeX, fontes e dependências
-      uv run build clean        -> Limpa arquivos auxiliares (.aux, .log, .toc, etc.)
-      uv run build list         -> Lista templates e rotas de saída configuradas
+      uv run build                     -> Compila todos os relatórios para a pasta dist/
+      uv run build apostila            -> Compila somente o Guia Rápido (Apostila)
+      uv run build flyer               -> Compila somente o Flyer A3
+      uv run build onepage             -> Compila o OnePage LG Sumarização
+      uv run build status-report       -> Compila o Status Report semanal de equipe
+      uv run build onepage-evidencias  -> Compila o OnePage de Evidências do Sprint
+      uv run build onepage-corporativo -> Compila o OnePage corporativo LGE (EN)
+      uv run build check               -> Verifica LuaLaTeX, fontes e dependências
+      uv run build clean               -> Limpa arquivos auxiliares (.aux, .log, .toc, etc.)
+      uv run build list                -> Lista templates e rotas de saída configuradas
     """
     arg = action_or_template.lower().strip()
 

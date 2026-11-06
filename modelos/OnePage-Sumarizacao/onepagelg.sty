@@ -1,0 +1,378 @@
+% =============================================================
+% onepagelg.sty — motor de layout do OnePage LG (Before / After / Result)
+%
+%   Porte do ONEPAGE-KR.pptx (padrao corporativo LGE, "AI Deep Dive").
+%   TODO O CONTEUDO vive em onepage-lg.tex. Aqui ficam pagina, cores, fontes
+%   e posicoes — normalmente nao se mexe.
+%
+%   A pagina inteira e um unico canvas TikZ em centimetros, com a origem no
+%   canto superior esquerdo do papel e o eixo Y crescendo para baixo
+%   (x=1cm, y=-1cm). As coordenadas sao as mesmas do slide original.
+%
+%   As listas (pontos, melhorias, afirmacoes, efeitos) se empilham sozinhas:
+%   a altura de cada item e medida e o cursor anda. Acrescentar ou remover
+%   um item nao exige recalcular coordenada nenhuma.
+% =============================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{onepagelg}[2026/09/21 OnePage LG - Before/After/Result]
+
+\RequirePackage[paperwidth=33.87cm,paperheight=19.05cm,margin=0pt]{geometry}
+\RequirePackage{fontspec}
+\RequirePackage{xcolor}
+\RequirePackage{amssymb}
+\RequirePackage{graphicx}
+\RequirePackage{tikz}
+\usetikzlibrary{calc,arrows.meta}
+
+% ---------- FONTES (LG EI, carregadas de ../../fonts/, ../fonts/ ou fonts/) ----------
+\defaultfontfeatures{Ligatures=TeX}
+\IfFileExists{../../fonts/LGEITextTTF-Regular.ttf}{%
+  \setmainfont{LGEITextTTF-Regular}[Path=../../fonts/, Extension=.ttf, BoldFont=LGEITextTTF-Bold]
+  \newfontfamily\lgheadreg{LGEIHeadlineTTF-Regular}[Path=../../fonts/, Extension=.ttf]
+}{%
+  \IfFileExists{../fonts/LGEITextTTF-Regular.ttf}{%
+    \setmainfont{LGEITextTTF-Regular}[Path=../fonts/, Extension=.ttf, BoldFont=LGEITextTTF-Bold]
+    \newfontfamily\lgheadreg{LGEIHeadlineTTF-Regular}[Path=../fonts/, Extension=.ttf]
+  }{%
+    \IfFileExists{fonts/LGEITextTTF-Regular.ttf}{%
+      \setmainfont{LGEITextTTF-Regular}[Path=fonts/, Extension=.ttf, BoldFont=LGEITextTTF-Bold]
+      \newfontfamily\lgheadreg{LGEIHeadlineTTF-Regular}[Path=fonts/, Extension=.ttf]
+    }{%
+      \PackageWarning{onepagelg}{Pasta de fontes nao encontrada (procurado em ../../fonts/, ../fonts/ e fonts/); usando a fonte instalada no sistema.}%
+      \setmainfont{LG EI Text}[BoldFont=* Bold]
+      \newfontfamily\lgheadreg{LG EI Headline}
+    }%
+  }%
+}
+
+% ---------- PALETA (as cores do PPTX da LGE) ----------
+\definecolor{lgink}{RGB}{0,0,0}
+\definecolor{lgred}{RGB}{192,0,0}        % C00000 — numeros de impacto e seta de ganho
+\definecolor{lgteal}{RGB}{8,191,165}     % nucleo AI CORE e raios do diagrama
+\definecolor{lggray}{RGB}{166,166,166}   % A6A6A6 — barra "After", tarjas numeradas
+\definecolor{lggraysoft}{RGB}{217,217,217} % D9D9D9 — barra "Before"
+\definecolor{lgline}{RGB}{191,191,191}   % BFBFBF — bordas e abas laterais
+\definecolor{lggreen}{RGB}{146,208,80}   % 92D050 — contorno da barra "After"
+\definecolor{lgmint}{RGB}{214,250,227}   % D6FAE3 — caixa de resultado
+\definecolor{lgmuted}{RGB}{128,128,128}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+% slide nao hifeniza: as quebras seguem as palavras, como no PPTX
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \tolerance=9999 \emergencystretch=3em
+
+% ---------- atalhos internos ----------
+\newcommand{\pt}[2]{\fontsize{#1}{#2}\selectfont\ignorespaces}
+\newcommand{\lg@quadrado}{\raisebox{-0.02em}{\tikz{\draw[lgline, line width=1.2pt]
+  (0,0) rectangle (0.32,0.32);}}\hspace{0.16cm}}
+\newcommand{\lg@bul}{\raisebox{0.15ex}{\scriptsize\textbullet}}
+\newcommand{\lg@tick}{\raisebox{0.05ex}{\footnotesize$\checkmark$}}
+
+% ---------- listas: acumulam conforme sao chamadas, desenham em \onepage ----------
+\newcommand{\lg@novalista}[1]{\expandafter\gdef\csname lg@l@#1\endcsname{}}
+\newcommand{\lg@empilha}[2]{\expandafter\g@addto@macro\csname lg@l@#1\endcsname{#2}}
+% guarda o conteudo de um macro (usado quando a altura ja foi medida)
+\newcommand{\lg@guarda}[2]{\expandafter\lg@guardax\expandafter{#2}{#1}}
+\newcommand{\lg@guardax}[2]{\lg@empilha{#2}{#1}}
+\newcommand{\lg@desenha}[1]{\csname lg@l@#1\endcsname}
+
+% ---------- medicao: devolve em \lg@hcm a altura (cm) do texto ----------
+%   So funciona fora de um tikzpicture — por isso os itens que dependem da
+%   altura sao medidos na hora em que o documento os declara, nao na hora de
+%   desenhar. E por isso que o conteudo fica depois de \begin{document}.
+\newsavebox{\lg@box}
+\newlength{\lg@len}
+\newcommand{\lg@mede}[2]{%
+  \sbox\lg@box{\parbox{#1cm}{\raggedright #2}}%
+  \lg@len=\dimexpr\ht\lg@box+\dp\lg@box\relax
+  \edef\lg@lenpt{\strip@pt\lg@len}%
+  \pgfmathsetmacro{\lg@hcm}{\lg@lenpt/28.45276}}
+
+% =============================================================
+%  API — os comandos que onepage-lg.tex usa
+% =============================================================
+
+% ---------- cabecalho e rodape ----------
+\newcommand{\avisotopo}[1]{\def\lg@avisotopo{#1}}
+\newcommand{\titulo}[1]{\def\lg@titulo{#1}}
+\newcommand{\subtitulo}[1]{\def\lg@subtitulo{#1}}
+\newcommand{\colunas}[3]{\def\lg@colA{#1}\def\lg@colB{#2}\def\lg@colC{#3}}
+\newcommand{\rodape}[2]{\def\lg@rodapeC{#1}\def\lg@rodapeD{#2}}
+\avisotopo{}\titulo{}\subtitulo{}\colunas{Before}{After}{Result}\rodape{}{}
+
+% ---------- coluna 1: Before ----------
+\newcommand{\tituloantes}[1]{\def\lg@tituloantes{#1}}
+\newcommand{\textoantes}[1]{\def\lg@textoantes{#1}}
+\newcommand{\alerta}[2]{\def\lg@alertaimg{#1}\def\lg@alertatxt{#2}}
+\newcommand{\tituloquadro}[1]{\def\lg@tituloquadro{#1}}
+\newcommand{\fluxo}[2]{\def\lg@fluxoA{#1}\def\lg@fluxoB{#2}}
+\tituloantes{}\textoantes{}\alerta{}{}\tituloquadro{}\fluxo{}{}
+
+\lg@novalista{ponto}
+% \ponto[altura do icone em cm]{arquivo do icone}{texto}
+\newcommand{\ponto}[3][1.15]{\lg@empilha{ponto}{\lg@ponto{#1}{#2}{#3}}}
+
+\lg@novalista{destaque}
+% \destaque[largura do icone em cm]{arquivo do icone}{texto}
+\newcommand{\destaque}[3][1.08]{\lg@empilha{destaque}{\lg@destaque{#1}{#2}{#3}}}
+
+% ---------- coluna 2: After ----------
+\newcommand{\titulodepois}[1]{\def\lg@titulodepois{#1}}
+\newcommand{\textodepois}[1]{\def\lg@textodepois{#1}}
+\newcommand{\abas}[2]{\def\lg@abaA{#1}\def\lg@abaB{#2}}
+\newcommand{\ilustracoes}[3]{\def\lg@ilusA{#1}\def\lg@ilusB{#2}\def\lg@ilusC{#3}}
+\titulodepois{}\textodepois{}\abas{}{}\ilustracoes{}{}{}
+
+\lg@novalista{melhoria}
+% \melhoria{texto}
+\newcommand{\melhoria}[1]{%
+  \lg@mede{10.9}{\pt{10}{13}\bfseries #1}%
+  \edef\lg@tmp{\noexpand\lg@melhoria{\lg@hcm}{\unexpanded{#1}}}%
+  \lg@guarda{melhoria}{\lg@tmp}}
+
+\lg@novalista{afirmacao}
+% \afirmacao{texto}
+\newcommand{\afirmacao}[1]{%
+  \lg@mede{5.05}{\pt{8}{11}\bfseries #1}%
+  \edef\lg@tmp{\noexpand\lg@afirmacao{\lg@hcm}{\unexpanded{#1}}}%
+  \lg@guarda{afirmacao}{\lg@tmp}}
+
+\lg@novalista{area}
+% \area{angulo em graus}{rotulo} — o rotulo se posiciona sozinho pelo angulo
+\newcommand{\area}[2]{\lg@empilha{area}{\lg@area{#1}{#2}}}
+
+% ---------- coluna 3: Result ----------
+\newcommand{\tituloresultado}[1]{\def\lg@tituloresultado{#1}}
+\newcommand{\graficoeixo}[1]{\def\lg@grafeixo{#1}}
+\newcommand{\graficonota}[1]{\def\lg@grafnota{#1}}
+\newcommand{\impacto}[3]{\def\lg@impimg{#1}\def\lg@implabel{#2}\def\lg@impval{#3}}
+\newcommand{\resultado}[2]{\def\lg@reslabel{#1}\def\lg@resval{#2}}
+\tituloresultado{}\graficoeixo{}\graficonota{}\impacto{}{}{}\resultado{}{}
+
+\lg@novalista{efeito}
+% \efeito{texto} — a tarja numera sozinha e cresce conforme o texto
+\newcommand{\efeito}[1]{%
+  \lg@mede{5.8}{\pt{10}{12.5}\bfseries #1}%
+  \edef\lg@tmp{\noexpand\lg@efeito{\lg@hcm}{\unexpanded{#1}}}%
+  \lg@guarda{efeito}{\lg@tmp}}
+
+\lg@novalista{barra}
+% \graficobarra{categoria}{rotulo do valor}{altura em cm}
+\newcommand{\graficobarra}[3]{\lg@empilha{barra}{\lg@barra{#1}{#2}{#3}}}
+
+% =============================================================
+%  DESENHO — daqui para baixo e geometria
+% =============================================================
+
+% ---------- coluna 1: item com icone ----------
+\newcommand{\lgpontoinicio}{6.89}   % centro da 1a linha
+\newcommand{\lgpontopasso}{1.60}    % distancia entre linhas
+\newcommand{\lg@ponto}[3]{%
+  \node[anchor=center, inner sep=0pt] at (2.90,\lg@y) {\includegraphics[height=#1cm]{img/#2}};
+  \node[anchor=west, inner sep=0pt] at (3.56,\lg@y) {\pt{10}{13}\lg@bul};
+  \node[anchor=west, text width=7.45cm, align=left, inner sep=0pt] at (4.06,\lg@y)
+    {\pt{10}{13}\bfseries #3};
+  \pgfmathsetmacro{\lg@y}{\lg@y+\lgpontopasso}}
+
+% ---------- coluna 1: numero de impacto dentro do quadro ----------
+\newcommand{\lgdestaqueinicio}{14.92}
+\newcommand{\lgdestaquepasso}{1.32}
+\newcommand{\lg@destaque}[3]{%
+  \node[anchor=center, inner sep=0pt] at (2.98,\lg@y) {\includegraphics[width=#1cm]{img/#2}};
+  \node[anchor=west, text width=7.4cm, align=left, inner sep=0pt] at (3.73,\lg@y)
+    {\pt{12}{15}\bfseries\color{lgred}#3};
+  \pgfmathsetmacro{\lg@y}{\lg@y+\lgdestaquepasso}}
+
+% ---------- coluna 2: marcador simples ----------
+\newcommand{\lgmelhoriainicio}{6.92}
+\newcommand{\lg@melhoria}[2]{%
+  \node[anchor=west, inner sep=0pt] at (12.69,\lg@y) {\pt{10}{13}\lg@bul};
+  \node[anchor=west, text width=10.9cm, align=left, inner sep=0pt] at (13.19,\lg@y)
+    {\pt{10}{13}\bfseries #2};
+  \pgfmathsetmacro{\lg@y}{\lg@y+max(0.70,#1+0.26)}}
+
+% ---------- coluna 2: afirmacao com visto ----------
+\newcommand{\lgafirmacaoinicio}{9.98}
+\newcommand{\lg@afirmacao}[2]{%
+  \node[anchor=west, inner sep=0pt] at (18.74,\lg@y) {\pt{8}{11}\lg@tick};
+  \node[anchor=west, text width=5.05cm, align=left, inner sep=0pt] at (19.14,\lg@y)
+    {\pt{8}{11}\bfseries #2};
+  \pgfmathsetmacro{\lg@y}{\lg@y+#1+0.44}}
+
+% ---------- coluna 2: raio do diagrama AI CORE ----------
+\newcommand{\lg@area}[2]{%
+  \fill[white] (#1:1.25) circle (0.105);
+  \draw[lgteal, line width=1.1pt] (#1:1.25) circle (0.105);
+  \draw[lgteal, line width=1.4pt, -{Stealth[length=2.6mm, width=2.2mm]}] (#1:1.08) -- (#1:0.82);
+  \pgfmathsetmacro{\lg@anc}{#1+180}%
+  \node[anchor=\lg@anc, inner sep=1.2pt, text=lgink] at (#1:1.42) {\pt{6.5}{7.5}#2};}
+
+\newcommand{\lg@diagrama}{%
+\begin{tikzpicture}[x=1cm, y=1cm]
+  % icones "AI Devs" (recorte do diagrama original), nos vaos entre os raios
+  \foreach \a in {157.5, 202.5, -22.5}{%
+    \node[anchor=center, inner sep=0pt] at (\a:1.30) {\includegraphics[width=0.48cm]{img/ai-devs.png}};
+    \node[anchor=north, inner sep=0.4pt, text=lgteal] at ($(\a:1.30)+(0,-0.13)$)
+      {\pt{4}{4.5}\bfseries AI Devs};}
+  \node[anchor=center, inner sep=0pt] at (0,0) {\includegraphics[width=1.30cm]{img/ai-core.png}};
+  \lg@desenha{area}
+\end{tikzpicture}}
+
+% ---------- coluna 3: tarja numerada ----------
+\newcommand{\lgefeitoinicio}{4.87}
+\newcommand{\lgefeitovao}{0.40}
+\newcommand{\lg@efeito}[2]{%
+  \pgfmathsetmacro{\lg@h}{max(0.67,#1+0.23)}%
+  \pgfmathtruncatemacro{\lg@n}{\lg@n+1}%
+  \draw[lgline, line width=0.5pt] (25.95,\lg@y) rectangle ++(6.73,\lg@h);
+  \fill[lggray] (25.95,\lg@y) rectangle ++(0.71,\lg@h);
+  \node[anchor=center, text=white] at ({26.305},{\lg@y+\lg@h/2}) {\pt{10}{11}\bfseries \lg@n};
+  \node[anchor=west, text width=5.8cm, align=left, inner sep=0pt] at ({26.90},{\lg@y+\lg@h/2})
+    {\pt{10}{12.5}\bfseries #2};
+  \pgfmathsetmacro{\lg@y}{\lg@y+\lg@h+\lgefeitovao}}
+
+% ---------- coluna 3: barra do grafico ----------
+\newcommand{\lgbarrabase}{12.39}    % linha de base
+\newcommand{\lgbarrainicio}{27.135} % centro da 1a barra
+\newcommand{\lgbarrapasso}{1.87}    % distancia entre barras
+\newcommand{\lg@barra}[3]{%
+  \pgfmathtruncatemacro{\lg@n}{\lg@n+1}%
+  \pgfmathsetmacro{\lg@cx}{\lgbarrainicio+(\lg@n-1)*\lgbarrapasso}%
+  \pgfmathsetmacro{\lg@topo}{\lgbarrabase-#3}%
+  \ifnum\lg@n=1
+    \fill[lggraysoft] ({\lg@cx-0.585},\lgbarrabase) rectangle ({\lg@cx+0.585},\lg@topo);
+    \node[anchor=south, inner sep=1.5pt, text=lgink] at (\lg@cx,{\lg@topo-0.03}) {\pt{8}{9}#2};
+    \xdef\lg@barumx{\lg@cx}\xdef\lg@barumy{\lg@topo}%
+  \else
+    \fill[lggray] ({\lg@cx-0.585},\lgbarrabase) rectangle ({\lg@cx+0.585},\lg@topo);
+    \draw[lggreen, line width=1.2pt] ({\lg@cx-0.585},\lgbarrabase)
+      -- ({\lg@cx-0.585},\lg@topo) -- ({\lg@cx+0.585},\lg@topo) -- ({\lg@cx+0.585},\lgbarrabase);
+    \node[anchor=south, inner sep=1.5pt, text=lgink] at (\lg@cx,{\lg@topo-0.03}) {\pt{8}{9}\bfseries #2};
+  \fi
+  \node[anchor=north, inner sep=3pt, text=lgink] at (\lg@cx,{\lgbarrabase+0.05}) {\pt{9}{10}#1};
+  \xdef\lg@barfimx{\lg@cx}\xdef\lg@barfimy{\lg@topo}}
+
+\newcommand{\lg@grafico}{%
+  \pgfmathtruncatemacro{\lg@n}{0}%
+  \lg@desenha{barra}%
+  % eixo, seta de ganho (vermelha) e legendas
+  \draw[lgline, line width=0.5pt] ({\lg@barumx-1.15},{\lgbarrabase+0.02})
+    -- ({\lg@barfimx+1.15},{\lgbarrabase+0.02});
+  \draw[lgred, line width=1.0pt, -{Stealth[length=3.4mm, width=2.8mm]}]
+    (\lg@barumx,\lg@barumy) -- ({\lg@barfimx-0.58},\lg@barfimy);
+  \node[anchor=north west, inner sep=0pt, text=lgmuted] at (26.26,9.34) {\pt{7}{8}\lg@grafeixo};
+  \node[anchor=north west, inner sep=0pt, text=lgmuted] at (29.91,10.30)
+    {\pt{8}{9}\lg@bul\ \lg@grafnota};}
+
+% =============================================================
+%  \onepage — monta a pagina inteira
+% =============================================================
+\newcommand{\onepage}{%
+\begin{tikzpicture}[remember picture, overlay, x=1cm, y=-1cm,
+                    shift={(current page.north west)}]
+
+% ---------- cabecalho ----------
+\node[anchor=north, inner sep=0pt] at (16.93,0.30) {\pt{11}{13}\color{lgmuted}\lg@avisotopo};
+\node[anchor=north west, text width=18cm, align=left, inner sep=0pt] at (0.68,0.66)
+  {\pt{20}{23}\bfseries\lg@titulo};
+\draw[lgline, line width=0.7pt] (0.91,1.53) -- (33.21,1.53);
+\node[anchor=north west, text width=31.26cm, align=left, inner sep=0pt] at (0.72,1.74)
+  {\pt{13}{16}\bfseries\lg@subtitulo};
+
+% ---------- titulos das colunas ----------
+\node[anchor=north, inner sep=0pt] at (6.13,2.50) {\pt{16}{19}\bfseries\lg@colA};
+\draw[lgink, line width=0.9pt] (4.63,3.16) -- (7.63,3.16);
+\node[anchor=north, inner sep=0pt] at (17.12,2.47) {\pt{16}{19}\bfseries\lg@colB};
+\draw[lgink, line width=0.9pt] (15.62,3.13) -- (18.62,3.13);
+\node[anchor=north, inner sep=0pt] at (29.26,2.47) {\pt{16}{19}\bfseries\lg@colC};
+\draw[lgink, line width=0.9pt] (27.76,3.13) -- (30.76,3.13);
+
+% ---------- molduras das tres colunas ----------
+\draw[lgline, line width=0.5pt, rounded corners=1pt] (1.29,3.32) rectangle ++(10.26,14.45);
+\draw[lgline, line width=0.5pt, rounded corners=1pt] (12.00,3.30) rectangle ++(12.79,14.43);
+\draw[lgline, line width=0.5pt, rounded corners=1pt] (25.21,3.30) rectangle ++(7.99,14.48);
+
+% =============== COLUNA 1 — BEFORE ===============
+\node[anchor=north west, text width=9cm, align=left, inner sep=0pt] at (1.55,3.88)
+  {\pt{14}{17}\bfseries\lg@quadrado\lg@tituloantes};
+\node[anchor=north west, text width=9.94cm, align=left, inner sep=0pt] at (1.53,4.78)
+  {\pt{10}{13}\lg@textoantes};
+
+\pgfmathsetmacro{\lg@y}{\lgpontoinicio}
+\lg@desenha{ponto}
+
+% faixa de alerta
+\draw[lgline, line width=0.5pt, rounded corners=5pt] (1.82,11.29) rectangle ++(9.32,0.84);
+\node[anchor=north west, inner sep=0pt] at (2.63,11.42) {\includegraphics[width=0.54cm]{img/\lg@alertaimg}};
+\node[anchor=north west, text width=7.63cm, align=left, inner sep=0pt] at (3.31,11.48)
+  {\pt{10}{12}\bfseries\lg@alertatxt};
+
+% quadro da situacao atual
+\draw[lgline, line width=0.5pt, rounded corners=5pt] (1.82,12.64) rectangle ++(9.32,4.46);
+\node[anchor=north west, text width=4cm, align=left, inner sep=0pt] at (2.10,12.94)
+  {\pt{10}{12}\lgheadreg\lg@tituloquadro};
+\node[anchor=north west, text width=2.60cm, align=left, inner sep=0pt] at (2.33,13.68)
+  {\pt{10}{12}\lg@fluxoA};
+\draw[lgink, line width=0.7pt, -{Stealth[length=2.6mm, width=2.2mm]}] (5.10,13.92) -- (6.38,13.92);
+\node[anchor=north west, text width=4.4cm, align=left, inner sep=0pt] at (6.46,13.68)
+  {\pt{10}{12}\lg@fluxoB};
+
+\pgfmathsetmacro{\lg@y}{\lgdestaqueinicio}
+\lg@desenha{destaque}
+
+% =============== COLUNA 2 — AFTER ===============
+\node[anchor=north west, text width=9cm, align=left, inner sep=0pt] at (12.75,3.90)
+  {\pt{14}{17}\bfseries\lg@quadrado\lg@titulodepois};
+\node[anchor=north west, text width=11.52cm, align=left, inner sep=0pt] at (12.62,4.86)
+  {\pt{10}{13}\lg@textodepois};
+
+\pgfmathsetmacro{\lg@y}{\lgmelhoriainicio}
+\lg@desenha{melhoria}
+
+% abas verticais e cartao do framework
+\fill[lggray] (12.33,8.29) rectangle ++(0.55,8.83);
+\node[rotate=90, anchor=center, text=white] at (12.605,12.705) {\pt{9}{10}\bfseries\lg@abaA};
+\draw[lgline, line width=0.5pt] (13.04,8.31) rectangle ++(0.55,8.80);
+\node[rotate=90, anchor=center, text=lgink] at (13.315,12.71) {\pt{6}{7}\bfseries\lg@abaB};
+\draw[lgline, line width=0.5pt, rounded corners=5pt] (13.76,8.31) rectangle ++(10.49,8.80);
+
+\node[anchor=center, inner sep=0pt] at (16.35,11.18) {\lg@diagrama};
+
+\pgfmathsetmacro{\lg@y}{\lgafirmacaoinicio}
+\lg@desenha{afirmacao}
+
+\node[anchor=north west, inner sep=0pt] at (14.32,14.37) {\includegraphics[width=3.23cm]{img/\lg@ilusA}};
+\node[anchor=north west, inner sep=0pt] at (18.10,14.88) {\includegraphics[width=1.04cm]{img/\lg@ilusB}};
+\node[anchor=north west, inner sep=0pt] at (19.48,13.65) {\includegraphics[width=3.26cm]{img/\lg@ilusC}};
+
+% =============== COLUNA 3 — RESULT ===============
+\node[anchor=north west, text width=7cm, align=left, inner sep=0pt] at (25.79,3.90)
+  {\pt{14}{17}\bfseries\lg@quadrado\lg@tituloresultado};
+
+\pgfmathsetmacro{\lg@y}{\lgefeitoinicio}
+\pgfmathtruncatemacro{\lg@n}{0}
+\lg@desenha{efeito}
+
+\lg@grafico
+
+% areas impactadas
+\draw[lgline, line width=0.5pt, rounded corners=5pt] (25.94,13.74) rectangle ++(6.74,1.41);
+\node[anchor=north west, inner sep=0pt] at (26.36,13.91) {\includegraphics[width=1.18cm]{img/\lg@impimg}};
+\node[anchor=north west, text width=4.6cm, align=left, inner sep=0pt] at (27.67,13.94)
+  {\pt{8}{10}\lg@implabel};
+\node[anchor=north west, text width=4.6cm, align=left, inner sep=0pt] at (27.67,14.42)
+  {\pt{10}{12}\bfseries\lg@impval};
+
+% resultado consolidado
+\fill[lgmint, rounded corners=5pt] (25.93,15.71) rectangle ++(6.74,1.41);
+\node[anchor=north, inner sep=0pt] at (29.30,15.90) {\pt{8}{10}\lg@reslabel};
+\node[anchor=north, inner sep=0pt] at (29.30,16.36) {\pt{12}{15}\bfseries\lg@resval};
+
+% ---------- rodape ----------
+\draw[lgline, line width=0.5pt] (0.91,18.30) -- (33.21,18.30);
+\node[anchor=north, inner sep=0pt] at (16.93,18.48) {\pt{9}{11}\color{lgmuted}\lg@rodapeC};
+\node[anchor=north east, inner sep=0pt, text=lgmuted] at (32.90,18.48) {\pt{9}{11}\lg@rodapeD};
+
+\end{tikzpicture}}
+
+\endinput

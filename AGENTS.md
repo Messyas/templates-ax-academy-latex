@@ -13,15 +13,18 @@ Nunca adivinhe comandos shell de compilação ou flags do LaTeX. Utilize exclusi
 # Diagnóstico de integridade (compilador LuaLaTeX, fontes e templates)
 uv run build check
 
-# Compilação para PDF (saídas salvas em dist/)
-uv run build              # Compila todos os relatórios
-uv run build apostila     # Compila a Apostila / Guia Rápido multi-página
-uv run build flyer        # Compila o Flyer A3 em folha única
-uv run build onepage      # Compila o OnePage corporativo Antes/Depois/Resultado
+# Compilação para PDF (saídas organizadas em dist/<Template>/)
+uv run build                          # Compila todos os 6 relatórios
+uv run build apostila                 # Compila a Apostila / Guia Rápido multi-página
+uv run build flyer                    # Compila o Flyer A3 em folha única
+uv run build onepage-sumarizacao      # Compila o OnePage LG Sumarização (alias: onepage)
+uv run build status-report            # Compila o Status Report semanal de equipe
+uv run build onepage-evidencias       # Compila o OnePage de Evidências do Sprint
+uv run build onepage-corporativo      # Compila o OnePage corporativo LGE (EN)
 
 # Limpeza de arquivos auxiliares de compilação
-uv run build clean        # Remove .aux, .log, .toc, .ptc, etc.
-uv run build clean-all    # Remove temporários e limpa a pasta dist/
+uv run build clean                    # Remove .aux, .log, .toc, .ptc, etc.
+uv run build clean-all                # Remove temporários e limpa a pasta dist/
 
 # Listar configurações e rotas dos templates
 uv run build list
@@ -36,7 +39,10 @@ uv run build list
 - **Passadas:**
   - `Apostila`: **2 passadas** (exigido para sumário e cálculo de páginas da classe `book`).
   - `Flyer`: **1 passada** (renderização única do canvas TikZ).
-  - `OnePage`: **2 passadas** (medição dinâmica de altura dos blocos TikZ).
+  - `OnePage-Sumarizacao`: **2 passadas** (medição dinâmica de altura dos blocos TikZ).
+  - `Status-Report`: **2 passadas** (cálculo de altura de caixas `equal height group`).
+  - `OnePage-Evidencias`: **2 passadas** (alinhamento de cartões de evidência).
+  - `OnePage-Corporativo-LGE`: **2 passadas** (medição de caixas de texto corporativas).
   *O script `build.py` já executa o número exato de passadas automaticamente.*
 
 ---
@@ -46,15 +52,23 @@ uv run build list
 - Todas as fontes oficiais residem na pasta raiz: **`fonts/`**.
   - Fontes de título: `fonts/LGEIHeadlineTTF-*.ttf`
   - Fontes de texto: `fonts/LGEITextTTF-*.ttf`
-- **Não crie pastas de fontes duplicadas** dentro de `Apostila/`, `Flyer/` ou `One-page/`.
-- Os arquivos `.sty` buscam primeiramente em `Path=../fonts/` (em relação à pasta do template).
+- **Não crie pastas de fontes duplicadas** dentro das subpastas de `modelos/`.
+- O compilador acessa as fontes globais da raiz (com `openin_any = a` configurado no `build.py`).
 
 ---
 
-## 4. Gestão de Saídas e Git
+## 4. Estrutura e Gestão de Saídas
 
-- **Saída Oficial:** Todos os PDFs compilados finais devem ser gerados em **`dist/`**.
-- **Arquivos no Git:** Nunca force a inclusão de PDFs gerados no Git (`dist/` e `*/*.pdf` estão no `.gitignore`). Apenas arquivos vetoriais de arte em `art/marca/*.pdf` e `art/fundo/*.pdf` são rastreados.
+- **Organização dos Modelos:** Todos os templates ficam centralizados em subpastas de `modelos/`:
+  - `modelos/Apostila`
+  - `modelos/Flyer`
+  - `modelos/OnePage-Sumarizacao`
+  - `modelos/Status-Report`
+  - `modelos/OnePage-Evidencias`
+  - `modelos/OnePage-Corporativo-LGE`
+  - `modelos/referencias` (apresentações e referências visuais)
+- **Saída Oficial Segregada:** Todos os PDFs compilados finais são gravados isoladamente em subpastas dentro de `dist/` (ex: `dist/Apostila/guia-rapido.pdf`, `dist/Flyer/guia-flyer.pdf`, etc.), impedindo sobrescritas e perda de arquivos.
+- **Arquivos no Git:** Nunca force a inclusão de PDFs gerados no Git (`dist/` e `modelos/**/*.pdf` estão no `.gitignore`). Apenas arquivos vetoriais de arte em `art/marca/*.pdf` e `art/fundo/*.pdf` são rastreados.
 
 ---
 
@@ -64,4 +78,3 @@ Consulte a pasta [`docs/`](./docs) para especificações detalhadas:
 - [`docs/AGENTS_GUIDE.md`](./docs/AGENTS_GUIDE.md): Diretrizes operacionais e checklist completo para agentes.
 - [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md): Diagrama de fluxo de fontes, arquitetura e convenções técnicas.
 - [`docs/TEMPLATES.md`](./docs/TEMPLATES.md): Guia de sintaxe e customização de cada template (`\passo`, `\flyerpasso`, `\tituloantes`, etc.).
-
