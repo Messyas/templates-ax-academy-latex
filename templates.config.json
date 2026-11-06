@@ -1,7 +1,7 @@
 {
   "$schema": "Configuração dos templates LaTeX e saídas de compilação",
   "output_dir": "dist",
-  "fonts_dir": "fonts",
+  "fonts_dir": "modelos/fonts",
   "clean_aux_after_build": true,
   "compiler_path": null,
   "templates": {

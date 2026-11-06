@@ -9,11 +9,11 @@ Este documento detalha o mapa de componentes, convenções de caminhos, hierarqu
 ```text
 templates-ax-academy-latex/
 │
-├── fonts/                               # Repositório global de fontes TrueType (TTF)
-│   ├── LGEIHeadlineTTF-*.ttf           # Variantes da fonte de destaque (Bold, Light, Regular, Semibold, Thin, VF)
-│   └── LGEITextTTF-*.ttf               # Variantes de texto corrido (Bold, Light, Regular, SemiBold)
-│
 ├── modelos/                             # Diretório centralizado de todos os modelos LaTeX
+│   │
+│   ├── fonts/                           # Repositório central de fontes TrueType (TTF)
+│   │   ├── LGEIHeadlineTTF-*.ttf        # Variantes da fonte de destaque (Bold, Light, Regular, Semibold, Thin, VF)
+│   │   └── LGEITextTTF-*.ttf            # Variantes de texto corrido (Bold, Light, Regular, SemiBold)
 │   │
 │   ├── Apostila/                        # 1. Guia Rápido multi-página (Book)
 │   │   ├── axacademy-guia.sty           # Design system, fancyhdr, tcolorbox, titlesec
@@ -70,16 +70,14 @@ templates-ax-academy-latex/
 
 A identidade visual utiliza a família corporativa **LG EI**.
 
-Todas as fontes residem exclusivamente na pasta raiz `fonts/`. Os modelos em `modelos/<Template>` acessam as fontes através do seguinte mecanismo:
+Todas as fontes residem exclusivamente na pasta central `modelos/fonts/`. Os modelos em `modelos/<Template>` acessam as fontes através do seguinte mecanismo:
 
-1. **Automação via `build.py`**:
-   Ao invocar o `lualatex`, o script injeta no processo a variável `openin_any=a`. Isso flexibiliza a restrição de segurança de travessia do TeX, permitindo que caminhos como `Path=../../fonts/` e `Path=../fonts/` sejam lidos diretamente da raiz sem erro.
+1. **Acesso Direto (`Path=../fonts/`)**:
+   Por estarem todos no mesmo nível hierárquico dentro de `modelos/`, cada template localiza as fontes subindo exatamente 1 nível de diretório (`../fonts/`). Isso elimina qualquer necessidade de travessia profunda (`../../`), sendo 100% suportado por qualquer versão do LuaLaTeX e MiKTeX sem requerer permissões adicionais.
 
-2. **Junção NTFS Local (`modelos/fonts -> fonts`)**:
-   Para desenvolvedores que executam o `lualatex` manualmente no terminal de dentro da pasta do template, uma junção NTFS em `modelos/fonts` (ignorada no git) garante que `Path=../fonts/` resolva instantaneamente sem dependência de flags extras.
-
-3. **Fallback para Fontes do SO**:
-   Se as fontes locais não forem encontradas, o pacote emite um aviso (`PackageWarning`) e recorre às fontes instaladas no sistema operacional (`LG EI Text` e `LG EI Headline`).
+2. **Fallback Local e de Sistema Operacional**:
+   - Se uma pasta de template for isolada do repositório, ela procura uma pasta local `fonts/`.
+   - Se nenhum arquivo TTF for localizado, o estilo recorre com aviso (`PackageWarning`) às fontes instaladas no sistema operacional (`LG EI Text` e `LG EI Headline`).
 
 ---
 

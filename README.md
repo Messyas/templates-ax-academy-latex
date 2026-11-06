@@ -39,10 +39,10 @@ O repositório unifica todos os modelos oficiais de relatórios e apresentaçõe
 
 ```text
 templates-ax-academy-latex/
-├── fonts/                             # 🌟 Pasta global de fontes compartilhadas (raiz)
-│   ├── LGEIHeadlineTTF-*.ttf         # Família de títulos LG EI Headline
-│   └── LGEITextTTF-*.ttf             # Família de texto LG EI Text
-├── modelos/                           # 📂 Todos os modelos consolidados
+├── modelos/                           # 📂 Todos os modelos consolidados + fontes compartilhadas
+│   ├── fonts/                         # 🌟 Pasta central de fontes compartilhadas
+│   │   ├── LGEIHeadlineTTF-*.ttf      # Família de títulos LG EI Headline
+│   │   └── LGEITextTTF-*.ttf          # Família de texto LG EI Text
 │   ├── Apostila/                      # Guia Rápido multi-página (Book)
 │   ├── Flyer/                         # Folha única A3 Paisagem
 │   ├── OnePage-Sumarizacao/           # Slide Antes / Depois / Resultado (Hanaro)
@@ -64,20 +64,18 @@ templates-ax-academy-latex/
 ├── build.py                           # CLI de compilação, diagnóstico e limpeza
 ├── pyproject.toml                     # Configuração do ambiente e dependências uv
 ├── templates.config.json              # Configuração das rotas de saída e parâmetros dos modelos
+├── .gitignore                         # Ignora .venv, dist/ e arquivos temporários do LaTeX
 └── README.md                          # Esta documentação
-```
-├── .gitignore                   # Ignora .venv, dist/ e arquivos temporários do LaTeX
-└── README.md                    # Esta documentação
 ```
 
 ---
 
-## 3. Fontes Compartilhadas (Global)
+## 3. Fontes Compartilhadas (`modelos/fonts/`)
 
-Para evitar duplicatas de arquivos pesados em cada subpasta, todas as fontes foram centralizadas na pasta raiz:
+Para evitar duplicatas de arquivos pesados em cada subpasta, todas as fontes foram centralizadas em `modelos/fonts/`:
 
 ```text
-fonts/
+modelos/fonts/
 ├── LGEIHeadlineTTF-Bold.ttf
 ├── LGEIHeadlineTTF-Light.ttf
 ├── LGEIHeadlineTTF-Regular.ttf
@@ -94,7 +92,7 @@ fonts/
 
 Os arquivos de estilo (`axacademy-guia.sty`, `axacademy-flyer.sty`, `onepagelg.sty`) estão configurados com resolução inteligente e segura:
 
-1. Buscam na pasta global compartilhada: `../fonts/` (quando compilados a partir da pasta do template).
+1. Buscam na pasta compartilhada: `../fonts/` (quando compilados a partir de `modelos/<Template>/`).
 2. Se não encontrarem, buscam na pasta local `fonts/` (caso o template seja copiado isoladamente).
 3. Se nenhum arquivo TTF for localizado, fazem fallback automático para a fonte instalada no sistema operacional (`LG EI Text` / `LG EI Headline`), emitindo um aviso explicativo.
 

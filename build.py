@@ -28,7 +28,7 @@ CONFIG_PATH = ROOT_DIR / "templates.config.json"
 
 DEFAULT_CONFIG: Dict[str, Any] = {
     "output_dir": "dist",
-    "fonts_dir": "fonts",
+    "fonts_dir": "modelos/fonts",
     "clean_aux_after_build": True,
     "compiler_path": None,
     "templates": {
@@ -241,7 +241,7 @@ def run_check():
             table.add_row(
                 "Fontes Globais",
                 "[green]OK[/green]",
-                f"Todas as {len(EXPECTED_FONTS)} fontes presentes em {fonts_dir.name}/",
+                f"Todas as {len(EXPECTED_FONTS)} fontes presentes em {fonts_dir.relative_to(ROOT_DIR)}/",
             )
 
     # 3. Templates

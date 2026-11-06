@@ -49,11 +49,11 @@ uv run build list
 
 ## 3. Fontes Compartilhadas (Global)
 
-- Todas as fontes oficiais residem na pasta raiz: **`fonts/`**.
-  - Fontes de título: `fonts/LGEIHeadlineTTF-*.ttf`
-  - Fontes de texto: `fonts/LGEITextTTF-*.ttf`
-- **Não crie pastas de fontes duplicadas** dentro das subpastas de `modelos/`.
-- O compilador acessa as fontes globais da raiz (com `openin_any = a` configurado no `build.py`).
+- Todas as fontes oficiais residem de forma centralizada em: **`modelos/fonts/`**.
+  - Fontes de título: `modelos/fonts/LGEIHeadlineTTF-*.ttf`
+  - Fontes de texto: `modelos/fonts/LGEITextTTF-*.ttf`
+- **Não crie pastas de fontes duplicadas** dentro das subpastas individuais dos templates.
+- Cada template em `modelos/<Template>/` acessa as fontes diretamente através de `Path=../fonts/`.
 
 ---
 

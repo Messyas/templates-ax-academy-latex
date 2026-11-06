@@ -22,8 +22,6 @@ _build/
 modelos/**/*.pdf
 !modelos/**/art/**/*.pdf
 
-# Link/junction de fontes dentro de modelos/ (fontes canônicas residem exclusivamente em fonts/)
-modelos/fonts/
 
 # --- Arquivos auxiliares e intermediários gerados pelo LaTeX ---
 *.aux

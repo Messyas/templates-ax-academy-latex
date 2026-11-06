@@ -21,7 +21,8 @@ Orientações para o Claude ao trabalhar no repositório de templates LaTeX da A
 - **Passadas:** Apostila, OnePage-Sumarizacao, Status-Report, OnePage-Evidencias e OnePage-Corporativo requerem 2 passadas; Flyer requer 1 passada. O script `build.py` gerencia isso automaticamente.
 
 ## Fonts and Assets
-- As fontes globais estão na pasta raiz `fonts/`. Não crie pastas de fontes locais em subdiretórios de `modelos/`.
+- As fontes compartilhadas estão em `modelos/fonts/`. Não crie pastas de fontes locais nos subdiretórios individuais dos templates.
+- Cada template em `modelos/<Template>/` acessa as fontes diretamente via `Path=../fonts/`.
 - PDFs finais pertencem unicamente a `dist/<Template>/` e não devem ser rastreados no Git.
 
 ## Detailed Docs

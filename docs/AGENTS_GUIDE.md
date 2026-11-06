@@ -29,15 +29,15 @@ Este documento fornece as diretrizes operacionais, restrições e padrões arqui
 
 ---
 
-## 2. Padrão de Localização de Fontes (Global)
+## 2. Padrão de Localização de Fontes (Centralizado em `modelos/fonts/`)
 
-- **Localização:** Todas as fontes oficiais residem **exclusivamente na pasta raiz** [`fonts/`](../fonts):
-  - `fonts/LGEIHeadlineTTF-*.ttf` (família de títulos e cabeçalhos)
-  - `fonts/LGEITextTTF-*.ttf` (família de corpo de texto)
-- **Não crie pastas de fontes locais:** Nunca recrie pastas `fonts/` dentro de subdiretórios de `modelos/`.
+- **Localização:** Todas as fontes oficiais residem **exclusivamente na pasta** [`modelos/fonts/`](../modelos/fonts):
+  - `modelos/fonts/LGEIHeadlineTTF-*.ttf` (família de títulos e cabeçalhos)
+  - `modelos/fonts/LGEITextTTF-*.ttf` (família de corpo de texto)
+- **Não crie pastas de fontes locais:** Nunca recrie pastas `fonts/` dentro de subdiretórios individuais dos templates.
 - **Como a compilação carrega as fontes:**
-  - O script `build.py` executa o LuaLaTeX com a variável de ambiente `openin_any=a`, permitindo acesso à pasta global `fonts/` a partir de qualquer subdiretório em `modelos/`.
-  - Para builds manuais no terminal fora do script, uma junção NTFS `modelos/fonts -> fonts` (ignorada no git) garante resolução direta via `Path=../fonts/`.
+  - Como todos os modelos estão em `modelos/<Template>/`, o acesso ocorre de forma nativa e segura através de `Path=../fonts/`.
+  - Não são necessários links simbólicos nem travessias de múltiplos níveis (`../../`), garantindo compatibilidade total com o motor TeX em qualquer sistema operacional.
 
 ---
 
