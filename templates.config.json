@@ -1,0 +1,33 @@
+{
+  "$schema": "Configuração dos templates LaTeX e saídas de compilação",
+  "output_dir": "dist",
+  "fonts_dir": "fonts",
+  "clean_aux_after_build": true,
+  "templates": {
+    "apostila": {
+      "name": "Apostila",
+      "directory": "Apostila",
+      "entrypoint": "guia-rapido.tex",
+      "output_name": "guia-rapido.pdf",
+      "passes": 2,
+      "description": "Guia Rápido de Uso multi-página (classe book, sumário, capítulos em caps/)"
+    },
+    "flyer": {
+      "name": "Flyer",
+      "directory": "Flyer",
+      "entrypoint": "guia-flyer.tex",
+      "output_name": "guia-flyer.pdf",
+      "passes": 1,
+      "description": "Guia Rápido em folha única A3 paisagem (grade de 4x2 cartões com capturas)"
+    },
+    "onepage": {
+      "name": "OnePage",
+      "directory": "One-page",
+      "entrypoint": "onepage-lg.tex",
+      "output_name": "onepage-lg.pdf",
+      "passes": 2,
+      "description": "OnePage corporativo LGE (layout 33.87 x 19.05 cm, Antes / Depois / Resultado)"
+    }
+  }
+}
+

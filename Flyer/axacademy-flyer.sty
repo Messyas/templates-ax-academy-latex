@@ -43,20 +43,30 @@
 % ---------- FONTE ----------
 % LG EI, como no guia: Headline nos titulos, Text no corpo.
 \defaultfontfeatures{Ligatures=TeX}
-\IfFileExists{fonts/LGEITextTTF-Regular.ttf}{%
+\IfFileExists{../fonts/LGEITextTTF-Regular.ttf}{%
   \setmainfont{LGEITextTTF-Regular}[
-      Path=fonts/, Extension=.ttf,
+      Path=../fonts/, Extension=.ttf,
       BoldFont=LGEITextTTF-SemiBold, AutoFakeSlant=0.18]
   \newfontfamily\guiahead{LGEIHeadlineTTF-Regular}[
-      Path=fonts/, Extension=.ttf,
+      Path=../fonts/, Extension=.ttf,
       BoldFont=LGEIHeadlineTTF-Bold, AutoFakeSlant=0.18]
-  \newfontfamily\guialight{LGEIHeadlineTTF-Light}[Path=fonts/, Extension=.ttf]
+  \newfontfamily\guialight{LGEIHeadlineTTF-Light}[Path=../fonts/, Extension=.ttf]
 }{%
-  \PackageWarning{axacademy-flyer}{Pasta fonts/ nao encontrada; usando a
-    fonte instalada no sistema. O resultado pode divergir do modelo.}%
-  \setmainfont{LG EI Text}[BoldFont=* SemiBold, AutoFakeSlant=0.18]
-  \newfontfamily\guiahead{LG EI Headline}[BoldFont=* Bold, AutoFakeSlant=0.18]
-  \newfontfamily\guialight{LG EI Headline Light}
+  \IfFileExists{fonts/LGEITextTTF-Regular.ttf}{%
+    \setmainfont{LGEITextTTF-Regular}[
+        Path=fonts/, Extension=.ttf,
+        BoldFont=LGEITextTTF-SemiBold, AutoFakeSlant=0.18]
+    \newfontfamily\guiahead{LGEIHeadlineTTF-Regular}[
+        Path=fonts/, Extension=.ttf,
+        BoldFont=LGEIHeadlineTTF-Bold, AutoFakeSlant=0.18]
+    \newfontfamily\guialight{LGEIHeadlineTTF-Light}[Path=fonts/, Extension=.ttf]
+  }{%
+    \PackageWarning{axacademy-flyer}{Pasta de fontes nao encontrada (procurado em ../fonts/ e fonts/); usando a
+      fonte instalada no sistema. O resultado pode divergir do modelo.}%
+    \setmainfont{LG EI Text}[BoldFont=* SemiBold, AutoFakeSlant=0.18]
+    \newfontfamily\guiahead{LG EI Headline}[BoldFont=* Bold, AutoFakeSlant=0.18]
+    \newfontfamily\guialight{LG EI Headline Light}
+  }%
 }
 
 \graphicspath{{img/}{art/marca/}{art/fundo/}}

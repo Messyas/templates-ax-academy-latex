@@ -24,9 +24,21 @@
 \RequirePackage{tikz}
 \usetikzlibrary{calc,arrows.meta}
 
-% ---------- FONTES (LG EI, carregadas da pasta fonts/) ----------
-\setmainfont{LGEITextTTF-Regular}[Path=fonts/, Extension=.ttf, BoldFont=LGEITextTTF-Bold]
-\newfontfamily\lgheadreg{LGEIHeadlineTTF-Regular}[Path=fonts/, Extension=.ttf]
+% ---------- FONTES (LG EI, carregadas de ../fonts/ ou fonts/) ----------
+\defaultfontfeatures{Ligatures=TeX}
+\IfFileExists{../fonts/LGEITextTTF-Regular.ttf}{%
+  \setmainfont{LGEITextTTF-Regular}[Path=../fonts/, Extension=.ttf, BoldFont=LGEITextTTF-Bold]
+  \newfontfamily\lgheadreg{LGEIHeadlineTTF-Regular}[Path=../fonts/, Extension=.ttf]
+}{%
+  \IfFileExists{fonts/LGEITextTTF-Regular.ttf}{%
+    \setmainfont{LGEITextTTF-Regular}[Path=fonts/, Extension=.ttf, BoldFont=LGEITextTTF-Bold]
+    \newfontfamily\lgheadreg{LGEIHeadlineTTF-Regular}[Path=fonts/, Extension=.ttf]
+  }{%
+    \PackageWarning{onepagelg}{Pasta de fontes nao encontrada (procurado em ../fonts/ e fonts/); usando a fonte instalada no sistema.}%
+    \setmainfont{LG EI Text}[BoldFont=* Bold]
+    \newfontfamily\lgheadreg{LG EI Headline}
+  }%
+}
 
 % ---------- PALETA (as cores do PPTX da LGE) ----------
 \definecolor{lgink}{RGB}{0,0,0}
