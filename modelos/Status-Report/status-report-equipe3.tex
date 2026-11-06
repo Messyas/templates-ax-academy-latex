@@ -1,11 +1,11 @@
 % =============================================================
 % Status Report (One Page) — Equipe 3 · AX Academy / Digital Transformation
-%   Fase atual: Agente ReAct (LangGraph) & Homologação com a Área. Página 16:9.
-%   Fontes, robô e fotos da equipe em ../fonts/ e img/.
+%   Fase atual: Agente ReAct (LangGraph) & Validação com a Área. Página 16:9.
+%   Fontes e fotos da equipe em ../fonts/ e img/.
 %   Compilar: uv run build status-report  (2 passadas automáticas).
 % =============================================================
 \documentclass[10pt]{article}
-\usepackage[paperwidth=32cm, paperheight=18cm, top=0.45cm, bottom=0.25cm,
+\usepackage[paperwidth=32cm, paperheight=18cm, top=0.45cm, bottom=0.35cm,
             left=1.0cm, right=1.0cm]{geometry}
 
 \usepackage{fontspec}
@@ -76,17 +76,19 @@
   {\lgtext\small\bfseries\color{srdark}#1}\\[1pt]
   \barra{#2}{#3}\hfill{\lgtext\small\bfseries\color{srdark}#2\%}\\[0pt]
   {\lgtext\scriptsize\color{srmut}#4}\par}
-% Foto circular do membro (nome em uma linha)
+
+% Foto circular do membro (com largura ajustada para 4 integrantes)
 \newcommand{\fotoav}[3]{%
-  \begin{minipage}{2.5cm}\centering
+  \begin{minipage}{2.7cm}\centering
     \begin{tikzpicture}
-      \begin{scope}\clip (0,0) circle (0.42);
-        \node at (0,0) {\includegraphics[width=1.05cm]{img/circ_#1.png}};\end{scope}
-      \draw[srred, line width=1pt] (0,0) circle (0.42);
+      \begin{scope}\clip (0,0) circle (0.44);
+        \node at (0,0) {\includegraphics[width=1.1cm]{img/circ_#1.png}};\end{scope}
+      \draw[srred, line width=1pt] (0,0) circle (0.44);
     \end{tikzpicture}\\[1pt]
-    {\lgtext\fontsize{6.4}{7}\selectfont\bfseries\color{srdark}#2}\\[-1pt]
-    {\lgtext\fontsize{6}{7}\selectfont\color{srred}#3}
+    {\lgtext\fontsize{6.8}{7.5}\selectfont\bfseries\color{srdark}#2}\\[-1pt]
+    {\lgtext\fontsize{6.2}{7}\selectfont\color{srred}#3}
   \end{minipage}}
+
 \newcommand{\kpi}[4]{%
   \begin{tcolorbox}[enhanced, colback=white, colframe=srline, boxrule=0.8pt, arc=3pt,
       left=10pt, right=8pt, top=3pt, bottom=4pt,
@@ -95,6 +97,7 @@
     {\lghead\color{srdark}\fontsize{18}{18}\selectfont #3}\\[3pt]
     {\lgtext\scriptsize\color{#1}#4}
   \end{tcolorbox}}
+
 \newcommand{\linkbtn}[3]{%
   \begin{tcolorbox}[enhanced, colback=white, colframe=srred, boxrule=1pt, arc=4pt,
       left=1pt, right=1pt, top=3pt, bottom=3pt, halign=center, valign=center,
@@ -102,13 +105,7 @@
     {\color{srdark}\fontsize{13}{13}\selectfont #1}\\[3pt]
     {\lgtext\fontsize{6.6}{7.5}\selectfont\bfseries\color{srred}\href{#3}{#2}}
   \end{tcolorbox}}
-\newcommand{\linkbtnoff}[2]{%
-  \begin{tcolorbox}[enhanced, colback=white, colframe=srmut!35, boxrule=1pt, arc=4pt,
-      left=1pt, right=1pt, top=3pt, bottom=3pt, halign=center, valign=center,
-      width=\linewidth, height=1.35cm, before skip=0pt, after skip=0pt]
-    {\color{srmut!65}\fontsize{13}{13}\selectfont #1}\\[3pt]
-    {\lgtext\fontsize{6.6}{7.5}\selectfont\bfseries\color{srmut!75}#2}
-  \end{tcolorbox}}
+
 \newcommand{\marco}[2]{%
   {\lgtext\footnotesize\bfseries\color{srdark}#1} {\lgtext\footnotesize\color{srdark}#2}\\[2pt]
   {\color{srline}\rule{\linewidth}{0.5pt}}\\[3pt]}
@@ -119,32 +116,32 @@
 \noindent
 \begin{minipage}[c]{0.33\textwidth}
   {\lghead\fontsize{18}{21}\selectfont\color{srdark} AX Academy \textcolor{srmut}{\textbar}
-   Assistente de \mbox{Scrap} com \mbox{Agentes} IA}\\[2pt]
+   Automação do \mbox{Relatório} de \mbox{Scrap}}\\[2pt]
   {\color{srred}\rule{3.0cm}{2.2pt}}\\[6pt]
-  {\lgheadr\normalsize\color{srdark} Área: \textbf{Produção \& Qualidade}\\[2pt]
+  {\lgheadr\normalsize\color{srdark} Área: \textbf{Produção}\\[2pt]
    Manager: \textbf{Leandro Corazza}}
 \end{minipage}\hfill
-\begin{minipage}[c]{0.51\textwidth}
-  \begin{tcolorbox}[enhanced, colback=white, colframe=srteal, boxrule=1.2pt, arc=12pt,
-      left=3pt, right=3pt, top=4pt, bottom=4pt, before skip=0pt, after skip=0pt, equal height group=hdr]
-    \centering
-    \fotoav{AA}{André Aloise}{Líder (PO)}\fotoav{MF}{Messyas França}{Dev}\fotoav{GA}{Gustavo Almada}{Dev}\fotoav{TN}{Teodório Neto}{Dev}\fotoav{JO}{José Oiris}{Dev}%
-  \end{tcolorbox}
+\begin{minipage}[c]{0.50\textwidth}
+  \centering
+  \fotoav{AA}{André Aloise}{Líder (PO)}\hfill
+  \fotoav{MF}{Messyas França}{Dev}\hfill
+  \fotoav{GA}{Gustavo Almada}{Dev}\hfill
+  \fotoav{TN}{Teodório Neto}{Dev}
 \end{minipage}\hfill
 \begin{minipage}[c]{0.15\textwidth}
   \begin{tcolorbox}[enhanced, colback=white, colframe=srgreen, boxrule=1.2pt, arc=12pt,
       left=4pt, right=4pt, top=6pt, bottom=6pt, halign=center, valign=center, before skip=0pt, after skip=0pt, equal height group=hdr]
     {\lgtext\footnotesize\color{srdark}DURAÇÃO: \textbf{11 semanas}}\\[3pt]
-    {\lgtext\scriptsize\color{srmut}Semana \textbf{\color{srdark}10} de 11}\\[2pt]
+    {\lgtext\scriptsize\color{srmut}Semana \textbf{\color{srdark}8} de 11}\\[2pt]
     \begin{tikzpicture}[baseline=0]
       \fill[srtrack, rounded corners=2pt] (0,0) rectangle (3.0,0.16);
-      \fill[srgreen, rounded corners=2pt] (0,0) rectangle ({3.0*10/11},0.16);
+      \fill[srgreen, rounded corners=2pt] (0,0) rectangle ({3.0*8/11},0.16);
     \end{tikzpicture}\\[4pt]
-    {\lgtext\footnotesize\color{srdark}STATUS: \textbf{\color{srgreen}APROVADO}}
+    {\lgtext\footnotesize\color{srdark}STATUS: \textbf{\color{srgreen}EM ANDAMENTO}}
   \end{tcolorbox}
 \end{minipage}
 
-\vspace{2pt}
+\vspace{3pt}
 
 % ═══════════════════════ LINHA 1: 3 CARDS ═══════════════════════
 \noindent
@@ -152,45 +149,46 @@
   \begin{card}[equal height group=row1]
     \cardtitle{Sprint Progress}
     \centering
-    {\lgtext\footnotesize\color{srdark}SPRINT 04 \textbullet\ \textbf{W45}}\\[0pt]
-    {\lgtext\scriptsize\color{srmut}02/11 a 08/11 \textbullet\ Agentes ReAct \& LangGraph}\\[5pt]
-    \donut{97}\\[5pt]           % Média das 6 tarefas: 100, 100, 95, 100, 90, 100
-    {\lgtext\small\bfseries\color{srdark}STATUS: \color{srgreen}HOMOLOGADO PELA ÁREA}
+    {\lgtext\footnotesize\color{srdark}SPRINT 02 \textbullet\ \textbf{W36}}\\[0pt]
+    {\lgtext\scriptsize\color{srmut}Desenvolvimento de Agentes ReAct}\\[5pt]
+    \donut{95}\\[5pt]           % Média das 6 tarefas: 100, 90, 95, 100, 85, 100
+    {\lgtext\small\bfseries\color{srdark}STATUS: \color{srgreen}APROVADO PELA ÁREA}
   \end{card}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.45\textwidth}
   \begin{card}[equal height group=row1]
-    \cardtitle{Main Tasks \textnormal{\lgtext\footnotesize\color{srmut}(desenvolvimento do agente ReAct)}}
+    \cardtitle{Main Tasks \textnormal{\lgtext\footnotesize\color{srmut}(desenvolvimento de agentes LangGraph)}}
     \begin{minipage}[t]{0.48\linewidth}
-      \tarefa{1. Arquitetura ReAct (LangGraph)}{100}{srgreen}{Orquestração multi-passo e decisões.}\vspace{1pt}
-      \tarefa{2. Ingestão \& Leitura JIRA}{100}{srgreen}{Casos graves com baixa explicabilidade.}\vspace{1pt}
-      \tarefa{3. RAG \& Memória de Análises}{95}{srgreen}{Busca semântica de ocorrências passadas.}
+      \tarefa{1. Arquitetura ReAct (LangGraph)}{100}{srgreen}{Orquestração multi-passo e raciocínio.}\vspace{1pt}
+      \tarefa{2. Ingestão GERP \& Ocorrências}{95}{srgreen}{Entrada de casos graves de scrap (US\$ 6.4k).}\vspace{1pt}
+      \tarefa{3. Busca Semântica \& Memória}{90}{srgreen}{Recuperação de análises passadas similares.}
     \end{minipage}\hfill
     \begin{minipage}[t]{0.48\linewidth}
-      \tarefa{4. Human-in-the-Loop (Revisor)}{100}{srgreen}{Analista revisa, edita e aprova hipóteses.}\vspace{1pt}
-      \tarefa{5. Relatório \& Geração de Tasks}{90}{srgreen}{Planos formais e criação de tarefas.}\vspace{1pt}
-      \tarefa{6. Apresentação \& Homologação}{100}{srgreen}{Demonstração aprovada pela área.}
+      \tarefa{4. Interface Human-in-the-Loop}{100}{srgreen}{Analista atua como revisor da proposta.}\vspace{1pt}
+      \tarefa{5. Relatório \& Planos de Ação}{85}{srgreen}{Geração formal de hipóteses e tarefas.}\vspace{1pt}
+      \tarefa{6. Apresentação \& Homologação}{100}{srgreen}{Apresentado e aprovado pela Produção.}
     \end{minipage}
   \end{card}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.30\textwidth}
   \begin{card}[equal height group=row1]
-    \cardtitle{Validação com a Área \textnormal{\lgtext\footnotesize\color{srgreen}\textbf{(Aprovado)}}}
+    \cardtitle{Validação com a Área \textnormal{\lgtext\footnotesize\color{srgreen}\textbf{(Aprovado!)}}}
     \begin{tcolorbox}[enhanced, colback=srgreen!8, colframe=srgreen!60, boxrule=0.8pt,
         arc=3pt, left=5pt, right=5pt, top=3pt, bottom=3pt, before skip=0pt, after skip=4pt]
       {\lgtext\fontsize{6.6}{8.4}\selectfont\color{srdark}
-      \textbf{\color{srgreen}\faCheckCircle\ Apresentação aprovada pela gerência:}\\[2pt]
-      $\bullet$~\textbf{ReAct + LangGraph:} Consulta análises passadas para novos casos.\\
-      $\bullet$~\textbf{Analista Revisor:} Validação e enriquecimento semi-automático.\\
-      $\bullet$~\textbf{Plano de Ação:} Geração formal de causas e tasks no JIRA.}
+      \textbf{\color{srgreen}\faCheckCircle\ Solução homologada pela gerência:}\\[2pt]
+      $\bullet$~\textbf{ReAct no LangGraph:} Consulta casos históricos do GERP.\\
+      $\bullet$~\textbf{Sugestão Automatizada:} Hipóteses, causas e contenções.\\
+      $\bullet$~\textbf{Analista Revisor:} Validação interativa semi-automática.\\
+      $\bullet$~\textbf{Planos de Ação:} Criação de tarefas no próprio relatório.}
     \end{tcolorbox}
     \begin{minipage}[t]{0.315\linewidth}\linkbtn{\faRobot}{Assistente ReAct}{https://prototipo-hanaro.vercel.app/}\end{minipage}\hfill
     \begin{minipage}[t]{0.315\linewidth}\linkbtn{\faHistory}{Memória RAG}{https://prototipo-hanaro.vercel.app/}\end{minipage}\hfill
-    \begin{minipage}[t]{0.315\linewidth}\linkbtn{\faTasks}{Tasks JIRA}{https://prototipo-hanaro.vercel.app/}\end{minipage}
+    \begin{minipage}[t]{0.315\linewidth}\linkbtn{\faTasks}{Planos de Ação}{https://prototipo-hanaro.vercel.app/}\end{minipage}
   \end{card}
 \end{minipage}
 
-\vspace{1pt}
+\vspace{2pt}
 
 % ═══════════════════════ LINHA 2: INDICADORES ═══════════════════════
 {\lghead\large\color{srdark} Indicadores de Desempenho e Impacto}\\[1pt]
@@ -200,13 +198,13 @@
   \kpi{srred}{CASOS CRÍTICOS ANALISADOS}{US\$ 12,5 mil}{Ocorrências > US\$ 6k pré-analisadas em lote}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.325\textwidth}
-  \kpi{srteal}{TEMPO DE ANÁLISE}{$-$80\%}{$\blacktriangle$ De preenchimento manual para revisão de 1 clique}
+  \kpi{srteal}{TEMPO DE ANÁLISE}{$-$80\%}{$\blacktriangle$ De preenchimento manual para revisão assistida}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.325\textwidth}
-  \kpi{srgreen}{HOMOLOGAÇÃO DA ÁREA}{100\% Aprovado}{$\blacktriangle$ Apresentado e aprovado pela Produção e Qualidade}
+  \kpi{srgreen}{HOMOLOGAÇÃO DA ÁREA}{100\% Aprovado}{$\blacktriangle$ Apresentado e aprovado pela Produção}
 \end{minipage}
 
-\vspace{1pt}
+\vspace{2pt}
 
 % ═══════════════════════ LINHA 3: CRONOGRAMA + IMPACTO ═══════════════════════
 \noindent
@@ -216,20 +214,14 @@
   \tcbox[on line, colback=srgreen!20, colframe=srgreen, boxrule=0.8pt, arc=3pt,
          left=5pt, right=5pt, top=1pt, bottom=1pt]{\lgtext\footnotesize\bfseries\color{srgreen!80!black}Em Dia / Homologado}\\[1pt]
   {\color{srline}\rule{\linewidth}{0.7pt}}\\[5pt]
-  \marco{M1 (13/08)}{Especificação, Levantamento de Requisitos e MVP Canvas (Concluído)}
-  \marco{M2 (03/09)}{PoC, extração automatizada de dados GERP e Dashboard (Concluído)}
-  \marco{M3 (06/11)}{Agente ReAct LangGraph + RAG de Análises + Homologação da Área (Concluído)}
+  \marco{M1 (13/08)}{Documentação de especificação e requisitos na v1 + MVP (Concluído)}
+  \marco{M2 (03/09)}{PoC e validação do MVP com a Produção (Concluído)}
+  \marco{M3 (02/10)}{Módulo de software funcional com Agentes ReAct e Planos de Ação (Em andamento)}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.34\textwidth}
   {\lghead\large\color{srdark} Descrição / Impacto Estratégico}\\[1pt]
   {\color{srline}\rule{\linewidth}{0.7pt}}\\[5pt]
-  {\lgtext\small\color{srdark} O Hanaro opera com agentes ReAct no LangGraph: ao receber ocorrências de scrap do JIRA com descrições concisas (ex: US\$ 6,4k), o agente resgata soluções anteriores na memória vetorial, formulando hipóteses de causa e contenções. O analista atua como revisor human-in-the-loop, gerando relatórios formais e criando tasks para mitigar o desperdício com alta produtividade.}
+  {\lgtext\small\color{srdark} O Hanaro automatiza o tratamento do Material Scrap a partir do GERP e agora integra agentes ReAct desenvolvidos com LangGraph. Diante de ocorrências graves de scrap (como perdas de US\$ 6,4k), o agente consulta a memória de análises anteriores, formula hipóteses de causa raiz, medidas de contenção e tarefas corretivas. O analista atua como revisor human-in-the-loop, gerando relatórios formais com planos de ação para mitigar o desperdício, multiplicando a produtividade da operação.}
 \end{minipage}
-
-% Mascote AX no canto inferior direito
-\begin{tikzpicture}[remember picture, overlay]
-  \node[anchor=south east] at ([xshift=-0.6cm, yshift=0.35cm]current page.south east)
-    {\includegraphics[height=2.3cm]{img/robo.png}};
-\end{tikzpicture}
 
 \end{document}
