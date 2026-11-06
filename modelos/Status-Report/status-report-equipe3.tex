@@ -77,13 +77,13 @@
   \barra{#2}{#3}\hfill{\lgtext\small\bfseries\color{srdark}#2\%}\\[0pt]
   {\lgtext\scriptsize\color{srmut}#4}\par}
 
-% Foto circular do membro (com largura ajustada para 4 integrantes)
+% Foto circular do membro (com largura ajustada para 4 integrantes no card)
 \newcommand{\fotoav}[3]{%
-  \begin{minipage}{2.7cm}\centering
+  \begin{minipage}{3.1cm}\centering
     \begin{tikzpicture}
-      \begin{scope}\clip (0,0) circle (0.44);
-        \node at (0,0) {\includegraphics[width=1.1cm]{img/circ_#1.png}};\end{scope}
-      \draw[srred, line width=1pt] (0,0) circle (0.44);
+      \begin{scope}\clip (0,0) circle (0.42);
+        \node at (0,0) {\includegraphics[width=1.05cm]{img/circ_#1.png}};\end{scope}
+      \draw[srred, line width=1pt] (0,0) circle (0.42);
     \end{tikzpicture}\\[1pt]
     {\lgtext\fontsize{6.8}{7.5}\selectfont\bfseries\color{srdark}#2}\\[-1pt]
     {\lgtext\fontsize{6.2}{7}\selectfont\color{srred}#3}
@@ -121,12 +121,15 @@
   {\lgheadr\normalsize\color{srdark} Área: \textbf{Produção}\\[2pt]
    Manager: \textbf{Leandro Corazza}}
 \end{minipage}\hfill
-\begin{minipage}[c]{0.50\textwidth}
-  \centering
-  \fotoav{AA}{André Aloise}{Líder (PO)}\hfill
-  \fotoav{MF}{Messyas França}{Dev}\hfill
-  \fotoav{GA}{Gustavo Almada}{Dev}\hfill
-  \fotoav{TN}{Teodório Neto}{Dev}
+\begin{minipage}[c]{0.51\textwidth}
+  \begin{tcolorbox}[enhanced, colback=white, colframe=srteal, boxrule=1.2pt, arc=12pt,
+      left=4pt, right=4pt, top=4pt, bottom=4pt, before skip=0pt, after skip=0pt, equal height group=hdr]
+    \centering
+    \fotoav{AA}{André Aloise}{Líder (PO)}\hfill
+    \fotoav{MF}{Messyas França}{Dev}\hfill
+    \fotoav{GA}{Gustavo Almada}{Dev}\hfill
+    \fotoav{TN}{Teodório Neto}{Dev}%
+  \end{tcolorbox}
 \end{minipage}\hfill
 \begin{minipage}[c]{0.15\textwidth}
   \begin{tcolorbox}[enhanced, colback=white, colframe=srgreen, boxrule=1.2pt, arc=12pt,
