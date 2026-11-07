@@ -48,6 +48,7 @@
       "output_name": "onepage-lg.pdf",
       "output_subfolder": "OnePage-Sumarizacao",
       "passes": 2,
+      "versionable": true,
       "description": "OnePage corporativo LGE Hanaro (layout 33.87 x 19.05 cm, Antes / Depois / Resultado)"
     },
     "status-report": {
@@ -57,6 +58,7 @@
       "output_name": "status-report-equipe3.pdf",
       "output_subfolder": "Status-Report",
       "passes": 2,
+      "versionable": true,
       "description": "Status Report semanal de equipe (layout 32 x 18 cm, equal height group)"
     },
     "onepage-evidencias": {
@@ -66,6 +68,7 @@
       "output_name": "onepage-evidencias-equipe3.pdf",
       "output_subfolder": "OnePage-Evidencias",
       "passes": 2,
+      "versionable": true,
       "description": "OnePage de Evidências do Sprint (A3 paisagem, cartões de telas e fotos)"
     },
     "onepage-corporativo": {
@@ -75,6 +78,7 @@
       "output_name": "onepage-corporativo-lg.pdf",
       "output_subfolder": "OnePage-Corporativo-LGE",
       "passes": 2,
+      "versionable": true,
       "description": "OnePage original corporativo LGE em inglês (AI Deep Dive / AI Core)"
     },
     "demoday": {
@@ -84,6 +88,7 @@
       "output_name": "demoday-hanaro.pdf",
       "output_subfolder": "DemoDay",
       "passes": 2,
+      "versionable": true,
       "description": "Apresentação de Slides do Demo Day / Kick-off (classe Beamer 16:9, hanarokickoff.cls)"
     }
   }

@@ -191,3 +191,23 @@ Apresentação oficial de slides em formato **16:9** baseada na classe `hanaroki
   Permite estruturar blocos com colunas proporcionais `\dxicol{largura_cm}{...}` e caixas de texto com precisão de diagramação do PowerPoint.
 
 Requer **2 passadas** para o alinhamento das referências absolutas `remember picture`. Compilação via `uv run build demoday`.
+
+---
+
+## 9. Versionamento de Entregas Recorrentes
+
+Os templates de ciclo contínuo (`status-report`, `onepage-evidencias`, `onepage-sumarizacao`, `demoday`, `onepage-corporativo`) contam com versionamento nativo configurado via `"versionable": true`:
+
+- **Detecção Automática:** Ao rodar `uv run build status-report` ou `uv run build demoday`, o script lê o arquivo `.tex` e detecta a tag de sprint (`sprint01`, `sprint02`) ou versão (`v1`, `v2`, `w36`).
+- **Tag Manual:** Você pode forçar qualquer tag usando a flag `-t <tag>` ou `--tag <tag>`:
+  ```powershell
+  uv run build status-report -t sprint03
+  uv run build demoday -t v2.1
+  ```
+- **Saídas Dual:**
+  - O arquivo canônico `dist/<Template>/<output_name>` é sempre atualizado para visualização imediata.
+  - Uma cópia arquivada imutável é gravada em `dist/<Template>/versoes/<stem>-<tag>.pdf`, acompanhada de uma miniatura `.png` para pré-visualização rápida.
+- **Consulta de Histórico:**
+  ```powershell
+  uv run build versions
+  ```

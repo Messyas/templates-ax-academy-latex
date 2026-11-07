@@ -97,20 +97,24 @@ Todas as fontes residem exclusivamente na pasta central `modelos/fonts/`. Os mod
 
 ---
 
-## 3. Segregação de Saídas (`dist/`)
+## 3. Segregação de Saídas e Estratégia de Versionamento (`dist/`)
 
-Para evitar sobrescritas acidentais (por exemplo, múltiplos templates que gerem arquivos com nomes similares como `onepage-lg.pdf`), cada template possui uma subpasta própria dentro de `dist/`:
+Para evitar colisões e perda de histórico de entregas recorrentes, a gestão de saídas no `dist/` opera em duas frentes:
 
-- `dist/Apostila/`
-- `dist/Guia-Usuario-Hanaro/`
-- `dist/Flyer/`
-- `dist/OnePage-Sumarizacao/`
-- `dist/Status-Report/`
-- `dist/OnePage-Evidencias/`
-- `dist/OnePage-Corporativo-LGE/`
-- `dist/DemoDay/`
+1. **Subpastas Isoladas por Template:** Cada modelo possui seu próprio subdiretório:
+   - `dist/Apostila/`
+   - `dist/Guia-Usuario-Hanaro/`
+   - `dist/Flyer/`
+   - `dist/OnePage-Sumarizacao/`
+   - `dist/Status-Report/`
+   - `dist/OnePage-Evidencias/`
+   - `dist/OnePage-Corporativo-LGE/`
+   - `dist/DemoDay/`
 
-O script `build.py` cria essas subpastas dinamicamente e direciona os PDFs finais, garantindo total isolamento dos artefatos.
+2. **Estratégia Dual para Entregas Recorrentes:**
+   - **Caminho Canônico Mais Recente:** Mantido na raiz da subpasta do template (ex: `dist/Status-Report/status-report-equipe3.pdf`), assegurando que referências e scripts de automação nunca quebrem.
+   - **Arquivo Histórico Imutável:** Modelos recorrentes (`Status-Report`, `OnePage-Evidencias`, `OnePage-Sumarizacao`, `DemoDay`, `OnePage-Corporativo`) gravam simultaneamente uma cópia tagged em `dist/<Template>/versoes/<stem>-<tag>.pdf` e um thumbnail `.png` correspondente via `pdftoppm`.
+   - **Modelos Estruturais:** Documentos fixos e contínuos (`Apostila`, `Guia-Usuario-Hanaro`, `Flyer`) não geram subpasta `versoes/`, mantendo manutenção estritamente contínua.
 
 ---
 

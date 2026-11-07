@@ -215,6 +215,26 @@ uv run build onepage
 uv run build demoday
 ```
 
+#### Versionamento de Entregas Recorrentes (DemoDay, OnePages, Status Report)
+Os modelos de entregas recorrentes (`status-report`, `onepage-evidencias`, `onepage-sumarizacao`, `demoday`, `onepage-corporativo`) contam com **versionamento automático e arquivo imutável**:
+- O arquivo canônico em `dist/<Template>/<nome>.pdf` é **sempre atualizado** com a compilação mais recente.
+- Simultaneamente, uma cópia com a tag da sprint/versão e seu preview `.png` são arquivados em `dist/<Template>/versoes/<nome>-<tag>.pdf`.
+- Os manuais de produto (`apostila`, `guia-usuario`, `guia-arquitetura`, `flyer`) permanecem em modo contínuo/fixo.
+
+```powershell
+# Listar todo o histórico de versões arquivadas:
+uv run build versions
+
+# Compilar com tag automática (detectada do código TeX, ex: sprint02, v2):
+uv run build status-report
+uv run build onepage-evidencias
+uv run build demoday
+
+# Forçar uma tag manual específica (ex: sprint03, w37, v2):
+uv run build status-report -t sprint03
+uv run build demoday -t v2
+```
+
 #### Opções úteis de compilação
 ```powershell
 # Definir uma pasta de saída diferente de dist/ (ex: pasta de entrega):

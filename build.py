@@ -9,10 +9,12 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
 import time
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -75,6 +77,7 @@ DEFAULT_CONFIG: Dict[str, Any] = {
             "output_name": "onepage-lg.pdf",
             "output_subfolder": "OnePage-Sumarizacao",
             "passes": 2,
+            "versionable": True,
             "description": "OnePage corporativo LGE Hanaro (layout 33.87 x 19.05 cm, Antes / Depois / Resultado)",
         },
         "status-report": {
@@ -84,6 +87,7 @@ DEFAULT_CONFIG: Dict[str, Any] = {
             "output_name": "status-report-equipe3.pdf",
             "output_subfolder": "Status-Report",
             "passes": 2,
+            "versionable": True,
             "description": "Status Report semanal de equipe (layout 32 x 18 cm, equal height group)",
         },
         "onepage-evidencias": {
@@ -93,6 +97,7 @@ DEFAULT_CONFIG: Dict[str, Any] = {
             "output_name": "onepage-evidencias-equipe3.pdf",
             "output_subfolder": "OnePage-Evidencias",
             "passes": 2,
+            "versionable": True,
             "description": "OnePage de Evidências do Sprint (A3 paisagem, cartões de telas e fotos)",
         },
         "onepage-corporativo": {
@@ -102,6 +107,7 @@ DEFAULT_CONFIG: Dict[str, Any] = {
             "output_name": "onepage-corporativo-lg.pdf",
             "output_subfolder": "OnePage-Corporativo-LGE",
             "passes": 2,
+            "versionable": True,
             "description": "OnePage original corporativo LGE em inglês (AI Deep Dive / AI Core)",
         },
         "demoday": {
@@ -111,6 +117,7 @@ DEFAULT_CONFIG: Dict[str, Any] = {
             "output_name": "demoday-hanaro.pdf",
             "output_subfolder": "DemoDay",
             "passes": 2,
+            "versionable": True,
             "description": "Apresentação de Slides do Demo Day / Kick-off (classe Beamer 16:9, hanarokickoff.cls)",
         },
     },
@@ -308,6 +315,7 @@ def run_list():
     table = Table(title="Templates de Relatório Disponíveis", show_header=True, header_style="bold magenta")
     table.add_column("Chave", style="bold cyan", width=12)
     table.add_column("Nome", width=14)
+    table.add_column("Tipo", width=12)
     table.add_column("Pasta", width=12)
     table.add_column("Arquivo Fonte", width=18)
     table.add_column("Saída Final (PDF)", width=24)
@@ -317,9 +325,11 @@ def run_list():
     for key, t in cfg.get("templates", {}).items():
         subfolder = t.get("output_subfolder", "")
         out_target = f"{out_dir}/{subfolder}/{t['output_name']}" if subfolder else f"{out_dir}/{t['output_name']}"
+        tipo_str = "[cyan]Recorrente[/cyan]" if t.get("versionable", False) else "[dim]Fixo[/dim]"
         table.add_row(
             key,
             t["name"],
+            tipo_str,
             t["directory"],
             t["entrypoint"],
             out_target,
@@ -328,6 +338,132 @@ def run_list():
         )
 
     console.print(table)
+
+
+def detect_template_version(entrypoint: Path) -> Optional[str]:
+    """Detecta automaticamente uma tag de versão com base no nome do arquivo ou conteúdo TeX."""
+    # 1. Verifica no nome do arquivo (ex: demoday-hanaro-v2.tex -> v2)
+    m_stem = re.search(r"[-_](v\d+(?:\.\d+)?)$", entrypoint.stem, re.IGNORECASE)
+    if m_stem:
+        return m_stem.group(1).lower()
+
+    if not entrypoint.exists():
+        return None
+
+    try:
+        content = entrypoint.read_text(encoding="utf-8", errors="ignore")
+    except Exception:
+        return None
+
+    # 2. Busca Sprint (ex: "Sprint 02", "Sprint 2", "Sprint02")
+    m_sprint = re.search(r"\bSprint\s*0?(\d+)\b", content, re.IGNORECASE)
+    if m_sprint:
+        num = int(m_sprint.group(1))
+        return f"sprint{num:02d}"
+
+    # 3. Busca Versão explícita no cabeçalho ou comentários (ex: "VERSAO 2", "Versão 2.0")
+    m_ver = re.search(r"\b(?:VERS[AÃ]O|Vers[aã]o)\s*(\d+(?:\.\d+)?)\b", content, re.IGNORECASE)
+    if m_ver:
+        return f"v{m_ver.group(1)}"
+
+    # 4. Busca Semana / W (ex: "W36", "Semana 8")
+    m_w = re.search(r"\bW(\d{2})\b", content)
+    if m_w:
+        return f"w{m_w.group(1)}"
+    m_sem = re.search(r"\bSemana\s*0?(\d+)\b", content, re.IGNORECASE)
+    if m_sem:
+        num = int(m_sem.group(1))
+        return f"sem{num:02d}"
+
+    return None
+
+
+def generate_pdf_thumbnail(pdf_path: Path, png_path: Path, dpi: int = 150) -> bool:
+    """Gera um thumbnail PNG da primeira página de um PDF usando pdftoppm (se disponível)."""
+    pdftoppm_bin = shutil.which("pdftoppm")
+    if not pdftoppm_bin:
+        miktex_candidate = Path(r"D:\MiKTeX\miktex\bin\x64\pdftoppm.exe")
+        if miktex_candidate.exists():
+            pdftoppm_bin = str(miktex_candidate)
+        else:
+            return False
+
+    temp_prefix = png_path.parent / f"_thumb_tmp_{png_path.stem}"
+    try:
+        cmd = [
+            pdftoppm_bin,
+            "-png",
+            "-r", str(dpi),
+            "-f", "1",
+            "-l", "1",
+            str(pdf_path),
+            str(temp_prefix)
+        ]
+        res = subprocess.run(cmd, capture_output=True, text=True)
+        if res.returncode == 0:
+            generated = list(png_path.parent.glob(f"{temp_prefix.name}-*.png"))
+            if generated:
+                if png_path.exists():
+                    png_path.unlink()
+                generated[0].rename(png_path)
+                return True
+    except Exception:
+        pass
+    finally:
+        for f in png_path.parent.glob(f"{temp_prefix.name}*"):
+            try:
+                f.unlink()
+            except OSError:
+                pass
+    return False
+
+
+def run_list_versions(out_dir_path: Optional[Path] = None):
+    """Exibe tabela formatada com todas as versões arquivadas dos relatórios recorrentes."""
+    cfg = load_config()
+    out_path = out_dir_path or (ROOT_DIR / cfg.get("output_dir", "dist"))
+
+    table = Table(title="Histórico de Versões Arquivadas (Templates Recorrentes)", show_header=True, header_style="bold green")
+    table.add_column("Template", style="bold cyan", width=22)
+    table.add_column("Versão / Tag", style="bold yellow", width=14)
+    table.add_column("Arquivo PDF", width=38)
+    table.add_column("Tamanho", width=10)
+    table.add_column("Modificado em", width=18)
+    table.add_column("Preview PNG", width=12)
+
+    found_count = 0
+    if out_path.exists():
+        for versoes_dir in sorted(out_path.glob("*/versoes")):
+            template_name = versoes_dir.parent.name
+            pdf_files = sorted(versoes_dir.glob("*.pdf"), key=lambda p: p.stat().st_mtime, reverse=True)
+            for pdf_file in pdf_files:
+                found_count += 1
+                size_mb = pdf_file.stat().st_size / (1024 * 1024)
+                mtime_str = datetime.fromtimestamp(pdf_file.stat().st_mtime).strftime("%d/%m/%Y %H:%M")
+                
+                parts = pdf_file.stem.split("-")
+                tag_guess = parts[-1] if len(parts) > 1 else "v?"
+
+                png_preview = pdf_file.with_suffix(".png")
+                has_preview = "[green]Sim[/green]" if png_preview.exists() else "[dim]Não[/dim]"
+
+                table.add_row(
+                    template_name,
+                    tag_guess,
+                    pdf_file.name,
+                    f"{size_mb:.2f} MB",
+                    mtime_str,
+                    has_preview,
+                )
+
+    if found_count > 0:
+        console.print(table)
+        console.print(f"\n[dim]Total de {found_count} versões arquivadas encontradas em {out_path.name}/.[/dim]")
+    else:
+        console.print("[yellow]Nenhuma versão arquivada encontrada em dist/*/versoes/.[/yellow]")
+        console.print("[white]Para gerar versões arquivadas automáticas ou manuais, use:[/white]")
+        console.print("  [cyan]uv run build status-report -t sprint02[/cyan]")
+        console.print("  [cyan]uv run build demoday -t v2[/cyan]")
 
 
 def run_clean(clean_all: bool = False):
@@ -356,6 +492,8 @@ def compile_single_template(
     clean_aux: bool,
     override_passes: Optional[int],
     verbose: bool,
+    tag: Optional[str] = None,
+    no_version: bool = False,
 ) -> bool:
     name = t_info["name"]
     tdir = ROOT_DIR / t_info["directory"]
@@ -442,10 +580,32 @@ def compile_single_template(
     size_mb = target_pdf.stat().st_size / (1024 * 1024)
 
     console.print(
-        f"[bold green]✔ Sucesso![/bold green] PDF gerado em: "
+        f"[bold green]✔ Sucesso![/bold green] PDF canônico gerado em: "
         f"[bold white]{target_pdf.relative_to(ROOT_DIR)}[/bold white] "
         f"({size_mb:.2f} MB, {elapsed:.1f}s)"
     )
+
+    # Versionamento automático e sob demanda para templates recorrentes
+    is_versionable = t_info.get("versionable", False) and not no_version
+    effective_tag = tag
+    if not effective_tag and is_versionable:
+        effective_tag = detect_template_version(entrypoint)
+
+    if effective_tag:
+        clean_tag = re.sub(r"[^a-zA-Z0-9_\-\.]", "", effective_tag).lower()
+        versoes_dir = target_pdf.parent / "versoes"
+        versoes_dir.mkdir(parents=True, exist_ok=True)
+        versioned_pdf = versoes_dir / f"{target_pdf.stem}-{clean_tag}.pdf"
+        shutil.copy2(target_pdf, versioned_pdf)
+        v_size_mb = versioned_pdf.stat().st_size / (1024 * 1024)
+        console.print(
+            f"  [bold magenta]📦 Arquivado:[/bold magenta] "
+            f"[bold white]{versioned_pdf.relative_to(ROOT_DIR)}[/bold white] "
+            f"({v_size_mb:.2f} MB)"
+        )
+
+        versioned_png = versoes_dir / f"{target_pdf.stem}-{clean_tag}.png"
+        generate_pdf_thumbnail(versioned_pdf, versioned_png)
 
     if clean_aux:
         cleaned = clean_template_aux(tdir)
@@ -461,6 +621,8 @@ def run_build(
     clean: Optional[bool] = None,
     passes: Optional[int] = None,
     verbose: bool = False,
+    tag: Optional[str] = None,
+    no_version: bool = False,
 ):
     cfg = load_config()
 
@@ -495,6 +657,8 @@ def run_build(
             clean_aux=clean_aux,
             override_passes=passes,
             verbose=verbose,
+            tag=tag,
+            no_version=no_version,
         )
         if ok:
             success_count += 1
@@ -516,19 +680,25 @@ def run_build(
 )
 @click.argument("action_or_template", default="all", required=False)
 @click.option("-o", "--out-dir", default=None, help="Diretório de destino dos PDFs (padrão: dist/).")
+@click.option("-t", "--tag", default=None, help="Tag de versão manual (ex: sprint02, v2, w36) para templates recorrentes.")
+@click.option("--no-version", is_flag=True, help="Desativa o arquivamento de versão para templates recorrentes.")
 @click.option("--clean/--no-clean", default=None, help="Limpar arquivos auxiliares após o build.")
 @click.option("--passes", default=None, type=int, help="Forçar quantidade de passadas de compilação.")
 @click.option("-v", "--verbose", is_flag=True, help="Exibe detalhes adicionais do processo.")
 @click.option("--check", is_flag=True, help="Executa diagnóstico dos pré-requisitos do ambiente.")
 @click.option("--list", "list_flag", is_flag=True, help="Lista os templates disponíveis.")
+@click.option("--versions", "versions_flag", is_flag=True, help="Lista o histórico de versões arquivadas em dist/.")
 def cli(
     action_or_template: str,
     out_dir: Optional[str],
+    tag: Optional[str],
+    no_version: bool,
     clean: Optional[bool],
     passes: Optional[int],
     verbose: bool,
     check: bool,
     list_flag: bool,
+    versions_flag: bool,
 ):
     """Compila os templates LaTeX para PDF.
 
@@ -546,6 +716,7 @@ def cli(
       uv run build check               -> Verifica LuaLaTeX, fontes e dependências
       uv run build clean               -> Limpa arquivos auxiliares (.aux, .log, .toc, etc.)
       uv run build list                -> Lista templates e rotas de saída configuradas
+      uv run build versions            -> Lista histórico de versões arquivadas em dist/
     """
     arg = action_or_template.lower().strip()
 
@@ -553,6 +724,8 @@ def cli(
         run_check()
     elif list_flag or arg == "list":
         run_list()
+    elif versions_flag or arg in ("versions", "versoes", "historico"):
+        run_list_versions(out_dir_path=Path(out_dir) if out_dir else None)
     elif arg == "clean":
         run_clean(clean_all=False)
     elif arg == "clean-all":
@@ -564,6 +737,8 @@ def cli(
             clean=clean,
             passes=passes,
             verbose=verbose,
+            tag=tag,
+            no_version=no_version,
         )
 
 

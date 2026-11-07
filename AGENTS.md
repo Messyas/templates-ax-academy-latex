@@ -25,6 +25,11 @@ uv run build onepage-evidencias       # Compila o OnePage de Evidências do Spri
 uv run build onepage-corporativo      # Compila o OnePage corporativo LGE (EN)
 uv run build demoday                  # Compila a Apresentação Demo Day / Kick-off (Beamer 16:9)
 
+# Versionamento e histórico de entregas recorrentes
+uv run build versions                 # Lista todas as versões arquivadas em dist/*/versoes/
+uv run build status-report -t sprint02 # Compila e arquiva com tag manual (ex: sprint02, w36)
+uv run build demoday -t v2            # Compila e arquiva apresentação tagged
+
 # Limpeza de arquivos auxiliares de compilação
 uv run build clean                    # Remove .aux, .log, .toc, .ptc, etc.
 uv run build clean-all                # Remove temporários e limpa a pasta dist/
@@ -75,7 +80,9 @@ uv run build list
   - `modelos/OnePage-Corporativo-LGE`
   - `modelos/DemoDay` (apresentação de slides Beamer 16:9)
   - `modelos/referencias` (apresentações e referências visuais)
-- **Saída Oficial Segregada:** Todos os PDFs compilados finais são gravados isoladamente em subpastas dentro de `dist/` (ex: `dist/Apostila/guia-rapido.pdf`, `dist/Flyer/guia-flyer.pdf`, etc.), impedindo sobrescritas e perda de arquivos.
+- **Saída Oficial Segregada e Versionamento:**
+  - **Modelos Estruturais / Fixos** (`Apostila`, `Guia-Usuario-Hanaro`, `Flyer`): mantêm a saída canônica única em `dist/<Template>/<output_name>` (ex: `dist/Apostila/guia-rapido.pdf`).
+  - **Entregas Recorrentes** (`DemoDay`, `Status-Report`, `OnePage-Evidencias`, `OnePage-Sumarizacao`, `OnePage-Corporativo-LGE`): geram sempre o PDF canônico mais recente na raiz de `dist/<Template>/` E, simultaneamente, gravam uma cópia imutável rastreável e seu preview PNG em `dist/<Template>/versoes/<stem>-<tag>.pdf` (ex: `dist/Status-Report/versoes/status-report-equipe3-sprint02.pdf`). A tag é detectada automaticamente do `.tex` ou fornecida via `-t <tag>`.
 - **Arquivos no Git:** Nunca force a inclusão de PDFs gerados no Git (`dist/` e `modelos/**/*.pdf` estão no `.gitignore`). Apenas arquivos vetoriais de arte em `art/marca/*.pdf` e `art/fundo/*.pdf` são rastreados.
 
 ---
