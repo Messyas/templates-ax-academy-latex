@@ -32,7 +32,8 @@ O repositório unifica todos os modelos oficiais de relatórios e apresentaçõe
 | **Status Report** | `modelos/Status-Report/` | `status-report-equipe3.tex` | `dist/Status-Report/status-report-equipe3.pdf` | Relatório semanal de sprint (32 x 18 cm) com cartões equalizados via `tcolorbox` e retratos da equipe. Requer 2 passadas. |
 | **OnePage Evidências** | `modelos/OnePage-Evidencias/` | `onepage-evidencias-equipe3.tex` | `dist/OnePage-Evidencias/onepage-evidencias-equipe3.pdf` | Folha A3 paisagem com cartões de evidências de entrega, telas e fotos do sprint. Requer 2 passadas. |
 | **OnePage Corporativo LGE** | `modelos/OnePage-Corporativo-LGE/` | `onepage-lg.tex` | `dist/OnePage-Corporativo-LGE/onepage-corporativo-lg.pdf` | Template original em inglês corporativo LGE (AI Deep Dive / AI Core / 40K hours saved). Requer 2 passadas. |
-| **Demo Day (Slides)** | `modelos/DemoDay/` | `demoday-hanaro-v2.tex` | `dist/DemoDay/demoday-hanaro.pdf` | Apresentação oficial de slides em formato **16:9** (Beamer, `hanarokickoff.cls`, design system Hanaro). Requer 2 passadas. |
+| **Demo Day (Completo)** | `modelos/DemoDay/` | `demoday-hanaro-v2.tex` | `dist/DemoDay/demoday-hanaro.pdf` | Apresentação oficial completa em **16:9** (9 slides com MVP, marca, deploy e resultados). Requer 2 passadas. |
+| **Demo Day (Focado)** | `modelos/DemoDay/` | `demoday-focado.tex` | `dist/DemoDay/demoday-focado.pdf` | Apresentação executiva focada em **16:9** (7 slides, sem escopo MVP nem marca, foco direto em deploy intranet e resultados). Requer 2 passadas. |
 
 ---
 
@@ -211,8 +212,11 @@ uv run build flyer
 # Compilar somente o OnePage:
 uv run build onepage
 
-# Compilar a Apresentação Demo Day (Slides 16:9):
+# Compilar a Apresentação Demo Day (Slides 16:9 completa):
 uv run build demoday
+
+# Compilar a Apresentação Demo Day Focada (7 slides executivos):
+uv run build demoday-focado
 ```
 
 #### Versionamento de Entregas Recorrentes (DemoDay, OnePages, Status Report)

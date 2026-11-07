@@ -120,6 +120,16 @@ DEFAULT_CONFIG: Dict[str, Any] = {
             "versionable": True,
             "description": "Apresentação de Slides do Demo Day / Kick-off (classe Beamer 16:9, hanarokickoff.cls)",
         },
+        "demoday-focado": {
+            "name": "DemoDay-Focado",
+            "directory": "modelos/DemoDay",
+            "entrypoint": "demoday-focado.tex",
+            "output_name": "demoday-focado.pdf",
+            "output_subfolder": "DemoDay",
+            "passes": 2,
+            "versionable": True,
+            "description": "Apresentação Demo Day Focada (7 slides, sem escopo MVP e sem marca Hanaro, foco em deploy e resultados)",
+        },
     },
 }
 
@@ -712,7 +722,8 @@ def cli(
       uv run build status-report       -> Compila o Status Report semanal de equipe
       uv run build onepage-evidencias  -> Compila o OnePage de Evidências do Sprint
       uv run build onepage-corporativo -> Compila o OnePage corporativo LGE (EN)
-      uv run build demoday             -> Compila a Apresentação Demo Day / Kick-off (Beamer 16:9)
+      uv run build demoday             -> Compila a Apresentação Demo Day / Kick-off (Beamer 16:9, 9 slides)
+      uv run build demoday-focado      -> Compila a Apresentação Demo Day Focada (7 slides, sem MVP nem marca)
       uv run build check               -> Verifica LuaLaTeX, fontes e dependências
       uv run build clean               -> Limpa arquivos auxiliares (.aux, .log, .toc, etc.)
       uv run build list                -> Lista templates e rotas de saída configuradas

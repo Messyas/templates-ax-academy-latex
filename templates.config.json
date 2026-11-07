@@ -90,6 +90,16 @@
       "passes": 2,
       "versionable": true,
       "description": "Apresentação de Slides do Demo Day / Kick-off (classe Beamer 16:9, hanarokickoff.cls)"
+    },
+    "demoday-focado": {
+      "name": "DemoDay-Focado",
+      "directory": "modelos/DemoDay",
+      "entrypoint": "demoday-focado.tex",
+      "output_name": "demoday-focado.pdf",
+      "output_subfolder": "DemoDay",
+      "passes": 2,
+      "versionable": true,
+      "description": "Apresentação Demo Day Focada (7 slides, sem escopo MVP e sem marca Hanaro, foco em deploy e resultados)"
     }
   }
 }

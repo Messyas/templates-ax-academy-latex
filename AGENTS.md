@@ -14,7 +14,7 @@ Nunca adivinhe comandos shell de compilação ou flags do LaTeX. Utilize exclusi
 uv run build check
 
 # Compilação para PDF (saídas organizadas em dist/<Template>/)
-uv run build                          # Compila todos os 9 relatórios/apresentações
+uv run build                          # Compila todos os relatórios/apresentações
 uv run build apostila                 # Compila a Apostila / Guia Rápido multi-página
 uv run build guia-usuario             # Compila a Documentação Técnica completa do Hanaro (Partes I, II e III)
 uv run build guia-arquitetura         # Compila o Guia de Arquitetura do Hanaro (Partes I e II)
@@ -23,7 +23,8 @@ uv run build onepage-sumarizacao      # Compila o OnePage LG Sumarização (alia
 uv run build status-report            # Compila o Status Report semanal de equipe
 uv run build onepage-evidencias       # Compila o OnePage de Evidências do Sprint
 uv run build onepage-corporativo      # Compila o OnePage corporativo LGE (EN)
-uv run build demoday                  # Compila a Apresentação Demo Day / Kick-off (Beamer 16:9)
+uv run build demoday                  # Compila a Apresentação Demo Day / Kick-off completa (Beamer 16:9, 9 slides)
+uv run build demoday-focado           # Compila a Apresentação Demo Day Focada (7 slides, sem MVP nem marca)
 
 # Versionamento e histórico de entregas recorrentes
 uv run build versions                 # Lista todas as versões arquivadas em dist/*/versoes/

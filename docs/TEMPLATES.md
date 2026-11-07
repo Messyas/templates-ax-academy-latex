@@ -192,6 +192,11 @@ Apresentação oficial de slides em formato **16:9** baseada na classe `hanaroki
 
 Requer **2 passadas** para o alinhamento das referências absolutas `remember picture`. Compilação via `uv run build demoday`.
 
+### Variação Executiva Focada (`modelos/DemoDay/demoday-focado.tex`):
+Versão compactada em **7 slides** (`uv run build demoday-focado`), ideal para apresentações rápidas de alinhamento com stakeholders:
+- **Suprimidos:** Slides de "Escopo do MVP" e "A Marca Hanaro".
+- **Foco Central:** Capa, Equipe, Contexto, Objetivo, Sistema em Deploy na intranet LG (`:4203`) com ressalvas da PoC e RPA, Resultados quantitativos (504 h) e Encerramento.
+
 ---
 
 ## 9. Versionamento de Entregas Recorrentes

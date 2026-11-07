@@ -14,7 +14,8 @@ Orientações para o Claude ao trabalhar no repositório de templates LaTeX da A
 - `uv run build status-report`: Compila o Status Report semanal (`dist/Status-Report/status-report-equipe3.pdf`).
 - `uv run build onepage-evidencias`: Compila o OnePage Evidências (`dist/OnePage-Evidencias/onepage-evidencias-equipe3.pdf`).
 - `uv run build onepage-corporativo`: Compila o OnePage Corporativo LGE (`dist/OnePage-Corporativo-LGE/onepage-corporativo-lg.pdf`).
-- `uv run build demoday`: Compila a Apresentação Demo Day / Kick-off (`dist/DemoDay/demoday-hanaro.pdf`).
+- `uv run build demoday`: Compila a Apresentação Demo Day / Kick-off completa (`dist/DemoDay/demoday-hanaro.pdf`).
+- `uv run build demoday-focado`: Compila a Apresentação Demo Day Focada de 7 slides (`dist/DemoDay/demoday-focado.pdf`).
 - `uv run build versions`: Lista o histórico de versões arquivadas em `dist/*/versoes/`.
 - `uv run build <template> -t <tag>`: Compila e arquiva entrega recorrente com tag manual (ex: `sprint02`, `v2`, `w36`).
 - `uv run build clean`: Limpa resíduos de compilação (`.aux`, `.log`, `.toc`, `.ptc`, etc.).
