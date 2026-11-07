@@ -47,10 +47,11 @@ templates-ax-academy-latex/
 │   │   ├── onepage-lg.tex               # AI Deep Dive / AI Core
 │   │   └── img/                         # Ícones corporativos
 │   │
-│   ├── Guia-Usuario-Hanaro/             # 7. Guia do Usuário do Hanaro (Book; Arquitetura e IA)
-│   │   ├── axacademy-guia.sty           # Cópia do design system da Apostila
-│   │   ├── guia-usuario.tex             # Ponto de entrada com metadados
-│   │   ├── caps/                        # cap01.tex (Arquitetura) e cap02.tex (IA)
+│   ├── Guia-Usuario-Hanaro/             # 7. Documentação Técnica e Guia de Arquitetura do Hanaro (Book)
+│   │   ├── axacademy-guia.sty           # Idêntico ao da Apostila (alterar nas duas pastas)
+│   │   ├── guia-usuario.tex             # Documentação Técnica completa (Partes I, II e III)
+│   │   ├── guia-arquitetura.tex         # Guia de Arquitetura (Partes I e II; mesmos caps/)
+│   │   ├── caps/                        # cap01 (Arquitetura), cap02 (IA), cap03 (Referência Técnica)
 │   │   ├── art/                         # Identidade visual vetorial
 │   │   └── img/                         # Telas do Assistente e da tradução
 │   │
@@ -60,6 +61,7 @@ templates-ax-academy-latex/
 ├── dist/                                # Diretório central de saídas segregadas por template
 │   ├── Apostila/guia-rapido.pdf
 │   ├── Guia-Usuario-Hanaro/guia-usuario-hanaro.pdf
+│   ├── Guia-Usuario-Hanaro/guia-arquitetura-hanaro.pdf
 │   ├── Flyer/guia-flyer.pdf
 │   ├── OnePage-Sumarizacao/onepage-lg.pdf
 │   ├── Status-Report/status-report-equipe3.pdf

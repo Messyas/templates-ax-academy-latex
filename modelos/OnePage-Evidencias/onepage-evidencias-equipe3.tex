@@ -77,10 +77,10 @@
 
 % ===================== O QUE MUDOU NESTA SPRINT (altura fixa) =====================
 \begin{tcolorbox}[enhanced, colback=tintbg, colframe=lgred, boxrule=0pt,
-  leftrule=3pt, arc=1pt, left=11pt, right=11pt, top=6pt, bottom=6pt,
+  leftrule=3pt, arc=1pt, left=11pt, right=11pt, top=5pt, bottom=5pt,
   height=3.2cm, valign=center, before skip=0pt, after skip=7pt]
-{\hd{\large O que mudou nesta sprint (Semana 8 de 11)}}\\[2pt]
-{\small A frente de Inteligência Artificial do Hanaro saiu da fase de prospecção e passou a operar com \textbf{agentes ReAct construídos sobre o LangGraph}. O Assistente foi apresentado e \textbf{homologado pela área de Produção}: o agente lê ocorrências graves de scrap do GERP (como perdas de US\$ 6.400,89), consulta a \textbf{memória de análises históricas aprovadas} e formula hipóteses de causa raiz, ações de contenção imediata e propostas de tarefas corretivas. O analista atua como revisor \textit{human-in-the-loop} --- aceitando, editando ou rejeitando em poucos cliques ---, tornando a geração de relatórios semi-automática e integrando o plano de ação no próprio sistema. Em paralelo, o marco \textbf{M2 (03/09)} foi formalmente concluído com a validação da PoC do MVP com a gerência da Produção.}
+{\hd{\large O que mudou nesta sprint (Semana 8 de 11)}}\\[1pt]
+{\small A frente de Inteligência Artificial do Hanaro saiu da fase de prospecção e opera com \textbf{agentes ReAct sobre o LangGraph}. O fluxo do Assistente foi apresentado e \textbf{aprovado visualmente pelo Gerente da Produção} (Leandro Corazza) em fase de PoC (o agente em si ainda não está em produção definitiva): o modelo lê dados graves do GERP (como perdas de US\$ 6.400,89), consulta a \textbf{memória de análises históricas} e sugere hipóteses de causa, contenções e tarefas. O analista atua como revisor \textit{human-in-the-loop}. O marco \textbf{M2 (03/09)} foi concluído com essa validação de PoC. \textbf{Ressalva mantida:} a automação via RPA segue incompleta pois as contas ainda não têm autorização de acesso ao GERP.}
 \end{tcolorbox}
 
 % ===================== LINHA A: 3 EVIDÊNCIAS =====================
@@ -119,17 +119,17 @@
 \begin{minipage}[t]{0.315\textwidth}
 \begin{card}[equal height group=evid]{Evidência 3 \textbullet\ Validação e Planos de Ação}
 {\footnotesize
-\textbf{HOMOLOGADO} \ Revisão e geração de tarefas no relatório:\vspace{2pt}
+\textbf{PoC HOMOLOGADA} \ Revisão e geração de tarefas no relatório:\vspace{2pt}
 \begin{itemize}
   \item O analista revisa hipóteses de causa e contenções, e valida tarefas corretivas sugeridas com 1 clique.
   \item Geração automática do relatório formal com plano de ação estruturado para mitigar o scrap na origem.
-  \item Apresentação realizada e \textbf{homologada pela Produção} (validação com \textbf{Leandro Corazza}).
+  \item Apresentação realizada e \textbf{aprovada visualmente pela Produção} (validação de PoC com \textbf{Leandro Corazza}; agentes em pré-produção).
   \item Marco \textbf{M2 (03/09)} consolidado; avanço para a frente de testes e homologação (M3 em 02/10).
 \end{itemize}}
 \vspace{4pt}
 {\centering\evphoto{assistente_tarefas.jpg}{4.0cm}\par}
 \vspace{3pt}
-{\scriptsize\color{lgred}\textbf{Foco: Human-in-the-Loop \textbullet\ Tarefas do relatório \textbullet\ M2 Aprovado}}
+{\scriptsize\color{lgred}\textbf{Foco: Human-in-the-Loop \textbullet\ Tarefas do relatório \textbullet\ PoC Aprovada}}
 \end{card}
 \end{minipage}
 
@@ -141,11 +141,12 @@
 {\footnotesize
 \textbf{Equipe 3:} \textbf{André Filipe Aloise} (Líder e P.O.), \textbf{Messyas Gois França} (Dev), \textbf{Gustavo Almada} (Dev) e \textbf{Teodório Neto} (Dev). Orientação: \textbf{Prof. Anderson Fontoura}.\vspace{5pt}
 
-{\normalsize\lghead\color{lgred}Resultados da Sprint 02 (Semana 8)}\vspace{1pt}
+{\normalsize\lghead\color{lgred}Resultados e Impedimentos da Sprint 02}\vspace{1pt}
 \begin{itemize}
-  \item \textbf{Agentes ReAct no ar:} Raciocínio multi-passo sobre dados do GERP homologado pela gerência.
+  \item \textbf{Agentes ReAct validados visualmente:} PoC e fluxo aprovados pelo Gerente de Produção (pré-produção).
   \item \textbf{Tempo de análise reduzido em ~80\%:} Analista atua como revisor de propostas fundamentadas.
-  \item \textbf{Planos de ação estruturados:} Tarefas corretivas vinculadas aos relatórios para erradicar causas-raiz.
+  \item \textbf{Planos de ação estruturados:} Tarefas vinculadas aos relatórios para erradicar o refugo na origem.
+  \item \textbf{\color{lgred}Impedimento RPA (0\%):} Incompleto pois as contas ainda não têm autorização de acesso ao GERP.
   \item \textbf{Marco M2 concluído:} PoC validada e base pronta para os testes de sistema da Semana 9.
 \end{itemize}}
 \end{card}
@@ -173,10 +174,12 @@
 \end{card}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.23\textwidth}
-\begin{card}[equal height group=fim]{Marca e Protótipo}
-{\centering\evphoto{hanaro_v_app.png}{4.3cm}\par}
+\begin{card}[equal height group=fim]{Deploy em Produção}
+{\centering\evphoto{assistente_pre_analises.png}{4.4cm}\par}
 \vspace{4pt}
-{\footnotesize \textbf{Hanaro} \textbullet\ \textit{Controle de Scrap \& IA.}\\[2pt] Protótipo navegável: \href{https://prototipo-hanaro.vercel.app/}{prototipo-hanaro.vercel.app}.\\[3pt] {\scriptsize\color{lgred}\href{https://www.figma.com/design/pbNEP3Yl9zyluQtocR48x1/hanaro-scrap}{Design (Figma)} \textbullet\ \href{https://trello.com/invite/b/6a7b3b2ae74ac4c06391785b/ATTIc582630a53d71570e26e6a987b1049b08E12CF28/hanaro}{Kanban}}}
+{\footnotesize \textbf{Hanaro no Ar} \textbullet\ \textit{Intranet LG}\\[2pt]
+\textbf{Ambiente Ativo:} Intranet \textbullet\ Porta \textbf{4203}\\[2pt]
+{\scriptsize\color{muted}Aplicação ativa; agentes em PoC}}
 \end{card}
 \end{minipage}
 

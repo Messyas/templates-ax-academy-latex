@@ -1,0 +1,255 @@
+\Needspace{10\baselineskip}
+\section{Tela de Configurações}\label{sec:configuracoes}
+
+A tela de Configurações reúne os dados e as regras que o Hanaro usa para classificar o que chega do GERP, comparar o scrap com as metas e montar os relatórios. Quase nada ali é calculado sozinho: o que está cadastrado na tela muda o que aparece no Dashboard, na Base de Scrap e nos relatórios. Por isso vale ler esta seção antes de alterar qualquer valor.
+
+\subsection{Como a tela funciona}
+
+A tela abre como um catálogo de cartões, um por seção. Clicar em um cartão abre a seção em uma janela sobre a tela, com o título e, no rodapé, os botões de salvar. Algumas regras valem para todas as seções:
+
+\begin{itemize}[leftmargin=1.6em,itemsep=0.2em,topsep=0.3em]
+\item \textbf{Quem acessa.} A tela é de analistas e gestores. Os administradores de plataforma e o superusuário são levados direto para as Execuções, porque a área deles é a operação do sistema.
+\item \textbf{Alterações não salvas.} O contador \emph{“N alterações não salvas”} mostra o que ainda não foi gravado. Fechar a janela com alterações pendentes pede confirmação: \emph{Descartar} perde o que foi digitado, \emph{Continuar editando} volta para a janela.
+\item \textbf{Edição ao mesmo tempo.} Se outra pessoa gravar os mesmos dados enquanto você edita, o Hanaro recusa a gravação e avisa que os dados mudaram. Use \emph{Recarregar} para ver a versão atual e refaça a alteração.
+\item \textbf{Mensagens de erro.} Sem rede, sessão expirada, falta de permissão e dados recusados têm mensagens próprias. Se o aviso trouxer um \emph{código de suporte}, informe-o a quem cuida do servidor.
+\end{itemize}
+
+\begin{table}[H]
+\caption{As seções da tela de Configurações.}\label{tab:config-secoes}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{3.1cm}X L{3.3cm}@{}}
+\toprule
+\guiacabtabela
+\thead{Seção} & \thead{O que controla} & \thead{Efeito} \\
+\midrule
+\textbf{Classificações} & Regras que traduzem os códigos do GERP em nomes e filtros do Dashboard e dos relatórios. & Próximas importações; o histórico muda ao reaplicar. \\
+\textbf{Tipos de scrap} & As categorias que o analista escolhe ao classificar uma ocorrência. & Imediato, nas análises. \\
+\textbf{IF Cost} & Meta mensal do ano e os custos de reparo, retrabalho e parada. & Imediato, no Dashboard. \\
+\textbf{Produção} & Valor e quantidade produzidos por mês, no total ou por produto. & Imediato, no scrap em relação à produção. \\
+\textbf{Programa do ano} & A ficha anual do programa de redução de scrap. & Abre os relatórios criados no ano. \\
+\textbf{Cotação do dólar} & A cotação diária (PTAX), coletada sozinha do Banco Central. & Só consulta; recalcula uploads manuais. \\
+\textbf{Áreas responsáveis} & A lista de áreas sugeridas ao preencher tarefas. & Sugestões nas tarefas. \\
+\end{tabularx}
+\end{table}
+
+% ---------------------------------------------------------------------------
+\Needspace{12\baselineskip}
+\subsection{Classificações}
+
+É a seção de maior efeito. O GERP entrega códigos (part number, organização, conta, descrição do item) e cada regra diz o que um código significa no Hanaro. Há cinco tipos de regra:
+
+\begin{table}[H]
+\caption{Tipos de regra de classificação.}\label{tab:config-regras}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{3.1cm}X@{}}
+\toprule
+\guiacabtabela
+\thead{Tipo} & \thead{O que a regra define} \\
+\midrule
+\textbf{Nome do item} & Um nome legível no lugar do part number na Base de Scrap e nos relatórios. Vale na hora, sem reaplicar. Campos: \emph{Part number} e \emph{Nome exibido}. \\
+\textbf{Produto e divisão} & Para cada organização do GERP, os valores de \emph{Filter 1} (produto), \emph{Filter 2} e \emph{Divisão} dos filtros do Dashboard, o \emph{Código de produção} e o \emph{Mapa do painel}. Com o mapa em \emph{Sim}, a análise dos casos da organização registra a região do defeito no painel da TV. \\
+\textbf{Departamento da linha} & Liga o código da linha ao departamento responsável e define se ela entra no \emph{Filtro da linha} do Dashboard. Departamentos marcados como produção aparecem sozinhos como linhas no painel Linhas, sem cadastro. \\
+\textbf{Conta do IF Cost} & Diz se os lançamentos de uma conta somam no IF Cost e são comparados com as metas (\emph{Entra no IF Cost}). A regra vale para a combinação \emph{descrição da conta} + \emph{alias}. \\
+\textbf{Tipo de item} & Agrupa os itens pela descrição, com texto exato ou expressão regular (maiúsculas e minúsculas são iguais). Quando várias regras combinam, vale a de menor \emph{Prioridade}. \\
+\end{tabularx}
+\end{table}
+
+\subsubsection*{Como usar}
+
+\begin{enumerate}[leftmargin=1.6em,itemsep=0.2em,topsep=0.3em]
+\item Abra \emph{Classificações}. O quadro \emph{Códigos sem regra} lista os códigos que já vieram nas importações e ainda não têm regra completa, com a coluna \emph{O que falta} (nome do item ou definição de IF Cost) e a quantidade de registros afetados.
+\item Filtre por \emph{Situação} (\emph{Sem regra} ou \emph{Regra incompleta}), por \emph{Falta} ou por quantidade de registros, ou busque pelo código. Comece pelos códigos com mais registros.
+\item Clique em \emph{Criar regra} (ou \emph{Completar regra}) na linha do código: o formulário abre com o código preenchido. Para uma regra que não vem da lista, use \emph{Nova regra}.
+\item Escolha o \emph{Tipo de regra}, preencha os campos marcados com \texttt{*} e deixe \emph{Regra ativa} ligada. Em \emph{Tipo de item} com expressão regular, teste a regra no campo \emph{Testar com uma descrição} antes de salvar.
+\item Salve com \emph{Adicionar regra} (ou \emph{Salvar regra}). A regra vale para as próximas importações.
+\item Para atualizar o que já foi importado, clique em \emph{Reaplicar ao histórico}. O Hanaro reclassifica todos os registros com as regras ativas e informa quantos mudaram.
+\end{enumerate}
+
+\subsubsection*{Exemplo de configuração}
+
+Os valores abaixo são ilustrativos; os códigos reais vêm do GERP da sua fábrica.
+
+\begin{table}[H]
+\caption{Exemplos de regras (valores ilustrativos).}\label{tab:config-regras-ex}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{2.7cm}X@{}}
+\toprule
+\guiacabtabela
+\thead{Tipo} & \thead{Configuração} \\
+\midrule
+Nome do item & \emph{Part number} \tech{ABC123456}, \emph{Nome exibido} \tech{Placa principal 55 pol.}. A Base de Scrap passa a mostrar o nome em vez do código. \\
+Conta do IF Cost & \emph{Descrição} \tech{Consumo de materiais}, \emph{Alias} \tech{E-CONSM}, \emph{Entra no IF Cost}: Sim. Os lançamentos dessa conta somam no IF Cost e entram na comparação com a meta. \\
+Tipo de item & \emph{Como comparar}: Expressão regular, \emph{Expressão} \tech{\textasciicircum(?:pcba\textbar{}pcb assembly)}, \emph{Tipo de item} \tech{PCBA}, \emph{Prioridade} 10. Encontra descrições que começam com “pcba” ou “pcb assembly”. \\
+Departamento da linha & \emph{Código da linha} \tech{L03}, \emph{Departamento} Montagem, \emph{Entra no Filtro da linha}: Sim. A linha passa a aparecer no filtro do Dashboard. \\
+\end{tabularx}
+\end{table}
+
+\begin{remark}[atencao]
+\textbf{O que não fazer em Classificações.}
+\begin{itemize}[leftmargin=1.4em,itemsep=0.15em,topsep=0.3em]
+\item \textbf{Não esquecer de reaplicar.} Criar, editar ou excluir uma regra não muda o que já foi importado. Sem \emph{Reaplicar ao histórico}, o Dashboard e os relatórios continuam com a classificação anterior.
+\item \textbf{Não reaplicar em sequência.} A reaplicação reclassifica todos os registros. Se der erro, espere alguns minutos antes de tentar de novo, em vez de clicar várias vezes.
+\item \textbf{Não usar expressão regular ampla.} Uma expressão como \tech{pcb}, sem \tech{\textasciicircum}, combina com qualquer descrição que contenha essas letras. Ancore no início, teste com descrições reais e use a prioridade para resolver sobreposições.
+\item \textbf{Não duplicar regra.} Só pode existir uma regra de cada tipo por código. Se o Hanaro avisar que já existe, edite a regra existente.
+\item \textbf{Não excluir para desativar.} Para parar de usar uma regra sem perdê-la, desligue \emph{Regra ativa}: regras inativas ficam guardadas, mas não classificam nada.
+\item \textbf{Não desligar \emph{Entra no IF Cost} sem avisar.} A conta sai do IF Cost e da comparação com a meta, no que for importado ou reaplicado depois.
+\end{itemize}
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\Needspace{10\baselineskip}
+\subsection{Tipos de scrap}
+
+São as categorias que o analista escolhe ao classificar uma ocorrência na análise de scrap (por exemplo, Oxidação ou Avaria de transporte). A lista é a mesma para toda a equipe.
+
+\subsubsection*{Como usar}
+
+\begin{enumerate}[leftmargin=1.6em,itemsep=0.2em,topsep=0.3em]
+\item Em \emph{Novo tipo de scrap}, digite o \emph{Nome}. O \emph{Código} é gerado a partir do nome (letras maiúsculas, números, \texttt{\_} ou \texttt{-}) e não pode ser alterado depois.
+\item Clique em \emph{Adicionar tipo}. O tipo aparece em \emph{Tipos cadastrados} e já pode ser escolhido nas análises.
+\item Para mudar o nome, use \emph{Editar}. Para escondê-lo sem apagar, desligue \emph{Disponível nas análises}.
+\end{enumerate}
+
+\textbf{Exemplo.} Nome \tech{Oxidação}, código \tech{OXIDACAO}. Se a equipe deixar de usar a categoria \emph{Avaria de transporte}, desligue \emph{Disponível nas análises}: ela some das análises novas, e as análises já feitas continuam como estavam.
+
+\begin{remark}[atencao]
+\textbf{O que não fazer em Tipos de scrap.}
+\begin{itemize}[leftmargin=1.4em,itemsep=0.15em,topsep=0.3em]
+\item \textbf{Não excluir para esconder.} Excluir o tipo o remove das análises de vez. Para só escondê-lo, desligue \emph{Disponível nas análises}.
+\item \textbf{Não escolher o código sem pensar.} O código não muda depois de criado; se estiver errado, só o nome pode ser corrigido.
+\item \textbf{Não criar tipos parecidos.} “Oxidação” e “Oxidacao” viram códigos diferentes e dividem os casos em dois grupos. Procure na lista antes de adicionar.
+\end{itemize}
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\Needspace{12\baselineskip}
+\subsection{IF Cost}
+
+Define a meta mensal de IF Cost e registra os custos de reparo, retrabalho e parada. O scrap entra sozinho, a partir das importações, nas contas marcadas como \emph{Entra no IF Cost}.
+
+\subsubsection*{Meta do ano}
+
+A tabela \emph{Meta por mês} guarda uma meta por mês. Acima dela, \emph{Preencher os 12 meses} gera os valores sem gravar nada, até que você clique em \emph{Salvar metas de} \emph{ano}:
+
+\begin{itemize}[leftmargin=1.6em,itemsep=0.2em,topsep=0.3em]
+\item \textbf{Reduzir de janeiro a dezembro.} Informe a \emph{Meta de janeiro} e a \emph{Meta de dezembro}; os meses do meio variam gradualmente de um valor ao outro.
+\item \textbf{Mesmo valor todo mês.} Informe a \emph{Meta total do ano}; ela é dividida igualmente pelos 12 meses.
+\end{itemize}
+
+Os quadros \emph{Total planejado}, \emph{Média mensal} e \emph{Em relação a} (ano anterior) mostram o efeito da meta antes de salvar. Depois de preencher, revise a tabela: qualquer célula pode ser ajustada à mão.
+
+\subsubsection*{Outros custos}
+
+Em \emph{Outros custos do IF Cost}, digite reparo, retrabalho e parada de cada mês, \textbf{em dólar (US\$)}. Deixe em branco o que não tiver valor. O \emph{Total do mês} é somado na hora. Informe a \emph{Origem dos valores} (digitado manualmente, importação de planilha, ERP ou financeiro) e, se quiser, uma referência e uma observação. O \emph{Histórico de revisões} registra cada alteração.
+
+\textbf{Exemplo.} Meta de janeiro US\$ 120~mil e de dezembro US\$ 102~mil (uma redução de 15\%): \emph{Reduzir de janeiro a dezembro}, \emph{Preencher tabela}, revisar e \emph{Salvar metas de 2026}. Em março, o financeiro envia o relatório de custos: lance o retrabalho do mês, origem \emph{Financeiro}, referência \tech{relatório financeiro de março}.
+
+\begin{remark}[atencao]
+\textbf{O que não fazer em IF Cost.}
+\begin{itemize}[leftmargin=1.4em,itemsep=0.15em,topsep=0.3em]
+\item \textbf{Não achar que preencher é salvar.} \emph{Preencher tabela} só monta os valores. Sem \emph{Salvar metas}, nada é gravado.
+\item \textbf{Não excluir as metas do ano à toa.} \emph{Excluir metas} apaga os 12 valores e o Dashboard fica sem linha de meta nesse ano.
+\item \textbf{Não lançar custos em reais.} Os campos de reparo, retrabalho e parada são em US\$.
+\item \textbf{Não trocar de escopo com alterações pendentes.} Salve ou descarte antes de mudar o escopo.
+\item \textbf{Não tentar lançar o scrap aqui.} Ele entra pelas importações; esta seção só recebe a meta e os outros custos.
+\end{itemize}
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\Needspace{12\baselineskip}
+\subsection{Produção}
+
+Guarda o valor e a quantidade produzidos em cada mês. O Dashboard usa esses dados para calcular o scrap em relação à produção.
+
+\subsubsection*{Como usar}
+
+\begin{enumerate}[leftmargin=1.6em,itemsep=0.2em,topsep=0.3em]
+\item Escolha o \emph{Escopo}: \emph{Global (todos os produtos)} ou um produto específico, e o \emph{Ano}.
+\item Para cada mês, digite o \emph{Valor da produção (USD)} e a \emph{Quantidade produzida}, e uma observação se precisar. \emph{Enter} avança: valor, quantidade, próximo mês.
+\item Acompanhe os meses pelas pastilhas (\emph{preenchido}, \emph{sem dados} ou \emph{valor inválido}) e pelos totais do ano.
+\item Clique em \emph{Salvar dados de} \emph{ano}. Em escopo global, o quadro \emph{Detalhado por produto} mostra quanto do mês veio de cada produto.
+\end{enumerate}
+
+\textbf{Exemplo.} Escopo global, 2026, março: valor US\$ 4,2~milhões e quantidade de 38~mil unidades. Para acompanhar um produto isolado, troque o escopo, lance os meses dele e salve.
+
+\begin{remark}[atencao]
+\textbf{O que não fazer em Produção.}
+\begin{itemize}[leftmargin=1.4em,itemsep=0.15em,topsep=0.3em]
+\item \textbf{Não usar valores negativos ou texto.} Só números maiores ou iguais a zero; os campos inválidos ficam destacados e a gravação é recusada.
+\item \textbf{Não tentar salvar com tudo vazio.} É preciso preencher pelo menos um mês.
+\item \textbf{Não misturar escopos.} Lançar o total da fábrica no escopo de um produto distorce a relação entre scrap e produção.
+\item \textbf{Não limpar o ano sem necessidade.} \emph{Limpar} exclui os dados e o Dashboard deixa de mostrar o scrap em relação à produção nesses meses.
+\end{itemize}
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\Needspace{12\baselineskip}
+\subsection{Programa do ano}
+
+É a ficha anual do programa de redução de scrap. Ela abre os relatórios criados no ano, e campos vazios não aparecem no relatório. Use as setas de ano para mudar a ficha; cada ano tem a sua.
+
+\begin{table}[H]
+\caption{Blocos da ficha do programa.}\label{tab:config-ficha}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{3.1cm}X@{}}
+\toprule
+\guiacabtabela
+\thead{Bloco} & \thead{Campos} \\
+\midrule
+\textbf{Identificação} & Tema, período, equipe e local. \\
+\textbf{KPI} & Indicador, nível atual, meta e nota da meta. Em branco, o relatório usa o valor da base e das metas, atualizado na emissão; preencha só para substituir um valor. \emph{Valor manual} e \emph{Voltar ao automático} alternam entre os dois modos. \\
+\textbf{Contexto e resultados} & Problema de negócio, ideias de ruptura, resultados qualitativos e pontos críticos; um item por linha. \\
+\textbf{Plano de execução} & Etapas com período e o que é feito, até o limite indicado na tela. \\
+\textbf{Organização} & Patrocinador, responsável, líder e as equipes de tempo integral e parcial; um nome por linha. \\
+\end{tabularx}
+\end{table}
+
+\textbf{Exemplo.} Tema \tech{Material Scrap TASK – MS IF Cost redução de 15\%}, período \tech{Jan–Dez}, KPI \tech{IF Cost de scrap de material (US\$)}, com nível atual e meta deixados em branco para virem da base. Salve com \emph{Salvar ficha}; o rodapé passa a indicar a versão salva.
+
+\begin{remark}[atencao]
+\textbf{O que não fazer na ficha.}
+\begin{itemize}[leftmargin=1.4em,itemsep=0.15em,topsep=0.3em]
+\item \textbf{Não digitar o KPI por hábito.} Um valor manual congela o número e deixa de acompanhar a base. Use \emph{Voltar ao automático} quando a razão para o valor manual acabar.
+\item \textbf{Não editar a ficha de outro ano por engano.} Confira o ano no topo antes de salvar.
+\item \textbf{Não ignorar o aviso de conflito.} Se a ficha mudou em outra sessão, recarregue antes de salvar, ou a alteração é recusada.
+\end{itemize}
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\Needspace{10\baselineskip}
+\subsection{Cotação do dólar}
+
+Mostra a cotação de venda do dólar (PTAX), coletada sozinha do Banco Central. O sistema confere novidades a cada hora. Os uploads usam a cotação do dia em que o arquivo chegou; em fins de semana e feriados, a do dia útil anterior. Nada nesta seção é digitado: ela serve para conferir.
+
+\begin{itemize}[leftmargin=1.6em,itemsep=0.2em,topsep=0.3em]
+\item O aviso de estado diz se a coleta está normal, atrasada (traz a data da última cotação recebida) ou ainda vazia.
+\item O gráfico e a tabela do ano mostram a cotação de cada dia e quantos dias úteis ficaram sem cotação (feriado ou falha na coleta).
+\item \emph{Recalcular dados carregados} refaz o valor em US\$ dos \textbf{uploads manuais} já feitos, com as cotações de agora. Dados vindos da automação não mudam.
+\end{itemize}
+
+\begin{remark}[atencao]
+\textbf{O que não fazer na cotação.}
+\begin{itemize}[leftmargin=1.4em,itemsep=0.15em,topsep=0.3em]
+\item \textbf{Não esperar corrigir a cotação à mão.} Ela não é editável; se a coleta estiver atrasada por muito tempo, avise quem cuida do servidor.
+\item \textbf{Não recalcular sem motivo.} Use \emph{Recalcular dados carregados} depois que uma cotação faltante chegar; o recálculo altera valores de uploads já conferidos.
+\end{itemize}
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\Needspace{8\baselineskip}
+\subsection{Áreas responsáveis}
+
+Cadastra as áreas sugeridas ao preencher o campo de área de uma tarefa (por exemplo, Qualidade). Todos veem as sugestões; só o superusuário cadastra e remove áreas.
+
+\begin{itemize}[leftmargin=1.6em,itemsep=0.2em,topsep=0.3em]
+\item Digite o \emph{Nome da área} e clique em \emph{Cadastrar área}. Uma área repetida é recusada.
+\item \emph{Remover} tira a área das sugestões; as tarefas existentes mantêm o valor que já tinham.
+\end{itemize}
+
+\begin{remark}[dica]
+Padronize o nome das áreas (“Qualidade”, não “qualidade” nem “Qualid.”): as sugestões servem justamente para que as tarefas fiquem agrupáveis nos relatórios.
+\end{remark}

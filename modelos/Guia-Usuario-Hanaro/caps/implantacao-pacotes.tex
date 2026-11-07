@@ -1,0 +1,121 @@
+\Needspace{10\baselineskip}
+\section{Implantação}\label{sec:implantacao-uml}
+
+O diagrama de implantação da UML mostra \emph{onde cada parte do Hanaro roda}. A \autoref{fig:implantacao-uml} usa três elementos. Cada caixa em relevo é um \textbf{nó}: um dispositivo (\texttt{device}), como um servidor, ou um ambiente de execução (\texttt{executionEnvironment}), como um contêiner ou um navegador. O retângulo com ícone dentro de um nó é um \textbf{artefato}, o que foi implantado nele. As linhas são os \textbf{caminhos de comunicação}, com a seta indo de quem chama para quem responde. A figura da Parte~I mostra o mesmo cenário de forma simplificada; aqui estão todos os contêineres, as redes e os sentidos das chamadas.
+
+\begin{table}[H]
+\caption{Nós e artefatos do diagrama de implantação.}\label{tab:impl-nos}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{3.3cm}X@{}}
+\toprule
+\guiacabtabela
+\thead{Nó} & \thead{Artefatos e observações} \\
+\midrule
+\textbf{Navegador} & A aplicação web (Angular), servida pelo nginx. \\
+\textbf{Automação GERP} & O processo \texttt{hanaro-automation}, em Python: lê o arquivo TSV exportado do GERP e envia a carga ao Hanaro com uma chave de API. \\
+\textbf{Servidor do Hanaro} & Os contêineres do Hanaro, em Docker Compose. Só o nginx publica porta; a rede \texttt{data} é interna, sem saída para fora. \\
+\textbf{nginx} & O artefato \texttt{hanaro-web}. Rede \texttt{proxy}; porta 4203; sistema de arquivos somente leitura. \\
+\textbf{backend} & O artefato \texttt{hanaro-backend} (a API). Redes \texttt{proxy} e \texttt{data}; a porta 8000 só existe dentro da rede; aplica as migrações do banco ao iniciar. \\
+\textbf{worker} & A mesma imagem do backend, com o comando do Taskiq. Redes \texttt{data} e \texttt{proxy}; é o único contêiner que também sai para fora. \\
+\textbf{postgres e redis} & O banco de dados e o Redis (fila, sessões e cache do Dashboard), na rede \texttt{data}, cada um com seu volume. \\
+\textbf{Servidor de IA} & Opcional e, em geral, em outra máquina. Reúne o compose do agente (\texttt{agent-api} na porta 8200, \texttt{agent-worker} e \texttt{agent-db}, um PostgreSQL com pgvector), o compose da tradução (\texttt{translation-service}, porta 8100) e o servidor de modelos (Ollama ou equivalente, com API compatível com a da OpenAI). \\
+\textbf{Banco Central e Teams} & Sistemas externos: o Banco Central fornece a cotação PTAX (Olinda) e o Teams recebe os cartões de alerta. Só o worker fala com eles. \\
+\end{tabularx}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\dimexpr\textheight-3.2cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/implantacao}
+\caption{Diagrama de implantação do Hanaro.}\label{fig:implantacao-uml}
+\end{figure}
+
+\begin{table}[H]
+\caption{Caminhos de comunicação do diagrama de implantação.}\label{tab:impl-caminhos}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{3.3cm}L{4.2cm}X@{}}
+\toprule
+\guiacabtabela
+\thead{Caminho} & \thead{De, para} & \thead{Observação} \\
+\midrule
+HTTP, porta 4203 & Navegador, nginx & A tela e a API usam o mesmo endereço. \\
+HTTP com chave de API & Automação, nginx & A API não publica porta própria, então a carga entra pelo nginx. \\
+\texttt{/api} e \texttt{/health} & nginx, backend & O nginx serve a tela e encaminha a API. \\
+SQL, fila e sessões & backend e worker, postgres e redis & Os dois contêineres usam o banco e o Redis. \\
+HTTP, chat & backend, \texttt{agent-api} & A consulta do analista. \\
+HTTP, jobs & worker, \texttt{agent-api} & O worker entrega os pedidos de pré-análise e busca os resultados. O agente nunca chama o Hanaro. \\
+HTTP, tradução & worker, \texttt{translation-service} & Textos já mascarados. \\
+HTTP & agente e tradução, servidor de modelos & Os dois serviços de IA chamam o servidor de modelos. \\
+HTTPS & worker, Banco Central e Teams & Cotação PTAX e cartões de alerta. \\
+\end{tabularx}
+\end{table}
+
+\begin{remark}[info]
+\textbf{Para TI.} As portas 8200 do agente e 8100 da tradução devem ficar fechadas, exceto para o servidor do Hanaro. O serviço \texttt{populate-demo}, que só existe para preencher uma instalação nova com dados de demonstração, não aparece no desenho.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\Needspace{10\baselineskip}
+\section{Pacotes}\label{sec:pacotes}
+
+O diagrama de pacotes mostra como o código está organizado e quem pode depender de quem. Cada caixa com aba é um \textbf{pacote}, uma pasta de código; pacotes pequenos dentro de outro estão contidos nele. A seta vai de quem \emph{usa} para quem é \emph{usado}, e a seta de duas pontas indica uso nos dois sentidos. As regras desenhadas são as que o repositório confere em uma checagem automática.
+
+\subsection{Backend}
+
+O código da API fica em seis camadas e usa uma infraestrutura compartilhada (\autoref{fig:pacotes-backend}).
+
+A checagem automática impede quatro coisas: \texttt{controller} importar \texttt{repository}; \texttt{services} importar \texttt{controller}; \texttt{repository} importar \texttt{controller}, \texttt{services} ou \texttt{support}; e \texttt{models} ou \texttt{utils} importarem qualquer camada acima deles. Dois pontos merecem atenção ao mudar o código: \texttt{services} e \texttt{support} se usam nos dois sentidos, e \texttt{repository} existe só para alguns módulos, porque os serviços de scrap e de governança consultam o banco diretamente pela sessão da infraestrutura.
+
+\begin{table}[H]
+\caption{Pacotes do backend.}\label{tab:pacotes-backend}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{2.8cm}X L{3.4cm}@{}}
+\toprule
+\guiacabtabela
+\thead{Pacote} & \thead{O que contém} & \thead{Pode usar} \\
+\midrule
+\texttt{controller} & Rotas e validação da entrada, por domínio (acesso, scrap, governança, uso da plataforma, suporte e administração). & \texttt{services}, \texttt{support}, \texttt{models} \\
+\texttt{services} & Casos de uso e regras de negócio, por domínio. & \texttt{repository}, \texttt{support}, \texttt{models}, \texttt{utils} \\
+\texttt{support} & Dependências, exceções, tarefas do worker e renderizadores, por domínio. & \texttt{models} e, em alguns módulos, \texttt{services} \\
+\texttt{repository} & Acesso a dados de alguns módulos (chaves de API, scrap, limite de taxa, perfis de limite e usuários). & \texttt{models}, \texttt{utils} \\
+\texttt{models} & Tabelas e esquemas de dados, por domínio. & \texttt{utils} \\
+\texttt{utils} & Funções puras. & Nada da aplicação \\
+\texttt{infrastructure} & Sessão do banco, cache, fila Taskiq, autenticação, limite de taxa, segurança, registro (logging), middleware e fábrica da aplicação. & Todas as camadas a usam \\
+\end{tabularx}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\dimexpr\textheight-3.2cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/pacotes-backend}
+\caption{Pacotes do backend.}\label{fig:pacotes-backend}
+\end{figure}
+
+\subsection{Aplicação web}
+
+A aplicação Angular tem um pacote por funcionalidade navegável dentro de \texttt{modules} (\autoref{fig:pacotes-frontend}).
+
+As regras são estas: \texttt{modules} usa \texttt{core} e \texttt{shared}; \texttt{core} pode usar \texttt{shared}; \texttt{shared} não importa de \texttt{core} nem de \texttt{modules}. Uma funcionalidade só usa outra pelos arquivos \texttt{*.public-api.ts} dela, e uma checagem automática confere essas fronteiras. Regras e modelos exclusivos de uma tela ficam na própria funcionalidade; o código só sobe para \texttt{core} ou \texttt{shared} quando há consumidores em mais de uma delas.
+
+\begin{table}[H]
+\caption{Pacotes da aplicação web.}\label{tab:pacotes-frontend}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{2.8cm}X@{}}
+\toprule
+\guiacabtabela
+\thead{Pacote} & \thead{O que contém} \\
+\midrule
+\texttt{app} & Rotas, configuração da aplicação e os layouts. \\
+\texttt{modules} & Uma pasta por funcionalidade: dashboard, executions, scrap-base, reports, governance, assistant, settings, auth, users, profile, admin-logs, platform-usage, support e tv. \\
+\texttt{core} & Responsabilidades globais, com uma única instância: sessão e autenticação, configuração, cliente HTTP, idioma, áreas responsáveis, estrutura da tela e tema. \\
+\texttt{shared} & Componentes, gráficos, diretivas, pipes, utilitários, estilos e textos usados por mais de uma funcionalidade. \\
+\end{tabularx}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\dimexpr\textheight-3.2cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/pacotes-frontend}
+\caption{Pacotes da aplicação web.}\label{fig:pacotes-frontend}
+\end{figure}

@@ -21,7 +21,16 @@
       "output_name": "guia-usuario-hanaro.pdf",
       "output_subfolder": "Guia-Usuario-Hanaro",
       "passes": 2,
-      "description": "Guia do Usuário do Hanaro (classe book; arquitetura e inteligência artificial)"
+      "description": "Documentação Técnica completa do Hanaro (classe book; Partes I, II e III: arquitetura, IA e referência técnica)"
+    },
+    "guia-arquitetura": {
+      "name": "Guia-Arquitetura-Hanaro",
+      "directory": "modelos/Guia-Usuario-Hanaro",
+      "entrypoint": "guia-arquitetura.tex",
+      "output_name": "guia-arquitetura-hanaro.pdf",
+      "output_subfolder": "Guia-Usuario-Hanaro",
+      "passes": 2,
+      "description": "Guia de Arquitetura do Hanaro (classe book; Partes I e II: sistema e agentes de IA; mesmos capítulos do documento completo)"
     },
     "flyer": {
       "name": "Flyer",

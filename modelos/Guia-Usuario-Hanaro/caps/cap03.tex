@@ -6,10 +6,12 @@
 
 Esta parte reúne os diagramas técnicos do sistema, para quem precisa ir além da visão
 geral da Parte~I: o que cada perfil pode fazer (casos de uso), como o agente de IA e a consulta funcionam por dentro, como os componentes se
-organizam, o que acontece em cada fluxo importante e como os dados se relacionam. Os desenhos são vetoriais; em uma tela, é
+organizam, onde cada parte roda, como o código se divide em pacotes, o que acontece em cada fluxo importante e como os dados se relacionam. Os desenhos são vetoriais; em uma tela, é
 possível ampliar qualquer trecho.
 
 \input{caps/casos-de-uso}
+
+\input{caps/configuracoes}
 
 \input{caps/agente-rag}
 
@@ -20,33 +22,35 @@ interior de cada serviço. As páginas estão giradas para aproveitar a folha.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/componentes-sistema}
+\includegraphics[width=\dimexpr\textheight-3.2cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/componentes-sistema}
 \caption{Componentes do sistema.}\label{fig:componentes-sistema}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/componentes-frontend}
+\includegraphics[width=\dimexpr\textheight-3.2cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/componentes-frontend}
 \caption{Componentes do front-end.}\label{fig:componentes-frontend}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/componentes-backend}
+\includegraphics[width=\dimexpr\textheight-3.2cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/componentes-backend}
 \caption{Componentes do back-end (API).}\label{fig:componentes-backend}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/componentes-worker}
+\includegraphics[width=\dimexpr\textheight-3.2cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/componentes-worker}
 \caption{Componentes do worker.}\label{fig:componentes-worker}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/componentes-agent-service}
+\includegraphics[width=\dimexpr\textheight-3.2cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/componentes-agent-service}
 \caption{Componentes do servidor de IA.}\label{fig:componentes-agent-service}
 \end{figure}
+
+\input{caps/implantacao-pacotes}
 
 \section{Fluxos de sequência}
 

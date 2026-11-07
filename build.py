@@ -48,7 +48,16 @@ DEFAULT_CONFIG: Dict[str, Any] = {
             "output_name": "guia-usuario-hanaro.pdf",
             "output_subfolder": "Guia-Usuario-Hanaro",
             "passes": 2,
-            "description": "Guia do Usuário do Hanaro (classe book; arquitetura e inteligência artificial)",
+            "description": "Documentação Técnica completa do Hanaro (classe book; Partes I, II e III: arquitetura, IA e referência técnica)",
+        },
+        "guia-arquitetura": {
+            "name": "Guia-Arquitetura-Hanaro",
+            "directory": "modelos/Guia-Usuario-Hanaro",
+            "entrypoint": "guia-arquitetura.tex",
+            "output_name": "guia-arquitetura-hanaro.pdf",
+            "output_subfolder": "Guia-Usuario-Hanaro",
+            "passes": 2,
+            "description": "Guia de Arquitetura do Hanaro (classe book; Partes I e II: sistema e agentes de IA; mesmos capítulos do documento completo)",
         },
         "flyer": {
             "name": "Flyer",
@@ -510,7 +519,8 @@ def cli(
     Comandos e ações:
       uv run build                     -> Compila todos os relatórios para a pasta dist/
       uv run build apostila            -> Compila somente o Guia Rápido (Apostila)
-      uv run build guia-usuario        -> Compila o Guia do Usuário do Hanaro
+      uv run build guia-usuario        -> Compila a Documentação Técnica completa do Hanaro
+      uv run build guia-arquitetura    -> Compila o Guia de Arquitetura do Hanaro (Partes I e II)
       uv run build flyer               -> Compila somente o Flyer A3
       uv run build onepage             -> Compila o OnePage LG Sumarização
       uv run build status-report       -> Compila o Status Report semanal de equipe

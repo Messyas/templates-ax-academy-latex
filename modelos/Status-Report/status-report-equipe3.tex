@@ -72,10 +72,19 @@
     \fill[srtrack, rounded corners=2pt] (0,0) rectangle (3.2,0.16);
     \ifdim #1pt>0pt \fill[#2, rounded corners=2pt] (0,0) rectangle ({3.2*#1/100},0.16);\fi
   \end{tikzpicture}}
+\newcommand{\barrared}[1]{%
+  \begin{tikzpicture}[baseline=-0.5ex]
+    \fill[srred!15, draw=srred, line width=0.6pt, rounded corners=2pt] (0,0) rectangle (3.2,0.16);
+    \ifdim #1pt>0pt \fill[srred, rounded corners=2pt] (0,0) rectangle ({3.2*#1/100},0.16);\fi
+  \end{tikzpicture}}
 \newcommand{\tarefa}[4]{%
   {\lgtext\fontsize{8.2}{9.2}\selectfont\bfseries\color{srdark}#1}\\[0.5pt]
-  \barra{#2}{#3}\hfill{\lgtext\fontsize{8.2}{9.2}\selectfont\bfseries\color{srdark}#2\%}\\[0pt]
+  \barra{#2}{#3}\hfill{\lgtext\fontsize{8.2}{9.2}\selectfont\bfseries\color{#3}#2\%}\\[0pt]
   {\lgtext\fontsize{6.5}{7.5}\selectfont\color{srmut}#4}\par}
+\newcommand{\tarefaimpedimento}[3]{%
+  {\lgtext\fontsize{8.2}{9.2}\selectfont\bfseries\color{srred}#1}\\[0.5pt]
+  \barrared{#2}\hfill{\lgtext\fontsize{8.2}{9.2}\selectfont\bfseries\color{srred}#2\%}\\[0pt]
+  {\lgtext\fontsize{6.5}{7.5}\selectfont\color{srred}#3}\par}
 
 % Foto circular do membro (com largura ajustada para 4 integrantes no card)
 \newcommand{\fotoav}[3]{%
@@ -100,10 +109,10 @@
 
 \newcommand{\linkbtn}[3]{%
   \begin{tcolorbox}[enhanced, colback=white, colframe=srred, boxrule=1pt, arc=4pt,
-      left=1pt, right=1pt, top=2pt, bottom=2pt, halign=center, valign=center,
-      width=\linewidth, height=1.20cm, before skip=0pt, after skip=0pt]
-    {\color{srdark}\fontsize{12}{12}\selectfont #1}\\[2pt]
-    {\lgtext\fontsize{6.6}{7.5}\selectfont\bfseries\color{srred}\href{#3}{#2}}
+      left=4pt, right=4pt, top=2pt, bottom=2pt, halign=center, valign=center,
+      width=\linewidth, height=1.15cm, before skip=0pt, after skip=0pt]
+    {\color{srdark}\fontsize{11}{11}\selectfont #1}\\[2pt]
+    {\lgtext\fontsize{7.4}{8.5}\selectfont\bfseries\color{srred}\href{#3}{#2}}
   \end{tcolorbox}}
 
 \newcommand{\marco}[2]{%
@@ -154,8 +163,8 @@
     \centering
     {\lgtext\footnotesize\color{srdark}SPRINT 02 \textbullet\ \textbf{W36-37}}\\[0pt]
     {\lgtext\scriptsize\color{srmut}05/09 a 18/09 \textbullet\ Agentes ReAct \& LangGraph}\\[5pt]
-    \donut{79}\\[5pt]           % Média ponderada das 8 frentes técnicas
-    {\lgtext\small\bfseries\color{srdark}STATUS: \color{srgreen}HOMOLOGADO PELA ÁREA}
+    \donut{83}\\[5pt]           % Média ponderada das 8 frentes técnicas: (100+95+100+90+95+95+85+0)/8 = 82.5% ~ 83%
+    {\lgtext\small\bfseries\color{srdark}STATUS: \color{srgreen}PoC APROVADA VISUALMENTE}
   \end{card}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.45\textwidth}
@@ -163,33 +172,31 @@
     \cardtitle{Main Tasks \textnormal{\lgtext\footnotesize\color{srmut}(evolução das 8 frentes técnicas do projeto)}}
     \begin{minipage}[t]{0.48\linewidth}
       \tarefa{1. Ingestão GERP \& Base}{100}{srgreen}{1.063 itens processados sem rejeições.}\vspace{1pt}
-      \tarefa{2. Agentes ReAct (LangGraph)}{100}{srgreen}{Desbloqueado: orquestração multi-passo.}\vspace{1pt}
-      \tarefa{3. Busca Semântica \& Memória}{90}{srgreen}{Resgate de soluções passadas similares.}\vspace{1pt}
-      \tarefa{4. Assistente Human-in-the-Loop}{100}{srgreen}{Analista atua como revisor da proposta.}
+      \tarefa{2. Agentes ReAct (LangGraph)}{95}{srwarn}{Aprovado visualmente em PoC.}\vspace{1pt}
+      \tarefa{3. Busca Semântica \& Memória}{100}{srgreen}{Resgate de histórico e base vetorial.}\vspace{1pt}
+      \tarefa{4. Assistente Human-in-the-Loop}{90}{srwarn}{Fluxo aprovado em PoC pela gerência.}
     \end{minipage}\hfill
     \begin{minipage}[t]{0.48\linewidth}
-      \tarefa{5. Relatórios \& Planos de Ação}{85}{srgreen}{Geração formal de hipóteses e tarefas.}\vspace{1pt}
-      \tarefa{6. Frontend da Aplicação}{80}{srgreen}{Telas do Assistente e Pré-análise no ar.}\vspace{1pt}
-      \tarefa{7. Dashboard \& Indicadores}{75}{srgreen}{Gráficos montados e ranking em ajuste.}\vspace{1pt}
-      \tarefa{8. RPA \& Coleta Automatizada}{0}{sryellow}{Bloqueada: sem credenciais diretas GERP.}
+      \tarefa{5. Relatórios \& Planos de Ação}{95}{srwarn}{Geração formal de hipóteses e tarefas.}\vspace{1pt}
+      \tarefa{6. Frontend da Aplicação}{95}{srwarn}{Telas do Assistente no ar (:4203).}\vspace{1pt}
+      \tarefa{7. Dashboard \& Indicadores}{85}{srwarn}{Gráficos montados e ranking em ajuste.}\vspace{1pt}
+      \tarefaimpedimento{8. RPA \& Coleta Automatizada}{0}{Incompleto: contas sem autorização GERP.}
     \end{minipage}
   \end{card}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.30\textwidth}
   \begin{card}[equal height group=row1]
-    \cardtitle{Impedimentos \& Validação}
-    \begin{tcolorbox}[enhanced, colback=srgreen!8, colframe=srgreen!60, boxrule=0.8pt,
-        arc=3pt, left=5pt, right=5pt, top=3pt, bottom=3pt, before skip=0pt, after skip=4pt]
+    \cardtitle{Impedimentos}
+    \begin{tcolorbox}[enhanced, colback=srred!8, colframe=srred, boxrule=1pt,
+        arc=3pt, left=5pt, right=5pt, top=3pt, bottom=3pt, before skip=0pt, after skip=5pt]
       {\lgtext\fontsize{6.6}{8.4}\selectfont\color{srdark}
-      \textbf{\color{srgreen}\faCheckCircle\ Marco M2 e Agentes Homologados:}\\[2pt]
-      $\bullet$~\textbf{Marco M2 Concluído:} Validação do MVP com Produção.\\
-      $\bullet$~\textbf{Agente ReAct no LangGraph:} Aprovado pela gerência.\\
-      $\bullet$~\textbf{Analista Revisor:} Validação semi-automática ágil.\\
-      $\bullet$~\textbf{Impedimento:} RPA direto em 0\% por falta de acessos LG.}
+      \textbf{\color{srred}\faExclamationTriangle\ Bloqueio de Acesso GERP (RPA):}\\[2pt]
+      $\bullet$~\textbf{Contas sem autorização:} Ausência de credenciais no GERP.\\
+      $\bullet$~\textbf{RPA em 0\% (incompleto):} Coleta automática paralisada.\\
+      $\bullet$~\textbf{Dependência LG:} Aguarda liberação das contas de serviço.\\
+      $\bullet$~\textbf{Impacto:} Coleta paliativa via importação de arquivo.}
     \end{tcolorbox}
-    \begin{minipage}[t]{0.315\linewidth}\linkbtn{\faDesktop}{Protótipo}{https://prototipo-hanaro.vercel.app/}\end{minipage}\hfill
-    \begin{minipage}[t]{0.315\linewidth}\linkbtn{\faPalette}{Design Figma}{https://www.figma.com/design/pbNEP3Yl9zyluQtocR48x1/hanaro-scrap}\end{minipage}\hfill
-    \begin{minipage}[t]{0.315\linewidth}\linkbtn{\faColumns}{Kanban}{https://trello.com/invite/b/6a7b3b2ae74ac4c06391785b/ATTIc582630a53d71570e26e6a987b1049b08E12CF28/hanaro}\end{minipage}
+    \linkbtn{\faServer}{Deploy no Ar: Intranet LG (Porta 4203)}{http://localhost:4203/}
   \end{card}
 \end{minipage}
 
@@ -206,7 +213,7 @@
   \kpi{srteal}{PRÉ-ANÁLISES DO AGENTE}{US\$ 12,5 mil}{Ocorrências > US\$ 6k tratadas com plano de ação}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.325\textwidth}
-  \kpi{srgreen}{HOMOLOGAÇÃO DA ÁREA}{100\% Aprovado}{$\blacktriangle$ Apresentado e aprovado pela Produção}
+  \kpi{srgreen}{VALIDAÇÃO VISUAL}{Aprovado}{$\blacktriangle$ PoC aprovada pelo Gerente de Produção}
 \end{minipage}
 
 \vspace{1pt}
@@ -220,13 +227,13 @@
          left=5pt, right=5pt, top=1pt, bottom=1pt]{\lgtext\footnotesize\bfseries\color{srgreen!80!black}Em Dia / Homologado}\\[1pt]
   {\color{srline}\rule{\linewidth}{0.7pt}}\\[5pt]
   \marco{M1 (13/08)}{Documentação de especificação e requisitos na v1 + MVP (Concluído)}
-  \marco{M2 (03/09)}{PoC e validação do MVP com a Produção (Concluído e Homologado)}
-  \marco{M3 (02/10)}{Módulo de software funcional com Agentes ReAct e Planos de Ação (Em andamento)}
+  \marco{M2 (03/09)}{PoC e validação visual do MVP com a Produção (Homologado)}
+  \marco{M3 (02/10)}{Módulo funcional: testes e deploy produtivo dos agentes (Em andamento)}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.34\textwidth}
   {\lghead\large\color{srdark} Descrição / Impacto Estratégico}\\[1pt]
   {\color{srline}\rule{\linewidth}{0.7pt}}\\[5pt]
-  {\lgtext\small\color{srdark} O Hanaro trata e consolida o Material Scrap a partir do GERP, entrega rastreabilidade ponta a ponta e agora integra o Assistente com agentes ReAct no LangGraph. Ao receber ocorrências graves de scrap (como perdas de US\$ 6,4k), o agente consulta a memória de análises anteriores e propõe hipóteses de causa raiz, medidas de contenção e tarefas corretivas. O analista atua como revisor human-in-the-loop, gerando relatórios formais com planos de ação para mitigar o desperdício, multiplicando a produtividade da operação.}
+  {\lgtext\fontsize{7.3}{9.1}\selectfont\color{srdark} A aplicação Hanaro está em deploy na intranet LG (:4203). O módulo de agentes ReAct (LangGraph) não está em produção definitiva, mas teve seu fluxo validado e aprovado visualmente pelo Gerente da Produção (Leandro Corazza) em fase de PoC. O agente consulta o histórico de scrap do GERP e formula propostas de causa e planos de ação para revisão do analista (human-in-the-loop). A inteligência seguirá para homologação antes do deploy produtivo (M3).}
 \end{minipage}
 
 \end{document}

@@ -199,7 +199,7 @@ Três regras do sistema decorrem desse caminho e valem a pena conhecer:
 \begin{remark}[info]
 \textbf{Para TI.} A escrita acontece no worker e a leitura, em projeção: transações,
 projeção do Dashboard e snapshot ativo entram no mesmo commit. A reconciliação é por
-partição (organização e dia). As sequências completas estão na Parte~III.
+partição (organização e dia). \ifguiacompleto As sequências completas estão na Parte~III.\fi
 \end{remark}
 
 \section{Perfis, sessão e segurança}
@@ -271,8 +271,8 @@ costuma ser outra máquina, com recursos próprios para os modelos.
     \node[arq no,text width=1.4cm] (wk) at (9.6,-2.9) {worker};
     \draw[arq grupo,fill=white] (3.5,-4.6) rectangle (10.6,-7.4);
     \node[arq titulo,text=guiacinza] at (3.7,-4.75) {rede data};
-    \node[arq dado,text width=2.0cm] (pg) at (6.9,-6.4) {PostgreSQL 17};
-    \node[arq dado,text width=1.4cm] (rd) at (9.6,-6.4) {Redis 8};
+    \node[arq dado,text width=2.0cm] (pg) at (6.9,-6.4) {PostgreSQL};
+    \node[arq dado,text width=1.4cm] (rd) at (9.6,-6.4) {Redis};
 
     \draw[arq grupo,draw=guiavermelho] (11.7,-0.3) rectangle (15.9,-7.7);
     \node[arq titulo,text=guiavermelho] at (11.95,-0.5) {Servidor de IA};

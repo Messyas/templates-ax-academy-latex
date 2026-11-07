@@ -134,18 +134,28 @@ O template corporativo padrão em inglês da LGE ("AI Deep Dive" / "AI Core"), f
 
 ---
 
-## 7. Guia do Usuário do Hanaro (`modelos/Guia-Usuario-Hanaro/guia-usuario.tex`)
+## 7. Documentação Técnica e Guia de Arquitetura do Hanaro (`modelos/Guia-Usuario-Hanaro/`)
 
-Guia do Usuário do Hanaro no modelo da Apostila (classe `book`, mesmo `axacademy-guia.sty`). A fase 1 tem duas partes, cada uma com um capítulo em `caps/`:
+A pasta tem **dois documentos** que compartilham os mesmos capítulos (`caps/`) e o mesmo `axacademy-guia.sty` da Apostila. Nenhum dos dois é o manual de uso das telas: isso é o Guia Rápido (Apostila e Flyer). Ao todo, o Hanaro tem **três documentos**:
+
+| Documento | Entrada | Conteúdo | Comando |
+|---|---|---|---|
+| Guia Rápido de Uso | `modelos/Apostila/guia-rapido.tex` (e o Flyer) | Uso das telas, passo a passo, com capturas | `uv run build apostila` |
+| Guia de Arquitetura | `modelos/Guia-Usuario-Hanaro/guia-arquitetura.tex` | Parte I (Arquitetura) e Parte II (Inteligência Artificial), em linguagem acessível | `uv run build guia-arquitetura` |
+| Documentação Técnica (completa) | `modelos/Guia-Usuario-Hanaro/guia-usuario.tex` | Partes I e II, mais a Parte III (Referência Técnica) | `uv run build guia-usuario` |
+
+Os dois PDFs saem em `dist/Guia-Usuario-Hanaro/` (`guia-arquitetura-hanaro.pdf` e `guia-usuario-hanaro.pdf`), com 2 passadas cada. O nome da pasta e do arquivo `guia-usuario.tex` vêm da primeira versão e foram mantidos; o título da capa do documento completo é "Documentação Técnica".
 
 - **Parte I, Arquitetura** (`caps/cap01.tex`): peças do sistema, caminho do dado do GERP ao Dashboard, perfis, implantação, registro e falhas comuns, com 3 diagramas TikZ e caixas "Para TI".
 - **Parte II, Inteligência Artificial** (`caps/cap02.tex`): assistente de pré-análise, Consulta, Memória, Desempenho e tradução, com fluxo BPMN e 6 passos (`\passo`).
+- **Parte III, Referência Técnica** (`caps/cap03.tex`, só no documento completo): casos de uso, tela de Configurações (`caps/configuracoes.tex`), agente de IA e RAG, componentes, implantação e pacotes (`caps/implantacao-pacotes.tex`), fluxos de sequência e modelo conceitual de dados (diagramas em `img/diagramas/`).
 
-Comando: `uv run build guia-usuario` (2 passadas) gera `dist/Guia-Usuario-Hanaro/guia-usuario-hanaro.pdf`.
+Como os dois documentos compartilham `cap01` e `cap02`, um ajuste de texto neles vale para os dois. O que é específico de cada um fica no seu `.tex` (capa, escopo do aviso de uso, página "Sobre o sistema", histórico). A chave `\ifguiacompleto` (definida no `.tex` de entrada) liga o que só existe no documento completo, como a frase de `cap01` que remete à Parte III. Ao criar um texto novo nos capítulos 1 e 2, não faça referência a seções da Parte III sem essa chave.
 
 Pontos de atenção:
 
 - As telas de `img/` são esquemas provisórios (rodapé "CAPTURA PENDENTE"). Troque pelas capturas reais, na mesma resolução (1440×900), e recalibre os marcadores `x/y` de cada `\passo`.
 - Os diagramas usam os estilos `arq ...` definidos no início de `caps/cap01.tex`, além dos estilos `bpmn ...` do `.sty`.
-- O `.sty` desta pasta é uma cópia da Apostila com um ajuste: `\endgraf` no lugar de `\par` após o filete do `\titleformat{\part}`, para o mini-sumário da parte compilar também em TeX Live 2023.
+- **O `axacademy-guia.sty` é idêntico nas pastas `Apostila/` e `Guia-Usuario-Hanaro/`.** Toda mudança de estilo é feita nas duas cópias (confira com `cmp modelos/Apostila/axacademy-guia.sty modelos/Guia-Usuario-Hanaro/axacademy-guia.sty`). O que é específico de cada guia fica no `.tex` do guia, não no `.sty`: o parágrafo de escopo do aviso de uso é definido por `\guiaescopo{...}` (o padrão é o texto da Apostila; o manual define o seu em `guia-usuario.tex`).
+- O `.sty` usa `\endgraf` no lugar de `\par` após o filete do `\titleformat{\part}`, para o mini-sumário da parte compilar também em TeX Live 2023.
 - As próximas partes (Dashboard, Base de Scrap, Relatórios etc.) entram como novos `\part` e capítulos.

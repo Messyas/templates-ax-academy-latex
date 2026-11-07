@@ -186,6 +186,7 @@
 \newcommand{\guiasite}[1]{\def\guiavalsite{#1}}
 \newcommand{\guiaendereco}[1]{\def\guiavalendereco{#1}}
 \newcommand{\guiaaviso}[1]{\def\guiavalaviso{#1}}
+\newcommand{\guiaescopo}[1]{\def\guiavalescopo{#1}}
 \newcommand{\guiasobreaequipe}[1]{\def\guiavalsobreaequipe{#1}}
 \newcommand{\guiacliente}[1]{\def\guiavalcliente{#1}}
 \newcommand{\guiareferencia}[1]{\def\guiavalreferencia{#1}}
@@ -209,6 +210,9 @@
 \guiasite{www.ifam.edu.br}
 \guiaendereco{}
 \guiaaviso{LEIA ANTES DO\\PRIMEIRO ACESSO\\AO SISTEMA.}
+\guiaescopo{Este guia integra a documentação entregue com a solução. Ele cobre o uso básico
+    do sistema pelo usuário final. Instalação, configuração, administração e
+    manutenção são tratadas no manual de uso e na documentação técnica da equipe.}
 \guiasobreaequipe{}
 \guiacliente{}
 \guiareferencia{}
@@ -404,7 +408,7 @@
     {{\guiahead\fontsize{130}{130}\selectfont\bfseries\color{guiavermelho!18}\thepart}}
     {-36pt}
     {\guiahead\fontsize{34}{40}\selectfont\bfseries\color{guiatinta}}
-    [\vspace{12pt}{\color{guiavermelho}\rule{0.42\textwidth}{3bp}}%
+    [\vspace{12pt}{\color{guiavermelho}\rule{0.42\textwidth}{3bp}}\endgraf%
      \vspace{16pt}%
      {\normalfont\fontsize{11}{16}\selectfont\color{guiacinza}%
       \printcontents{l}{0}{\setcounter{tocdepth}{1}}}]
@@ -873,9 +877,7 @@
         a documentação levantada na etapa de Product Discovery e os ritos de projetos
         de P\&D.
 
-        Este guia integra a documentação entregue com a solução. Ele cobre o uso básico
-        do sistema pelo usuário final. Instalação, configuração, administração e
-        manutenção são tratadas no manual de uso e na documentação técnica da equipe.
+        \guiavalescopo
 
         \vfill
         \noindent\guiamarcasinst[26pt]

@@ -1,26 +1,32 @@
 % !TEX program = lualatex
 % =============================================================================
-%  Guia do Usuário — Hanaro — modelo AX Academy / IFAM
+%  Documentação Técnica — Hanaro — modelo AX Academy / IFAM
 %
 %  COMPILAR COM:  lualatex guia-usuario.tex     (duas vezes: sumário e páginas)
 %
-%  Todo o estilo mora em axacademy-guia.sty. Aqui ficam só os dados do guia e
-%  a ordem dos capítulos, que estão em caps/. As telas ficam em img/.
+%  Este é o documento COMPLETO: Parte I (Arquitetura), Parte II (Inteligência
+%  Artificial) e Parte III (Referência Técnica). Os capítulos 1 e 2 são os mesmos
+%  do Guia de Arquitetura (guia-arquitetura.tex); a Parte III só existe aqui.
+%  O uso das telas fica no Guia Rápido de Uso (Apostila).
 %
-%  Fase 1 do Guia do Usuário do Hanaro: Parte I (Arquitetura) e Parte II
-%  (Inteligência Artificial), um capítulo por parte. As próximas partes (uso do
-%  Dashboard, Base de Scrap, Relatórios etc.) entram como novos \part.
+%  Todo o estilo mora em axacademy-guia.sty. Aqui ficam só os dados do documento
+%  e a ordem dos capítulos, que estão em caps/. As telas ficam em img/.
 %
-%  Sem número de equipe em nenhum lugar do guia: a autoria é a equipe do Polo
-%  INOVA. Subtítulo e tagline vazios tiram o texto da capa, da folha de rosto
-%  e da contracapa.
+%  Sem número de equipe em nenhum lugar: a autoria é a equipe do Polo INOVA.
+%  Subtítulo e tagline vazios tiram o texto da capa, da folha de rosto e da
+%  contracapa.
 % =============================================================================
 \documentclass[11pt,a4paper,oneside,openany]{book}
 \usepackage{axacademy-guia}
 
+% Documento completo (inclui a Parte III)? Os capítulos 1 e 2 são os mesmos nos dois
+% documentos; só o que depende desta chave muda.
+\newif\ifguiacompleto
+\guiacompletotrue
+
 % ---------- DADOS DESTE GUIA ----------
-\guiatitulo{Guia do\\Usuário}
-\guiasubtitulo{Arquitetura e Inteligência Artificial}
+\guiatitulo{Documentação\\Técnica}
+\guiasubtitulo{Arquitetura, IA e Referência Técnica}
 \guiasistema{Hanaro}
 \guiatagline{}
 \guiaequipe{equipe do Polo INOVA}
@@ -42,6 +48,11 @@
 % ---------- AVISO DA CAPA ----------
 % Quebras explícitas: a caixa comporta três linhas curtas.
 \guiaaviso{VERSÃO\\EM CONSTRUÇÃO}
+\guiaescopo{Esta é a documentação técnica completa do Hanaro. Ela reúne a arquitetura do
+    sistema, as funções de inteligência artificial e a referência técnica, com casos de
+    uso, configurações, componentes, implantação, pacotes, sequências e modelo de dados.
+    O uso das telas está no Guia Rápido de Uso, e uma visão resumida da arquitetura e dos
+    agentes está no Guia de Arquitetura.}
 
 % ---------- MARCA DO SISTEMA ----------
 % O Hanaro tem o logotipo inteiro em arquivo (art/marca/hanaro-assinatura.pdf),
@@ -55,7 +66,7 @@
 
 % ---------- TEXTO DA CONTRACAPA ----------
 % Sai logo abaixo das marcas da AX Academy e do IFAM.
-\guiasobreaequipe{Guia do Usuário do Hanaro, fase 1: arquitetura e inteligência artificial. Baseado no estado do projeto em novembro de 2026}
+\guiasobreaequipe{Documentação Técnica do Hanaro. Baseada no estado do projeto em novembro de 2026}
 
 \begin{document}
 
@@ -66,16 +77,15 @@
 
 % ---------- HISTÓRICO DE REVISÕES ----------
 \begin{guiahistorico}
-    \guiarevisao{0.1}{Novembro de 2026}{AX Academy}{Fase 1: Parte I, Arquitetura, e Parte II, Inteligência Artificial.}
+    \guiarevisao{0.1}{Novembro de 2026}{AX Academy}{Parte I, Arquitetura, Parte II, Inteligência Artificial, e Parte III, Referência Técnica.}
 \end{guiahistorico}
 
 \begin{remark}[info]
-Esta é a primeira fase do Guia do Usuário do Hanaro. Ela cobre a arquitetura do
-sistema e as funções de inteligência artificial (assistente e tradução). As demais
-partes, como Dashboard, Base de Scrap e Relatórios, entram nas próximas versões. O
-uso básico do Gestor está no Guia Rápido de Uso. O assistente e a tradução são ligados
-por ambiente, aos poucos: se uma função não aparece no seu Hanaro, ela ainda não foi
-ligada.
+Este é o documento completo da documentação do Hanaro, para quem precisa ir além do
+uso das telas. O passo a passo de uso está no Guia Rápido de Uso, e uma versão resumida
+da arquitetura e dos agentes de IA está no Guia de Arquitetura. O assistente e a
+tradução são ligados por ambiente, aos poucos: se uma função não aparece no seu Hanaro,
+ela ainda não foi ligada.
 \end{remark}
 
 \clearpage
@@ -88,11 +98,14 @@ ligada.
     publica o IF Cost no Dashboard e no Modo TV e ajuda analistas e gestores a
     investigar os casos relevantes e a produzir relatórios.
 
-    Esta fase do guia tem duas partes. A Parte~I, \emph{Arquitetura}, mostra as peças
+    Este documento tem três partes. A Parte~I, \emph{Arquitetura}, mostra as peças
     do sistema, o caminho do dado do GERP ao Dashboard, os perfis de acesso e onde o
     sistema roda. A Parte~II, \emph{Inteligência Artificial}, explica o assistente de
     pré-análise, a consulta às análises aprovadas e a tradução de relatórios para o
     inglês, sempre com a decisão final nas mãos de uma pessoa.
+    A Parte~III, \emph{Referência Técnica}, reúne os casos de uso, a tela de
+    Configurações, o agente de IA e o RAG por dentro, os diagramas de componentes,
+    implantação, pacotes e sequências, e o modelo de dados.
 }
 
 \guiasumario
