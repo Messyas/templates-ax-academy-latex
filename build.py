@@ -104,6 +104,15 @@ DEFAULT_CONFIG: Dict[str, Any] = {
             "passes": 2,
             "description": "OnePage original corporativo LGE em inglês (AI Deep Dive / AI Core)",
         },
+        "demoday": {
+            "name": "DemoDay",
+            "directory": "modelos/DemoDay",
+            "entrypoint": "demoday-hanaro-v2.tex",
+            "output_name": "demoday-hanaro.pdf",
+            "output_subfolder": "DemoDay",
+            "passes": 2,
+            "description": "Apresentação de Slides do Demo Day / Kick-off (classe Beamer 16:9, hanarokickoff.cls)",
+        },
     },
 }
 
@@ -140,6 +149,13 @@ EXPECTED_FONTS = [
     "LGEITextTTF-Light.ttf",
     "LGEITextTTF-Regular.ttf",
     "LGEITextTTF-SemiBold.ttf",
+    "Montserrat-Bold.ttf",
+    "Montserrat-Regular.ttf",
+    "Montserrat-SemiBold.ttf",
+    "Urbanist-Bold.ttf",
+    "Urbanist-Light.ttf",
+    "Urbanist-Regular.ttf",
+    "Urbanist-SemiBold.ttf",
 ]
 
 
@@ -526,6 +542,7 @@ def cli(
       uv run build status-report       -> Compila o Status Report semanal de equipe
       uv run build onepage-evidencias  -> Compila o OnePage de Evidências do Sprint
       uv run build onepage-corporativo -> Compila o OnePage corporativo LGE (EN)
+      uv run build demoday             -> Compila a Apresentação Demo Day / Kick-off (Beamer 16:9)
       uv run build check               -> Verifica LuaLaTeX, fontes e dependências
       uv run build clean               -> Limpa arquivos auxiliares (.aux, .log, .toc, etc.)
       uv run build list                -> Lista templates e rotas de saída configuradas

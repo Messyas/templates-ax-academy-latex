@@ -32,6 +32,7 @@ O repositório unifica todos os modelos oficiais de relatórios e apresentaçõe
 | **Status Report** | `modelos/Status-Report/` | `status-report-equipe3.tex` | `dist/Status-Report/status-report-equipe3.pdf` | Relatório semanal de sprint (32 x 18 cm) com cartões equalizados via `tcolorbox` e retratos da equipe. Requer 2 passadas. |
 | **OnePage Evidências** | `modelos/OnePage-Evidencias/` | `onepage-evidencias-equipe3.tex` | `dist/OnePage-Evidencias/onepage-evidencias-equipe3.pdf` | Folha A3 paisagem com cartões de evidências de entrega, telas e fotos do sprint. Requer 2 passadas. |
 | **OnePage Corporativo LGE** | `modelos/OnePage-Corporativo-LGE/` | `onepage-lg.tex` | `dist/OnePage-Corporativo-LGE/onepage-corporativo-lg.pdf` | Template original em inglês corporativo LGE (AI Deep Dive / AI Core / 40K hours saved). Requer 2 passadas. |
+| **Demo Day (Slides)** | `modelos/DemoDay/` | `demoday-hanaro-v2.tex` | `dist/DemoDay/demoday-hanaro.pdf` | Apresentação oficial de slides em formato **16:9** (Beamer, `hanarokickoff.cls`, design system Hanaro). Requer 2 passadas. |
 
 ---
 
@@ -50,6 +51,7 @@ templates-ax-academy-latex/
 │   │   └── exemplos/                  # Decks de exemplo das outras equipes (1, 2, 4)
 │   ├── OnePage-Evidencias/            # Evidências de Sprint em A3 Paisagem
 │   ├── OnePage-Corporativo-LGE/       # Template original corporativo LGE (inglês)
+│   ├── DemoDay/                       # 📽️ Apresentação de Slides Demo Day / Kick-off (Beamer 16:9)
 │   └── referencias/                   # Layout de Report - One Page.pptx original
 ├── dist/                              # 🎯 Diretório de saída organizado por modelo
 │   ├── Apostila/                      # -> guia-rapido.pdf
@@ -57,7 +59,8 @@ templates-ax-academy-latex/
 │   ├── OnePage-Sumarizacao/           # -> onepage-lg.pdf
 │   ├── Status-Report/                 # -> status-report-equipe3.pdf
 │   ├── OnePage-Evidencias/            # -> onepage-evidencias-equipe3.pdf
-│   └── OnePage-Corporativo-LGE/       # -> onepage-corporativo-lg.pdf
+│   ├── OnePage-Corporativo-LGE/       # -> onepage-corporativo-lg.pdf
+│   └── DemoDay/                       # -> demoday-hanaro.pdf
 ├── docs/                              # Manuais técnicos e guias de arquitetura
 ├── AGENTS.md                          # Instruções para Codex, Antigravity e Cursor
 ├── CLAUDE.md                          # Diretrizes para Claude Code
@@ -207,6 +210,9 @@ uv run build flyer
 
 # Compilar somente o OnePage:
 uv run build onepage
+
+# Compilar a Apresentação Demo Day (Slides 16:9):
+uv run build demoday
 ```
 
 #### Opções úteis de compilação

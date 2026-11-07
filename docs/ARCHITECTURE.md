@@ -55,6 +55,11 @@ templates-ax-academy-latex/
 │   │   ├── art/                         # Identidade visual vetorial
 │   │   └── img/                         # Telas do Assistente e da tradução
 │   │
+│   ├── DemoDay/                         # 8. Apresentação de Slides Demo Day / Kick-off (Beamer 16:9)
+│   │   ├── hanarokickoff.cls            # Classe Beamer 16:9 widescreen baseada em TikZ absoluto
+│   │   ├── demoday-hanaro-v2.tex        # Slide deck oficial (9 slides)
+│   │   └── assets/                      # Figuras, formas, fotos, fundos, marcas e telas
+│   │
 │   └── referencias/                     # Apresentações e materiais visuais de referência
 │       └── Layout de Report - One Page.pptx
 │
@@ -66,7 +71,8 @@ templates-ax-academy-latex/
 │   ├── OnePage-Sumarizacao/onepage-lg.pdf
 │   ├── Status-Report/status-report-equipe3.pdf
 │   ├── OnePage-Evidencias/onepage-evidencias-equipe3.pdf
-│   └── OnePage-Corporativo-LGE/onepage-corporativo-lg.pdf
+│   ├── OnePage-Corporativo-LGE/onepage-corporativo-lg.pdf
+│   └── DemoDay/demoday-hanaro.pdf
 │
 ├── build.py                             # CLI de compilação, diagnóstico e limpeza
 ├── templates.config.json                # Configuração de rotas, passadas e subpastas de saída
@@ -102,6 +108,7 @@ Para evitar sobrescritas acidentais (por exemplo, múltiplos templates que gerem
 - `dist/Status-Report/`
 - `dist/OnePage-Evidencias/`
 - `dist/OnePage-Corporativo-LGE/`
+- `dist/DemoDay/`
 
 O script `build.py` cria essas subpastas dinamicamente e direciona os PDFs finais, garantindo total isolamento dos artefatos.
 

@@ -159,3 +159,35 @@ Pontos de atenção:
 - **O `axacademy-guia.sty` é idêntico nas pastas `Apostila/` e `Guia-Usuario-Hanaro/`.** Toda mudança de estilo é feita nas duas cópias (confira com `cmp modelos/Apostila/axacademy-guia.sty modelos/Guia-Usuario-Hanaro/axacademy-guia.sty`). O que é específico de cada guia fica no `.tex` do guia, não no `.sty`: o parágrafo de escopo do aviso de uso é definido por `\guiaescopo{...}` (o padrão é o texto da Apostila; o manual define o seu em `guia-usuario.tex`).
 - O `.sty` usa `\endgraf` no lugar de `\par` após o filete do `\titleformat{\part}`, para o mini-sumário da parte compilar também em TeX Live 2023.
 - As próximas partes (Dashboard, Base de Scrap, Relatórios etc.) entram como novos `\part` e capítulos.
+
+---
+
+## 8. Apresentação Demo Day / Kick-off (`modelos/DemoDay/demoday-hanaro-v2.tex`)
+
+Apresentação oficial de slides em formato **16:9** baseada na classe `hanarokickoff.cls` (derivada de Beamer, com palco 33.87 × 19.05 cm e coordenadas absolutas TikZ).
+
+### Estrutura dos Slides:
+- **Capa Institucional (`\dxicapa`):**
+  ```latex
+  \dxicapa
+    {DEMO DAY · SETEMBRO DE 2026}
+    {\includegraphics[width=14.2cm]{marca/hanaro-assinatura-branca.pdf}}
+    {Controle de Perdas (Scrap) da Linha Final: da planilha manual ao acompanhamento centralizado.}
+  ```
+- **Equipe e Retratos (`\dxiequipe`):**
+  ```latex
+  \dxiequipe[Equipe do projeto]{%
+    \dximembro[fotos/card-andre]{Líder Técnico · P.O.}{André Filipe Aloise}
+    \dximembro[fotos/card-messyas]{Desenvolvedor FullStack}{Messyas Gois França}
+    \dximembro[fotos/card-gustavo]{Eng. de Software · CI/CD}{Gustavo Almada}
+    \dximembro[fotos/card-teodorio]{Desenvolvedor Frontend}{Teodório Neto}
+  }
+  ```
+- **Cartões de Contribuição (`\ddcontrib`):**
+  ```latex
+  \ddcontrib{01}{TEMPO}{Eliminação do reprocessamento manual de planilhas.}
+  ```
+- **Ambiente de Conteúdo (`\begin{dxiconteudo}{TÍTULO}`):**
+  Permite estruturar blocos com colunas proporcionais `\dxicol{largura_cm}{...}` e caixas de texto com precisão de diagramação do PowerPoint.
+
+Requer **2 passadas** para o alinhamento das referências absolutas `remember picture`. Compilação via `uv run build demoday`.

@@ -76,6 +76,15 @@
       "output_subfolder": "OnePage-Corporativo-LGE",
       "passes": 2,
       "description": "OnePage original corporativo LGE em inglês (AI Deep Dive / AI Core)"
+    },
+    "demoday": {
+      "name": "DemoDay",
+      "directory": "modelos/DemoDay",
+      "entrypoint": "demoday-hanaro-v2.tex",
+      "output_name": "demoday-hanaro.pdf",
+      "output_subfolder": "DemoDay",
+      "passes": 2,
+      "description": "Apresentação de Slides do Demo Day / Kick-off (classe Beamer 16:9, hanarokickoff.cls)"
     }
   }
 }

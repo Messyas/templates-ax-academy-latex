@@ -130,6 +130,39 @@ deste capítulo.}
 o resultado é buscado pelo Hanaro. Se o agente falha, só a pré-análise atrasa.
 \end{remark}
 
+\section{As peças do agente}
+
+O agente é um serviço à parte do Hanaro, no servidor de IA. Ele não acessa o banco do Hanaro: só recebe os casos que o Hanaro entrega, responde e guarda a sua própria memória. A \autoref{fig:agente-componentes} mostra as seis peças do agente e como elas se ligam, no formato de um diagrama de componentes da UML. Cada caixa é uma peça; o círculo é o que a peça oferece, o meio círculo é o que ela precisa de outra, e as pequenas caixas na borda são as portas por onde o serviço conversa com o mundo de fora.
+
+\begin{table}[H]
+\caption{As peças do agente de IA.}\label{tab:agente-pecas}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{3.2cm}X@{}}
+    \toprule
+    \guiacabtabela
+    \thead{Peça} & \thead{O que faz} \\
+    \midrule
+    \textbf{API HTTP} & É a porta de entrada do serviço. Recebe os pedidos do Hanaro, protegidos por chave de API, para criar jobs, buscar casos e conversar. \\
+    \textbf{Fila e worker} & Guarda os pedidos de pré-análise em uma fila e executa os pedidos em ordem. O mesmo pedido enviado duas vezes não vira duas pré-análises. \\
+    \textbf{Grafo de pré-análise} & O roteiro da pré-análise: reunir os fatos, buscar casos parecidos, dar nota, escolher a rota, adaptar a proposta, conferir e finalizar. \\
+    \textbf{Memória de casos} & Reúne as análises aprovadas e as encontra por significado e por palavras. A reordenação dos resultados é opcional, e cada análise aceita aumenta a memória. \\
+    \textbf{Cliente de modelos} & Fala com o servidor de modelos: gera textos e vetores, e exige respostas em formato estruturado quando o roteiro precisa. \\
+    \textbf{Chat de consulta} & Responde às perguntas da Consulta, com as fontes, usando só os casos da memória. \\
+    \bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{remark}[info]
+\textbf{Para TI.} A fila de jobs fica no PostgreSQL do próprio agente, o mesmo banco que guarda a memória de casos (com pgvector). O agente nunca chama o Hanaro: quem entrega os pedidos e busca os resultados é o worker do Hanaro.
+\end{remark}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\dimexpr\textheight-3.2cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/componentes-agent-service}
+\caption{Peças do agente de IA, em diagrama de componentes.}\label{fig:agente-componentes}
+\end{figure}
+
 \section{Rotas, selos e situações}
 
 Cada pré-análise indica a \textbf{rota} que o agente seguiu, e a rota diz o quanto a

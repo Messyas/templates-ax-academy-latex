@@ -1,0 +1,323 @@
+% !TEX program = lualatex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% DEMO DAY -- HANARO . Setembro/2026 . VERSAO 2
+%% IFAM . INOVA  |  AX Academy  |  Cliente: LG
+%%
+%% Compilar:  lualatex demoday-hanaro-v2.tex   (2x)
+%% ou:        .\compilar.ps1 -Arquivo demoday-hanaro-v2.tex
+%%
+%% O QUE MUDOU DA v1 (arquivada em v1/)
+%%   . CONTEXTUALIZACAO   reescrita toda em topicos curtos; o paragrafo corrido
+%%                        saiu. O numero de horas continua como destaque.
+%%   . SAIRAM             o slide de IMERSAO E LEVANTAMENTO (onda de fases), o
+%%                        de FORMACAO APLICADA AO PIPELINE e o DA DISCIPLINA AO
+%%                        PRODUTO (radar + curvas de aprendizado).
+%%   . MARCA              so a explicacao da marca. Paleta e tipografia sairam,
+%%                        e nao ha mencao a versoes anteriores nem a outros
+%%                        nomes.
+%%   . ESCOPO DO MVP      5 itens dentro e 4 fora, escolhidos pelos menos
+%%                        obvios. Item que so descreve o funcionamento esperado
+%%                        de qualquer sistema saiu.
+%%   . RESULTADOS         um unico destaque, a reducao de horas, e as tres
+%%                        maiores contribuicoes, uma por coluna. O cabecalho
+%%                        "AS TRES MAIORES CONTRIBUICOES" saiu: a fileira de
+%%                        numeros 01/02/03 ja diz o que ela e'.
+%%   . PONTUACAO          travessao, meia-risca, seta, + e & nao aparecem no
+%%                        texto corrido dos slides. Onde havia travessao
+%%                        entrou ponto, dois-pontos, virgula ou ponto e virgula.
+%%
+%% ESTRUTURA -- 9 slides
+%%   1 Capa . 2 Equipe . 3 Contextualizacao . 4 Objetivo geral .
+%%   5 Escopo do MVP . 6 A marca Hanaro . 7 Prototipo navegavel .
+%%   8 Resultados esperados . 9 Encerramento
+%%
+%% RESSALVA QUE NAO DEVE SER SUAVIZADA NA FALA
+%%   O painel roda sobre base carregada, sem integracao ativa com o GERP. Esta
+%%   escrito no slide 7 e deve ser dito.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[rodape]{hanarokickoff}
+
+\dxiprojeto{Hanaro · Controle de Perdas (Scrap) · Demo Day}
+
+%  A classe traz "Powered by AX Academy · Digital Transformation" na capa;
+%  aqui a assinatura fica so na marca.
+\dxipowered{\textit{Powered by} \textbf{AX Academy}}
+
+%% Cartao de contribuicao do slide de resultados. Tres deles formam a fileira:
+%% 3 x 8,5 + 2 x 0,9 = 27,3 cm, dentro dos 27,4 uteis.
+%% \ddcontrib{<numero>}{<titulo>}{<texto>}
+\newcommand{\ddcontrib}[3]{%
+  \begin{minipage}[t]{8.5cm}\vspace{0pt}\RaggedRight\hyphenpenalty=10000
+    {\dximont\bfseries\fontsize{26}{30}\selectfont\color{dxicinza}#1}\\[0.10em]
+    {\dximont\bfseries\fontsize{15}{19}\selectfont\color{lgred}#2}\\[0.30em]
+    {\dxiurb\fontsize{12.5}{17}\selectfont\color{dxinavy!85}#3}%
+  \end{minipage}\hspace{0.9cm}\ignorespaces}
+
+\begin{document}
+
+%% ---------------------------------------------------------------- SLIDE  1 --
+\dxicapa
+  {DEMO DAY · SETEMBRO DE 2026}
+  {\includegraphics[width=14.2cm]{marca/hanaro-assinatura-branca.pdf}}
+  {Controle de Perdas (Scrap) da Linha Final: da planilha manual ao
+   acompanhamento centralizado de IF Cost.}
+
+
+%% ---------------------------------------------------------------- SLIDE  2 --
+%% Uma linha por pessoa, nao um slide por pessoa: em 5 minutos, quatro slides de
+%% biografia consomem 2 min antes de o problema ser enunciado. O texto longo vai
+%% para o e-book.
+\dxiequipe[Equipe do projeto]{%
+  \dximembro[fotos/card-andre]{Líder Técnico · P.O.}{André Filipe Aloise}
+  \dximembro[fotos/card-messyas]{Desenvolvedor FullStack}{Messyas Gois França}
+  \dximembro[fotos/card-gustavo]{Eng. de Software · CI/CD}{Gustavo Almada}
+  \dximembro[fotos/card-teodorio]{Desenvolvedor Frontend}{Teodório Neto}
+}
+
+
+%% ---------------------------------------------------------------- SLIDE  3 --
+%% Tudo em topico. O destaque em vermelho e' o unico numero do slide.
+\begin{dxiconteudo}{CONTEXTUALIZAÇÃO}
+
+\vspace{-0.35cm}
+
+\dxicol{14.6}{%
+  {\dximont\bfseries\fontsize{16}{21}\selectfont\color{lgred}Situação atual}
+
+  \vspace{0.45em}
+  {\dxiCorpoP\color{dxinavy}
+  \begin{dxilista}[dxinavy]
+    \item Acompanhamento de \textbf{Scrap} conduzido \textbf{fora de qualquer
+          sistema}.
+    \item A Qualidade extrai os dados, aplica a conversão cambial e encaminha
+          a planilha por correio eletrônico.
+    \item A Produção reprocessa os dados manualmente em Excel antes da
+          decisão.
+  \end{dxilista}\par}
+
+  \vspace{1.0em}
+  {\dximont\bfseries\fontsize{15}{20}\selectfont\color{dxired}%
+   1,5 a 2 h por dia, até 504 h por ano\par}
+  \vspace{0.2em}
+  {\dxiCorpoP\color{dxinavy!85}
+   2 h/dia $\times$ 21 dias úteis $\times$ 12 meses, equivalente à ocupação
+   integral de um analista em consolidação de planilha.\par}
+}%
+\dxicol{13.2}{%
+  {\dximont\bfseries\fontsize{16}{21}\selectfont\color{lgred}Impactos identificados}
+
+  \vspace{0.45em}
+  {\dxiCorpoP\color{dxinavy}
+  \begin{dxilista}[dxired]
+    \item Cerca de um dia de trabalho por semana de um analista consumido em
+          consolidação manual.
+    \item \textbf{Inconsistência recorrente} no número reportado, sem
+          visualização executiva automatizada.
+    \item \textbf{VS} (MyLink) e \textbf{BM} (Módulos) permanecem fora do
+          cálculo: o tempo disponível não permite apurar todas as fábricas.
+  \end{dxilista}\par}
+}
+
+\end{dxiconteudo}
+
+
+%% ---------------------------------------------------------------- SLIDE  4 --
+\dxidestaque
+  {OBJETIVO GERAL}
+  {\textbf{Centralizar e monitorar} o controle de perdas}
+  {Automatizar a ingestão, o tratamento e a análise dos dados de Scrap,
+   entregando \textbf{uma base única e confiável} e um \textbf{painel
+   executivo em tempo real} que sustente a decisão gerencial sobre o
+   \textbf{IF Cost}.}
+
+
+%% ---------------------------------------------------------------- SLIDE  5 --
+%% Enxuto: 5 itens dentro e 4 fora. O criterio foi manter o que decide o
+%% produto e tirar o que qualquer sistema teria.
+\begin{dxiconteudo}{ESCOPO DO MVP}
+
+\vspace{-0.45cm}
+
+\dxicol{14.0}{%
+  {\dximont\bfseries\fontsize{16}{21}\selectfont\color{hanaroverde}Dentro do MVP}
+
+  \vspace{0.45em}
+  {\dxiCorpoP\color{dxinavy}
+  \begin{dxilista}[hanaroverde]
+    \item \textbf{Linha Final} (Áudio, Monitor e TV) mais \textbf{VS},
+          \textbf{BM}, \textbf{Injeção Plástica} e \textbf{SMT} no mesmo
+          painel.
+    \item Ingestão da planilha diária com regras \textbf{ABS} e \textbf{RPA de
+          cotação diária} do dólar.
+    \item Módulo de \textbf{justificativas} com alerta ao gestor,
+          \textit{Approval/Consent} do analista e \textbf{justificativa por
+          lote}.
+    \item \textbf{Target ajustável}, com visão mensal, anual e comparativo
+          entre anos diferentes.
+    \item \textit{Toggles} de \textbf{privacidade} e de \textbf{quantidade},
+          com papéis Admin, Analista, Reporter e TV.
+  \end{dxilista}\par}
+}%
+\dxicol{12.8}{%
+  {\dximont\bfseries\fontsize{16}{21}\selectfont\color{dxired}Fora do MVP}
+
+  \vspace{0.45em}
+  {\dxiCorpoP\color{dxinavy}
+  \begin{dxilista}[dxired]
+    \item Análise e sugestão de justificativas com \textbf{IA local}.
+    \item Módulo \textit{Conversion Cost}.
+    \item Integração com \textbf{GL/Controladoria} e notas fiscais (GVS GPS).
+    \item Auditoria, relatórios prontos, \textit{heatmap} de linhas,
+          \textit{coworking} e gamificação.
+  \end{dxilista}\par}
+}
+
+\end{dxiconteudo}
+
+
+%% ---------------------------------------------------------------- SLIDE  6 --
+%% So a explicacao da marca: o nome, a semiengrenagem e o elemento circular.
+%% Paleta e tipografia sairam, e nao ha mencao a versao anterior nem a outro
+%% nome do projeto.
+\begin{dxiconteudo}{A MARCA HANARO}
+
+\vspace{-0.2cm}
+
+\dxicol{13.2}{%
+  \includegraphics[width=9.6cm]{marca/hanaro-assinatura.pdf}
+
+  \vspace{1.1em}
+  {\dxiurb\fontsize{16}{22}\selectfont
+   {\dxihangul\bfseries 하나로} (\textit{rá-na-ro}), do coreano, significa
+   \textbf{“em um só”}.\par}
+
+  \vspace{0.8em}
+  {\dxiurb\fontsize{14.5}{20}\selectfont\color{dxinavy!85}
+   O nome sintetiza a proposta da plataforma: concentrar dados, registros,
+   indicadores, alertas e análises em um ambiente único. Mais do que nomear o
+   sistema, funciona como princípio da própria arquitetura do produto.\par}
+}%
+\dxicol{13.2}{%
+  \begin{center}\includegraphics[width=5.6cm]{marca/hanaro-vertical-claro.pdf}\end{center}
+
+  \vspace{0.9em}
+  {\dxiurb\fontsize{14.5}{20}\selectfont\color{dxinavy!85}
+   A \textbf{semiengrenagem} permanece aberta: o Hanaro integra o mecanismo
+   produtivo, mas não substitui as pessoas e as decisões que o completam.\par}
+
+  \vspace{0.8em}
+  {\dxiurb\fontsize{14.5}{20}\selectfont\color{dxinavy!85}
+   O \textbf{elemento circular} remete ao \textit{Taegeuk}, princípio de
+   equilíbrio, complementaridade e totalidade, e representa a centralização
+   das informações.\par}
+}
+
+\end{dxiconteudo}
+
+
+%% ---------------------------------------------------------------- SLIDE  7 --
+%% A captura e' do proprio endereco publicado, feita em 07/09/2026; os numeros
+%% do painel sao os que estavam no ar naquele momento.
+\begin{dxiconteudo}[semdeco]{PROTÓTIPO NAVEGÁVEL}
+
+\vspace{-0.45cm}
+\dxicol{14.6}{%
+  \includegraphics[width=14.2cm]{prototipo/portal-desktop}
+}%
+\dxicol{12.4}{%
+  {\dximont\bfseries\fontsize{15}{20}\selectfont\color{lgred}%
+   Ambiente publicado\par}
+
+  \vspace{0.35em}
+  %  A URL cabe em UMA linha a 11pt nesta coluna; a 12pt ela quebra no meio de
+  %  "workers" e sai hifenizada.
+  {\dxiurb\fontsize{11}{15}\selectfont\color{dxinavy!85}
+   Publicado e navegável em\\
+   \href{https://hanaro.messyasgoisfranca.workers.dev/}{%
+     \textbf{\color{lgred}hanaro.messyasgoisfranca.workers.dev}}\par}
+
+  \vspace{0.45em}
+  {\dximont\bfseries\fontsize{12}{16}\selectfont\color{dxinavy}%
+   Funcionalidades disponíveis\par}
+  \vspace{0.2em}
+  {\dxiurb\fontsize{11.5}{15}\selectfont\color{dxinavy!85}
+  \begin{dxilista}[hanaroverde]
+    \item IF Cost acumulado contra o \textbf{target}, com o \textit{gap} em
+          dinheiro e em pontos percentuais.
+    \item \textbf{Target $\times$ realizado} mensal, com a referência do ano
+          anterior na mesma escala.
+    \item Distribuição por \textbf{produto e área}, Top 10 de linhas, modelos
+          e componentes e \textbf{Top 5 ofensores}.
+    \item \textit{Toggles} de \textbf{impacto absoluto} e de \textbf{valor
+          monetário}, para exibição em ambiente compartilhado.
+  \end{dxilista}\par}
+
+  \vspace{0.40em}
+  {\dximont\bfseries\fontsize{12}{16}\selectfont\color{dxinavy}%
+   Acesso de demonstração\par}
+  \vspace{0.20em}
+  {\dxiurb\fontsize{10.5}{14}\selectfont\color{dxinavy!85}
+   Usuário\ \ \colorbox{lgred!10}{\texttt{\textbf{\color{lgred}takana}}}\par
+   \vspace{0.20em}
+   Senha\ \ \colorbox{lgred!10}{%
+     \texttt{\textbf{\color{lgred}9898HJiuhihiuhuiygh\allowbreak%
+       OYGG876@@98908@809@}}}\par}
+
+  \vspace{0.35em}
+  {\dxiurb\fontsize{11}{14}\selectfont\color{dxinavy!70}
+   Números apurados em 07/09/2026, sobre a base carregada. \textbf{Ainda sem
+   integração ativa com o GERP}.\par}
+}
+
+\end{dxiconteudo}
+
+
+%% ---------------------------------------------------------------- SLIDE  8 --
+%% Continua "esperados" de proposito: o sistema ainda nao esta em producao e a
+%% frente de RPA esta bloqueada, entao anunciar resultado realizado seria falso.
+%% UM destaque so -- a reducao de horas -- e tres contribuicoes.
+\begin{dxiconteudo}{RESULTADOS ESPERADOS}
+
+\vspace{-0.15cm}
+
+\dxicol{13.0}{%
+  {\dximont\bfseries\fontsize{70}{76}\selectfont\color{dxired}504 h}\\[0.35em]
+  {\dximont\bfseries\fontsize{17}{22}\selectfont\color{dxinavy}%
+   de trabalho manual devolvidas à equipe por ano\par}
+}%
+\dxicol{13.4}{%
+  \vspace{1.5cm}
+  {\dxiurb\fontsize{14}{19}\selectfont\color{dxinavy!80}
+   2 h/dia $\times$ 21 dias úteis $\times$ 12 meses, equivalente à ocupação
+   integral de um analista, hoje dedicada à consolidação de planilha.\par}
+}
+
+\vspace{1.2em}
+{\color{dxicinza}\rule{27.4cm}{0.6pt}}
+\vspace{1.2em}
+
+%  ARMADILHA: o rodape da classe comeca por volta de 17,4 cm. Com cinco linhas
+%  de texto no cartao, a terceira coluna passa por cima da assinatura AX
+%  Academy sem gerar Overfull. Quatro linhas e' o teto -- medido no PDF.
+\ddcontrib{01}{Base única para o IF Cost}{%
+  Elimina a divergência entre planilhas: a base consolidada passa a ser a
+  fonte oficial, refletida no último \textit{snapshot} validado.}%
+\ddcontrib{02}{Identificação do item ofensor}{%
+  Pareto por quantidade e por IF Cost com o item identificado em lugar do
+  \textit{part number}, o que qualifica a análise de causa.}%
+\ddcontrib{03}{Registro da justificativa pelo gestor}{%
+  O alerta é encaminhado diretamente ao gestor responsável e a resposta é
+  registrada no sistema, sem intervenção do analista.}
+
+\end{dxiconteudo}
+
+
+%% ---------------------------------------------------------------- SLIDE  9 --
+\dxidivisor[Cliente: LG Electronics · Gestão de Produção]
+  {\fontsize{38}{46}\selectfont OBRIGADO / THANK YOU /
+   {\dxihangul\bfseries 감사합니다}}
+  {Hanaro · Controle de Perdas (Scrap) da Linha Final.\\
+   IFAM · INOVA · AX Academy.}
+
+\end{document}
