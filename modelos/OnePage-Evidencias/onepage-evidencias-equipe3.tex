@@ -1,8 +1,8 @@
 % !TEX program = lualatex
 % =============================================================
-% OnePage de Evidencias - Equipe 3 (Hanaro / Scrap) . Sprint 00 (W32)
-%   A3 paisagem, tema LG. Foco: Controle de Scrap e IF Cost (US$).
-%   Compilar: lualatex onepage-evidencias-equipe3.tex  (2x pelo rodape overlay)
+% OnePage de Evidencias - Equipe 3 (Hanaro / Scrap) . Sprint 02 (W36)
+%   A3 paisagem, tema LG. Foco: Agentes ReAct (LangGraph) & Controle de Scrap.
+%   Compilar: uv run build onepage-evidencias  (2 passadas).
 % =============================================================
 \documentclass[11pt]{article}
 \usepackage[a3paper,landscape,top=0.8cm,bottom=1.0cm,left=1.25cm,right=1.25cm]{geometry}
@@ -68,69 +68,68 @@
 \begin{tikzpicture}
   \fill[lgred] (0,0) rectangle (\textwidth,2.05);
   \node[anchor=west, text=white] at (0.5,1.34)
-    {\lghead\fontsize{30}{34}\selectfont Evidências do Sprint 00\,{\lghead\fontsize{20}{24}\selectfont \ \textbullet\ W32}};
+    {\lghead\fontsize{30}{34}\selectfont Evidências do Sprint 02\,{\lghead\fontsize{20}{24}\selectfont \ \textbullet\ W36-37}};
   \node[anchor=west, text=white!92] at (0.55,0.55)
-    {\large Equipe 3 \;\textbullet\; Automação do Relatório de Scrap (IF Cost) \;\textbullet\; Produção (LG)};
+    {\large Equipe 3 \;\textbullet\; Automação do Relatório de Scrap (IF Cost) \& Assistente de IA \;\textbullet\; Produção (LG)};
   \node[anchor=east] at (\textwidth-0.45,1.02) {\includegraphics[height=1.5cm]{img/logo-bw.png}};
 \end{tikzpicture}\\[2pt]
-{\footnotesize\color{muted} AX Academy \textbullet\ Digital Transformation \textbullet\ Programa de Equipes de Projetos \hfill Sprint 00 \textbullet\ W32 \textbullet\ 03 a 09 de agosto de 2026 \textbullet\ Fechamento do levantamento de requisitos}\\[6pt]
+{\footnotesize\color{muted} AX Academy \textbullet\ Digital Transformation \textbullet\ Programa de Equipes de Projetos \hfill Sprint 02 \textbullet\ W36-37 \textbullet\ 05 a 18 de setembro de 2026 \textbullet\ Desenvolvimento de Agentes ReAct \& Homologação}\\[6pt]
 
-% ===================== O DESAFIO (altura fixa) =====================
+% ===================== O QUE MUDOU NESTA SPRINT (altura fixa) =====================
 \begin{tcolorbox}[enhanced, colback=tintbg, colframe=lgred, boxrule=0pt,
   leftrule=3pt, arc=1pt, left=11pt, right=11pt, top=6pt, bottom=6pt,
   height=3.2cm, valign=center, before skip=0pt, after skip=7pt]
-{\hd{\large O Desafio}}\\[2pt]
-{\small O acompanhamento de \textbf{Material Scrap} ainda depende de etapas manuais de extração, tratamento, consolidação, análise e preparação de \textit{reports}. O \textbf{Hanaro} automatiza a entrada e o processamento dos dados provenientes do \textbf{GERP}, consolida os indicadores de perdas, identifica eventos que exigem atenção e disponibiliza os registros de Scrap para revisão e justificativa do analista. Os registros revisados passam a compor os relatórios do período, mantendo rastreabilidade das operações e oferecendo também uma visão executiva em \textbf{Modo TV}.}
+{\hd{\large O que mudou nesta sprint (Semana 8 de 11)}}\\[2pt]
+{\small A frente de Inteligência Artificial do Hanaro saiu da fase de prospecção e passou a operar com \textbf{agentes ReAct construídos sobre o LangGraph}. O Assistente foi apresentado e \textbf{homologado pela área de Produção}: o agente lê ocorrências graves de scrap do GERP (como perdas de US\$ 6.400,89), consulta a \textbf{memória de análises históricas aprovadas} e formula hipóteses de causa raiz, ações de contenção imediata e propostas de tarefas corretivas. O analista atua como revisor \textit{human-in-the-loop} --- aceitando, editando ou rejeitando em poucos cliques ---, tornando a geração de relatórios semi-automática e integrando o plano de ação no próprio sistema. Em paralelo, o marco \textbf{M2 (03/09)} foi formalmente concluído com a validação da PoC do MVP com a gerência da Produção.}
 \end{tcolorbox}
 
-% ===================== LINHA A: 3 ENTREGAS =====================
+% ===================== LINHA A: 3 EVIDÊNCIAS =====================
 \noindent\begin{minipage}[t]{0.335\textwidth}
-\begin{card}[equal height group=evid]{Documento de Especificação e Requisitos}
+\begin{card}[equal height group=evid]{Evidência 1 \textbullet\ Assistente ReAct (LangGraph)}
 {\footnotesize
-Principal entrega do Sprint~00. Consolida o entendimento do processo de Scrap levantado em campo:\vspace{2pt}
+\textbf{IMPLEMENTADO} \ Orquestração de agentes autônomos multi-passo:\vspace{2pt}
 \begin{itemize}
-  \item Contexto AS-IS: a consolidação do Scrap consome até \textbf{2 horas diárias} de tratamento manual de planilhas da Qualidade.
-  \item Motor de ingestão e tratamento: \textbf{valor absoluto (ABS)} dos lançamentos e \textbf{filtro de exclusão} de plantas fora da Linha Final (VS/BM).
-  \item Pareto e indicadores: \textbf{Top 3 ofensores} (Módulo, Box, PCB) e \textit{Gap} do IF Cost perante a meta de \textbf{redução de 15\% (YoY)}.
-  \item \textit{Dashboard} executivo em \textbf{Modo TV} e geração de relatórios (Angular, FastAPI, Pandas, PostgreSQL, ECharts).
+  \item Captura ocorrências graves de scrap a partir da ingestão do GERP (ex: item Display SOC de \textbf{US\$ 6.400,89}).
+  \item Formulação automática de título executivo, categorização do tipo de defeito e descrição contextualizada.
+  \item O analista avalia cada bloco individualmente (\textit{Aceitar, Editar, Rejeitar}) ou aceita a proposta completa.
+  \item Fim do preenchimento manual repetitivo: esforço analítico redirecionado à decisão.
 \end{itemize}}
-\vspace{5pt}
-{\centering\evimg{doc.png}{3.6cm}\par}
 \vspace{4pt}
-{\scriptsize\color{lgred}\textbf{Foco: Linha Final \textbullet\ IF Cost em US\$ \textbullet\ Top 3 ofensores (Módulo, Box, PCB) \textbullet\ Meta $-$15\% YoY}}
+{\centering\evphoto{assistente_proposta.jpg}{4.0cm}\par}
+\vspace{3pt}
+{\scriptsize\color{lgred}\textbf{Foco: LangGraph \textbullet\ Raciocínio ReAct \textbullet\ Sugestão de causa e contenção}}
 \end{card}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.335\textwidth}
-\begin{card}[equal height group=evid]{Novo Cronograma Definido}
+\begin{card}[equal height group=evid]{Evidência 2 \textbullet\ Memória RAG \& Casos Parecidos}
 {\footnotesize
-Planejamento das \textbf{11 semanas} do projeto (\textbf{20/07 a 01/10/2026}), organizado em seis frentes:\vspace{2pt}
+\textbf{IMPLEMENTADO} \ Recuperação semântica em base vetorial histórica:\vspace{2pt}
 \begin{itemize}
-  \item Gestão do projeto (toda a duração).
-  \item Levantamento de requisitos (até 31/07).
-  \item Desenvolvimento (ingestão, regras, API e \textit{dashboard}).
-  \item Testes, homologação e \textit{deploy}.
-  \item Integração e validação no cliente.
-  \item Encerramento e transferência.
-\end{itemize}\vspace{3pt}
-
-Três \textbf{macroentregas} guiam a evolução:\vspace{3pt}
-
-{\color{axdark}\textbf{M1 \textbullet\ 13/08}} \ Documentação de especificação e requisitos e MVP.\vspace{2pt}
-
-{\color{axdark}\textbf{M2 \textbullet\ 03/09}} \ PoC e validação do MVP.\vspace{2pt}
-
-{\color{axdark}\textbf{M3 \textbullet\ a definir}} \ Módulo de software funcional, testado e validado.\vspace{5pt}
-
-\textit{Marcos de apoio:} homologação e \textit{deploy} no Smart Office previstos para setembro \textbullet\ apresentação final em 01/10/2026.}
+  \item Consulta à memória de análises aprovadas: o agente busca como ocorrências semelhantes de linhas e itens foram resolvidas.
+  \item Respostas fundamentadas com rastreabilidade explícita das fontes (ex: casos históricos \textit{PA-ECC91611} e \textit{PA-9BD2AB95}).
+  \item Interface de chat integrada (aba \textbf{Consulta}) permitindo perguntas operacionais com histórico transparente.
+  \item Memória dinâmica: novas análises aprovadas pelo gestor alimentam o repositório de conhecimento da planta.
+\end{itemize}}
+\vspace{4pt}
+{\centering\evphoto{assistente_consulta.jpg}{4.0cm}\par}
+\vspace{3pt}
+{\scriptsize\color{lgred}\textbf{Foco: RAG vetorial \textbullet\ Rastreabilidade de fontes \textbullet\ Aprendizado contínuo}}
 \end{card}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.315\textwidth}
-\begin{card}[equal height group=evid]{Última Reunião com o Cliente}
+\begin{card}[equal height group=evid]{Evidência 3 \textbullet\ Validação e Planos de Ação}
 {\footnotesize
-{\color{lgred}\textbf{07/08/2026 \textbullet\ Setor de Produção}}\\[3pt]
-Reunião com representantes da Produção (validação por \textbf{Leandro Corazza} e \textbf{Lucas Cunha}) que firmou o foco no \textbf{Scrap} da Linha Final e no \textbf{IF Cost}, o indicador que mede em dólar o custo da sucata. Ficou definido sanear o escopo para o monitoramento de perdas, deixando a gestão de custos gerais (\textit{Conversion Cost}) para uma fase posterior. O cliente pediu coleta automática a partir do GERP, cálculo do \textit{Gap} contra a meta anual de \textbf{15\%} e apoio à causa-raiz (4M, Pareto e Top 3 ofensores), com dashboard em Modo TV.\par}
-\vspace{5pt}
-{\centering\evphoto{reuniao1.jpg}{4.1cm}\par}
+\textbf{HOMOLOGADO} \ Revisão e geração de tarefas no relatório:\vspace{2pt}
+\begin{itemize}
+  \item O analista revisa hipóteses de causa e contenções, e valida tarefas corretivas sugeridas com 1 clique.
+  \item Geração automática do relatório formal com plano de ação estruturado para mitigar o scrap na origem.
+  \item Apresentação realizada e \textbf{homologada pela Produção} (validação com \textbf{Leandro Corazza}).
+  \item Marco \textbf{M2 (03/09)} consolidado; avanço para a frente de testes e homologação (M3 em 02/10).
+\end{itemize}}
+\vspace{4pt}
+{\centering\evphoto{assistente_tarefas.jpg}{4.0cm}\par}
+\vspace{3pt}
+{\scriptsize\color{lgred}\textbf{Foco: Human-in-the-Loop \textbullet\ Tarefas do relatório \textbullet\ M2 Aprovado}}
 \end{card}
 \end{minipage}
 
@@ -140,14 +139,14 @@ Reunião com representantes da Produção (validação por \textbf{Leandro Coraz
 \noindent\begin{minipage}[t]{0.38\textwidth}
 \begin{card}[equal height group=fim]{A Equipe e os Resultados}
 {\footnotesize
-\textbf{Equipe 3:} \textbf{André Filipe Aloise} (Líder e P.O.), \textbf{Messyas Gois França} (Dev), \textbf{Gustavo Almada} (Dev), \textbf{Teodório Neto} (Dev) e \textbf{José Oiris} (Dev). Orientação: \textbf{Prof. Anderson Fontoura}.\vspace{5pt}
+\textbf{Equipe 3:} \textbf{André Filipe Aloise} (Líder e P.O.), \textbf{Messyas Gois França} (Dev), \textbf{Gustavo Almada} (Dev) e \textbf{Teodório Neto} (Dev). Orientação: \textbf{Prof. Anderson Fontoura}.\vspace{5pt}
 
-{\normalsize\lghead\color{lgred}Resultados esperados}\vspace{1pt}
+{\normalsize\lghead\color{lgred}Resultados da Sprint 02 (Semana 8)}\vspace{1pt}
 \begin{itemize}
-  \item Fim do tratamento manual de planilhas e da remoção repetitiva de organizações fora de escopo (VS/BM).
-  \item Visibilidade imediata do \textbf{Top 3 ofensores de Scrap} (Módulo, Box, PCB) e do IF Cost em US\$.
-  \item Acompanhamento do \textit{Gap} de perdas contra a meta de \textbf{redução de 15\% (YoY)}.
-  \item \textit{Dashboard} em Modo TV (Kiosk) e esforço analítico redirecionado à causa-raiz (4M).
+  \item \textbf{Agentes ReAct no ar:} Raciocínio multi-passo sobre dados do GERP homologado pela gerência.
+  \item \textbf{Tempo de análise reduzido em ~80\%:} Analista atua como revisor de propostas fundamentadas.
+  \item \textbf{Planos de ação estruturados:} Tarefas corretivas vinculadas aos relatórios para erradicar causas-raiz.
+  \item \textbf{Marco M2 concluído:} PoC validada e base pronta para os testes de sistema da Semana 9.
 \end{itemize}}
 \end{card}
 \end{minipage}\hfill
@@ -165,11 +164,11 @@ Reunião com representantes da Produção (validação por \textbf{Leandro Coraz
 \textbf{Lucas Cunha}, valida o relatório\\ \faEnvelope\ lucas.d.cunha@lge.com
 \end{minipage}\vspace{7pt}
 
-{\normalsize\lghead\color{lgred}Próximos passos}\vspace{1pt}
+{\normalsize\lghead\color{lgred}Próximos passos (Semanas 9 e 10)}\vspace{1pt}
 \begin{itemize}
-  \item Implementar o motor de ingestão e estruturação da planilha da Qualidade no \textit{backend}.
-  \item Codificar as regras de negócio (Positivagem \textbf{ABS} e \textbf{Hard-Filter} VS/BM) na API.
-  \item Homologar a interface do \textit{Dashboard Kiosk} (Modo TV) em alta resolução.
+  \item Iniciar bateria de testes de sistema, E2E e testes de segurança/LGPD (frente A4 do cronograma).
+  \item Refinar filtros avançados por linha e histórico de ocorrências na Base de Scrap.
+  \item Preparar ambiente de staging para homologação final e sign-off (29--30/09) rumo ao Marco M3.
 \end{itemize}}
 \end{card}
 \end{minipage}\hfill
@@ -177,7 +176,7 @@ Reunião com representantes da Produção (validação por \textbf{Leandro Coraz
 \begin{card}[equal height group=fim]{Marca e Protótipo}
 {\centering\evphoto{hanaro_v_app.png}{4.3cm}\par}
 \vspace{4pt}
-{\footnotesize \textbf{Hanaro} \textbullet\ \textit{Dashboard de Scrap.}\\[2pt] Protótipo navegável publicado: \href{https://prototipo-hanaro.vercel.app/}{prototipo-hanaro.vercel.app}.\\[3pt] {\scriptsize\color{lgred}\href{https://www.figma.com/design/pbNEP3Yl9zyluQtocR48x1/hanaro-scrap}{Design (Figma)} \textbullet\ \href{https://trello.com/invite/b/6a7b3b2ae74ac4c06391785b/ATTIc582630a53d71570e26e6a987b1049b08E12CF28/hanaro}{Kanban}}}
+{\footnotesize \textbf{Hanaro} \textbullet\ \textit{Controle de Scrap \& IA.}\\[2pt] Protótipo navegável: \href{https://prototipo-hanaro.vercel.app/}{prototipo-hanaro.vercel.app}.\\[3pt] {\scriptsize\color{lgred}\href{https://www.figma.com/design/pbNEP3Yl9zyluQtocR48x1/hanaro-scrap}{Design (Figma)} \textbullet\ \href{https://trello.com/invite/b/6a7b3b2ae74ac4c06391785b/ATTIc582630a53d71570e26e6a987b1049b08E12CF28/hanaro}{Kanban}}}
 \end{card}
 \end{minipage}
 
@@ -187,7 +186,7 @@ Reunião com representantes da Produção (validação por \textbf{Leandro Coraz
   \node[anchor=west, text=white] at ([xshift=1.5cm, yshift=0.35cm]current page.south west)
     {\footnotesize\bfseries AX Academy \textbullet\ Digital Transformation};
   \node[anchor=east, text=white!90] at ([xshift=-1.5cm, yshift=0.35cm]current page.south east)
-    {\footnotesize Equipe 3 \textbullet\ Evidências do Sprint 00 (W32) \textbullet\ Automação do Relatório de Scrap};
+    {\footnotesize Equipe 3 \textbullet\ Evidências do Sprint 02 (W36) \textbullet\ Automação do Relatório de Scrap};
 \end{tikzpicture}
 
 \end{document}
