@@ -1,0 +1,994 @@
+% =============================================================================
+%  axacademy-guia.sty  -  Guia Rapido de Uso, AX Academy / IFAM        v1.0
+%
+%  Porte do modelo de manual de campo (classe `book', capa composta, folha de
+%  rosto, contracapa, partes com mini-sumario, caixas de observacao, tabelas
+%  zebradas, historico de revisoes) para a identidade AX Academy:
+%
+%    - cores do heritage red das apostilas e dos demais modelos de _final;
+%    - fonte LG EI (Headline nos titulos, Text no corpo), carregada de fonts/;
+%    - marcas da AX Academy e do IFAM no lugar das institucionais;
+%    - fundos novos, em art/fundo/, gerados pelos fontes de _gen/.
+%
+%  O que e proprio do guia rapido, e nao existia no manual:
+%
+%    \passo        uma linha de duas colunas: a TELA a esquerda e o TEXTO a
+%                  direita, com marcadores numerados sobre a captura;
+%    elementos     a lista numerada que acompanha os marcadores da tela;
+%    \marca{n}     o marcador numerado, para usar no meio do texto;
+%    bpmn ...      estilos TikZ para o fluxo de uso em BPMN.
+%
+%  COMPILAR COM:  lualatex guia-rapido.tex     (duas vezes: sumario e paginas)
+%  NAO use pdflatex: a fonte e carregada por arquivo, o que exige fontspec.
+%
+%  Tudo vem por caminho relativo (fonts/, art/, img/), para a pasta subir
+%  inteira no Prism ou no Overleaf e compilar igual.
+% =============================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{axacademy-guia}[2026/10/29 v1.0 Guia Rapido AX Academy]
+
+% ---------- MOTOR ----------
+\RequirePackage{iftex}
+\ifPDFTeX
+  \GenericError{}{%
+    Este modelo exige lualatex, porque carrega a fonte LG EI por arquivo.
+    Compile com: lualatex guia-rapido.tex%
+  }{}{}
+  \stop
+\fi
+
+% ---------- PACOTES ----------
+\RequirePackage{fontspec}
+\RequirePackage[brazil]{babel}
+\RequirePackage{geometry}
+\RequirePackage{graphicx}
+% A opcao `table' do xcolor da \rowcolors e \rowcolor. Precisa vir na
+% PRIMEIRA carga do pacote.
+\RequirePackage[table]{xcolor}
+\RequirePackage{float}
+\RequirePackage{enumitem}
+\RequirePackage{eso-pic}
+\RequirePackage{titlesec}
+\RequirePackage{titletoc}
+\RequirePackage{fancyhdr}
+\RequirePackage{tcolorbox}
+\RequirePackage{booktabs}
+\RequirePackage{amssymb}
+\RequirePackage{colortbl}
+\RequirePackage{tabularx}
+\RequirePackage{tikz}
+\RequirePackage{longtable}
+\RequirePackage{array}
+\RequirePackage[export]{adjustbox}
+\RequirePackage{etoolbox}
+\RequirePackage{tocloft}
+\RequirePackage{fontawesome5}
+\RequirePackage[labelfont=bf,font=footnotesize]{caption}
+\RequirePackage{setspace}
+\RequirePackage{microtype}
+\RequirePackage{needspace}
+\RequirePackage[hidelinks]{hyperref}
+\usetikzlibrary{positioning,arrows.meta,calc,shapes.geometric,shadows}
+
+% ---------- FONTE ----------
+% LG EI, a mesma das apostilas e dos outros modelos: Headline nos titulos e na
+% arte, Text no corpo. A familia nao tem italico; o AutoFakeSlant inclina a
+% letra reta.
+%
+% Se fonts/ nao vier junto, cai para o nome instalado no sistema e avisa no
+% log. O resultado diverge do modelo, sem erro nenhum.
+\defaultfontfeatures{Ligatures=TeX}
+\IfFileExists{../../fonts/LGEITextTTF-Regular.ttf}{%
+  \setmainfont{LGEITextTTF-Regular}[
+      Path=../../fonts/, Extension=.ttf,
+      BoldFont=LGEITextTTF-SemiBold, AutoFakeSlant=0.18]
+  \newfontfamily\guiahead{LGEIHeadlineTTF-Regular}[
+      Path=../../fonts/, Extension=.ttf,
+      BoldFont=LGEIHeadlineTTF-Bold, AutoFakeSlant=0.18]
+  \newfontfamily\guialight{LGEIHeadlineTTF-Light}[Path=../../fonts/, Extension=.ttf]
+  \newfontfamily\guiamedium{LGEIHeadlineTTF-Semibold}[Path=../../fonts/, Extension=.ttf]
+}{%
+  \IfFileExists{../fonts/LGEITextTTF-Regular.ttf}{%
+    \setmainfont{LGEITextTTF-Regular}[
+        Path=../fonts/, Extension=.ttf,
+        BoldFont=LGEITextTTF-SemiBold, AutoFakeSlant=0.18]
+    \newfontfamily\guiahead{LGEIHeadlineTTF-Regular}[
+        Path=../fonts/, Extension=.ttf,
+        BoldFont=LGEIHeadlineTTF-Bold, AutoFakeSlant=0.18]
+    \newfontfamily\guialight{LGEIHeadlineTTF-Light}[Path=../fonts/, Extension=.ttf]
+    \newfontfamily\guiamedium{LGEIHeadlineTTF-Semibold}[Path=../fonts/, Extension=.ttf]
+  }{%
+    \IfFileExists{fonts/LGEITextTTF-Regular.ttf}{%
+      \setmainfont{LGEITextTTF-Regular}[
+          Path=fonts/, Extension=.ttf,
+          BoldFont=LGEITextTTF-SemiBold, AutoFakeSlant=0.18]
+      \newfontfamily\guiahead{LGEIHeadlineTTF-Regular}[
+          Path=fonts/, Extension=.ttf,
+          BoldFont=LGEIHeadlineTTF-Bold, AutoFakeSlant=0.18]
+      \newfontfamily\guialight{LGEIHeadlineTTF-Light}[Path=fonts/, Extension=.ttf]
+      \newfontfamily\guiamedium{LGEIHeadlineTTF-Semibold}[Path=fonts/, Extension=.ttf]
+    }{%
+      \PackageWarning{axacademy-guia}{Pasta de fontes nao encontrada (procurado em ../../fonts/, ../fonts/ e fonts/); usando a
+        fonte instalada no sistema. O resultado pode divergir do modelo.}%
+      \setmainfont{LG EI Text}[BoldFont=* SemiBold, AutoFakeSlant=0.18]
+      \newfontfamily\guiahead{LG EI Headline}[BoldFont=* Bold, AutoFakeSlant=0.18]
+      \newfontfamily\guialight{LG EI Headline Light}
+      \newfontfamily\guiamedium{LG EI Headline Semibold}
+    }%
+  }%
+}
+% Monoespacada: Latin Modern Mono, que vem em toda distribuicao TeX. A
+% ligadura do TeX fica DESLIGADA (-tlig): com ela, os dois hifens de
+% `--opcao' viram um travessao e o comando impresso deixa de ser o que se
+% digita.
+\setmonofont{lmmono10-regular}[
+    Extension=.otf, BoldFont=lmmonolt10-bold,
+    ItalicFont=lmmono10-italic, BoldItalicFont=lmmonolt10-boldoblique,
+    RawFeature={-tlig}]
+
+% ---------- IMAGENS ----------
+% As telas ficam em img/; a arte, em art/. No texto basta o nome do arquivo.
+\graphicspath{{img/}{art/marca/}{art/fundo/}}
+
+% ---------- PAGINA ----------
+\geometry{a4paper,left=2.6cm,right=2.4cm,top=2.6cm,bottom=2.8cm,
+          headheight=15pt,headsep=14pt}
+\setlength{\footskip}{2.2cm}
+
+% ---------- ESPACAMENTO DO TEXTO ----------
+% Definido uma vez so, aqui, e nao nos capitulos.
+\newcommand{\guiaentrelinha}{1.2}
+\AtBeginDocument{%
+    \setlength{\parindent}{0pt}%
+    \setlength{\parskip}{0.3cm}%
+    \renewcommand{\baselinestretch}{\guiaentrelinha}\selectfont
+}
+
+% =============================================================================
+%  PALETA
+%  As mesmas cores das apostilas (axacademy-apostila.sty) e dos modelos de
+%  projeto: heritage red da LG nos destaques, o vermelho da marca AX no
+%  realce pontual, cinza quente nos fundos. Sem azul: a identidade LG o evita.
+% =============================================================================
+\definecolor{guiavermelho}{HTML}{A50034}    % heritage red: reguas, numeros, faixas
+\definecolor{guiavivo}{HTML}{E7194A}        % vermelho do "X" da marca AX: realce
+\definecolor{guiavinho}{HTML}{4A0018}       % fim do degrade da faixa
+\definecolor{guiaaxred}{HTML}{B41432}       % vermelho AX das apostilas: caixas
+\definecolor{guiarosa}{HTML}{F8E6EB}        % fundo do selo de aviso
+\definecolor{guiarosaborda}{HTML}{DCB4B9}   % borda da caixa de aviso (axredlight)
+\definecolor{guiatinta}{HTML}{1E0A0A}       % texto (axdark das apostilas)
+\definecolor{guiagrafite}{HTML}{25252F}     % cinza-escuro do logotipo AX
+\definecolor{guiacinza}{HTML}{736B66}       % texto secundario, cinza quente
+\definecolor{guiaborda}{HTML}{D9D2CA}       % filetes e molduras
+\definecolor{guiaareia}{HTML}{F0ECE4}       % warm grey LG: faixas de sumario
+\definecolor{guiapapel}{HTML}{FAF8F5}       % fundo das paginas de abertura
+\definecolor{guiaverde}{HTML}{287846}       % caixa de informacao positiva
+\definecolor{guiaambar}{HTML}{B7791F}       % caixa de atencao
+
+\hypersetup{colorlinks=true,linkcolor=guiatinta,urlcolor=guiavermelho}
+% Sem \makeatletter/\makeatother aqui: dentro de um .sty o @ ja e letra, e um
+% \makeatother no meio do arquivo quebra todo comando com @ que vem depois.
+\renewcommand{\normalcolor}{\color{guiatinta}}
+\AtBeginDocument{\color{guiatinta}}
+
+% =============================================================================
+%  DADOS DESTE GUIA
+%  Preencha no .tex raiz, antes do \begin{document}.
+% =============================================================================
+\newcommand{\guiatitulo}[1]{\def\guiavaltitulo{#1}}
+\newcommand{\guiasubtitulo}[1]{\def\guiavalsubtitulo{#1}}
+\newcommand{\guiasistema}[1]{\def\guiavalsistema{#1}}
+\newcommand{\guiatagline}[1]{\def\guiavaltagline{#1}}
+\newcommand{\guiaequipe}[1]{\def\guiavalequipe{#1}}
+\newcommand{\guiaano}[1]{\def\guiavalano{#1}}
+\newcommand{\guiacidade}[1]{\def\guiavalcidade{#1}}
+\newcommand{\guiaemail}[1]{\def\guiavalemail{#1}}
+\newcommand{\guiasite}[1]{\def\guiavalsite{#1}}
+\newcommand{\guiaendereco}[1]{\def\guiavalendereco{#1}}
+\newcommand{\guiaaviso}[1]{\def\guiavalaviso{#1}}
+\newcommand{\guiasobreaequipe}[1]{\def\guiavalsobreaequipe{#1}}
+\newcommand{\guiacliente}[1]{\def\guiavalcliente{#1}}
+\newcommand{\guiareferencia}[1]{\def\guiavalreferencia{#1}}
+\newcommand{\guiaversao}[1]{\def\guiavalversao{#1}}
+% Marca do SISTEMA documentado (nao a da AX Academy): um icone em arquivo e o
+% nome, composto em texto. Quem tiver o logotipo inteiro em arquivo passa-o em
+% \guiamarcatexto e o nome em texto deixa de ser usado; com o icone vazio, o
+% logotipo sai sozinho.
+\newcommand{\guiamarcaicone}[1]{\def\guiavalmarcaicone{#1}}
+\newcommand{\guiamarcatexto}[1]{\def\guiavalmarcatexto{#1}}
+
+% Valores de partida, para o modelo compilar sem preencher nada.
+\guiatitulo{Guia Rápido}
+\guiasubtitulo{}
+\guiasistema{Sistema}
+\guiatagline{}
+\guiaequipe{Equipe}
+\guiaano{2026}
+\guiacidade{Manaus, Amazonas --- Brasil}
+\guiaemail{}
+\guiasite{www.ifam.edu.br}
+\guiaendereco{}
+\guiaaviso{LEIA ANTES DO\\PRIMEIRO ACESSO\\AO SISTEMA.}
+\guiasobreaequipe{}
+\guiacliente{}
+\guiareferencia{}
+\guiaversao{1.0}
+\guiamarcaicone{}
+\guiamarcatexto{}
+
+% =============================================================================
+%  PECAS DA IDENTIDADE
+% =============================================================================
+
+% --- Marca do sistema: icone + nome --------------------------------------------
+% A medida e a ALTURA do icone. O nome sai na Headline em negrito, com corpo
+% proporcional ao icone e centrado na vertical em relacao a ele.
+% Uso: \guiamarca{62bp}
+\newlength{\guiaHicone}
+\newcommand{\guiamarca}[1]{%
+    \setlength{\guiaHicone}{#1}%
+    \mbox{%
+        \ifdefempty{\guiavalmarcaicone}{}{%
+            \includegraphics[height=\guiaHicone]{\guiavalmarcaicone}%
+            \hspace{0.26\guiaHicone}}%
+        \ifdefempty{\guiavalmarcatexto}{%
+            \raisebox{0.27\guiaHicone}{%
+                \fontsize{0.62\guiaHicone}{0.62\guiaHicone}\selectfont
+                \guiahead\bfseries\color{guiatinta}\guiavalsistema}%
+        }{%
+            % Sem icone ao lado, o logotipo nao sobe: a altura dele e a da marca.
+            \ifdefempty{\guiavalmarcaicone}{%
+                \includegraphics[height=0.76\guiaHicone]{\guiavalmarcatexto}%
+            }{%
+                \raisebox{0.12\guiaHicone}{%
+                    \includegraphics[height=0.76\guiaHicone]{\guiavalmarcatexto}}%
+            }%
+        }%
+    }%
+}
+
+% --- Marcas institucionais: AX Academy e IFAM -----------------------------------
+% A altura passada e a do logotipo da AX; o do IFAM sai com 1,15 dela, para os
+% dois terem o mesmo peso visual (o da AX tem a tagline embaixo).
+% A medida vai para um comprimento antes de ser multiplicada: escrever
+% `1.15#1' com #1 = 16pt daria 1.1516pt, e nao 1,15 x 16 pt.
+\newlength{\guiaHinst}
+\newcommand{\guiamarcasinst}[1][16pt]{%
+    \setlength{\guiaHinst}{#1}%
+    \mbox{\raisebox{-0.12\height}{\includegraphics[height=\guiaHinst]{logo-ax}}%
+    \hspace{1.1\guiaHinst}%
+    {\color{guiaborda}\rule[-0.3\guiaHinst]{0.6pt}{1.45\guiaHinst}}%
+    \hspace{1.1\guiaHinst}%
+    \raisebox{-0.2\height}{\includegraphics[height=1.15\guiaHinst]{logo-ifam}}}%
+}
+
+% --- Regua -------------------------------------------------------------------
+\newcommand{\guiaregua}[1][276bp]{%
+    \textcolor{guiavermelho}{\rule{#1}{3bp}}%
+}
+
+% --- Moldura das paginas de arte ---------------------------------------------
+% Capa, folha de rosto, contracapa e placas de parte sao desenhadas num
+% tikzpicture do tamanho exato da folha A4, com origem no canto superior
+% esquerdo e o eixo y crescendo para BAIXO, como as medidas de uma arte.
+% Sem `remember picture', de proposito: assim sai certo ja na primeira
+% passada, inclusive a contracapa, que e a ultima pagina.
+\def\guiaWfolha{595.276}
+\def\guiaHfolha{841.89}
+
+\newcommand{\guiafolha}[1]{%
+    \thispagestyle{empty}%
+    \newgeometry{margin=0pt}%
+    \noindent\begin{tikzpicture}[x=1bp,y=-1bp,inner sep=0pt,outer sep=0pt]
+        \useasboundingbox (0,0) rectangle (\guiaWfolha,\guiaHfolha);
+        #1
+    \end{tikzpicture}%
+    \clearpage
+    \restoregeometry
+    \color{guiatinta}%
+}
+
+% --- Camada de fundo ----------------------------------------------------------
+% O papel, as duas manchas de paralelogramos em cantos opostos -- a de cima
+% so de contorno (padrao-claro.pdf), a de baixo com realces (padrao.pdf) -- e
+% a faixa vertical (art/fundo/faixa.pdf). O argumento diz de que
+% lado fica a faixa: `direita' na capa e nas partes, `esquerda' na contracapa.
+\newcommand{\guiafundo}[1]{%
+    \begin{scope}
+        \clip (0,0) rectangle (\guiaWfolha,\guiaHfolha);
+        \fill[guiapapel] (0,0) rectangle (\guiaWfolha,\guiaHfolha);
+        % no alto, atras do titulo, a versao so de contorno
+        \node[anchor=north east] at (270,-170) {\includegraphics[width=600bp]{padrao-claro}};
+        \node[anchor=north west] at (250,505) {\includegraphics[width=600bp]{padrao}};
+        \ifstrequal{#1}{esquerda}{%
+            \node[anchor=north west] at (0,0)
+                {\reflectbox{\includegraphics[width=16bp,height=\paperheight]{faixa}}};
+        }{%
+            \node[anchor=north east] at (\guiaWfolha,0)
+                {\includegraphics[width=16bp,height=\paperheight]{faixa}};
+        }%
+    \end{scope}%
+}
+
+% --- Caixa de aviso da capa ---------------------------------------------------
+% Moldura de 160 x 73 pt com o selo de 40 pt encostado na borda de cima.
+% O `anchor=center' e explicito em cada no: a caixa e desenhada DENTRO de um
+% no da pagina, e um tikzpicture aninhado herda as opcoes do no que o contem.
+\newcommand{\guiacaixaaviso}[2][160]{%
+    \begin{tikzpicture}[x=1bp,y=1bp]
+        \draw[draw=guiarosaborda,line width=0.75pt,rounded corners=8.5pt,
+              fill=white] (0,0) rectangle (#1,-73);
+        \node[anchor=center,inner sep=0pt,align=center,
+              text width=\dimexpr#1pt-22pt\relax,
+              font=\guiahead\fontsize{10.5}{14.5}\selectfont\color{guiatinta}]
+              at (0.5*#1,-42) {#2};
+        \node[anchor=center,circle,fill=guiarosa,minimum size=40pt,inner sep=0pt]
+              at (0.5*#1,8) (bd) {};
+        \node[anchor=center,inner sep=0pt] at (bd)
+              {\fontsize{14}{14}\selectfont\color{guiavermelho}\faBookOpen};
+    \end{tikzpicture}%
+}
+
+% =============================================================================
+%  CABECALHO E RODAPE
+%  O rodape e composto: marca do sistema, filete e duas linhas de credito. A
+%  posicao do filete acompanha a largura da marca, que muda com o nome.
+% =============================================================================
+\newlength{\guiarodapefolga}\setlength{\guiarodapefolga}{16pt}
+
+\newcommand{\guiarodape}{%
+    \begin{tikzpicture}[baseline=0pt]
+        \node[anchor=south west,inner sep=0pt,rounded corners=4pt,fill=guiapapel,
+              minimum height=33pt,
+              minimum width=\dimexpr\textwidth+\guiarodapefolga\relax] (bg) at (0,0) {};
+        \node[anchor=west,inner sep=0pt] (mk) at ([xshift=10pt]bg.west)
+            {\guiamarca{17pt}};
+        \draw[guiaborda,line width=0.8pt]
+            ([xshift=11pt,yshift=9pt]mk.east) -- ([xshift=11pt,yshift=-9pt]mk.east);
+        \node[anchor=west,inner sep=0pt,align=left,
+              font=\fontsize{8}{10.5}\selectfont\color{guiacinza}]
+            at ([xshift=22pt]mk.east)
+            % O titulo traz \\ para a capa; aqui ele vira espaco. Um \\ dentro
+            % de grupo, num no de varias linhas do TikZ, derruba a compilacao
+            % com "Giving up on this path". O nome do sistema nao se repete:
+            % a marca, ao lado, ja o traz; versao e equipe ficam fora do rodape.
+            {{\def\\{ }\color{guiatinta}\guiavaltitulo}\\
+             AX Academy --- Digital Transformation \textperiodcentered\
+             Instituto Federal do Amazonas};
+    \end{tikzpicture}%
+}
+
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\hspace{6pt}#1}{}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\headrule}{{\color{guiaborda}\hrule height\headrulewidth width\headwidth}}
+\renewcommand{\footrulewidth}{0pt}
+\newcommand{\guiacabecalhofonte}{\fontsize{8.5}{11}\selectfont\color{guiacinza}}
+\fancyhead[L]{\guiacabecalhofonte\leftmark}
+\fancyhead[R]{\guiacabecalhofonte\rightmark}
+\fancyfoot[L]{\raisebox{0pt}{\guiarodape}}
+\fancyfoot[R]{\raisebox{0.3cm}{\guiahead\fontsize{15}{18}\selectfont\bfseries\color{guiatinta}\thepage}}
+\fancypagestyle{plain}{%
+    \fancyhf{}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \fancyfoot[L]{\raisebox{0pt}{\guiarodape}}%
+    \fancyfoot[R]{\raisebox{0.3cm}{\guiahead\fontsize{15}{18}\selectfont\bfseries\color{guiatinta}\thepage}}%
+}
+
+% =============================================================================
+%  TITULOS
+% =============================================================================
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{1}
+
+% --- PARTE --------------------------------------------------------------------
+% Pagina inteira, com o fundo da identidade, o numero em marca d'agua e o
+% mapa dos capitulos e passos que vem a seguir.
+\newcommand{\guiaplacaparte}{%
+    \begin{tikzpicture}[x=1bp,y=-1bp,inner sep=0pt,outer sep=0pt]
+        \useasboundingbox (0,0) rectangle (\guiaWfolha,\guiaHfolha);
+        \guiafundo{direita}%
+    \end{tikzpicture}%
+}
+
+% O topo e mais baixo que o do manual (130 pt): aqui o mapa da parte lista
+% tambem os passos, e com o topo do manual a Parte II passava para a pagina
+% seguinte, sem fundo. Com 3 capitulos e 11 secoes (o guia do Hanaro), 60 pt
+% ainda jogava as duas ultimas linhas numa pagina a mais; 28 pt, menos ar
+% depois do filete e o mapa mais justo cabem.
+\titleformat{\part}[display]
+    {\thispagestyle{empty}\vspace*{28pt}\raggedright}
+    {{\guiahead\fontsize{130}{130}\selectfont\bfseries\color{guiavermelho!18}\thepart}}
+    {-36pt}
+    {\guiahead\fontsize{34}{40}\selectfont\bfseries\color{guiatinta}}
+    [\vspace{12pt}{\color{guiavermelho}\rule{0.42\textwidth}{3bp}}\endgraf%
+     \vspace{16pt}%
+     {\normalfont\fontsize{11}{16}\selectfont\color{guiacinza}%
+      \printcontents{l}{0}{\setcounter{tocdepth}{1}}}]
+\titlespacing*{\part}{0pt}{0pt}{0pt}
+
+% O fundo e registrado ANTES do titulo; o asterisco faz valer so para a
+% proxima pagina. A ancora e \AtPageLowerLeft porque o tikzpicture da placa
+% tem o baseline na base: ancorado pelo topo, sairia inteiro para fora.
+\newcommand{\guiafundodeparte}{%
+    \AddToShipoutPictureBG*{\AtPageLowerLeft{\guiaplacaparte}}%
+}
+
+\let\guiaoldpart\part
+\renewcommand{\part}{%
+    \cleardoublepage
+    \guiafundodeparte
+    \startcontents
+    \guiaoldpart
+}
+
+\titlecontents{lchapter}[0pt]
+    {\addvspace{8pt}\guiahead\fontsize{12}{15}\selectfont\bfseries\color{guiatinta}}
+    {\textcolor{guiavermelho}{\thecontentslabel}\hspace{10pt}}
+    {}
+    {\hfill\color{guiacinza}\thecontentspage}
+\titlecontents{lsection}[26pt]
+    {\fontsize{9.5}{12}\selectfont\color{guiacinza}}
+    {\thecontentslabel\hspace{7pt}}
+    {}
+    {\hfill\color{guiacinza}\thecontentspage}
+\titlecontents{lpart}[0pt]{}{}{}{}
+
+% --- CAPITULO -----------------------------------------------------------------
+\titleformat{\chapter}[display]
+    {\normalfont\raggedright}
+    {{\guiahead\fontsize{86}{86}\selectfont\bfseries\color{guiavermelho!22}\thechapter}}
+    {-22pt}
+    {\guiahead\fontsize{27}{32}\selectfont\bfseries\color{guiatinta}}
+    [\vspace{8pt}{\color{guiavermelho}\rule{\textwidth}{3bp}}]
+\titlespacing*{\chapter}{0pt}{-18pt}{22pt}
+
+\titleformat{name=\chapter,numberless}[display]
+    {\normalfont\raggedright}
+    {}
+    {0pt}
+    {\guiahead\fontsize{27}{32}\selectfont\bfseries\color{guiatinta}}
+    [\vspace{8pt}{\color{guiavermelho}\rule{\textwidth}{3bp}}]
+
+% --- SECOES -------------------------------------------------------------------
+\titleformat{\section}{\guiahead\fontsize{16}{20}\selectfont\bfseries\color{guiatinta}}%
+    {\textcolor{guiavermelho}{\thesection}}{0.6em}{}
+\titleformat{\subsection}{\guiahead\fontsize{12.5}{15}\selectfont\bfseries\color{guiatinta}}%
+    {\textcolor{guiavermelho}{\thesubsection}}{0.6em}{}
+\titleformat{\subsubsection}{\guiahead\fontsize{11}{13.2}\selectfont\bfseries\color{guiatinta}}%
+    {}{0em}{}
+\titlespacing*{\section}{0pt}{1.4em}{0.5em}
+\titlespacing*{\subsection}{0pt}{1.1em}{0.4em}
+\titlespacing*{\subsubsection}{0pt}{0.9em}{0.3em}
+
+% Titulo grande das paginas de abertura.
+\newcommand{\pagetitle}[1]{%
+    {\guiahead\fontsize{24}{28.8}\selectfont\bfseries\color{guiatinta} #1}\par
+    \vspace{0.6em}
+}
+
+% =============================================================================
+%  CAIXA DE OBSERVACAO -- `remark'
+%  Barra vertical a esquerda, fundo claro e um icone no recuo. O tipo escolhe
+%  icone e cor:
+%      \begin{remark} ... \end{remark}          atencao (padrao)
+%      \begin{remark}[dica] ... \end{remark}    dica
+%      \begin{remark}[info] ... \end{remark}    informacao
+%      \begin{perigo} ... \end{perigo}          risco de perder dado ou acesso
+% =============================================================================
+\tcbuselibrary{skins,breakable}
+\newcommand{\guiaicone@atencao}{\faExclamationTriangle}
+\newcommand{\guiaicone@dica}{\faLightbulb}
+\newcommand{\guiaicone@info}{\faInfoCircle}
+\newcommand{\guiaicone@perigo}{\faExclamationCircle}
+\newcommand{\guiacor@atencao}{guiaambar}
+\newcommand{\guiacor@dica}{guiaverde}
+\newcommand{\guiacor@info}{guiacinza}
+\newcommand{\guiacor@perigo}{guiavermelho}
+
+\newtcolorbox{guiaobs}[1][atencao]{%
+    enhanced,breakable,
+    colback=\csname guiacor@#1\endcsname!7,colframe=\csname guiacor@#1\endcsname,
+    boxrule=0pt,leftrule=3.5bp,arc=0pt,
+    left=32pt,right=12pt,top=8pt,bottom=8pt,
+    fontupper=\small,
+    overlay unbroken and first={%
+        \node[anchor=north west,inner sep=0pt,
+              text=\csname guiacor@#1\endcsname]
+            at ([xshift=12pt,yshift=-9pt]frame.north west)
+            {\fontsize{12}{12}\selectfont\csname guiaicone@#1\endcsname};
+    }%
+}
+\newenvironment{remark}[1][atencao]{\begin{guiaobs}[#1]}{\end{guiaobs}}
+\newenvironment{perigo}{\begin{guiaobs}[perigo]}{\end{guiaobs}}
+
+% =============================================================================
+%  MARCADORES NUMERADOS
+%  O mesmo circulo vermelho aparece sobre a tela (\passo) e no texto (\marca e
+%  a lista `elementos'). E isso que liga a frase ao ponto da tela.
+% =============================================================================
+\tikzset{
+    guia marcador/.style={circle,fill=guiavermelho,text=white,draw=white,
+        line width=1.1pt,minimum size=15pt,inner sep=0pt,
+        font=\guiahead\bfseries\fontsize{8.5}{8.5}\selectfont,
+        drop shadow={opacity=0.25,shadow xshift=0.6pt,shadow yshift=-0.6pt}},
+    guia marca/.style={circle,fill=guiavermelho,text=white,minimum size=1.3em,
+        inner sep=0pt,font=\guiahead\bfseries\fontsize{8}{8}\selectfont},
+}
+\DeclareRobustCommand{\marca}[1]{%
+    \leavevmode\tikz[baseline=(m.base)]\node[guia marca] (m) {#1};%
+}
+% Lista dos elementos da tela, numerada com o marcador. A ordem dos itens e a
+% ordem dos marcadores passados ao \passo.
+\newlist{elementos}{enumerate}{1}
+\setlist[elementos]{label={\marca{\arabic*}},leftmargin=1.9em,labelsep=0.45em,
+    itemsep=0.1em,topsep=0.2em,parsep=0pt}
+
+% =============================================================================
+%  PASSO -- pagina de duas colunas
+%  Cada \passo e uma linha: a TELA a esquerda, so a imagem, e o TEXTO a
+%  direita, com o selo do passo, o titulo e a explicacao. As linhas se
+%  empilham e a pagina quebra entre elas, nunca dentro de uma.
+%
+%  Uso:
+%      \passo[x1/y1, x2/y2, ...]{arquivo}{Titulo do passo}{%
+%          Texto do passo.
+%          \begin{elementos}
+%              \item o que o marcador 1 indica;
+%              \item o que o marcador 2 indica.
+%          \end{elementos}
+%      }
+%
+%  Os marcadores sao opcionais. Cada par x/y e a posicao na tela em FRACAO da
+%  largura e da altura, com origem no canto SUPERIOR esquerdo: 0.5/0.5 e o
+%  centro, 0.9/0.1 e o canto de cima a direita. A numeracao segue a ordem da
+%  lista e casa com a lista `elementos'.
+%
+%  Cada passo recebe o rotulo passo:N, para \pageref{passo:3}, e entra no
+%  sumario e no mapa da parte como secao numerada do capitulo.
+% =============================================================================
+\newcounter{guiapasso}
+\newlength{\guiacolimagem}
+\newlength{\guiacoltexto}
+% Fracao da largura do texto que fica com a tela. 0,49 serve a telas de
+% computador (16:10); para telas de celular, em pe, use \guiacolunas{0.36}.
+\newcommand{\guiacolunas}[1]{%
+    \setlength{\guiacolimagem}{#1\textwidth}%
+    \setlength{\guiacoltexto}{\dimexpr\textwidth-\guiacolimagem-0.06\textwidth\relax}%
+}
+\guiacolunas{0.49}
+
+\newcommand{\guiatela}[2]{%
+    \begin{tikzpicture}
+        \node[anchor=south west,inner sep=0pt] (tela) at (0,0)
+            {\includegraphics[width=\guiacolimagem]{#2}};
+        % Moldura e marcadores em `overlay': nao entram na medida da figura,
+        % que fica exatamente com a largura da coluna. Um marcador na borda da
+        % tela invade um pouco o vao entre as colunas, e e isso que se quer.
+        \draw[overlay,guiaborda,line width=0.7pt] (tela.south west) rectangle (tela.north east);
+        \ifblank{#1}{}{%
+            \begin{scope}[overlay,x={(tela.south east)},y={(tela.north west)}]
+                \foreach \mx/\my [count=\mn] in {#1}{%
+                    \node[guia marcador] at (\mx,{1-\my}) {\mn};
+                }
+            \end{scope}%
+        }%
+    \end{tikzpicture}%
+}
+
+\NewDocumentCommand{\passo}{O{} m m +m}{%
+    \par\addvspace{6pt}%
+    % Cada passo conta como secao do capitulo: no sumario e no mapa da parte
+    % sai numerado como as demais secoes (3.1, 3.2...), e a \section seguinte
+    % continua a contagem. O numero do passo (1 a N, corrido no guia) fica so
+    % no selo PASSO N, no BPMN e no mapa dos passos.
+    \stepcounter{section}%
+    \refstepcounter{guiapasso}\label{passo:\theguiapasso}%
+    \addcontentsline{toc}{section}{\protect\numberline{\thesection}#3}%
+    \noindent
+    \begin{minipage}[t]{\guiacolimagem}\vspace{0pt}%
+        \guiatela{#1}{#2}%
+    \end{minipage}\hfill
+    {\color{guiaborda}\vrule width 0.7pt}\hfill
+    \begin{minipage}[t]{\guiacoltexto}\vspace{0pt}%
+        \setlength{\parskip}{0.4em}%
+        % Alinhado a esquerda: justificado, a coluna estreita abria vaos
+        % grandes entre as palavras e partia muita palavra no fim da linha.
+        \raggedright
+        \fontsize{9.3}{12.6}\selectfont
+        {\guiahead\bfseries\fontsize{8}{8}\selectfont
+         \colorbox{guiavermelho}{\color{white}\strut PASSO \theguiapasso}}\par
+        \vspace{0.1em}%
+        {\guiahead\bfseries\fontsize{13.5}{16.5}\selectfont\color{guiatinta}#3\par}%
+        #4\par
+    \end{minipage}\par
+    \vspace{10pt}%
+    {\color{guiaborda}\hrule height 0.4pt}%
+    \vspace{12pt}%
+}
+
+% =============================================================================
+%  BPMN
+%  Estilos para o fluxo de uso. Raias em COLUNA (o fluxo desce), para o
+%  diagrama caber em pe na largura do texto. Cada tarefa que e um passo do
+%  guia leva o marcador do passo no canto, com link para a pagina dele.
+%
+%      \bpmnraia{x0}{largura}{altura}{Rotulo}        raia, com o topo em y = 0
+%      \node[bpmn inicio] (ini) at (x,y) {};         evento de inicio
+%      \node[bpmn fim]    (fim) at (x,y) {};         evento de fim
+%      \node[bpmn tarefa] (t1)  at (x,y) {Texto};    tarefa
+%      \bpmnpasso{t2}{x,y}{3}{Texto}                 tarefa que e o passo 3
+%      \bpmngateway{g1}{x,y}                         gateway exclusivo (X)
+%      \draw[bpmn fluxo] (a) -- (b);                 fluxo de sequencia
+%      \node[bpmn rotulo] at (...) {Sim};            rotulo de fluxo
+% =============================================================================
+\tikzset{
+    bpmn raia/.style={fill=guiapapel,draw=guiaborda,line width=0.6pt},
+    bpmn raiatopo/.style={fill=guiagrafite,draw=guiagrafite,text=white,
+        font=\guiahead\bfseries\fontsize{9.5}{11}\selectfont},
+    bpmn tarefa/.style={draw=guiatinta,line width=0.9pt,fill=white,
+        rounded corners=5pt,align=center,text width=3.6cm,inner sep=3.5pt,
+        minimum height=0.86cm,
+        font=\guiahead\fontsize{8.6}{10.2}\selectfont,text=guiatinta},
+    bpmn inicio/.style={circle,draw=guiatinta,line width=1.1pt,fill=white,
+        minimum size=0.62cm,inner sep=0pt},
+    bpmn fim/.style={circle,draw=guiatinta,line width=2.6pt,fill=white,
+        minimum size=0.62cm,inner sep=0pt},
+    bpmn gateway/.style={diamond,draw=guiatinta,line width=0.9pt,fill=white,
+        minimum size=0.9cm,inner sep=0pt},
+    bpmn fluxo/.style={-{Stealth[length=5.5pt,width=4.5pt]},draw=guiatinta,
+        line width=0.8pt,rounded corners=4pt},
+    bpmn rotulo/.style={font=\guiahead\fontsize{8}{9.5}\selectfont,
+        text=guiacinza,inner sep=1.5pt,align=left},
+}
+\newcommand{\bpmnraia}[4]{%
+    \fill[bpmn raia] (#1,0) rectangle ({#1+#2},{-#3});
+    \draw[guiaborda,line width=0.6pt] (#1,0) rectangle ({#1+#2},{-#3});
+    \node[bpmn raiatopo,minimum width=#2 cm,minimum height=0.62cm,anchor=north west,
+          inner sep=0pt] at (#1,0) {#4};
+}
+\newcommand{\bpmngateway}[2]{%
+    \node[bpmn gateway] (#1) at (#2) {};
+    \draw[guiatinta,line width=1.3pt,line cap=round]
+        ($(#1.center)+(-0.12,-0.12)$) -- ($(#1.center)+(0.12,0.12)$)
+        ($(#1.center)+(-0.12,0.12)$) -- ($(#1.center)+(0.12,-0.12)$);
+}
+\newcommand{\bpmnpasso}[4]{%
+    \node[bpmn tarefa,draw=guiavermelho,line width=1.1pt] (#1) at (#2) {#4};
+    \node[guia marcador] at (#1.north west) {\hyperref[passo:#3]{\color{white}#3}};
+}
+
+% =============================================================================
+%  FIM DE CAPITULO
+% =============================================================================
+\newcommand{\guiafimtexto}{Fim do capítulo}
+\newcommand{\fimdecapitulo}{%
+    \par\vspace{14pt}%
+    {\raggedleft
+     \fontsize{9}{11}\selectfont\color{guiacinza}\guiafimtexto\hspace{6pt}%
+     \color{guiavermelho}\small\ensuremath{\blacksquare}\par}%
+    \vspace{4pt}%
+}
+
+% =============================================================================
+%  TABELAS
+%  Zebradas, com a linha de titulo cheia em heritage red e o texto em branco.
+% =============================================================================
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\renewcommand{\arraystretch}{1.35}
+\setlength{\arrayrulewidth}{0.4pt}
+\arrayrulecolor{guiaborda}
+\setlength{\LTcapwidth}{\textwidth}
+
+% Uso:  \guiacabtabela \thead{Coluna} & \thead{Outra} \\
+\newcommand{\guiacabtabela}{\rowcolor{guiavermelho}}
+\newcommand{\guiazebra}{\rowcolors{2}{white}{guiaareia!70}}
+\newcommand{\thead}[1]{\textcolor{white}{\guiahead\bfseries #1}}
+% Linha de grupo numa tabela campo/valor: \guiagrupotabela{2}{Identificação}
+\newcommand{\guiagrupotabela}[2]{%
+    \noalign{\vspace{1pt}}%
+    \rowcolor{guiavermelho!12}%
+    \multicolumn{#1}{@{}>{\bfseries\color{guiavermelho}}l@{}}{\rule{0pt}{12pt}#2} \\*
+    \noalign{\vspace{1pt}}%
+}
+
+% ---------- LISTAS ----------
+\setlist[itemize]{leftmargin=1.5em,labelsep=0.5em,itemsep=0.2em,topsep=0.3em}
+\setlist[itemize,1]{label={\textcolor{guiavermelho}{\rule{0.42em}{0.42em}}}}
+\setlist[enumerate]{leftmargin=1.6em,itemsep=0.2em,topsep=0.3em}
+
+% ---------- COMANDOS DE TEXTO ----------
+% Nome de botao, campo ou menu da tela, como aparece na interface.
+% O \leavevmode abre o paragrafo ANTES da troca de cor: um \color no inicio
+% de uma celula p{} cria uma linha vazia, e a celula sai deslocada para baixo
+% em relacao as vizinhas.
+\newcommand{\botao}[1]{\leavevmode{\guiahead\bfseries\color{guiavermelho}#1}}
+\newcommand{\campo}[1]{\textbf{#1}}
+\newcommand{\caminho}[1]{\leavevmode{\guiahead\bfseries #1}}
+\newcommand{\seta}{\,\textcolor{guiacinza}{\faAngleRight}\,}
+\newcommand{\tech}[1]{\leavevmode\texttt{\textcolor{guiavermelho}{#1}}}
+
+% ---------- REFERENCIAS CRUZADAS ----------
+% Em negrito e na cor de destaque, para serem achadas de relance.
+\let\guiaoldautoref\autoref
+\renewcommand{\autoref}[1]{\textbf{\textcolor{guiavermelho}{\guiaoldautoref{#1}}}}
+\let\guiaoldpageref\pageref
+\newcommand{\pagina}[1]{\textbf{\textcolor{guiavermelho}{p.~\guiaoldpageref{#1}}}}
+
+% ---------- PAGINA DE TEXTO CORRIDO ----------
+% Uso: \guiapagina{Titulo}{ paragrafos }. Aceita linha em branco no corpo.
+\newcommand{\guiapagina}[2]{%
+    \thispagestyle{fancy}%
+    \pagetitle{#1}%
+    \setlength{\parindent}{0pt}%
+    \setlength{\parskip}{0.6em}%
+    #2\par
+    \setlength{\parskip}{0.3cm}%
+    \clearpage
+}
+
+% =============================================================================
+%  CAPA
+%  Coordenadas em pontos, a partir do canto superior esquerdo da folha A4.
+% =============================================================================
+% Imagem opcional na capa, no vao direito entre o titulo e os creditos.
+% Vazio (\guiacapaimagem{}) devolve a capa sem imagem.
+\newcommand{\guiacapaimagem}[1]{\def\guiavalcapaimagem{#1}}
+\guiacapaimagem{}
+
+\newcommand{\guiacapa}{\guiafolha{%
+    \guiafundo{direita}%
+    \node[anchor=north west,text width=380pt,align=left] at (39,85)
+        {\hyphenpenalty=10000\exhyphenpenalty=10000%
+         {\guiahead\fontsize{34}{38}\selectfont\bfseries\color{guiatinta}\guiavaltitulo}%
+         \ifdefempty{\guiavalsubtitulo}{}{\\[0.45em]
+         {\guialight\fontsize{18}{24}\selectfont\color{guiacinza}\guiavalsubtitulo}}};
+    \ifdefempty{\guiavalcapaimagem}{}{%
+        \node[anchor=north east] at (565,268)
+            {\includegraphics[width=242bp]{\guiavalcapaimagem}};
+    }%
+    \node[anchor=north west] at (42.5,345.5) {\guiamarca{56bp}};
+    \node[anchor=north west] at (36.5,426.5) {\guiaregua};
+    \ifdefempty{\guiavaltagline}{}{%
+        \node[anchor=north west,text width=190pt,align=flush left,
+              font=\guialight\fontsize{15}{18.5}\selectfont\color{guiacinza}] at (38.5,443)
+            {\hyphenpenalty=10000\exhyphenpenalty=10000\guiavaltagline};
+    }%
+    \node[anchor=north west] at (38.5,560) {\guiacaixaaviso{\guiavalaviso}};
+    \node[anchor=north west,align=left,
+          font=\fontsize{11}{18}\selectfont\color{guiacinza}] at (38.5,712)
+        {\guiavalcidade, \guiavalano\\
+         Desenvolvido pela \guiavalequipe};
+    \node[anchor=north west] at (38.5,770) {\guiamarcasinst[19pt]};
+}}
+
+% =============================================================================
+%  FOLHA DE ROSTO
+% =============================================================================
+\newcommand{\guiafolhaderosto}{\guiafolha{%
+    \node[anchor=north,text width=460pt,align=center] at (297.638,138)
+        {\hyphenpenalty=10000\exhyphenpenalty=10000%
+         {\guiahead\fontsize{24}{28}\selectfont\bfseries\color{guiavermelho}\guiavaltitulo}%
+         \ifdefempty{\guiavalsubtitulo}{}{\\[0.3em]
+         {\guialight\fontsize{18}{24}\selectfont\color{guiatinta}\guiavalsubtitulo}}};
+    \node[anchor=north] at (297.638,262) {\guiamarca{80bp}};
+    \node[anchor=north,font=\guiahead\fontsize{19}{24}\selectfont\bfseries\color{guiatinta}]
+        at (297.638,400) {Sistema: \textcolor{guiavermelho}{\guiavalsistema}};
+    \node[anchor=north,text width=460pt,align=center,
+          font=\fontsize{11.5}{19}\selectfont\color{guiatinta}] at (297.638,470)
+        {\guiavalcidade, \guiavalano\\
+         Desenvolvido pela \guiavalequipe\\
+         AX Academy --- Digital Transformation \textperiodcentered\ Instituto Federal do Amazonas};
+    \node[anchor=north] at (297.638,548) {\guiamarcasinst[24pt]};
+    \node[anchor=north west] at (70,640)
+        {\begin{minipage}{455pt}%
+            \fontsize{11.5}{15}\selectfont\color{guiatinta}%
+            \ifdefempty{\guiavalemail}{}{%
+                \makebox[26pt][l]{\textcolor{guiavermelho}{\faEnvelope[regular]}}\guiavalemail\par
+                \vspace{8pt}}%
+            \ifdefempty{\guiavalsite}{}{%
+                \makebox[26pt][l]{\textcolor{guiavermelho}{\faGlobe}}\guiavalsite\par
+                \vspace{8pt}}%
+            \ifdefempty{\guiavalendereco}{}{%
+                \makebox[26pt][l]{\textcolor{guiavermelho}{\faMapMarker*}}%
+                \parbox[t]{400pt}{\guiavalendereco}\par}%
+         \end{minipage}};
+}}
+
+% ---------- AVISO DE USO ----------
+\newcommand{\guiaavisodeuso}{%
+    \thispagestyle{fancy}%
+    \vspace*{\fill}
+    {\raggedleft\fontsize{9}{13.5}\selectfont\setstretch{1.45}\color{guiacinza}%
+        Desenvolvido \copyright\ \guiavalano\ pela \guiavalequipe\ no programa AX Academy ---
+        Digital Transformation, do INOVA --- Polo de Inovação do Instituto Federal do
+        Amazonas (IFAM). \url{www.ifam.edu.br}
+
+        \vspace{0.6em}
+        Documento de uso restrito. Não é permitido copiar, reproduzir ou divulgar este
+        guia sem a permissão
+        \ifdefempty{\guiavalcliente}{do cliente}{da \textbf{\guiavalcliente}}. As
+        informações aqui contidas destinam-se aos usuários autorizados do sistema
+        descrito. As telas reproduzidas podem diferir da versão em uso; em caso de
+        divergência, prevalece a interface do sistema.
+
+        \vspace{0.6em}
+        \ifdefempty{\guiavalreferencia}{}{Referência do sistema: \guiavalreferencia.\par
+        \vspace{0.6em}}
+        \guiavalcidade, \guiavalano. \textit{Versão \guiavalversao}.\par}
+    \vspace*{1.2cm}
+    \clearpage
+}
+
+% =============================================================================
+%  HISTORICO DE REVISOES
+%      \begin{guiahistorico}
+%          \guiarevisao{1.0}{Outubro de 2026}{Nome}{Emissão inicial.}
+%      \end{guiahistorico}
+% =============================================================================
+\newcommand{\guiarevisao}[4]{#1 & #2 & #3 & #4 \\ \addlinespace[2pt]}
+
+\newenvironment{guiahistorico}{%
+    \thispagestyle{fancy}%
+    \pagetitle{Histórico de Revisões}%
+    \guiazebra
+    \small
+    \noindent\begin{longtable}{@{}>{\bfseries}p{1.6cm}>{\bfseries}p{3.0cm}p{4.2cm}p{5.9cm}@{}}
+        \toprule
+        \guiacabtabela
+        \thead{Versão} & \thead{Data} & \thead{Elaboração} & \thead{Descrição} \\
+        \midrule
+        \endfirsthead
+        \toprule
+        \guiacabtabela
+        \thead{Versão} & \thead{Data} & \thead{Elaboração} & \thead{Descrição} \\
+        \midrule
+        \endhead
+        \bottomrule
+        \endlastfoot
+}{%
+    \end{longtable}%
+    \normalsize
+    \vspace{0.6cm}%
+}
+
+% ---------- SOBRE A AX ACADEMY ----------
+% Texto institucional fixo. Alterar so quando a descricao do programa mudar.
+\newcommand{\guiasobreax}{%
+    \guiapagina{A AX Academy}{%
+        A AX Academy --- Digital Transformation é o programa de capacitação em
+        transformação digital do INOVA --- Polo de Inovação do Instituto Federal do
+        Amazonas (IFAM), em convênio com a LG Electronics do Brasil, com
+        desenvolvimento de soluções de automação para as áreas de negócio da LG.
+
+        Os participantes trabalham em equipes de projeto. Cada equipe recebe um desafio
+        de uma área de negócio e desenvolve a solução em sprints, com o uso de
+        metodologia ágil de gerenciamento e desenvolvimento de projetos, seguindo toda
+        a documentação levantada na etapa de Product Discovery e os ritos de projetos
+        de P\&D.
+
+        Este guia integra a documentação entregue com a solução. Nesta fase, ele
+        cobre a arquitetura do sistema e as funções de inteligência artificial.
+        Instalação, configuração, administração e manutenção são tratadas na
+        documentação técnica da equipe.
+
+        \vfill
+        \noindent\guiamarcasinst[26pt]
+    }%
+}
+
+% ---------- SUMARIO ----------
+% A parte em faixa cheia de heritage red, o capitulo em faixa areia e os
+% passos e secoes abaixo, sem faixa.
+\newlength{\tochpad}\setlength{\tochpad}{6pt}
+\newlength{\tocvpad}\setlength{\tocvpad}{5pt}
+\newlength{\tocgap}\setlength{\tocgap}{9pt}
+\newlength{\tocsangra}\setlength{\tocsangra}{10pt}
+\newlength{\toctextw}
+
+\newcommand{\guiasumario}{%
+    \renewcommand{\contentsname}{}%
+    \thispagestyle{empty}%
+    {%
+        \pagetitle{Índice}
+        % Sem o \parskip do corpo: ele somava 0,3 cm a cada linha do indice,
+        % que passava para uma segunda pagina.
+        \setlength{\parskip}{0pt}%
+
+        \renewcommand{\cftpartfont}{\guiahead\fontsize{13}{16}\selectfont\bfseries\color{white}}%
+        \renewcommand{\cftpartpagefont}{\guiahead\bfseries\color{white}}%
+        \renewcommand{\cftchapfont}{\guiahead\bfseries\color{guiatinta}}%
+        \renewcommand{\cftchappagefont}{\guiahead\bfseries\color{guiavermelho}}%
+        \renewcommand{\cftsecfont}{\color{guiatinta}}%
+        \renewcommand{\cftsecpagefont}{\color{guiatinta}}%
+        \renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}%
+        \setlength{\cftbeforepartskip}{14pt}%
+        \setlength{\cftbeforechapskip}{8pt}%
+        % Com oito passos, 4 pt entre as linhas levava o fim do indice a uma
+        % segunda pagina.
+        \setlength{\cftbeforesecskip}{2pt}%
+        \setlength{\cftpartindent}{0pt}%
+        \setlength{\cftchapindent}{0pt}%
+        \setlength{\cftsecindent}{1.2em}%
+        \setlength{\cftsecnumwidth}{2.4em}%
+
+        % Duas faixas encaixadas: a de fora sangra \tocsangra para cada lado, a
+        % de dentro tem a largura do texto, para o numero da pagina cair na
+        % margem. O \ifstrequal do etoolbox funciona em qualquer motor (o
+        % \pdfstrcmp nao existe no LuaTeX).
+        \newcommand{\guiatocfaixa}[2]{%
+            {\setlength{\fboxsep}{0pt}\setlength{\toctextw}{\linewidth}%
+            \noindent\hspace*{-\tocsangra}\colorbox{##1}{%
+                \parbox{\dimexpr\toctextw+2\tocsangra\relax}{%
+                    \vspace*{\tocvpad}%
+                    \noindent\hspace*{\tocsangra}%
+                    \parbox{\toctextw}{%
+                        {\leftskip=\tochpad\relax ##2}%
+                    }%
+                    \vspace*{\tocvpad}%
+                }%
+            }}\par\nointerlineskip
+        }%
+        \let\originalcontentsline\contentsline
+        \renewcommand{\contentsline}[4]{%
+            \ifstrequal{##1}{part}{%
+                \vspace{\tocgap}%
+                % As entradas sao links e o hyperref as repinta com o linkcolor;
+                % sem isto, o titulo da parte saia escuro sobre a faixa.
+                \guiatocfaixa{guiavermelho}{%
+                    \hypersetup{linkcolor=white}%
+                    \renewcommand{\normalcolor}{\color{white}}%
+                    \color{white}\originalcontentsline{##1}{##2}{##3}{##4}}%
+                \vspace{2pt}%
+            }{%
+            \ifstrequal{##1}{chapter}{%
+                \vspace{\tocgap}%
+                \guiatocfaixa{guiaareia}{%
+                    \originalcontentsline{##1}{##2}{##3}{##4}}%
+            }{%
+                \originalcontentsline{##1}{##2}{##3}{##4}%
+            }}%
+        }%
+
+        \setcounter{tocdepth}{1}%
+        % \@starttoc, e nao \tableofcontents: este abre um \chapter* com o
+        % titulo vazio, que so deixava um vao de 3 cm no alto da pagina e
+        % empurrava a ultima parte para uma segunda folha de indice.
+        \@starttoc{toc}%
+    }%
+    \clearpage
+}
+
+% =============================================================================
+%  CONTRACAPA
+%  Espelho da capa: a faixa vai para a esquerda; embaixo, as duas marcas
+%  institucionais e o texto sobre a equipe.
+% =============================================================================
+\newcommand{\guiacontracapa}{%
+    \clearpage
+    \guiafolha{%
+        \guiafundo{esquerda}%
+        \node[anchor=north west] at (42.5,229) {\guiamarca{56bp}};
+        \node[anchor=north west] at (36.5,310.5) {\guiaregua};
+        \ifdefempty{\guiavaltagline}{}{%
+            \node[anchor=north west,text width=190pt,align=flush left,
+                  font=\guialight\fontsize{15}{18.5}\selectfont\color{guiacinza}] at (38.5,327)
+                {\hyphenpenalty=10000\exhyphenpenalty=10000\guiavaltagline};
+        }%
+        \node[anchor=north west] at (38.5,600) {\guiamarcasinst[22pt]};
+        % Texto livre logo abaixo das marcas, sem titulo; vazio, some.
+        \ifdefempty{\guiavalsobreaequipe}{}{%
+            \node[anchor=north west,text width=420pt,align=flush left,
+                  font=\fontsize{11}{16}\selectfont\color{guiacinza}] at (38.5,645)
+                {\hyphenpenalty=10000\exhyphenpenalty=10000\guiavalsobreaequipe};
+        }%
+    }%
+}
+
+\endinput

@@ -14,6 +14,15 @@
       "passes": 2,
       "description": "Guia Rápido de Uso multi-página (classe book, sumário, capítulos em caps/)"
     },
+    "guia-usuario": {
+      "name": "Guia-Usuario-Hanaro",
+      "directory": "modelos/Guia-Usuario-Hanaro",
+      "entrypoint": "guia-usuario.tex",
+      "output_name": "guia-usuario-hanaro.pdf",
+      "output_subfolder": "Guia-Usuario-Hanaro",
+      "passes": 2,
+      "description": "Guia do Usuário do Hanaro (classe book; arquitetura e inteligência artificial)"
+    },
     "flyer": {
       "name": "Flyer",
       "directory": "modelos/Flyer",

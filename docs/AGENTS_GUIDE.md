@@ -13,8 +13,9 @@ Este documento fornece as diretrizes operacionais, restrições e padrões arqui
 - **Comando Padrão de Build:**
   - Sempre utilize a CLI automatizada pelo `uv`:
     ```bash
-    uv run build                          # Compila todos os 6 templates para dist/
+    uv run build                          # Compila todos os 7 templates para dist/
     uv run build apostila                 # Compila o Guia Rápido (Apostila)
+    uv run build guia-usuario             # Compila o Guia do Usuário do Hanaro (Arquitetura e IA)
     uv run build flyer                    # Compila o Flyer A3
     uv run build onepage-sumarizacao      # Compila o OnePage LG Sumarização (alias: onepage)
     uv run build status-report            # Compila o Status Report Semanal

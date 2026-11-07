@@ -1,0 +1,116 @@
+% !TEX program = lualatex
+% =============================================================================
+%  Guia do Usuário — Hanaro — modelo AX Academy / IFAM
+%
+%  COMPILAR COM:  lualatex guia-usuario.tex     (duas vezes: sumário e páginas)
+%
+%  Todo o estilo mora em axacademy-guia.sty. Aqui ficam só os dados do guia e
+%  a ordem dos capítulos, que estão em caps/. As telas ficam em img/.
+%
+%  Fase 1 do Guia do Usuário do Hanaro: Parte I (Arquitetura) e Parte II
+%  (Inteligência Artificial), um capítulo por parte. As próximas partes (uso do
+%  Dashboard, Base de Scrap, Relatórios etc.) entram como novos \part.
+%
+%  Sem número de equipe em nenhum lugar do guia: a autoria é a equipe do Polo
+%  INOVA. Subtítulo e tagline vazios tiram o texto da capa, da folha de rosto
+%  e da contracapa.
+% =============================================================================
+\documentclass[11pt,a4paper,oneside,openany]{book}
+\usepackage{axacademy-guia}
+
+% ---------- DADOS DESTE GUIA ----------
+\guiatitulo{Guia do\\Usuário}
+\guiasubtitulo{Arquitetura e Inteligência Artificial}
+\guiasistema{Hanaro}
+\guiatagline{}
+\guiaequipe{equipe do Polo INOVA}
+\guiaano{2026}
+\guiaversao{0.1}
+\guiacidade{Manaus, Amazonas --- Brasil}
+\guiacliente{LG Electronics do Brasil}
+\guiareferencia{}
+
+% ---------- CONTATO (folha de rosto) ----------
+% Campo vazio some da folha de rosto, com o ícone. O suporte do Hanaro é feito
+% pelo próprio sistema (Capítulo 6), por isso não há e-mail.
+\guiaemail{}
+\guiasite{www.ifam.edu.br}
+\guiaendereco{INOVA --- Polo de Inovação do IFAM\\
+    Av. Gov. Danilo de Matos Areosa, 1975 --- Distrito Industrial I\\
+    Manaus/AM --- CEP 69075-351}
+
+% ---------- AVISO DA CAPA ----------
+% Quebras explícitas: a caixa comporta três linhas curtas.
+\guiaaviso{VERSÃO\\EM CONSTRUÇÃO}
+
+% ---------- MARCA DO SISTEMA ----------
+% O Hanaro tem o logotipo inteiro em arquivo (art/marca/hanaro-assinatura.pdf),
+% então o ícone fica vazio e o nome não é composto em texto.
+\guiamarcaicone{}
+\guiamarcatexto{hanaro-assinatura}
+
+% ---------- IMAGEM DA CAPA ----------
+% Vazio: capa sem imagem. Para pôr uma, nomeie um arquivo de img/.
+\guiacapaimagem{}
+
+% ---------- TEXTO DA CONTRACAPA ----------
+% Sai logo abaixo das marcas da AX Academy e do IFAM.
+\guiasobreaequipe{Guia do Usuário do Hanaro, fase 1: arquitetura e inteligência artificial. Baseado no estado do projeto em novembro de 2026}
+
+\begin{document}
+
+% ---------- ABERTURA ----------
+\guiacapa
+\guiafolhaderosto
+\guiaavisodeuso
+
+% ---------- HISTÓRICO DE REVISÕES ----------
+\begin{guiahistorico}
+    \guiarevisao{0.1}{Novembro de 2026}{AX Academy}{Fase 1: Parte I, Arquitetura, e Parte II, Inteligência Artificial.}
+\end{guiahistorico}
+
+\begin{remark}[info]
+Esta é a primeira fase do Guia do Usuário do Hanaro. Ela cobre a arquitetura do
+sistema e as funções de inteligência artificial (assistente e tradução). As demais
+partes, como Dashboard, Base de Scrap e Relatórios, entram nas próximas versões. O
+uso básico do Gestor está no Guia Rápido de Uso. O assistente e a tradução são ligados
+por ambiente, aos poucos: se uma função não aparece no seu Hanaro, ela ainda não foi
+ligada.
+\end{remark}
+
+\clearpage
+
+\guiasobreax
+
+\guiapagina{Sobre o sistema}{%
+    O Hanaro é o sistema web de controle das perdas produtivas (\emph{scrap}) da
+    Linha Final. Ele recebe o relatório exportado do GERP, consolida a base de scrap,
+    publica o IF Cost no Dashboard e no Modo TV e ajuda analistas e gestores a
+    investigar os casos relevantes e a produzir relatórios.
+
+    Esta fase do guia tem duas partes. A Parte~I, \emph{Arquitetura}, mostra as peças
+    do sistema, o caminho do dado do GERP ao Dashboard, os perfis de acesso e onde o
+    sistema roda. A Parte~II, \emph{Inteligência Artificial}, explica o assistente de
+    pré-análise, a consulta às análises aprovadas e a tradução de relatórios para o
+    inglês, sempre com a decisão final nas mãos de uma pessoa.
+}
+
+\guiasumario
+
+% ---------- PARTE I ----------
+% Um capítulo só por parte; dentro dele, só seções.
+\part{Arquitetura}
+\include{caps/cap01}
+
+% ---------- PARTE II ----------
+\part{Inteligência Artificial}
+\include{caps/cap02}
+
+% ---------- PARTE III ----------
+\part{Referência Técnica}
+\include{caps/cap03}
+
+% ---------- FECHAMENTO ----------
+\guiacontracapa
+
+\end{document}

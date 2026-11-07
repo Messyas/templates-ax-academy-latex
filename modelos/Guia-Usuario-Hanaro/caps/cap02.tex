@@ -1,0 +1,417 @@
+% =============================================================================
+%  Capítulo 2 — Inteligência Artificial (Parte II)
+%  Capítulo único da parte. Seções: o que a IA faz e não faz, como nasce uma
+%  pré-análise (BPMN), seis passos com a tela (lista do Assistente, leitura,
+%  decisão, Consulta, Memória e Desempenho, tradução), selos e rotas, a
+%  tradução por dentro, boas práticas e mensagens.
+%
+%  As telas de img/ são ESQUEMAS provisórios (rodapé "CAPTURA PENDENTE"): trocar
+%  pelas capturas reais, na mesma resolução, e recalibrar os marcadores x/y.
+% =============================================================================
+\chapter{Inteligência Artificial}\label{cap:ia}
+
+\section{O que a IA faz e o que não faz}
+
+O Hanaro usa inteligência artificial em duas frentes: o \textbf{assistente}, que
+prepara pré-análises e responde a perguntas sobre casos já tratados, e a
+\textbf{tradução} dos relatórios para o inglês. Em ambas, a IA \emph{propõe} e uma
+pessoa \emph{decide}. A \autoref{tab:funcoes} resume as funções.
+
+\begin{table}[H]
+\caption{Funções de IA do Hanaro.}\label{tab:funcoes}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{2.7cm}X L{3.4cm}@{}}
+    \toprule
+    \guiacabtabela
+    \thead{Função} & \thead{O que faz} & \thead{Quem usa} \\
+    \midrule
+    \textbf{Pré-análise} & Lê os fatos de um caso, busca casos parecidos na memória e
+        propõe os campos da análise e as tarefas. & Analista e Gestor \\
+    \textbf{Consulta} & Responde a uma pergunta em texto livre usando só análises já
+        aprovadas, sempre com as fontes. & Analista e Gestor, quando ligada \\
+    \textbf{Memória} & Reúne as análises aprovadas que servem de exemplo ao
+        assistente. & Gestor e Administrador \\
+    \textbf{Desempenho} & Mostra o que as pessoas decidiram sobre as propostas. &
+        Gestor e Administrador \\
+    \textbf{Tradução} & Traduz o texto de um relatório do português para o inglês
+        antes do download. & Quem emite o documento \\
+\end{tabularx}
+\end{table}
+
+\begin{remark}
+\textbf{A IA nunca decide sozinha.} Nada do que o assistente propõe vira análise,
+relatório ou tarefa até que uma pessoa aceite. O assistente também não altera dados do
+Hanaro por conta própria e não chama o Hanaro: é o Hanaro que lhe entrega o caso e
+busca a resposta.
+\end{remark}
+
+O que o assistente \textbf{não} faz: não afirma uma causa quando não há precedente (só
+traz os fatos, o checklist 4M e perguntas para quem analisa); não cita fonte, número ou
+data que não estejam nos dados; e não repete como certeza o que é hipótese. Toda causa
+proposta é marcada como \emph{hipótese}, para ser confirmada por quem conhece a linha.
+
+\begin{remark}[info]
+\textbf{Ativação gradual.} O assistente, a Consulta e a tradução dependem do servidor
+de IA e são ligados por ambiente. Quando estão desligados, o Hanaro avisa na própria
+tela, as pré-análises já criadas continuam disponíveis e o restante do sistema segue
+normal.
+\end{remark}
+
+\section{Como nasce uma pré-análise}
+
+A pré-análise começa em uma \textbf{regra de alerta} configurada para pedir ajuda do
+assistente. Quando a regra dispara sobre uma ocorrência, o Hanaro entrega o caso ao
+agente e aguarda. O agente reúne os fatos, procura casos parecidos na memória e prepara
+uma proposta, que passa por uma conferência antes de chegar à pessoa. A
+\autoref{fig:ia} mostra o fluxo; os números nos quadros vermelhos levam aos passos
+deste capítulo.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,
+        bpmn tarefa/.append style={text width=4.0cm,minimum height=0.8cm}]
+    \useasboundingbox (0,0) rectangle (16,-13.7);
+    \bpmnraia{0}{5}{13.7}{Analista ou Gestor}
+    \bpmnraia{5}{5.6}{13.7}{Hanaro}
+    \bpmnraia{10.6}{5.4}{13.7}{Agente}
+
+    % ---- Hanaro ----
+    \node[bpmn inicio] (ini) at (7.8,-1.25) {};
+    \node[bpmn rotulo,anchor=west] at ([xshift=4pt]ini.east) {Alerta dispara};
+    \node[bpmn tarefa] (h1) at (7.8,-2.4) {Regra de alerta pede pré-análise};
+    \node[bpmn tarefa] (h2) at (7.8,-3.7) {Entregar o caso ao agente};
+    \node[bpmn tarefa] (h3) at (7.8,-8.0) {Mostrar o selo \emph{Pré-análise pronta}};
+    \node[bpmn tarefa] (h4) at (7.8,-11.7) {Criar análise, relatório e tarefas aceitos};
+
+    % ---- agente ----
+    \node[bpmn tarefa] (a1) at (13.3,-3.7) {Reunir os fatos e buscar casos parecidos};
+    \bpmngateway{g1}{13.3,-5.0}
+    \node[bpmn rotulo,anchor=south west,inner sep=0pt] at ([xshift=2pt,yshift=-1pt]g1.north east) {Há precedente?};
+    \node[bpmn tarefa,text width=2.3cm,minimum height=1.5cm] (a2) at (11.95,-6.5)
+        {Adaptar campos e tarefas dos casos anteriores};
+    \node[bpmn tarefa,text width=2.3cm,minimum height=1.5cm] (a3) at (14.65,-6.5)
+        {Só fatos, checklist 4M e perguntas};
+    \node[bpmn tarefa,text width=4.3cm] (a4) at (13.3,-8.0)
+        {Conferir: recusar fonte ou número inventado};
+    \node[bpmn tarefa] (a5) at (13.3,-11.7) {Guardar a análise aprovada na memória};
+    \node[bpmn fim] (fim) at (13.3,-13.0) {};
+
+    % ---- pessoa ----
+    \bpmnpasso{p1}{2.5,-9.4}{1}{Abrir a lista do Assistente}
+    \bpmnpasso{p2}{2.5,-10.55}{2}{Ler a pré-análise}
+    \bpmnpasso{p3}{2.5,-11.7}{3}{Aceitar, editar ou rejeitar}
+
+    % ---- fluxos ----
+    \draw[bpmn fluxo] (ini) -- (h1);
+    \draw[bpmn fluxo] (h1) -- (h2);
+    \draw[bpmn fluxo] (h2) -- (a1);
+    \draw[bpmn fluxo] (a1) -- (g1);
+    \draw[bpmn fluxo] (g1.west) -| node[bpmn rotulo,anchor=north east,pos=0.15] {Sim} (a2.north);
+    \draw[bpmn fluxo] (g1.east) -| node[bpmn rotulo,anchor=north west,pos=0.15] {Não} (a3.north);
+    \draw[bpmn fluxo] (a2.south) -- (a2.south |- a4.north);
+    \draw[bpmn fluxo] (a3.south) -- (a3.south |- a4.north);
+    \draw[bpmn fluxo] (a4.west) -- (h3.east);
+    \draw[bpmn fluxo] (h3.south) |- (p1.east);
+    \draw[bpmn fluxo] (p1) -- (p2);
+    \draw[bpmn fluxo] (p2) -- (p3);
+    \draw[bpmn fluxo] (p3.east) -- (h4.west);
+    \draw[bpmn fluxo] (h4.east) -- (a5.west);
+    \draw[bpmn fluxo] (a5) -- (fim);
+\end{tikzpicture}
+\caption{Da regra de alerta à decisão da pessoa, em BPMN. Os números indicam os passos
+deste capítulo.}
+\label{fig:ia}
+\end{figure}
+
+\begin{remark}[info]
+\textbf{Para TI.} O gatilho é a opção de pré-análise da regra de alerta (nível
+\tech{agent\_preanalysis}). A entrega ao agente é feita pelo worker, com nova tentativa;
+o resultado é buscado pelo Hanaro. Se o agente falha, só a pré-análise atrasa.
+\end{remark}
+
+\section{Rotas, selos e situações}
+
+Cada pré-análise indica a \textbf{rota} que o agente seguiu, e a rota diz o quanto a
+proposta pode ser aproveitada. A \autoref{tab:rotas} traz as três rotas; a
+\autoref{tab:situacoes}, as situações em que uma pré-análise pode estar.
+
+\begin{table}[H]
+\caption{Rotas da pré-análise.}\label{tab:rotas}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{3.2cm}X@{}}
+    \toprule
+    \guiacabtabela
+    \thead{Rota} & \thead{O que significa} \\
+    \midrule
+    \textbf{Recorrência} & O item já apareceu em casos anteriores do Hanaro. A proposta
+        parte do que foi feito antes, e o relatório pode se ligar ao plano já
+        existente. \\
+    \textbf{Caso parecido} & Há casos parecidos na memória. A proposta se apoia em até
+        três deles, sem tratá-los como a mesma causa. \\
+    \textbf{Sem precedente} & Não há nada parecido na memória. O assistente traz só os
+        fatos, o checklist 4M e perguntas para quem analisa; qualquer causa mostrada é
+        uma hipótese a confirmar. \\
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\caption{Situações de uma pré-análise.}\label{tab:situacoes}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{3.9cm}X@{}}
+    \toprule
+    \guiacabtabela
+    \thead{Situação} & \thead{O que significa} \\
+    \midrule
+    \textbf{Aguardando decisão} & Está pronta e ninguém decidiu ainda. É a que conta no
+        menu e na lista. \\
+    \textbf{Aplicada} & As decisões foram aplicadas: a análise, o relatório e as
+        tarefas aceitas foram criados. \\
+    \textbf{Aplicada em parte} & Parte das decisões foi aplicada; o restante não pôde
+        ser. \\
+    \textbf{Dispensada} & Alguém a descartou, com motivo. \\
+    \textbf{Substituída} & O agente preparou uma versão mais nova, e esta ficou como
+        histórico. \\
+\end{tabularx}
+\end{table}
+
+O selo \textbf{Pré-análise pronta} aparece na tela \textbf{Alertas}, ao lado do alerta
+que gerou a pré-análise, e leva direto a ela. Enquanto o agente trabalha, a lista mostra
+\emph{Preparando…}; se houver versão nova, o aviso \emph{Nova versão em preparo}.
+
+% ---------------------------------------------------------------------------
+%  Os seis passos. Coordenadas dos marcadores: esquemas provisórios.
+% ---------------------------------------------------------------------------
+\passo[0.012/0.140, 0.182/0.090, 0.182/0.190, 0.182/0.360]{01-assistente-lista}{Abrir a lista do Assistente}{%
+    A lista reúne as pré-análises preparadas para o seu trabalho. O contador ao lado do
+    menu mostra quantas estão prontas e aguardando você, e é atualizado a cada minuto.
+    \begin{elementos}
+        \item \caminho{Assistente}, no menu lateral: abre a lista de pré-análises.
+        \item \textbf{Seções}: \botao{Pré-análises}, \botao{Consulta},
+              \botao{Memória} e \botao{Desempenho}. Aparecem só as que o seu perfil
+              pode usar.
+        \item \textbf{Abas e filtros}: \botao{Aguardando decisão},
+              \botao{Decididas} e \botao{Todas}; filtros por gatilho, rota, linha e
+              período.
+        \item \textbf{Pré-análise}: rota, item, linha, valor e o gatilho que a
+              disparou. Um clique abre a pré-análise (passo~2).
+    \end{elementos}
+}
+
+\passo[0.182/0.120, 0.182/0.400, 0.182/0.660, 0.592/0.660]{02-preanalise-leitura}{Ler a pré-análise}{%
+    Leia a pré-análise de cima para baixo antes de decidir. Ela mostra o que o
+    assistente viu e de onde tirou cada sugestão.
+    \begin{elementos}
+        \item \textbf{Rota e \emph{O que aconteceu}}: a faixa da rota explica em que a
+              proposta se apoia. Os fatos trazem item, linha, ocorrências, período,
+              valor e a comparação com a mediana das janelas anteriores.
+        \item \textbf{Proposta para a análise}: título, descrição, tipo de defeito,
+              família da causa (4M), causa (hipótese) e contenção imediata.
+        \item \textbf{Casos parecidos}: análises aprovadas de outros casos, com os
+              motivos da semelhança. \botao{Não é parecido} faz o assistente dar menos
+              peso ao caso nas próximas buscas.
+        \item \textbf{Por que o assistente propõe isso} e \textbf{Fontes}: a
+              justificativa de cada campo e a origem do dado (caso, relatório, regra ou
+              dado do alerta).
+    \end{elementos}
+}
+
+\begin{remark}
+Parecido não é a mesma causa. Confira os casos citados e o histórico da linha antes de
+aproveitar uma sugestão. Na rota \emph{Sem precedente}, a causa é só uma hipótese.
+\end{remark}
+
+\passo[0.182/0.120, 0.182/0.360, 0.182/0.600, 0.182/0.800]{03-preanalise-decisao}{Aceitar, editar ou rejeitar}{%
+    Nenhuma sugestão é aplicada até você decidir sobre ela.
+    \begin{elementos}
+        \item \textbf{Cada campo}: \botao{Aceitar}, \botao{Editar} ou
+              \botao{Rejeitar}. \botao{Desfazer} volta atrás e \botao{Aceitar tudo}
+              aceita os campos de uma vez. Ao rejeitar, o campo \emph{Por quê?}
+              (opcional) registra o motivo: \emph{Está errado}, \emph{Não se aplica},
+              \emph{Repete outra coisa}, \emph{Já foi feito} ou \emph{Outro motivo}.
+        \item \textbf{Tarefas propostas}: cada tarefa também é aceita, editada ou
+              rejeitada. Tarefas só existem dentro de um relatório.
+        \item \campo{Criar o relatório e finalizar a análise}: sem marcar esta opção, a
+              análise fica como rascunho para você completar. Com ela, informe o título
+              e o prazo do relatório. O responsável em branco fica com você.
+        \item \botao{Aplicar decisões}: grava o que foi aceito ou editado.
+              \botao{Dispensar} descarta a pré-análise, com um motivo.
+    \end{elementos}
+    Ao final, a pergunta \emph{A pré-análise ajudou?} (\emph{Sim}, \emph{Em parte},
+    \emph{Não}) alimenta o Desempenho.
+}
+
+\begin{remark}[info]
+Se a pré-análise cobre um grupo de ocorrências, marque \emph{Criar o relatório}: o
+assistente cria uma análise para cada ocorrência que ainda não tem uma e um relatório
+com todas, usando as mesmas decisões. Ocorrências que já tinham análise são mantidas.
+\end{remark}
+
+\begin{remark}
+Se a tela avisar que \emph{há uma versão mais nova desta pré-análise} ou que ela
+\emph{mudou enquanto você a revisava}, clique em \botao{Carregar a versão nova}. As
+decisões feitas sobre a versão antiga não são aplicadas sozinhas.
+\end{remark}
+
+\passo[0.712/0.090, 0.182/0.780, 0.182/0.220, 0.182/0.490]{04-consulta}{Perguntar na Consulta}{%
+    A Consulta responde a perguntas sobre como casos parecidos foram tratados. As
+    respostas vêm só de análises já aprovadas e sempre mostram de onde saíram. Está
+    disponível a Analistas e Gestores, quando a função está ligada.
+    \begin{elementos}
+        \item \botao{Histórico} e \botao{Nova conversa}: as conversas ficam salvas só
+              para você. \botao{Apagar conversa} as remove de vez.
+        \item \textbf{Pergunta}: escreva em texto livre, por exemplo \emph{Como
+              resolvemos rebarba no chassi da linha G12?}, e clique em
+              \botao{Perguntar}.
+        \item \textbf{Resposta}: o texto do assistente, montado a partir dos casos
+              encontrados.
+        \item \textbf{Fontes}: cada análise citada, com linha, item e data.
+              \botao{Abrir análise} leva até ela. \botao{Útil} e
+              \botao{Não útil} avaliam a resposta.
+    \end{elementos}
+}
+
+\begin{remark}[dica]
+Sem resultado, tente outras palavras, o código do item ou a linha. A mensagem \emph{Nenhuma
+análise parecida no histórico} indica que a memória não tem o que responder, e o
+assistente não preenche essa lacuna.
+\end{remark}
+
+\passo[0.182/0.120, 0.182/0.290, 0.182/0.400, 0.182/0.800]{05-memoria}{Cuidar da memória e do desempenho}{%
+    A \textbf{Memória} guarda as análises aprovadas que o assistente usa como exemplo.
+    Os Gestores e os Administradores a mantêm.
+    \begin{elementos}
+        \item \textbf{Indicadores}: análises aprovadas, na memória, aguardando envio,
+              retiradas, na fila de envio e envios com falha.
+        \item \textbf{Busca e situação}: procure por título ou item e filtre por
+              \emph{Na memória}, \emph{Aguardando envio} ou \emph{Retirada}.
+        \item \textbf{Lista}: item, linha e data de cada análise.
+              \botao{Retirar da memória} (com motivo opcional) tira a análise dos
+              exemplos; \botao{Colocar de volta} a devolve.
+        \item \botao{Reenviar tudo}: marca todas as análises para reenvio, em lotes e em
+              segundo plano. Use depois de trocar o modelo de embedding ou se a
+              memória se perder.
+    \end{elementos}
+}
+
+\begin{remark}[info]
+O \textbf{Desempenho} (\caminho{Assistente\seta Desempenho}) mostra, para um período, o
+número de pré-análises decididas, a parcela das propostas aceitas como estavam, o tempo
+mediano até a pré-análise ficar pronta, os campos mais rejeitados e seus motivos, a
+avaliação de quem usou e o modelo em uso. Os números vêm do que as pessoas decidiram e
+não dependem de o assistente estar ligado.
+\end{remark}
+
+\passo[0.212/0.140, 0.212/0.370, 0.212/0.520, 0.212/0.670, 0.562/0.840]{06-traducao}{Traduzir o relatório para o inglês}{%
+    A tradução acontece ao emitir o documento de um relatório, em \botao{Baixar
+    documento}.
+    \begin{elementos}
+        \item \campo{Idioma do documento}: escolha \emph{English}.
+        \item \campo{Traduzir o texto para inglês}: opção com a etiqueta \emph{IA},
+              que traduz o texto do documento antes do download. Só aparece quando a
+              tradução está ligada.
+        \item \textbf{Andamento}: \emph{Aguardando o serviço de tradução}, \emph{Na fila
+              de tradução} (com o número de pedidos na sua frente), \emph{Carregando o
+              modelo de tradução} e \emph{Traduzindo o texto, X de Y}.
+        \item \textbf{Conferência}: se algum texto não passou na conferência, a tela
+              lista os que ficarão em português. \botao{Emitir mesmo assim} segue com
+              eles.
+        \item \botao{Baixar PDF} (ou \botao{Baixar apresentação}): gera o documento.
+    \end{elementos}
+}
+
+\begin{remark}[dica]
+Se a tradução falhar, a tela oferece desligá-la e emitir em português, ou tentar de
+novo. O documento em português continua disponível.
+\end{remark}
+
+\section{Como a tradução protege o seu relatório}
+
+A tradução não entrega o relatório inteiro ao modelo. O Hanaro \textbf{mascara} antes
+o que não pode mudar (números, códigos e marcadores), envia só o texto livre ao serviço
+de tradução e, na volta, confere o resultado. Um campo só é gravado em inglês se passar
+nas conferências de formato, marcadores e números. O campo que não passa fica em
+português, e a tela avisa.
+
+\begin{itemize}
+    \item \textbf{Um pedido por vez.} Só um trabalho de tradução fala com o serviço de
+          cada vez; os demais esperam na fila, do mais antigo para o mais novo.
+    \item \textbf{Falha do serviço.} O Hanaro repete as falhas temporárias de rede. Se
+          o serviço seguir indisponível, o trabalho termina como falho e nada
+          incompleto é gravado.
+    \item \textbf{Revisão humana preservada.} Ao trocar o modelo, as traduções
+          automáticas antigas são refeitas, e as revisadas por pessoas permanecem.
+\end{itemize}
+
+\begin{remark}[info]
+\textbf{Para TI.} A tradução usa o \tech{translation-service}, que fala com um servidor
+de modelos de API compatível com a da OpenAI. Ativar, escolher o motor
+(\tech{TRANSLATION\_ENGINE}) e trocar o modelo (incrementar
+\tech{TRANSLATION\_ENGINE\_REVISION}).
+\end{remark}
+
+\section{Propostas de tarefas em um relatório}
+
+Dentro de um relatório, o botão \botao{Propor tarefas} pede ao assistente sugestões de
+tarefas, a partir do relatório e dos casos parecidos. Cada proposta mostra o motivo e as
+fontes, e traz perguntas para quem analisa. Escolha as que fazem sentido e clique em
+\botao{Criar as tarefas escolhidas}; \botao{Dispensar} descarta as propostas. Nada vira
+tarefa até que você aceite.
+
+\section{Boas práticas e limites}
+
+\begin{itemize}
+    \item \textbf{Leia antes de aceitar.} A proposta é um ponto de partida. Quem conhece
+          a linha confirma a causa e a ação.
+    \item \textbf{Rejeite com motivo.} O motivo informado alimenta o Desempenho e ajuda
+          a equipe a ajustar o assistente.
+    \item \textbf{Marque o que não é parecido.} \botao{Não é parecido} melhora as
+          próximas buscas.
+    \item \textbf{Cuide da memória.} Análises erradas ou pouco confiáveis podem ser
+          retiradas dos exemplos; a memória só cresce com análises aprovadas.
+    \item \textbf{Sem dado, sem resposta.} Se a memória não tem caso parecido, a
+          Consulta diz isso e a pré-análise não inventa uma causa.
+    \item \textbf{Modelo pequeno, conferência rígida.} O assistente usa modelos de
+          linguagem de porte reduzido, e por isso tudo o que ele propõe passa por
+          conferências: fonte inexistente, número ou data fora dos dados, família de
+          causa ou tipo de defeito fora dos cadastros e texto acima dos limites do
+          Hanaro são recusados.
+\end{itemize}
+
+\section{Mensagens e solução de problemas}
+
+\begin{table}[H]
+\caption{Mensagens do assistente e da tradução.}\label{tab:mensagens}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{5.4cm}X@{}}
+    \toprule
+    \guiacabtabela
+    \thead{Mensagem} & \thead{O que fazer} \\
+    \midrule
+    \emph{O assistente está desligado neste ambiente} & Siga o trabalho sem ele; as
+        pré-análises já criadas continuam disponíveis. Peça à TI para ligá-lo. \\
+    \emph{O assistente ainda está preparando esta pré-análise} & Aguarde e atualize a
+        tela. \\
+    \emph{O assistente não conseguiu preparar esta pré-análise} & Faça a análise normalmente
+        na Base de Scrap; avise a TI se se repetir. \\
+    \emph{Há uma versão mais nova desta pré-análise} & Clique em \botao{Carregar a
+        versão nova} e decida de novo. \\
+    \emph{Já existe uma análise desta ocorrência} & Abra a análise existente na Base de
+        Scrap. \\
+    \emph{O assistente não respondeu. Tente de novo em instantes} & A pergunta continua no
+        campo da Consulta; envie de novo. \\
+    \emph{O assistente está respondendo outras perguntas} & Aguarde alguns instantes e
+        tente de novo. \\
+    \emph{Nenhuma análise parecida no histórico} & Reescreva a pergunta com outras
+        palavras, o código do item ou a linha. \\
+    \emph{Não foi possível traduzir agora} & Desligue a tradução para emitir em
+        português, ou tente de novo. \\
+    \emph{N texto(s) ficarão em português} & Revise esses trechos ou use \botao{Emitir
+        mesmo assim}. \\
+\end{tabularx}
+\end{table}
+
+\fimdecapitulo

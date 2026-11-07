@@ -132,4 +132,20 @@ Folha única em **A3 Paisagem** com cartões temáticos de evidências geradas d
 
 O template corporativo padrão em inglês da LGE ("AI Deep Dive" / "AI Core"), fiel ao slide `Layout de Report - One Page.pptx` original. Possui a mesma API semântica do `OnePage-Sumarizacao`, mas com termos e indicadores em inglês.
 
+---
 
+## 7. Guia do Usuário do Hanaro (`modelos/Guia-Usuario-Hanaro/guia-usuario.tex`)
+
+Guia do Usuário do Hanaro no modelo da Apostila (classe `book`, mesmo `axacademy-guia.sty`). A fase 1 tem duas partes, cada uma com um capítulo em `caps/`:
+
+- **Parte I, Arquitetura** (`caps/cap01.tex`): peças do sistema, caminho do dado do GERP ao Dashboard, perfis, implantação, registro e falhas comuns, com 3 diagramas TikZ e caixas "Para TI".
+- **Parte II, Inteligência Artificial** (`caps/cap02.tex`): assistente de pré-análise, Consulta, Memória, Desempenho e tradução, com fluxo BPMN e 6 passos (`\passo`).
+
+Comando: `uv run build guia-usuario` (2 passadas) gera `dist/Guia-Usuario-Hanaro/guia-usuario-hanaro.pdf`.
+
+Pontos de atenção:
+
+- As telas de `img/` são esquemas provisórios (rodapé "CAPTURA PENDENTE"). Troque pelas capturas reais, na mesma resolução (1440×900), e recalibre os marcadores `x/y` de cada `\passo`.
+- Os diagramas usam os estilos `arq ...` definidos no início de `caps/cap01.tex`, além dos estilos `bpmn ...` do `.sty`.
+- O `.sty` desta pasta é uma cópia da Apostila com um ajuste: `\endgraf` no lugar de `\par` após o filete do `\titleformat{\part}`, para o mini-sumário da parte compilar também em TeX Live 2023.
+- As próximas partes (Dashboard, Base de Scrap, Relatórios etc.) entram como novos `\part` e capítulos.

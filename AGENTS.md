@@ -14,8 +14,9 @@ Nunca adivinhe comandos shell de compilação ou flags do LaTeX. Utilize exclusi
 uv run build check
 
 # Compilação para PDF (saídas organizadas em dist/<Template>/)
-uv run build                          # Compila todos os 6 relatórios
+uv run build                          # Compila todos os 7 relatórios
 uv run build apostila                 # Compila a Apostila / Guia Rápido multi-página
+uv run build guia-usuario             # Compila o Guia do Usuário do Hanaro (Arquitetura e IA)
 uv run build flyer                    # Compila o Flyer A3 em folha única
 uv run build onepage-sumarizacao      # Compila o OnePage LG Sumarização (alias: onepage)
 uv run build status-report            # Compila o Status Report semanal de equipe
@@ -37,6 +38,7 @@ uv run build list
 - **Motor Obrigatório:** **`lualatex`**.
 - **Motor Proibido:** **`pdflatex`**. Todos os estilos utilizam `fontspec` para carregar fontes `.ttf` por arquivo. O `pdflatex` causará erro imediato e irrecuperável.
 - **Passadas:**
+  - `Guia-Usuario-Hanaro`: **2 passadas** (sumário, referências e mapa de partes da classe `book`).
   - `Apostila`: **2 passadas** (exigido para sumário e cálculo de páginas da classe `book`).
   - `Flyer`: **1 passada** (renderização única do canvas TikZ).
   - `OnePage-Sumarizacao`: **2 passadas** (medição dinâmica de altura dos blocos TikZ).

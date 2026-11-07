@@ -1,0 +1,608 @@
+% Gerado por gen.py (casos de uso). Não editar à mão: regenerar a partir de ucs.py.
+\newtcolorbox{ucard}[2]{enhanced,breakable,colback=guiapapel,colframe=guiaborda,boxrule=.6pt,arc=0pt,
+  left=8pt,right=8pt,top=5pt,bottom=2pt,colbacktitle=guiavermelho,coltitle=white,fonttitle=\bfseries\small,
+  toptitle=3pt,bottomtitle=3pt,title={Caso de uso: #1\enskip---\enskip #2},before skip=10pt,after skip=12pt}
+\newcommand{\ucrow}[2]{{\color{guiavermelho}\bfseries\small #1:}\par\vspace{1pt}{\small #2\par}\vspace{3pt}{\color{guiaborda}\hrule height .4pt}\vspace{4pt}}
+\section{Casos de uso}\label{sec:casos-de-uso}
+
+O diagrama da \autoref{fig:casos-de-uso} segue a notação da UML. O retângulo é a fronteira do sistema, o
+Hanaro; as elipses são os casos de uso; os bonecos à esquerda são os atores humanos e os da direita são
+sistemas externos que participam de um caso. Uma linha contínua liga o ator ao caso de que participa. A seta
+com triângulo vazado é generalização: o \emph{Gestor} faz tudo o que o \emph{Analista} faz, e o
+\emph{Superusuário} tudo o que o \emph{Administrador} faz; \emph{Analista} e \emph{Administrador} são
+tipos de \emph{Usuário autenticado}, ator abstrato (em itálico) que reúne o que todas as contas fazem. A seta
+tracejada «include» indica que um caso sempre usa o outro; «extend», que um caso acrescenta um
+comportamento opcional ao caso que estende.
+
+Os casos de uso de cada ator foram levantados das telas, das rotas e das regras de autorização do sistema.
+Cada caso tem, em seguida, um card de especificação com referências, descrição, atores, pré-condições,
+garantia de sucesso, requisitos especiais e os fluxos básico e alternativo.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-4.2cm\relax,keepaspectratio]{img/diagramas/casos-de-uso}
+\caption{Diagrama de casos de uso do Hanaro.}\label{fig:casos-de-uso}
+\end{figure}
+
+\Needspace{14\baselineskip}
+\subsection{Acesso, execuções e entrada de dados}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC01}{Autenticar-se}
+\ucrow{Referências}{Tela: Tela de acesso (/login). Fluxo de sequência: \autoref{fig:seq01}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando uma pessoa com conta no Hanaro informa usuário e senha para entrar no sistema.}
+\ucrow{Atores}{Usuário autenticado (Analista, Gestor ou Administrador).}
+\ucrow{Pré-condições}{Conta provisionada pelo administrador.}
+\ucrow{Garantia de sucesso (pós-condições)}{Sessão aberta. O navegador guarda só o identificador da sessão, em cookie \texttt{HttpOnly}, e recebe o token CSRF usado nas gravações.}
+\ucrow{Requisitos especiais}{O único acesso é por usuário e senha; não há login social. Há limite de requisições por IP.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa abre a tela de acesso e informa usuário e senha.
+\item O sistema valida as credenciais.
+\item O sistema cria a sessão e devolve o token CSRF.
+\item O sistema leva a pessoa à tela inicial do seu perfil (Execuções para o administrador; Dashboard para os demais).
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Credenciais inválidas: o sistema informa o erro e permanece na tela de acesso. Retorna ao passo 1.
+\item Sessão expirada durante o uso: o sistema abre a janela de acesso sobre a tela atual; ao entrar de novo, a pessoa continua de onde parou.
+\item Limite de requisições excedido: o sistema recusa o pedido e orienta tentar mais tarde.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC02}{Gerenciar perfil e sessão}
+\ucrow{Referências}{Tela: Perfil (/perfil). Fluxo de sequência: \autoref{fig:seq01}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando a pessoa autenticada quer consultar ou alterar seus dados de contato e suas preferências, ou encerrar a sessão.}
+\ucrow{Atores}{Usuário autenticado.}
+\ucrow{Pré-condições}{Sessão ativa.}
+\ucrow{Garantia de sucesso (pós-condições)}{Telefone e preferências atualizados e persistidos, ou sessão encerrada.}
+\ucrow{Requisitos especiais}{A gravação exige o token CSRF da sessão.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa abre a tela de Perfil.
+\item O sistema mostra o telefone e as preferências atuais.
+\item A pessoa altera os campos desejados e confirma.
+\item O sistema valida e grava as alterações.
+\item O sistema confirma a gravação.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Valor inválido (por exemplo, telefone fora do formato): o sistema indica o campo e não grava. Retorna ao passo 3.
+\item Encerrar sessão: a pessoa escolhe sair; o sistema invalida a sessão e volta à tela de acesso.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC03}{Solicitar suporte}
+\ucrow{Referências}{Tela: Janela Fale com o suporte.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando a pessoa autenticada precisa relatar uma dúvida, um problema ou uma sugestão à equipe de suporte.}
+\ucrow{Atores}{Usuário autenticado.}
+\ucrow{Pré-condições}{Sessão ativa.}
+\ucrow{Garantia de sucesso (pós-condições)}{Solicitação registrada, com assunto, mensagem e dados de quem enviou, disponível para o administrador (UC23).}
+\ucrow{Requisitos especiais}{Nenhum.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa abre a janela Fale com o suporte.
+\item A pessoa informa o assunto e descreve o pedido.
+\item A pessoa envia a solicitação.
+\item O sistema valida os campos e registra a solicitação.
+\item O sistema confirma o envio.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Assunto ou mensagem vazios: o sistema indica o erro e não envia. Retorna ao passo 2.
+\item Falha no envio: o sistema avisa e permite tentar de novo; o texto digitado é mantido.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC04}{Acompanhar execuções}
+\ucrow{Referências}{Tela: Execuções (/execucoes). Fluxo de sequência: \autoref{fig:seq03}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando a pessoa quer saber se as cargas de scrap chegaram ao Hanaro e como terminaram.}
+\ucrow{Atores}{Usuário autenticado.}
+\ucrow{Pré-condições}{Sessão ativa.}
+\ucrow{Garantia de sucesso (pós-condições)}{A pessoa conhece a situação de cada execução, suas contagens e seus erros.}
+\ucrow{Requisitos especiais}{A lista é paginada e pode ser buscada.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa abre a tela de Execuções.
+\item O sistema lista as execuções recentes, com situação e horário.
+\item A pessoa busca ou ordena a lista, se quiser.
+\item A pessoa abre o detalhe de uma execução.
+\item O sistema mostra o resultado, as contagens e os erros dessa execução.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Nenhuma execução registrada: o sistema mostra o estado vazio.
+\item Falha ao carregar: o sistema mostra o erro e oferece tentar novamente.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC05}{Enviar arquivo de scrap manualmente}
+\ucrow{Referências}{Tela: Execuções, janela de envio manual. Fluxo de sequência: \autoref{fig:seq03}.}
+\ucrow{Descrição geral}{O caso de uso estende Acompanhar execuções (UC04) e inicia-se quando a pessoa precisa carregar à mão um arquivo exportado do GERP.}
+\ucrow{Atores}{Usuário autenticado.}
+\ucrow{Pré-condições}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item Arquivo exportado do GERP em mãos.
+\item Sessão ativa.
+\end{enumerate}}
+\ucrow{Garantia de sucesso (pós-condições)}{Execução criada e enfileirada; ao final, os dados do arquivo entram na base de scrap e na projeção do Dashboard.}
+\ucrow{Requisitos especiais}{A cotação usada é a do dia de chegada informado (hoje, em Manaus, por padrão). O mesmo arquivo reenviado na mesma janela não duplica registros.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa escolhe enviar um arquivo na tela de Execuções.
+\item A pessoa seleciona o arquivo e confirma o dia de chegada.
+\item O sistema valida e converte o arquivo na carga canônica.
+\item O sistema cria a execução e a enfileira.
+\item O worker reconcilia e grava os dados.
+\item A pessoa acompanha a execução até ser concluída (UC04).
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Arquivo inválido: o sistema lista os erros, nada é gravado e a pessoa pode corrigir e reenviar. Retorna ao passo 2.
+\item Sem cotação no dia informado: vale a última cotação disponível.
+\item Lote com falha: a execução é marcada com falha e o último estado válido é mantido.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC06}{Ingerir carga de scrap do GERP}
+\ucrow{Referências}{Tela: API de ingestão (sem tela). Fluxo de sequência: \autoref{fig:seq02}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando o robô do GERP envia ao Hanaro a carga de scrap convertida no formato canônico.}
+\ucrow{Atores}{Robô do GERP.}
+\ucrow{Pré-condições}{Chave de API válida, enviada no cabeçalho \texttt{X-API-Key}.}
+\ucrow{Garantia de sucesso (pós-condições)}{Carga enfileirada e processada: transações, projeção do Dashboard e snapshot ativo gravados no mesmo commit; execução marcada como concluída.}
+\ucrow{Requisitos especiais}{A chave só permite criar registros de scrap. A API valida a forma e responde \texttt{202}; a reconciliação é do worker, por partição (organização e dia).}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item O robô envia a carga à API com a chave de API.
+\item A API confere a chave e a permissão de criação.
+\item A API valida a forma da carga.
+\item A API enfileira a tarefa e responde 202 com o identificador.
+\item O worker valida contagens, totais, período e USD.
+\item O worker reconcilia as partições cobertas e grava transações, projeção e snapshot.
+\item O worker liga o resultado à execução e a marca como concluída.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Chave inválida ou ausente: a API recusa o pedido (401/403).
+\item Carga fora do formato: a API recusa e informa o erro.
+\item Lote com falha: a execução é marcada com falha e o último estado válido é mantido.
+\item Mesmo arquivo na mesma janela: o processamento é idempotente e não duplica.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{14\baselineskip}
+\subsection{Análise, assistente e relatórios}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC07}{Consultar dashboard}
+\ucrow{Referências}{Tela: Dashboard (/dashboard) e modo TV. Fluxo de sequência: \autoref{fig:seq05}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando a pessoa quer ver os indicadores de scrap consolidados.}
+\ucrow{Atores}{Analista (o Gestor herda o caso de uso).}
+\ucrow{Pré-condições}{Existência de dados ingeridos (UC06 ou UC05).}
+\ucrow{Garantia de sucesso (pós-condições)}{Indicadores exibidos conforme os filtros escolhidos.}
+\ucrow{Requisitos especiais}{O Dashboard lê uma projeção já agregada, não as transações; a chave do cache inclui a revisão da projeção. O modo TV é público, somente leitura e sem dados pessoais.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa abre o Dashboard.
+\item O sistema busca a projeção agregada, usando o cache quando houver.
+\item O sistema exibe os indicadores.
+\item A pessoa ajusta filtros de período e de escopo.
+\item O sistema atualiza os indicadores.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Cache indisponível: o sistema lê direto do banco e a resposta apenas demora mais.
+\item Sem dados no período: o sistema mostra o estado vazio.
+\item Nova ingestão ou mudança de meta: a revisão da projeção muda e o cache antigo deixa de ser usado.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC08}{Consultar base de scrap}
+\ucrow{Referências}{Tela: Base de scrap (/base-de-scrap). Fluxo de sequência: \autoref{fig:seq06}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando a pessoa quer localizar ocorrências de scrap para conferir, analisar ou usar em relatórios.}
+\ucrow{Atores}{Analista.}
+\ucrow{Pré-condições}{Sessão ativa.}
+\ucrow{Garantia de sucesso (pós-condições)}{Lista de ocorrências exibida conforme os filtros; a pessoa pode abrir uma ocorrência.}
+\ucrow{Requisitos especiais}{O acesso exige sessão. Os filtros podem ser salvos como modelos.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa abre a Base de scrap.
+\item O sistema lista as ocorrências.
+\item A pessoa aplica filtros, busca ou um modelo salvo.
+\item O sistema atualiza a lista.
+\item A pessoa abre uma ocorrência para ver os detalhes.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Nenhum resultado: o sistema informa e sugere limpar os filtros.
+\item Salvar modelo: a pessoa nomeia o conjunto de filtros atual e o sistema o guarda para reutilização.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC09}{Analisar ocorrência de scrap}
+\ucrow{Referências}{Tela: Base de scrap, tela de revisão. Fluxo de sequência: \autoref{fig:seq06}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando a analista trata uma ocorrência de scrap e registra a análise do caso.}
+\ucrow{Atores}{Analista.}
+\ucrow{Pré-condições}{Ocorrência existente na base de scrap (UC08).}
+\ucrow{Garantia de sucesso (pós-condições)}{Nova versão da análise do caso gravada; ao ser marcada como revisada, fica disponível para relatórios.}
+\ucrow{Requisitos especiais}{Cada gravação cria uma versão; versões anteriores são preservadas. As análises aprovadas servem de exemplo à memória do assistente.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa localiza a ocorrência na Base de scrap (UC08, incluído).
+\item A pessoa abre a tela de revisão.
+\item O sistema mostra os fatos da ocorrência e a análise atual, se houver.
+\item A pessoa preenche ou altera os campos da análise.
+\item A pessoa salva.
+\item O sistema grava uma nova versão da análise do caso.
+\item A pessoa marca a análise como revisada.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Campo obrigatório vazio: o sistema indica e não grava. Retorna ao passo 4.
+\item Existe pré-análise do assistente: a pessoa a revisa (UC10, extensão) e pode aproveitar as propostas.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC10}{Revisar pré-análise do assistente}
+\ucrow{Referências}{Tela: Assistente (/assistente). Fluxo de sequência: \autoref{fig:seq08}.}
+\ucrow{Descrição geral}{O caso de uso estende Analisar ocorrência (UC09) e inicia-se quando o assistente deixa uma pré-análise pronta para uma ocorrência.}
+\ucrow{Atores}{Analista; Servidor de IA (ator secundário).}
+\ucrow{Pré-condições}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item Regra de alerta com pré-análise ligada disparou para a ocorrência.
+\item Agente de IA disponível no momento do preparo.
+\end{enumerate}}
+\ucrow{Garantia de sucesso (pós-condições)}{Decisão da pessoa (aceitar, ajustar ou rejeitar) registrada; campos e tarefas aceitos aplicados à análise.}
+\ucrow{Requisitos especiais}{A IA propõe e a pessoa decide. As propostas levam selo de origem e vêm com casos parecidos e fontes. A rejeição pede um motivo.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa abre a lista do Assistente e escolhe uma pré-análise.
+\item O sistema mostra os fatos, os casos parecidos e as propostas de campos e de tarefas.
+\item A pessoa lê as propostas e confere as fontes.
+\item A pessoa aceita, ajusta ou rejeita cada proposta.
+\item O sistema aplica o que foi aceito à análise e registra a decisão.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Agente indisponível: não há pré-análise; só ela atrasa e a pessoa segue com a análise manual (UC09).
+\item Rejeição: a pessoa informa o motivo e o sistema registra a decisão sem alterar a análise.
+\item Pré-análise sem casos parecidos: o sistema informa e mostra apenas as propostas.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC11}{Consultar o assistente}
+\ucrow{Referências}{Tela: Assistente, aba Consulta. Fluxo de sequência: \autoref{fig:seq09}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando a pessoa faz ao assistente uma pergunta em texto livre sobre casos já tratados.}
+\ucrow{Atores}{Analista; Servidor de IA (ator secundário).}
+\ucrow{Pré-condições}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item Recurso de Consulta ligado.
+\item Sessão ativa.
+\end{enumerate}}
+\ucrow{Garantia de sucesso (pós-condições)}{Resposta exibida com as fontes; conversa guardada no histórico da pessoa.}
+\ucrow{Requisitos especiais}{A resposta usa só análises já aprovadas e sempre cita as fontes.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa abre a aba Consulta e escreve a pergunta.
+\item O sistema envia a pergunta ao servidor de IA.
+\item O servidor busca nas análises aprovadas e elabora a resposta.
+\item O sistema exibe a resposta com as fontes.
+\item O sistema grava a conversa no histórico.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Sem base suficiente: o assistente informa que não encontrou casos que sustentem a resposta.
+\item Servidor de IA indisponível: o sistema mostra a falha e permite repetir a pergunta.
+\item Reabrir conversa: a pessoa escolhe uma conversa do histórico e continua dela.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC12}{Elaborar relatório}
+\ucrow{Referências}{Tela: Relatórios (/relatorios). Fluxo de sequência: \autoref{fig:seq10}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando a pessoa monta um relatório sobre um evento que gerou scrap relevante.}
+\ucrow{Atores}{Analista.}
+\ucrow{Pré-condições}{Ao menos uma análise revisada (UC09).}
+\ucrow{Garantia de sucesso (pós-condições)}{Relatório salvo como rascunho, com as análises vinculadas e o conteúdo editado.}
+\ucrow{Requisitos especiais}{Só análises revisadas podem ser vinculadas. A prévia mostra o documento como será emitido.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa cria um novo relatório.
+\item O sistema lista as análises revisadas candidatas.
+\item A pessoa vincula as análises e preenche o conteúdo.
+\item O sistema exibe a prévia do relatório.
+\item A pessoa salva o rascunho.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Nenhuma análise revisada: o sistema orienta a revisar uma análise antes (UC09).
+\item Excluir relatório: o sistema pede confirmação e remove as ações e vínculos; as análises permanecem na base de scrap.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC13}{Publicar relatório}
+\ucrow{Referências}{Tela: Relatórios, publicação. Fluxo de sequência: \autoref{fig:seq10}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando a pessoa decide congelar o relatório numa versão oficial.}
+\ucrow{Atores}{Analista.}
+\ucrow{Pré-condições}{Relatório em rascunho (UC12).}
+\ucrow{Garantia de sucesso (pós-condições)}{Versão numerada e imutável criada, selada por um snapshot dos dados do momento.}
+\ucrow{Requisitos especiais}{A publicação aceita uma chave de idempotência: um clique repetido não gera duas versões.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa pede a publicação do relatório.
+\item O sistema grava o snapshot dos dados com hash.
+\item O sistema cria a versão publicada numerada.
+\item O sistema confirma a publicação.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Pedido repetido com a mesma chave: o sistema devolve a versão já criada.
+\item Falha ao gravar: nenhuma versão é criada e a pessoa pode tentar de novo.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC14}{Exportar relatório}
+\ucrow{Referências}{Tela: Relatórios, exportação. Fluxo de sequência: \autoref{fig:seq11}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando a pessoa precisa do relatório publicado como arquivo para circular.}
+\ucrow{Atores}{Analista.}
+\ucrow{Pré-condições}{Relatório com ao menos uma versão publicada (UC13).}
+\ucrow{Garantia de sucesso (pós-condições)}{Arquivo gerado e disponível para download.}
+\ucrow{Requisitos especiais}{A exportação é assíncrona: o pedido vira um job com reserva (lease), para que só um worker o processe e para recuperar o que ficou parado.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa escolhe a versão e pede a exportação.
+\item O sistema cria o job e responde de imediato.
+\item O worker renderiza o arquivo.
+\item A pessoa acompanha o andamento na tela.
+\item O sistema informa que o arquivo está pronto e a pessoa o baixa.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Falha na geração: o job é marcado com falha, a tela mostra o erro e a pessoa pode pedir de novo.
+\item Tradução pedida: a pessoa escolhe emitir em inglês (UC15, extensão).
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC15}{Traduzir relatório para o inglês}
+\ucrow{Referências}{Tela: Relatórios, exportação em inglês. Fluxo de sequência: \autoref{fig:seq12}.}
+\ucrow{Descrição geral}{O caso de uso estende Exportar relatório (UC14) e inicia-se quando a pessoa pede o documento em inglês.}
+\ucrow{Atores}{Analista; Serviço de Tradução (ator secundário).}
+\ucrow{Pré-condições}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item Tradução ativada e serviço configurado.
+\item Exportação pedida (UC14).
+\end{enumerate}}
+\ucrow{Garantia de sucesso (pós-condições)}{Texto do relatório traduzido do português para o inglês e incluído no arquivo exportado.}
+\ucrow{Requisitos especiais}{Números, códigos e marcas são protegidos antes de traduzir. Só um job fala com o serviço por vez; os demais ficam na fila e a tela mostra a posição.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa marca a opção de emitir em inglês ao exportar.
+\item O sistema protege números e códigos e mascara o texto.
+\item O sistema envia cada campo ao serviço de tradução.
+\item O serviço devolve o texto em inglês.
+\item O sistema restaura os trechos protegidos e segue a exportação.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Serviço indisponível: o sistema marca a falha da tradução e informa a pessoa; o restante da exportação não é perdido.
+\item Fila ocupada: o job aguarda e a tela mostra a posição.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{14\baselineskip}
+\subsection{Planos, alertas e configurações}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC16}{Gerenciar plano de ação e tarefas}
+\ucrow{Referências}{Tela: Planos de ação (/planos-de-acao).}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando a pessoa organiza as ações corretivas e as tarefas que decorrem de um relatório.}
+\ucrow{Atores}{Analista.}
+\ucrow{Pré-condições}{Relatório existente (UC12).}
+\ucrow{Garantia de sucesso (pós-condições)}{Plano, ações e tarefas gravados, com responsáveis e situação.}
+\ucrow{Requisitos especiais}{O plano acompanha o relatório e aparece nele ao ser publicado.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa abre os Planos de ação e escolhe um relatório.
+\item O sistema mostra o plano e suas tarefas.
+\item A pessoa cria ou edita ações e tarefas, com responsável e prazo.
+\item O sistema grava as alterações.
+\item A pessoa acompanha a situação (aberto, em andamento, fechado).
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Remover ação: o sistema pede confirmação e a remove do plano.
+\item Tarefa com evidência: a pessoa anexa a evidência e o sistema a associa à tarefa.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC17}{Tratar alertas}
+\ucrow{Referências}{Tela: Alertas (/alertas). Fluxo de sequência: \autoref{fig:seq07}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando a pessoa precisa ver e tratar os alertas gerados pelas regras.}
+\ucrow{Atores}{Analista.}
+\ucrow{Pré-condições}{Ao menos uma regra de alerta ativa (UC18) cujo evento tenha ocorrido.}
+\ucrow{Garantia de sucesso (pós-condições)}{Alertas lidos e tratados; o contador de não lidos é atualizado.}
+\ucrow{Requisitos especiais}{O alerta interno é gerado pelo worker; o envio ao Teams, quando configurado, segue o mesmo evento.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa abre a tela de Alertas.
+\item O sistema lista os alertas, com o contador de não lidos.
+\item A pessoa abre um alerta e lê o evento.
+\item A pessoa registra o tratamento.
+\item O sistema atualiza a situação do alerta.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Sem alertas: o sistema mostra o estado vazio.
+\item Alerta com pré-análise: a pessoa segue para a revisão do assistente (UC10).
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC18}{Configurar regras de alerta}
+\ucrow{Referências}{Tela: Alertas, regras. Fluxo de sequência: \autoref{fig:seq07}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando a pessoa define quando o Hanaro deve gerar um alerta.}
+\ucrow{Atores}{Analista.}
+\ucrow{Pré-condições}{Sessão ativa.}
+\ucrow{Garantia de sucesso (pós-condições)}{Regra gravada e avaliada pelo worker a cada ciclo.}
+\ucrow{Requisitos especiais}{A regra tem nível e pode ligar a pré-análise do assistente.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa abre as regras na tela de Alertas.
+\item A pessoa cria uma regra ou edita uma existente.
+\item A pessoa define a condição, o nível e a entrega.
+\item O sistema valida e grava a regra.
+\item O worker passa a avaliá-la a cada ciclo.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Regra inválida: o sistema indica o campo e não grava.
+\item Desativar ou excluir regra: o sistema deixa de avaliá-la; alertas já gerados permanecem.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC19}{Configurar metas e parâmetros}
+\ucrow{Referências}{Tela: Configurações (/configuracoes).}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando a pessoa ajusta os parâmetros que alimentam os indicadores e os relatórios.}
+\ucrow{Atores}{Analista.}
+\ucrow{Pré-condições}{Sessão ativa.}
+\ucrow{Garantia de sucesso (pós-condições)}{Parâmetros gravados; a mudança de meta troca a revisão da projeção do Dashboard.}
+\ucrow{Requisitos especiais}{Cada janela de configuração grava de forma independente.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa abre Configurações.
+\item A pessoa escolhe a área (metas, linhas, classificações, tipos de defeito, custos, produção, áreas responsáveis).
+\item O sistema mostra os valores atuais.
+\item A pessoa altera e confirma.
+\item O sistema valida, grava e atualiza os indicadores.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Valor inválido: o sistema indica o erro e não grava.
+\item Falha de gravação: o sistema avisa e os valores anteriores são mantidos.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{14\baselineskip}
+\subsection{Assistente (gestão) e administração}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC20}{Gerir memória do assistente}
+\ucrow{Referências}{Tela: Assistente, aba Memória. Fluxo de sequência: \autoref{fig:seq08}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando a pessoa quer saber quais análises aprovadas já alimentam o assistente e em que situação estão.}
+\ucrow{Atores}{Gestor; Administrador.}
+\ucrow{Pré-condições}{Sessão ativa.}
+\ucrow{Garantia de sucesso (pós-condições)}{Situação da memória exibida; se pedida, reindexação iniciada.}
+\ucrow{Requisitos especiais}{A memória reúne só análises aprovadas. Cada análise está na memória, aguardando envio ou retirada.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item A pessoa abre a aba Memória.
+\item O sistema mostra o resumo: análises aprovadas, na memória, aguardando envio e retiradas, além da fila e do último envio.
+\item A pessoa consulta a distribuição por linha.
+\item Se necessário, a pessoa pede a reindexação e confirma.
+\item O sistema reenvia as análises à memória e atualiza o resumo.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Recurso desligado: o sistema informa que a memória está desativada.
+\item Memória vazia: o sistema explica que ainda não há análises aprovadas.
+\item Itens com falha na fila: o resumo os destaca e a reindexação pode reenviá-los.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC21}{Acompanhar desempenho do assistente}
+\ucrow{Referências}{Tela: Assistente, aba Desempenho. Fluxo de sequência: \autoref{fig:seq08}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando o gestor quer saber o que as pessoas decidiram sobre as propostas do assistente.}
+\ucrow{Atores}{Gestor.}
+\ucrow{Pré-condições}{Decisões registradas em pré-análises (UC10).}
+\ucrow{Garantia de sucesso (pós-condições)}{Indicadores de aceite, ajuste e rejeição exibidos.}
+\ucrow{Requisitos especiais}{Nenhum.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item O gestor abre a aba Desempenho.
+\item O sistema calcula e exibe os indicadores de aceite, ajuste e rejeição.
+\item O gestor filtra por período.
+\item O sistema atualiza a visão.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Sem decisões no período: o sistema mostra o estado vazio.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC22}{Consultar uso da plataforma}
+\ucrow{Referências}{Tela: Uso da plataforma (/uso-da-plataforma).}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando o administrador quer ver quanto a plataforma é usada e quanto tempo ela economiza.}
+\ucrow{Atores}{Administrador.}
+\ucrow{Pré-condições}{Sessão ativa com perfil de administrador.}
+\ucrow{Garantia de sucesso (pós-condições)}{Acessos, usuários ativos, coletas, relatórios e tempo economizado exibidos.}
+\ucrow{Requisitos especiais}{O tempo economizado é o tempo manual estimado menos a duração real. Os tempos manuais são configuráveis.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item O administrador abre Uso da plataforma.
+\item O sistema exibe os indicadores do período.
+\item O administrador alterna entre 30 e 90 dias.
+\item O sistema atualiza o gráfico de acessos.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Configurar tempos manuais: o administrador informa os minutos por tarefa e o sistema recalcula a economia.
+\item Sem acessos no intervalo: o sistema informa.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC23}{Atender solicitações de suporte}
+\ucrow{Referências}{Tela: Suporte (/suporte).}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando o administrador consulta as solicitações que as pessoas enviaram ao suporte.}
+\ucrow{Atores}{Administrador.}
+\ucrow{Pré-condições}{Solicitações registradas (UC03).}
+\ucrow{Garantia de sucesso (pós-condições)}{Solicitações lidas, com assunto, mensagem e dados de quem as enviou.}
+\ucrow{Requisitos especiais}{Nenhum.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item O administrador abre a tela de Suporte.
+\item O sistema lista as solicitações, da mais recente à mais antiga.
+\item O administrador busca ou pagina a lista.
+\item O administrador abre uma solicitação.
+\item O sistema mostra o assunto, a mensagem, o perfil e a data do envio.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Nenhuma solicitação: o sistema mostra o estado vazio.
+\item Falha ao carregar: o sistema mostra o erro e oferece tentar novamente.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC24}{Configurar integração com o Teams}
+\ucrow{Referências}{Tela: Integrações, Teams (/integracoes/teams). Fluxo de sequência: \autoref{fig:seq07}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando o administrador define em quais destinos do Teams os alertas devem ser entregues.}
+\ucrow{Atores}{Administrador; Microsoft Teams (ator secundário).}
+\ucrow{Pré-condições}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item Sessão ativa com perfil de administrador.
+\item Destino (webhook) do Teams disponível.
+\end{enumerate}}
+\ucrow{Garantia de sucesso (pós-condições)}{Destinos gravados; os alertas das regras associadas passam a ser entregues no Teams.}
+\ucrow{Requisitos especiais}{O worker é o único contêiner que sai para fora da rede para falar com o Teams.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item O administrador abre Integrações, Teams.
+\item O sistema lista os destinos cadastrados.
+\item O administrador cria ou edita um destino.
+\item O sistema valida e grava o destino.
+\item O worker passa a entregar os alertas ao Teams.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Destino inválido: o sistema indica o erro e não grava.
+\item Teams indisponível na entrega: o alerta interno é mantido e a entrega ao Teams não conclui.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC25}{Gerenciar usuários}
+\ucrow{Referências}{Tela: Usuários (/usuarios).}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando o superusuário cria, altera ou desativa contas do Hanaro.}
+\ucrow{Atores}{Superusuário.}
+\ucrow{Pré-condições}{Sessão ativa com permissão de superusuário.}
+\ucrow{Garantia de sucesso (pós-condições)}{Conta criada, alterada ou removida; o acesso passa a refletir o novo perfil.}
+\ucrow{Requisitos especiais}{Toda decisão de acesso é validada também no servidor. A gravação exige o token CSRF.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item O superusuário abre a tela de Usuários.
+\item O sistema lista as contas.
+\item O superusuário cria uma conta ou escolhe uma existente.
+\item O superusuário define nome, usuário, perfil e senha inicial.
+\item O sistema valida e grava.
+\item O sistema registra a alteração na auditoria.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Usuário já existente: o sistema recusa e informa o conflito.
+\item Remover conta: o sistema pede confirmação; a sessão da conta apagada é rejeitada nas próximas requisições.
+\end{enumerate}}
+\end{ucard}
+
+\Needspace{9\baselineskip}
+\begin{ucard}{UC26}{Consultar registros de atividade}
+\ucrow{Referências}{Tela: Logs (/logs). Fluxo de sequência: \autoref{fig:seq13}.}
+\ucrow{Descrição geral}{O caso de uso inicia-se quando o superusuário precisa auditar o que foi feito no sistema.}
+\ucrow{Atores}{Superusuário.}
+\ucrow{Pré-condições}{Sessão ativa com permissão de superusuário.}
+\ucrow{Garantia de sucesso (pós-condições)}{Registros de atividade exibidos conforme os filtros.}
+\ucrow{Requisitos especiais}{O registro é gravado pelo sistema em segundo plano; uma falha no registro não derruba a requisição da pessoa.}
+\ucrow{Fluxo básico}{\begin{enumerate}[nosep,leftmargin=*,label=\arabic*.]
+\item O superusuário abre a tela de Logs.
+\item O sistema lista os registros, dos mais recentes aos mais antigos.
+\item O superusuário filtra por intervalo, autor ou módulo, ou busca um texto.
+\item O sistema atualiza a lista.
+\item Se desejar, o superusuário exporta o resultado.
+\end{enumerate}}
+\ucrow{Fluxo alternativo}{\begin{enumerate}[nosep,leftmargin=*,label=A\arabic*.]
+\item Autor inválido no filtro: o sistema indica o erro e mantém a lista anterior.
+\item Registro desativado ou indisponível: o sistema informa e oferece tentar novamente.
+\end{enumerate}}
+\end{ucard}
+

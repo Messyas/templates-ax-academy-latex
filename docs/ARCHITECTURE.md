@@ -47,11 +47,19 @@ templates-ax-academy-latex/
 │   │   ├── onepage-lg.tex               # AI Deep Dive / AI Core
 │   │   └── img/                         # Ícones corporativos
 │   │
+│   ├── Guia-Usuario-Hanaro/             # 7. Guia do Usuário do Hanaro (Book; Arquitetura e IA)
+│   │   ├── axacademy-guia.sty           # Cópia do design system da Apostila
+│   │   ├── guia-usuario.tex             # Ponto de entrada com metadados
+│   │   ├── caps/                        # cap01.tex (Arquitetura) e cap02.tex (IA)
+│   │   ├── art/                         # Identidade visual vetorial
+│   │   └── img/                         # Telas do Assistente e da tradução
+│   │
 │   └── referencias/                     # Apresentações e materiais visuais de referência
 │       └── Layout de Report - One Page.pptx
 │
 ├── dist/                                # Diretório central de saídas segregadas por template
 │   ├── Apostila/guia-rapido.pdf
+│   ├── Guia-Usuario-Hanaro/guia-usuario-hanaro.pdf
 │   ├── Flyer/guia-flyer.pdf
 │   ├── OnePage-Sumarizacao/onepage-lg.pdf
 │   ├── Status-Report/status-report-equipe3.pdf
@@ -86,6 +94,7 @@ Todas as fontes residem exclusivamente na pasta central `modelos/fonts/`. Os mod
 Para evitar sobrescritas acidentais (por exemplo, múltiplos templates que gerem arquivos com nomes similares como `onepage-lg.pdf`), cada template possui uma subpasta própria dentro de `dist/`:
 
 - `dist/Apostila/`
+- `dist/Guia-Usuario-Hanaro/`
 - `dist/Flyer/`
 - `dist/OnePage-Sumarizacao/`
 - `dist/Status-Report/`

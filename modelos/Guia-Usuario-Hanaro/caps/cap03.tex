@@ -1,0 +1,219 @@
+% =============================================================================
+%  Capítulo 3 — Diagramas de Referência (Parte III)
+%  Diagramas do projeto; os PDFs vetoriais ficam em img/diagramas/ (cores do guia).
+% =============================================================================
+\chapter{Diagramas de Referência}\label{cap:ref}
+
+Esta parte reúne os diagramas técnicos do sistema, para quem precisa ir além da visão
+geral da Parte~I: o que cada perfil pode fazer (casos de uso), como o agente de IA e a consulta funcionam por dentro, como os componentes se
+organizam, o que acontece em cada fluxo importante e como os dados se relacionam. Os desenhos são vetoriais; em uma tela, é
+possível ampliar qualquer trecho.
+
+\input{caps/casos-de-uso}
+
+\input{caps/agente-rag}
+
+\section{Componentes}
+
+Cinco diagramas, do mais amplo ao mais detalhado: o sistema inteiro e, depois, o
+interior de cada serviço. As páginas estão giradas para aproveitar a folha.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/componentes-sistema}
+\caption{Componentes do sistema.}\label{fig:componentes-sistema}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/componentes-frontend}
+\caption{Componentes do front-end.}\label{fig:componentes-frontend}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/componentes-backend}
+\caption{Componentes do back-end (API).}\label{fig:componentes-backend}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/componentes-worker}
+\caption{Componentes do worker.}\label{fig:componentes-worker}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/componentes-agent-service}
+\caption{Componentes do servidor de IA.}\label{fig:componentes-agent-service}
+\end{figure}
+
+\section{Fluxos de sequência}
+
+Treze fluxos, na ordem em que o sistema é usado: acesso, entrada de dados, análise, relatório e auditoria. Cada diagrama mostra quem chama quem e em que ordem.
+
+\subsection{Login e sessão}
+
+A sessão fica no Redis e o navegador só guarda o identificador, em cookie \texttt{HttpOnly}. O token CSRF volta no corpo da resposta e deve ser enviado nas escritas.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-4.5cm\relax,keepaspectratio]{img/diagramas/seq01}
+\caption{Login e sessão.}\label{fig:seq01}
+\end{figure}
+
+\subsection{Ingestão automática do GERP}
+
+A automação (hoje com arquivo local, no futuro com o robô) converte o arquivo do GERP no JSON canônico. A API só valida a forma e enfileira; quem reconcilia e grava é o worker. Repetir o mesmo arquivo na mesma janela é idempotente.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-4.5cm\relax,keepaspectratio]{img/diagramas/seq02}
+\caption{Ingestão automática do GERP.}\label{fig:seq02}
+\end{figure}
+
+\subsection{Envio manual e acompanhamento da execução}
+
+O mesmo caminho do diagrama 2, mas com o arquivo vindo do navegador. A cotação usada é a do dia de chegada informado (hoje em Manaus por padrão); sem cotação nesse dia, vale a última disponível.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-4.5cm\relax,keepaspectratio]{img/diagramas/seq03}
+\caption{Envio manual e acompanhamento da execução.}\label{fig:seq03}
+\end{figure}
+
+\subsection{Cotação do dólar (PTAX)}
+
+É um laço do worker, sem ação do usuário. A tela de Configurações apenas mostra que a coleta está funcionando e onde há lacunas. Não existe cotação manual.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/seq04}
+\caption{Cotação do dólar (PTAX).}\label{fig:seq04}
+\end{figure}
+
+\subsection{Leitura do dashboard com cache}
+
+O dashboard lê uma projeção já agregada, não as transações. A chave do cache inclui a revisão da projeção; uma ingestão ou a mudança de meta troca a revisão. Se o Redis falhar, a resposta sai do banco.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/seq05}
+\caption{Leitura do dashboard com cache.}\label{fig:seq05}
+\end{figure}
+
+\subsection{Análise de uma ocorrência}
+
+O analista abre uma ocorrência da Base de scrap, preenche a análise como rascunho e a finaliza. Há uma análise ativa por ocorrência, e as gravações usam a versão esperada para não pisar em outra edição.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-4.5cm\relax,keepaspectratio]{img/diagramas/seq06}
+\caption{Análise de uma ocorrência.}\label{fig:seq06}
+\end{figure}
+
+\subsection{Regra de alerta, alerta interno e Teams}
+
+O worker avalia as regras a cada ciclo (30 s). Quando um nível dispara, o fato vira um evento na caixa de saída, gravado na mesma transação da avaliação. Depois o evento é despachado: cria o alerta interno e enfileira o cartão do Teams, que outro laço (15 s) entrega com nova tentativa em caso de falha.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/seq07}
+\caption{Regra de alerta, alerta interno e Teams.}\label{fig:seq07}
+\end{figure}
+
+\subsection{Pré-análise do assistente e aceite}
+
+O Hanaro nunca espera o agente dentro de uma requisição ou de uma transação de alerta: ele grava o pedido e o worker o entrega depois. O agente nunca chama o Hanaro; o worker busca o resultado. O aceite é transacional e idempotente.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-4.5cm\relax,keepaspectratio]{img/diagramas/seq08}
+\caption{Pré-análise do assistente e aceite.}\label{fig:seq08}
+\end{figure}
+
+\subsection{Chat de consulta do assistente}
+
+O chat responde só sobre os casos da memória e cita as fontes. A conversa é do usuário que a abriu.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/seq09}
+\caption{Chat de consulta do assistente.}\label{fig:seq09}
+\end{figure}
+
+\subsection{Relatório: da edição à publicação}
+
+Publicar sela uma fotografia dos dados (snapshot com hash) e cria uma versão imutável numerada. A publicação aceita uma chave de idempotência para que um clique repetido não gere duas versões.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-4.5cm\relax,keepaspectratio]{img/diagramas/seq10}
+\caption{Relatório: da edição à publicação.}\label{fig:seq10}
+\end{figure}
+
+\subsection{Exportação do relatório}
+
+A exportação é assíncrona: o pedido vira um job, o evento sai pela caixa de saída e o worker renderiza o arquivo. O job tem uma reserva (lease) para que só um worker o processe e para recuperar o que ficou parado.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-4.5cm\relax,keepaspectratio]{img/diagramas/seq11}
+\caption{Exportação do relatório.}\label{fig:seq11}
+\end{figure}
+
+\subsection{Tradução de um plano de ação}
+
+O Hanaro protege números e códigos, mascara o texto e só então chama o serviço de tradução. Só um job fala com o serviço por vez; os outros ficam na fila e a tela mostra a posição.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-4.5cm\relax,keepaspectratio]{img/diagramas/seq12}
+\caption{Tradução de um plano de ação.}\label{fig:seq12}
+\end{figure}
+
+\subsection{Auditoria de atividade}
+
+Um middleware registra quem fez o quê nas escritas das áreas de acesso, scrap, alertas e relatórios. O registro vem depois da resposta e uma falha ao gravar não derruba a requisição. A exportação é só para superusuário.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/seq13}
+\caption{Auditoria de atividade.}\label{fig:seq13}
+\end{figure}
+
+\section{Modelo conceitual de dados}
+
+O modelo conceitual está dividido em cinco recortes para manter a leitura. Algumas entidades, como Usuário, Caso e Plano de ação, aparecem em mais de um recorte, sempre com o mesmo nome. Uma relação não aparece desenhada: o \emph{Usuário} se relaciona consigo mesmo, pois um usuário (gestor) pode gerenciar outros usuários.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/merA}
+\caption{Modelo conceitual, recorte 1.}\label{fig:merA}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\dimexpr\textheight-4.5cm\relax,height=\textwidth,keepaspectratio,angle=90]{img/diagramas/merB}
+\caption{Modelo conceitual, recorte 2.}\label{fig:merB}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-4.5cm\relax,keepaspectratio]{img/diagramas/merC1}
+\caption{Modelo conceitual, recorte 3: relatório publicado.}\label{fig:merC1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-4.5cm\relax,keepaspectratio]{img/diagramas/merC2}
+\caption{Modelo conceitual, recorte 4: tarefas e casos.}\label{fig:merC2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-4.5cm\relax,keepaspectratio]{img/diagramas/merD}
+\caption{Modelo conceitual, recorte 5.}\label{fig:merD}
+\end{figure}
+
+\fimdecapitulo

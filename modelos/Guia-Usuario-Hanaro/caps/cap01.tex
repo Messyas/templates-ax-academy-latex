@@ -1,0 +1,355 @@
+% =============================================================================
+%  Capítulo 1 — Como o Hanaro é Feito (Parte I, Arquitetura)
+%  Capítulo único da parte, só em seções. Explica, em linguagem de usuário, as
+%  peças do sistema, o caminho do dado do GERP ao Dashboard, os perfis, onde o
+%  sistema roda e o que fica registrado. Os detalhes de TI vão em caixas
+%  "Para TI".
+%
+%  Estilos dos diagramas (arq ...) ficam aqui e valem para o resto do guia.
+% =============================================================================
+\tikzset{
+    arq no/.style={draw=guiatinta,line width=0.8pt,fill=white,rounded corners=4pt,
+        align=center,text width=2.7cm,inner sep=3.5pt,minimum height=0.95cm,
+        font=\guiahead\fontsize{8.4}{10}\selectfont,text=guiatinta},
+    arq ia/.style={arq no,draw=guiavermelho,line width=1.1pt},
+    arq dado/.style={arq no,fill=guiaareia},
+    arq fora/.style={arq no,draw=guiacinza,dash pattern=on 3pt off 2pt,text=guiacinza},
+    arq grupo/.style={draw=guiaborda,line width=0.7pt,fill=guiapapel,rounded corners=6pt},
+    arq titulo/.style={font=\guiahead\bfseries\fontsize{8.6}{10}\selectfont,
+        text=guiagrafite,anchor=north west,inner sep=0pt},
+    arq seta/.style={-{Stealth[length=5pt,width=4pt]},draw=guiatinta,line width=0.75pt,
+        rounded corners=3pt},
+    arq rotulo/.style={font=\guiahead\fontsize{7.4}{8.6}\selectfont,text=guiacinza,
+        inner sep=1.5pt,fill=white},
+}
+
+\chapter{Como o Hanaro é Feito}\label{cap:arq}
+
+\section{Público e escopo}
+
+Esta parte do guia explica o Hanaro \emph{por dentro}, sem exigir conhecimento técnico.
+Quem usa o sistema no dia a dia entende melhor o que ele faz, por que uma execução
+demora alguns segundos para aparecer no Dashboard e o que acontece com os dados que
+passam por ele. Os pontos que interessam à equipe de TI estão nas caixas
+\textbf{Para TI}.
+
+\begin{itemize}
+    \item \textbf{Para quem é:} analistas, gestores e administradores do Hanaro.
+    \item \textbf{O que cobre:} as peças do sistema, o caminho do dado do GERP ao
+          Dashboard, os perfis de acesso, onde o sistema roda e o que fica registrado.
+    \item \textbf{O que não cobre:} instalação, atualização e cópias de segurança.
+\end{itemize}
+
+\begin{remark}[info]
+\textbf{Assistente e tradução: ativação gradual.} A pré-análise do assistente, a
+consulta e a tradução de relatórios para o inglês dependem de um servidor de modelos
+de IA. Elas são ligadas por ambiente, aos poucos. Se uma delas não aparece no seu
+Hanaro, ela ainda não foi ligada; o restante do sistema funciona normalmente. A
+Parte~II descreve essas funções.
+\end{remark}
+
+\section{Visão geral}
+
+O Hanaro monitora os casos de scrap da fábrica e ajuda analistas e gestores a
+investigar os eventos relevantes e a produzir relatórios sobre eles. Os dados vêm do
+GERP; o sistema calcula os indicadores, dispara alertas, guarda a análise de cada
+ocorrência, organiza os planos de ação e publica relatórios versionados.
+
+A \autoref{fig:contexto} mostra quem fala com quem. Cada pessoa usa o sistema pelo
+navegador, na intranet. O arquivo do GERP chega pelo robô de automação ou pelo envio
+manual. As funções de inteligência artificial ficam em um servidor separado, e o
+Hanaro só vai a ele quando precisa.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0.2) rectangle (16,-9.6);
+
+    % ---- servidor do Hanaro ----
+    \draw[arq grupo] (3.7,-0.3) rectangle (10.9,-7.5);
+    \node[arq titulo] at (3.95,-0.5) {Servidor do Hanaro};
+    \node[arq no] (web) at (5.4,-2.0) {Web\\[-1pt]{\fontsize{7}{8}\selectfont telas e gráficos}};
+    \node[arq no] (api) at (5.4,-4.0) {API\\[-1pt]{\fontsize{7}{8}\selectfont regras e acesso}};
+    \node[arq no,text width=3.4cm] (wrk) at (9.1,-4.0) {Worker\\[-1pt]{\fontsize{7}{8}\selectfont trabalho em segundo plano}};
+    \node[arq dado,text width=4.0cm] (dados) at (6.0,-6.3)
+        {PostgreSQL (dados)\\[-1pt]{\fontsize{7}{8}\selectfont e Redis (sessões e fila)}};
+
+    % ---- servidor de IA (agente em cima, modelos no meio, tradução embaixo) ----
+    \draw[arq grupo,draw=guiavermelho] (11.7,-0.3) rectangle (15.9,-7.5);
+    \node[arq titulo,text=guiavermelho] at (11.95,-0.5) {Servidor de IA};
+    \node[arq ia] (ag) at (13.8,-2.1) {Agente\\[-1pt]{\fontsize{7}{8}\selectfont pré-análise e consulta}};
+    \node[arq ia] (md) at (13.8,-4.1) {Servidor de modelos\\[-1pt]{\fontsize{7}{8}\selectfont modelo de linguagem}};
+    \node[arq ia] (tr) at (13.8,-6.1) {Tradução\\[-1pt]{\fontsize{7}{8}\selectfont português para inglês}};
+
+    % ---- fora ----
+    \node[arq no,text width=2.3cm] (pes) at (1.2,-2.0) {Analista\\Gestor\\Administrador};
+    \node[arq no,text width=2.3cm] (rob) at (1.2,-4.0) {GERP e robô de automação};
+    \node[arq fora,text width=2.0cm] (bcb) at (8.0,-8.8) {Banco Central\\[-1pt]{\fontsize{7}{8}\selectfont cotação PTAX}};
+    \node[arq fora,text width=2.3cm] (tms) at (11.0,-8.8) {Microsoft Teams\\[-1pt]{\fontsize{7}{8}\selectfont avisos de alerta}};
+
+    % ---- fluxos (retos, sem cruzar caixas) ----
+    \draw[arq seta] (pes.east) -- node[arq rotulo,above=1pt] {navegador} (web.west |- pes.east);
+    \draw[arq seta] (web) -- (api);
+    \draw[arq seta] (rob.east) -- node[arq rotulo,above=1pt] {arquivo} (api.west |- rob.east);
+    \draw[arq seta] (api) -- (wrk);
+    \draw[arq seta] (api.south) -- (api.south |- dados.north);
+    \draw[arq seta] ([xshift=0.2cm]wrk.south west) -- ([xshift=0.2cm]wrk.south west |- dados.north);
+    \draw[arq seta] (wrk.east) -- ++(0.5,0) |- (ag.west);
+    \draw[arq seta] (wrk.east) -- ++(0.5,0) |- (tr.west);
+    \draw[arq seta] (ag) -- (md);
+    \draw[arq seta] (tr) -- (md);
+    \draw[arq seta] ([xshift=-0.6cm]wrk.south) -- ([xshift=-0.6cm]wrk.south |- bcb.north);
+    \draw[arq seta] ([xshift=1.6cm]wrk.south) -- ([xshift=1.6cm]wrk.south |- tms.north);
+\end{tikzpicture}
+\caption{As peças do Hanaro e como se ligam. Linhas tracejadas: serviços externos.
+Os serviços de IA são opcionais.}
+\label{fig:contexto}
+\end{figure}
+
+\section{As peças do sistema}
+
+Cada peça tem uma tarefa. A \autoref{tab:pecas} diz o que ela faz e em que situação o
+usuário percebe a sua presença.
+
+\begin{table}[H]
+\caption{Peças do Hanaro, o que fazem e como o usuário as percebe.}\label{tab:pecas}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{2.9cm}X L{4.3cm}@{}}
+    \toprule
+    \guiacabtabela
+    \thead{Peça} & \thead{O que faz} & \thead{Quando você nota} \\
+    \midrule
+    \textbf{Web} & Mostra as telas e os gráficos no navegador. & Tudo o que você vê e
+        clica \\
+    \textbf{API} & Confere o que foi pedido, aplica as regras de negócio e responde. Os
+        pedidos demorados vão para a fila. & Mensagens de erro de formulário; envio do
+        relatório \\
+    \textbf{Worker} & Faz o trabalho pesado em segundo plano: processa o arquivo do GERP,
+        calcula os alertas, busca a cotação do dólar, exporta documentos e fala com os
+        serviços de IA. & Status \emph{Na fila} e \emph{Concluído} em Execuções \\
+    \textbf{PostgreSQL} & Guarda os dados do sistema: ocorrências, análises,
+        relatórios e usuários. & Nada muda quando o sistema reinicia \\
+    \textbf{Redis} & Guarda as sessões, a fila de trabalho e o cache do Dashboard. &
+        Sessão que expira; Dashboard rápido \\
+    \textbf{Automação do GERP} & Lê o arquivo exportado do GERP, normaliza, classifica e
+        envia à API. & Execuções com origem \emph{GERP} \\
+    \textbf{Agente} & Prepara pré-análises e responde às perguntas da Consulta, a
+        partir das análises já aprovadas. & Selo \emph{Pré-análise pronta}; menu
+        Assistente \\
+    \textbf{Tradução} & Traduz o texto de um relatório do português para o inglês. &
+        Opção \emph{Traduzir o texto para inglês} \\
+\end{tabularx}
+\end{table}
+
+\begin{remark}[info]
+\textbf{Para TI.} O agente e a tradução são serviços separados, com contêiner e chave
+de acesso próprios. O Hanaro chama os dois, e eles só respondem: o agente nunca chama o
+Hanaro de volta.
+\end{remark}
+
+\section{Do GERP ao Dashboard}
+
+O caminho de um arquivo do GERP até o indicador na tela tem seis etapas
+(\autoref{fig:caminho}). Entender a ordem explica por que o Dashboard só muda depois
+que a execução está \emph{Publicada}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,
+        arq no/.append style={text width=4.3cm,minimum height=1.05cm}]
+    \useasboundingbox (0,0.1) rectangle (16,-10.8);
+
+    \foreach \i/\y/\titulo/\texto in {
+        1/-0.6/{GERP}/{O relatório \emph{Other Account Transaction Text} é exportado em texto separado por tabulação.},
+        2/-2.5/{Entrada do arquivo}/{O robô de automação lê o arquivo, normaliza, classifica e envia à API. O envio manual, na tela Execuções, faz o mesmo caminho.},
+        3/-4.4/{API}/{Confere a forma da carga, aceita o pedido e o coloca na fila. A resposta é imediata; o processamento vem depois.},
+        4/-6.3/{Worker}/{Compara o arquivo com o que já existe, grava as transações, atualiza os números do Dashboard e prepara o snapshot, tudo de uma só vez.},
+        5/-8.2/{Execução publicada}/{O status da execução passa a \emph{Concluído} e o snapshot a \emph{Publicado}.},
+        6/-10.0/{Dashboard e Modo TV}/{Leem os números já calculados. Os alertas avaliam a base e avisam no Hanaro e no Teams.}}
+    {
+        \node[arq no,anchor=west] (n\i) at (0.9,\y) {\titulo};
+        \node[guia marcador,minimum size=13pt,font=\guiahead\bfseries\fontsize{7.5}{7.5}\selectfont]
+            at (n\i.west) {\i};
+        \node[font=\guiahead\fontsize{8.4}{10.4}\selectfont,text width=9.6cm,anchor=west,
+              text=guiatinta,align=left] at (5.9,\y) {\texto};
+    }
+    \foreach \a/\b in {1/2,2/3,3/4,4/5,5/6}
+        \draw[arq seta] (n\a.south) -- (n\b.north);
+\end{tikzpicture}
+\caption{Do GERP ao Dashboard, em seis etapas.}
+\label{fig:caminho}
+\end{figure}
+
+Três regras do sistema decorrem desse caminho e valem a pena conhecer:
+
+\begin{itemize}
+    \item \textbf{O dólar é congelado na chegada.} O valor em US\$ usa a cotação PTAX
+          do dia em que o dado chega ao Hanaro, obtida do Banco Central. Ele só muda
+          em um recálculo manual. Não existe valor de dólar digitado à mão.
+    \item \textbf{O que chegou não é apagado.} A ocorrência é a identidade do negócio.
+          Se o conteúdo muda no arquivo seguinte, o Hanaro registra outra versão da
+          transação; o que deixa de aparecer na extração passa a constar como ausente,
+          sem sumir do histórico.
+    \item \textbf{O Dashboard lê números prontos.} Ele consulta indicadores já
+          calculados, e não as transações uma a uma. Por isso responde rápido, e por
+          isso só reflete uma execução depois que o snapshot é publicado.
+\end{itemize}
+
+\begin{remark}[info]
+\textbf{Para TI.} A escrita acontece no worker e a leitura, em projeção: transações,
+projeção do Dashboard e snapshot ativo entram no mesmo commit. A reconciliação é por
+partição (organização e dia). As sequências completas estão na Parte~III.
+\end{remark}
+
+\section{Perfis, sessão e segurança}
+
+O Hanaro tem três perfis de conta. A \autoref{tab:perfis} resume o que cada um
+encontra no menu. O acesso é sempre por usuário e senha, cadastrados pelo
+administrador.
+
+\begin{table}[H]
+\caption{Perfis de conta e o que cada um usa.}\label{tab:perfis}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{3.0cm}X@{}}
+    \toprule
+    \guiacabtabela
+    \thead{Perfil} & \thead{O que usa} \\
+    \midrule
+    \textbf{Analista} & Dashboard, Execuções, Base de Scrap, Relatórios, Alertas e
+        Configurações. No Assistente: as pré-análises e a Consulta (quando ligada). \\
+    \textbf{Gestor} & O mesmo do analista, e ainda a \emph{Memória} e o
+        \emph{Desempenho} do Assistente. \\
+    \textbf{Administrador} & Uso da plataforma, Execuções, Suporte, Alertas,
+        Integrações e a \emph{Memória do assistente}. O administrador com permissão de
+        superusuário também vê Usuários e os registros de atividade (Logs). Não trabalha nas
+        pré-análises. \\
+\end{tabularx}
+\end{table}
+
+\begin{itemize}
+    \item \textbf{Sessão.} A sessão fica guardada no navegador, em um cookie que o
+          código da página não consegue ler. Cada gravação exige ainda um código de
+          confirmação do próprio sistema, o que impede que outro site faça pedidos em
+          nome do usuário.
+    \item \textbf{Robô do GERP.} Não usa sessão de pessoa: envia a carga com uma chave
+          de API que só permite criar registros de scrap.
+    \item \textbf{Serviços de IA.} O Hanaro os chama com chaves próprias, e eles só
+          respondem ao Hanaro.
+\end{itemize}
+
+\begin{remark}
+Quando a sessão expira, o Hanaro abre a janela de acesso sobre a tela atual. Entre
+de novo e continue de onde parou; o que já foi gravado não se perde.
+\end{remark}
+
+
+\section{Onde roda}
+
+O Hanaro roda na intranet da empresa, em contêineres Docker, e \textbf{não é publicado
+na internet}. Só o servidor web (nginx) abre uma porta; o banco de dados e o Redis
+ficam em uma rede interna, sem saída para fora. A tela e a API usam o mesmo endereço, e
+por isso não há troca de domínio entre elas.
+
+A \autoref{fig:implantacao} mostra a divisão em servidores e redes. O servidor de IA
+costuma ser outra máquina, com recursos próprios para os modelos.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0.2) rectangle (16,-8.2);
+
+    \node[arq no,text width=2.4cm] (nav) at (1.4,-2.9) {Navegadores};
+
+    \draw[arq grupo] (3.2,-0.3) rectangle (10.9,-7.7);
+    \node[arq titulo] at (3.45,-0.5) {Servidor do Hanaro (Docker Compose)};
+    \draw[arq grupo,fill=white] (3.5,-1.1) rectangle (10.6,-4.1);
+    \node[arq titulo,text=guiacinza] at (3.7,-1.25) {rede proxy};
+    \node[arq no,text width=1.4cm] (ngx) at (4.5,-2.9) {nginx\\[-1pt]{\fontsize{7}{8}\selectfont porta 4203}};
+    \node[arq no,text width=1.4cm] (bck) at (6.9,-2.9) {backend\\[-1pt]{\fontsize{7}{8}\selectfont API}};
+    \node[arq no,text width=1.4cm] (wk) at (9.6,-2.9) {worker};
+    \draw[arq grupo,fill=white] (3.5,-4.6) rectangle (10.6,-7.4);
+    \node[arq titulo,text=guiacinza] at (3.7,-4.75) {rede data};
+    \node[arq dado,text width=2.0cm] (pg) at (6.9,-6.4) {PostgreSQL 17};
+    \node[arq dado,text width=1.4cm] (rd) at (9.6,-6.4) {Redis 8};
+
+    \draw[arq grupo,draw=guiavermelho] (11.7,-0.3) rectangle (15.9,-7.7);
+    \node[arq titulo,text=guiavermelho] at (11.95,-0.5) {Servidor de IA};
+    \node[arq ia,text width=3.4cm] (ag) at (13.8,-2.2) {agent-service\\[-1pt]{\fontsize{7}{8}\selectfont porta 8200 e banco próprio}};
+    \node[arq ia,text width=3.4cm] (md) at (13.8,-4.3) {Servidor de modelos\\[-1pt]{\fontsize{7}{8}\selectfont Ollama ou equivalente}};
+    \node[arq ia,text width=3.4cm] (tr) at (13.8,-6.4) {translation-service\\[-1pt]{\fontsize{7}{8}\selectfont porta 8100}};
+
+    \draw[arq seta] (nav.east) -- node[arq rotulo,above=1pt] {HTTP} (ngx.west);
+    \draw[arq seta] (ngx) -- node[arq rotulo,above=1pt] {/api} (bck);
+    \draw[arq seta] (bck.south) -- (pg.north);
+    \draw[arq seta] (wk.south) -- (rd.north);
+    \draw[arq seta] (wk.east) -- ++(0.9,0) |- (ag.west);
+    \draw[arq seta] (wk.east) -- ++(0.9,0) |- (tr.west);
+    \draw[arq seta] (ag) -- (md);
+    \draw[arq seta] (tr) -- (md);
+\end{tikzpicture}
+\caption{Servidores, redes e portas. Os dois blocos de IA são opcionais e rodam, em
+geral, em outra máquina.}
+\label{fig:implantacao}
+\end{figure}
+
+\begin{remark}[info]
+\textbf{Para TI.} O worker é o único contêiner do Hanaro que também sai para fora da
+rede: para o Teams, o Banco Central e os serviços de IA. A porta 8200 do agente e a
+8100 da tradução devem ficar fechadas, exceto para o servidor do Hanaro.
+\end{remark}
+
+\section{Registro e rastreabilidade}
+
+O sistema guarda o histórico do que acontece, para que um número possa ser explicado
+depois.
+
+\begin{itemize}
+    \item \textbf{Versões que não mudam.} Relatórios publicados, análises de caso,
+          metas, produção e IF Cost são versionados. Um relatório publicado aponta
+          para um snapshot selado com um código de verificação (\emph{hash}): o número
+          que saiu no relatório continua o mesmo, mesmo que a base seja atualizada.
+    \item \textbf{Tarefas internas com nova tentativa.} Alertas, cartões do Teams,
+          exportações e o envio ao agente nascem de registros gravados junto com a
+          mudança que os causou. Se o serviço de destino falha, o Hanaro tenta de novo,
+          com espera crescente, e nada se perde no caminho.
+    \item \textbf{Registro de atividade.} As gravações de acesso, scrap, alertas e
+          relatórios ficam registradas. A exportação desses registros é restrita ao
+          superusuário.
+    \item \textbf{Nada da IA vira dado sem decisão humana.} Uma proposta do assistente
+          só entra em uma análise, relatório ou tarefa depois que uma pessoa aceita
+          (Parte~II).
+\end{itemize}
+
+\section{Se algo falhar}
+
+A \autoref{tab:falhas} reúne situações comuns, o que significam e o que fazer. Para
+qualquer outra, avise a equipe de TI.
+
+\begin{table}[H]
+\caption{Situações comuns, o que significam e o que fazer.}\label{tab:falhas}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{3.5cm}X L{4.6cm}@{}}
+    \toprule
+    \guiacabtabela
+    \thead{O que você vê} & \thead{O que significa} & \thead{O que fazer} \\
+    \midrule
+    A execução fica \emph{Na fila} & O worker ainda não pegou o arquivo, ou está ocupado
+        com outro. & Aguarde alguns instantes e atualize; se não mudar, avise a TI \\
+    O Dashboard não mudou depois do envio & O snapshot da execução ainda está \emph{Não
+        publicado}; o Dashboard mostra a execução anterior. & Confira o status em
+        Execuções \\
+    A tela pede o acesso de novo & A sessão expirou. & Entre de novo; nada se perde \\
+    O assistente aparece como desligado & O servidor de IA está desligado ou fora do ar
+        neste ambiente. & Siga o trabalho sem ele; as pré-análises já criadas continuam
+        disponíveis \\
+    A tradução não termina & O serviço de tradução está indisponível ou sem worker para
+        a fila. & Desligue a tradução e emita em português, ou tente de novo \\
+    O aviso não chegou ao Teams & A entrega falhou e será tentada de novo, com espera
+        crescente. & Aguarde; se persistir, avise a TI \\
+\end{tabularx}
+\end{table}
+
+\fimdecapitulo

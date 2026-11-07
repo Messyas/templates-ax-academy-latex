@@ -1,0 +1,126 @@
+% Gerado por gen_agent.py. Não editar à mão.
+\Needspace{10\baselineskip}
+\section{Agente de IA e RAG da consulta}\label{sec:agente-rag}
+
+O servidor de IA (\texttt{agent-service}) faz dois tipos de trabalho. O primeiro roda em segundo plano, como \textbf{job}: a pré-análise de uma ocorrência (revisão da análise e propostas de tarefas) e as propostas de tarefas de um relatório. O segundo é a \textbf{consulta}, que responde na hora a uma pergunta em texto livre. Em todos, o modelo só adapta texto: tudo o que não precisa de modelo é código, e toda saída passa por uma crítica em código antes de chegar à pessoa. A IA propõe, a pessoa decide.
+
+Nos diagramas, as caixas rosa chamam um modelo (de linguagem ou de embeddings), as caixas areia são código puro, os losangos são decisões e as setas tracejadas são leituras ou escritas no banco.
+
+\Needspace{10\baselineskip}
+\subsection{Revisão de análises: o grafo do LangGraph}
+
+A pré-análise é um grafo do LangGraph. O estado carrega só valores JSON e o grafo grava um checkpoint no PostgreSQL a cada passo, com o identificador do job como \texttt{thread}. Se o worker cair, o job é retomado do passo que foi interrompido, sem repetir os anteriores.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-3.2cm\relax,keepaspectratio]{img/diagramas/agente-g1}
+\caption{Máquina de estados do grafo de revisão de análises (LangGraph).}\label{fig:agente-g1}
+\end{figure}
+
+\begin{table}[H]
+\caption{Nós do grafo de revisão.}\label{tab:agente-nos}
+\guiazebra
+\small
+\noindent\begin{tabularx}{\textwidth}{@{}L{3.6cm}X L{1.9cm}@{}}
+\toprule
+\guiacabtabela
+\thead{Nó} & \thead{O que faz} & \thead{Modelo} \\
+\midrule
+\texttt{facts} & Monta os fatos da ocorrência (item, linha, período, valor) e o gráfico base de comparação. & Não \\
+\texttt{retrieve} & Gera o embedding do caso, busca no pgvector os casos parecidos e a reincidência e junta exemplos que analistas já aceitaram. & Embedding \\
+\texttt{grade} & Decide a rota: a (há relatório concluído do mesmo item), b (há casos parecidos) ou c (nenhum). & Não \\
+\texttt{compose\_without\_precedent} & Rota c: título e descrição só com os fatos, sem causa, e o checklist dos 4M. & Não \\
+\texttt{adapt\_review} & Propõe os campos da revisão (título, descrição, causa, tipo de defeito), cada um com fontes. & Forte \\
+\texttt{adapt\_tasks} & Propõe tarefas a partir das tarefas dos casos parecidos; se nenhum caso tem tarefas, não chama o modelo. & Forte \\
+\texttt{investigate} & Opcional (desligado por padrão): até 5 consultas de leitura sobre os casos recuperados; o resultado só vai ao registro técnico. & Forte \\
+\texttt{critique} & Recusa o que não cita fonte válida, traz número ou data fora das entradas, usa valor inválido ou estoura limite, e qualquer causa na rota c. A certeza da causa é fixada em código como hipótese. & Não \\
+\texttt{finalize} & Monta e valida o resultado final. & Não \\
+\end{tabularx}
+\end{table}
+
+As três rotas mudam o que o grafo pode afirmar. Na \textbf{rota a} já existe um relatório concluído do mesmo item (reincidência); na \textbf{rota b} há casos parecidos; na \textbf{rota c} não há nenhum, e então o texto só repete os fatos, sem causa. Se a crítica recusa algo, o grafo volta uma única vez a \texttt{adapt\_review} com a lista de erros; na segunda passagem, o que continua recusado é descartado e aparece como descartado no resultado.
+
+\Needspace{10\baselineskip}
+\subsection{Criação de tarefas para um relatório}
+
+Quando a pessoa pede propostas de tarefas para um relatório que já existe (\texttt{POST /v1/task-proposals}), o serviço segue uma sequência curta, sem LangGraph e sem checkpoint: se o job falhar, a nova tentativa recomeça do início. A regra é a mesma da pré-análise: só se propõe uma tarefa se ela se apoia em tarefas de casos parecidos. Sem caso parecido, ou com casos que não têm tarefas, o serviço não chama o modelo e devolve uma pergunta ao analista. Tarefas que o relatório já tem são removidas, e cada proposta recebe uma chave estável (\texttt{proposal\_key}), calculada do título e das fontes.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-3.2cm\relax,keepaspectratio]{img/diagramas/agente-g2}
+\caption{Máquina de estados da criação de tarefas para um relatório.}\label{fig:agente-g2}
+\end{figure}
+
+\Needspace{10\baselineskip}
+\subsection{Ciclo de vida do job}
+
+Os jobs da pré-análise e das propostas de tarefas usam a mesma fila no PostgreSQL. A API aceita o pedido com uma chave de idempotência e responde \texttt{202}. O worker pega o job mais antigo com \texttt{FOR UPDATE SKIP LOCKED}, então vários workers não disputam o mesmo. Falhas que podem se repetir devolvem o job à fila com espera crescente de 30 segundos, 2 minutos e 10 minutos, até 3 tentativas. Um job cujo worker parou de responder é retomado por outro; se parou na última tentativa, é marcado como falho.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-3.2cm\relax,keepaspectratio]{img/diagramas/agente-g3}
+\caption{Ciclo de vida de um job do agente.}\label{fig:agente-g3}
+\end{figure}
+
+\Needspace{10\baselineskip}
+\subsection{RAG da consulta}
+
+A consulta é um RAG: antes de escrever, o sistema recupera casos da \textbf{memória}, que reúne as análises aprovadas. A resposta é montada só com o que foi recuperado. O fluxo é fixo, e o modelo não escolhe o que fazer: reescrever a pergunta, buscar, decidir se há caso bom o bastante, escrever e verificar. A consulta responde dentro da própria requisição (\texttt{POST /v1/chat}) e tem poucas vagas simultâneas; se estiverem ocupadas, o serviço responde que está ocupado.
+
+\Needspace{8\baselineskip}
+\subsubsection*{Indexação e pgvector}
+
+Cada análise aprovada vira uma linha em \texttt{cases}, com os campos usados em filtros e o snapshot completo em JSONB. O texto do caso (título, defeito, família 4M, descrição, causas, porquês e tarefas) é calculado em código e vira um vetor, guardado em \texttt{case\_embeddings} numa coluna \texttt{vector} do pgvector. Um índice HNSW com distância de cosseno (\texttt{m = 16}, \texttt{ef\_construction = 64}) acelera a busca dos vizinhos mais próximos. O hash do texto evita gerar de novo o vetor de um caso que não mudou, e a busca só considera vetores do modelo de embeddings em uso.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-3.2cm\relax,keepaspectratio]{img/diagramas/agente-ri}
+\caption{Indexação: da análise aprovada ao vetor no pgvector.}\label{fig:agente-ri}
+\end{figure}
+
+\Needspace{8\baselineskip}
+\subsubsection*{Busca híbrida, fusão e reranking}
+
+A pergunta é reescrita por um modelo rápido, que devolve o texto de busca e filtros (item, linha, defeito, período). Um filtro só vale se existir algum caso com aquele valor exato; os que o modelo inventa são descartados. Em seguida, duas buscas rodam com os mesmos filtros e trazem 30 casos cada:
+
+\begin{itemize}
+\item \textbf{Léxica (BM25):} pontua as palavras, e mantém códigos de item, linhas e códigos de relatório como termos exatos.
+\item \textbf{Semântica (pgvector):} compara o vetor da pergunta com os vetores dos casos pela distância de cosseno.
+\end{itemize}
+
+As duas listas são fundidas por \textbf{RRF} (Reciprocal Rank Fusion, com k = 60): cada caso soma 1/(60 + posição) em cada lista, o que dispensa pesos e normalização. Se o servidor de embeddings estiver fora, a consulta segue só pela busca léxica.
+
+O \textbf{reranking} é um segundo estágio opcional, desligado por padrão: um cross-encoder, servido por uma rota \texttt{/rerank} do servidor de modelos, pontua cada par de pergunta e caso e reordena os candidatos. Só se liga depois que a avaliação de recuperação (\texttt{eval/retrieval.py}) mostrar ganho, porque um reranker também sobe casos parecidos que enganam o redator. Se ele falhar, vale a ordem da fusão.
+
+Um caso só chega ao redator se estiver perto o bastante. \textbf{Com reranker}, a nota absoluta precisa ser de pelo menos 0,3. \textbf{Sem reranker}, basta a similaridade de cosseno ser de pelo menos 0,5 ou as palavras da pergunta cobrirem ao menos metade do caso. No máximo 6 casos seguem; se nenhum passa, a resposta é \texttt{no\_precedent} e o redator nem é chamado.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-3.2cm\relax,keepaspectratio]{img/diagramas/agente-rs}
+\caption{Busca híbrida da consulta, com pgvector, BM25, fusão e reranking.}\label{fig:agente-rs}
+\end{figure}
+
+\Needspace{8\baselineskip}
+\subsubsection*{Resposta e grounding}
+
+O redator (modelo forte) recebe cada caso resumido ao que responde a pergunta e devolve um resumo e afirmações, cada uma com os casos que a sustentam. O \textbf{grounding} é feito em código, depois do modelo:
+
+\begin{itemize}
+\item a afirmação cita ao menos um caso que foi de fato oferecido ao redator (citar um caso que não foi oferecido invalida a fonte);
+\item nenhum número ou data aparece sem estar nos casos ou na conversa, e o texto cabe em 1000 caracteres;
+\item o resumo também é conferido contra números inventados.
+\end{itemize}
+
+Se alguma afirmação é recusada, o redator tenta uma segunda vez, recebendo a lista de erros. Ao final, as afirmações recusadas ficam em \texttt{discarded}, com o motivo, e o resultado tem um de três estados: \texttt{answered} (ao menos uma afirmação válida, com as fontes citadas), \texttt{no\_valid\_answer} (há casos, mas nenhuma afirmação se sustenta; só as fontes são mostradas) e \texttt{no\_precedent}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=\dimexpr\textheight-3.2cm\relax,keepaspectratio]{img/diagramas/agente-rb}
+\caption{Resposta da consulta e verificação de grounding.}\label{fig:agente-rb}
+\end{figure}
+
+\Needspace{8\baselineskip}
+\subsubsection*{A busca da pré-análise é outra}
+
+A pré-análise não usa BM25 nem reranking. Ela procura casos que compartilham campos com a ocorrência (mesmo item, tipo, linha, defeito e família de causa) e os mais próximos pelo pgvector, e pontua tudo com pesos: item 5, tipo 2, linha 2, defeito 2, família de causa 1, texto até 2 e boa prática 1. O resultado perde metade do valor a cada 12 meses e é multiplicado pela utilidade do caso, que aprende com as decisões das pessoas; um caso marcado como "não é parecido" perde metade da nota. Um caso só vira precedente se tiver relevância mínima de 3,0 e algo em comum além do contexto (mesmo item, mesmo defeito ou texto parecido).
+

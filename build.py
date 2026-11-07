@@ -41,6 +41,15 @@ DEFAULT_CONFIG: Dict[str, Any] = {
             "passes": 2,
             "description": "Guia Rápido de Uso multi-página (classe book, sumário, capítulos em caps/)",
         },
+        "guia-usuario": {
+            "name": "Guia-Usuario-Hanaro",
+            "directory": "modelos/Guia-Usuario-Hanaro",
+            "entrypoint": "guia-usuario.tex",
+            "output_name": "guia-usuario-hanaro.pdf",
+            "output_subfolder": "Guia-Usuario-Hanaro",
+            "passes": 2,
+            "description": "Guia do Usuário do Hanaro (classe book; arquitetura e inteligência artificial)",
+        },
         "flyer": {
             "name": "Flyer",
             "directory": "modelos/Flyer",
@@ -501,6 +510,7 @@ def cli(
     Comandos e ações:
       uv run build                     -> Compila todos os relatórios para a pasta dist/
       uv run build apostila            -> Compila somente o Guia Rápido (Apostila)
+      uv run build guia-usuario        -> Compila o Guia do Usuário do Hanaro
       uv run build flyer               -> Compila somente o Flyer A3
       uv run build onepage             -> Compila o OnePage LG Sumarização
       uv run build status-report       -> Compila o Status Report semanal de equipe
