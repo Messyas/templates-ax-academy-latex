@@ -5,13 +5,16 @@
 %%
 %% Compilar:  uv run build demoday-focado
 %%
-%% ESTRUTURA -- 7 slides focados
+%% ESTRUTURA -- 10 slides focados
 %%   1 Capa . 2 Equipe . 3 Contextualizacao . 4 Objetivo geral .
-%%   5 Sistema em Deploy (Intranet LG :4203) .
-%%   6 Resultados esperados . 7 Encerramento
+%%   5 Dashboard Executivo (Deploy Intranet LG :4203) .
+%%   6 Base de Scrap & Rastreabilidade .
+%%   7 Central de Alertas & Gestão de Desvios .
+%%   8 Assistente de IA (Agentes ReAct & Memória) .
+%%   9 Resultados esperados . 10 Encerramento
 %%
 %% NOTA: Os slides "Escopo do MVP" e "A Marca Hanaro" foram suprimidos
-%% nesta versão focada para uma apresentação executiva mais direta e objetiva.
+%% nesta versão focada para dar espaço à demonstração real das telas do sistema.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[rodape]{hanarokickoff}
@@ -21,6 +24,13 @@
 %  A classe traz "Powered by AX Academy · Digital Transformation" na capa;
 %  aqui a assinatura fica so na marca.
 \dxipowered{\textit{Powered by} \textbf{AX Academy}}
+
+%% Moldura sutil para capturas de tela do sistema
+\newcommand{\telaslide}[1]{%
+  \begin{tikzpicture}[baseline=0]
+    \node[draw=dxicinza!80, line width=0.6pt, rounded corners=3pt, inner sep=0pt]
+      {\includegraphics[width=16.8cm]{telas/#1}};
+  \end{tikzpicture}}
 
 %% Cartao de contribuicao do slide de resultados. Tres deles formam a fileira:
 %% 3 x 8,5 + 2 x 0,9 = 27,3 cm, dentro dos 27,4 uteis.
@@ -111,54 +121,130 @@
 
 
 %% ---------------------------------------------------------------- SLIDE  5 --
-%% Sistema em deploy na intranet LG (:4203) e validacao de PoC
-\begin{dxiconteudo}[semdeco]{SISTEMA EM DEPLOY}
+\begin{dxiconteudo}[semdeco]{DASHBOARD EXECUTIVO}
 
 \vspace{-0.45cm}
-\dxicol{14.6}{%
-  \includegraphics[width=14.2cm]{prototipo/portal-desktop}
+\dxicol{17.2}{%
+  \telaslide{tela-dashboard.png}
 }%
-\dxicol{12.4}{%
-  {\dximont\bfseries\fontsize{15}{20}\selectfont\color{lgred}%
-   Ambiente em Produção (Intranet LG)\par}
+\dxicol{10.2}{%
+  {\dximont\bfseries\fontsize{14}{18}\selectfont\color{lgred}%
+   Deploy na Intranet LG\par}
 
-  \vspace{0.35em}
-  {\dxiurb\fontsize{11.5}{15}\selectfont\color{dxinavy!85}
+  \vspace{0.30em}
+  {\dxiurb\fontsize{11}{14}\selectfont\color{dxinavy!85}
    Sistema implantado e acessível na rede interna:\\
    \textbf{\color{lgred}Intranet LG \textbullet\ Porta 4203}\par}
 
   \vspace{0.45em}
-  {\dximont\bfseries\fontsize{12}{16}\selectfont\color{dxinavy}%
-   Funcionalidades ativas\par}
-  \vspace{0.2em}
-  {\dxiurb\fontsize{11}{14.5}\selectfont\color{dxinavy!85}
-  \begin{dxilista}[hanaroverde]
-    \item IF Cost acumulado contra o \textbf{target}, com o \textit{gap} em
-          dinheiro e em pontos percentuais.
-    \item \textbf{Target $\times$ realizado} mensal, com histórico comparativo
-          entre anos na mesma escala.
-    \item Distribuição por \textbf{produto e área}, Top 10 de linhas, modelos
-          e componentes e \textbf{Top 5 ofensores}.
-    \item \textit{Toggles} de \textbf{impacto absoluto} e de \textbf{valor
-          monetário}, prontos para exibição em TVs de fábrica.
-  \end{dxilista}\par}
-
-  \vspace{0.40em}
-  {\dximont\bfseries\fontsize{12}{16}\selectfont\color{dxinavy}%
-   Validação \& Status dos Agentes\par}
+  {\dximont\bfseries\fontsize{12}{15}\selectfont\color{dxinavy}%
+   Monitoramento em Tempo Real\par}
   \vspace{0.20em}
-  {\dxiurb\fontsize{10}{13.5}\selectfont\color{dxinavy!85}
-   $\bullet$~\textbf{Assistente ReAct (LangGraph):} Fluxo \textbf{aprovado visualmente}
-   pelo Gerente da Produção (Leandro Corazza) em fase de PoC. O agente em si está em
-   homologação para deploy produtivo.\\[2pt]
-   $\bullet$~\textbf{Impedimento RPA:} Contas aguardam autorização de acesso ao GERP;
-   ingestão operando por carga de planilha.\par}
+  {\dxiurb\fontsize{10.5}{14}\selectfont\color{dxinavy!85}
+  \begin{dxilista}[hanaroverde]
+    \item \textbf{IF Cost acumulado} contra a meta, com desvio em dinheiro e pontos percentuais.
+    \item \textbf{Target $\times$ realizado mensal}, comparado ao ano anterior na mesma escala.
+    \item \textbf{Pareto completo}: Top 10 produtos/áreas (BM, TV, MNT, AV, VS), modelos e componentes.
+    \item \textbf{Modo TV}: \textit{toggles} de privacidade e visão monetária para chão de fábrica.
+  \end{dxilista}\par}
 }
 
 \end{dxiconteudo}
 
 
 %% ---------------------------------------------------------------- SLIDE  6 --
+\begin{dxiconteudo}[semdeco]{BASE DE SCRAP \& OPERAÇÃO}
+
+\vspace{-0.45cm}
+\dxicol{17.2}{%
+  \telaslide{tela-base-scrap.png}
+}%
+\dxicol{10.2}{%
+  {\dximont\bfseries\fontsize{14}{18}\selectfont\color{lgred}%
+   Rastreabilidade Operacional\par}
+
+  \vspace{0.30em}
+  {\dxiurb\fontsize{11}{14}\selectfont\color{dxinavy!85}
+   Substituição das planilhas manuais por \textbf{base transacional consolidada}.\par}
+
+  \vspace{0.45em}
+  {\dximont\bfseries\fontsize{12}{15}\selectfont\color{dxinavy}%
+   Governança do Registro\par}
+  \vspace{0.20em}
+  {\dxiurb\fontsize{10.5}{14}\selectfont\color{dxinavy!85}
+  \begin{dxilista}[hanaroverde]
+    \item Detalhamento por \textbf{Organização} (NW1, NWK, NWH), data, item e ordem.
+    \item Valores monetários em dólar e unidades físicas de perda por componente.
+    \item Tipificação de defeito: \textit{Qualidade, Montagem, Componente, Processo}.
+    \item \textbf{Status validado} (Revisado) pelo gestor da produção com carimbo de auditoria.
+  \end{dxilista}\par}
+}
+
+\end{dxiconteudo}
+
+
+%% ---------------------------------------------------------------- SLIDE  7 --
+\begin{dxiconteudo}[semdeco]{CENTRAL DE ALERTAS}
+
+\vspace{-0.45cm}
+\dxicol{17.2}{%
+  \telaslide{tela-alertas.png}
+}%
+\dxicol{10.2}{%
+  {\dximont\bfseries\fontsize{14}{18}\selectfont\color{lgred}%
+   Detecção de Desvios\par}
+
+  \vspace{0.30em}
+  {\dxiurb\fontsize{11}{14}\selectfont\color{dxinavy!85}
+   Notificações geradas automaticamente por \textbf{regras de corte financeiro}.\par}
+
+  \vspace{0.45em}
+  {\dximont\bfseries\fontsize{12}{15}\selectfont\color{dxinavy}%
+   Categorização por Severidade\par}
+  \vspace{0.20em}
+  {\dxiurb\fontsize{10.5}{14}\selectfont\color{dxinavy!85}
+  \begin{dxilista}[hanaroverde]
+    \item \textbf{Crítico}: perdas de alto valor (ex: Painel LCD com US\$ 6.107,79 contra teto de US\$ 5.000).
+    \item \textbf{Relevante / Alerta}: desvios pontuais (ex: Circuito de TV com US\$ 6.400,89 vs limite US\$ 1.000).
+    \item Controle de leitura (\textit{Lido / Não lido}) e encaminhamento imediato para análise de causa.
+  \end{dxilista}\par}
+}
+
+\end{dxiconteudo}
+
+
+%% ---------------------------------------------------------------- SLIDE  8 --
+\begin{dxiconteudo}[semdeco]{ASSISTENTE DE IA (REACT)}
+
+\vspace{-0.45cm}
+\dxicol{17.2}{%
+  \telaslide{tela-assistente.png}
+}%
+\dxicol{10.2}{%
+  {\dximont\bfseries\fontsize{14}{18}\selectfont\color{lgred}%
+   Decisão Human-in-the-Loop\par}
+
+  \vspace{0.30em}
+  {\dxiurb\fontsize{11}{14}\selectfont\color{dxinavy!85}
+   Agentes inteligentes ReAct sobre \textbf{LangGraph} formulando planos de ação.\par}
+
+  \vspace{0.45em}
+  {\dximont\bfseries\fontsize{12}{15}\selectfont\color{dxinavy}%
+   Ações \& Memória Histórica\par}
+  \vspace{0.20em}
+  {\dxiurb\fontsize{10.5}{14}\selectfont\color{dxinavy!85}
+  \begin{dxilista}[hanaroverde]
+    \item Propostas em 3 níveis: \textbf{Contenção}, \textbf{Corretiva} e \textbf{Preventiva}.
+    \item Controle do analista: botões \textit{Aceitar}, \textit{Editar} e \textit{Rejeitar}.
+    \item \textbf{Busca Semântica}: resgate de casos similares passados (ex: perdas de TV).
+    \item \textbf{Validação de PoC}: fluxo aprovado visualmente pelo Gerente da Produção (Leandro Corazza).
+  \end{dxilista}\par}
+}
+
+\end{dxiconteudo}
+
+
+%% ---------------------------------------------------------------- SLIDE  9 --
 %% Continua "esperados" de proposito: o sistema ainda nao esta em producao e a
 %% frente de RPA esta bloqueada, entao anunciar resultado realizado seria falso.
 %% UM destaque so -- a reducao de horas -- e tres contribuicoes.
@@ -198,7 +284,7 @@
 \end{dxiconteudo}
 
 
-%% ---------------------------------------------------------------- SLIDE  7 --
+%% ---------------------------------------------------------------- SLIDE 10 --
 \dxidivisor[Cliente: LG Electronics · Gestão de Produção]
   {\fontsize{38}{46}\selectfont OBRIGADO / THANK YOU /
    {\dxihangul\bfseries 감사합니다}}
@@ -206,4 +292,3 @@
    IFAM · INOVA · AX Academy.}
 
 \end{document}
-
