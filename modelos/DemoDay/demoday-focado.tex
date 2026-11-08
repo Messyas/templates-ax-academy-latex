@@ -5,12 +5,11 @@
 %%
 %% Compilar:  uv run build demoday-focado
 %%
-%% ESTRUTURA -- 8 slides focados
+%% ESTRUTURA -- 7 slides focados
 %%   1 Capa . 2 Equipe . 3 Contextualizacao . 4 O Sistema Hanaro .
 %%   5 Dashboard Executivo (Indicadores & Metas de IF Cost) .
-%%   6 Base de Scrap & Rastreabilidade .
-%%   7 Assistente de IA (Planos de Ação & Memória) .
-%%   8 Resultados do projeto
+%%   6 Base de Scrap & Assistente de IA .
+%%   7 Resultados do projeto
 %%
 %% NOTA: Os slides "Escopo do MVP" e "A Marca Hanaro" foram suprimidos
 %% nesta versão focada para dar espaço à demonstração real das telas do sistema.
@@ -24,11 +23,18 @@
 %  aqui a assinatura fica so na marca.
 \dxipowered{\textit{Powered by} \textbf{AX Academy}}
 
-%% Moldura sutil para capturas de tela do sistema
+%% Moldura sutil para capturas de tela do sistema (tela cheia/meia tela)
 \newcommand{\telaslide}[1]{%
   \begin{tikzpicture}[baseline=0]
     \node[draw=dxicinza!80, line width=0.6pt, rounded corners=3pt, inner sep=0pt]
       {\includegraphics[width=16.8cm]{telas/#1}};
+  \end{tikzpicture}}
+
+%% Moldura para capturas de tela lado a lado
+\newcommand{\telamini}[1]{%
+  \begin{tikzpicture}[baseline=0]
+    \node[draw=dxicinza!80, line width=0.5pt, rounded corners=2.5pt, inner sep=0pt]
+      {\includegraphics[width=13.4cm]{telas/#1}};
   \end{tikzpicture}}
 
 %% Cartao de contribuicao do slide de resultados. Tres deles formam a fileira:
@@ -176,30 +182,40 @@
 
 
 %% ---------------------------------------------------------------- SLIDE  6 --
-\begin{dxiconteudo}[semdeco]{BASE DE SCRAP \& OPERAÇÃO}
+\begin{dxiconteudo}[semdeco]{BASE DE SCRAP \& ASSISTENTE DE IA}
 
 \vspace{-0.45cm}
-\dxicol{17.2}{%
-  \telaslide{tela-base-scrap.png}
-}%
-\dxicol{10.2}{%
-  {\dximont\bfseries\fontsize{14}{18}\selectfont\color{lgred}%
-   Rastreabilidade Operacional\par}
+
+\dxicol{13.4}{%
+  \telamini{tela-base-scrap.png}
 
   \vspace{0.30em}
-  {\dxiurb\fontsize{11}{14}\selectfont\color{dxinavy!85}
-   Substituiu o envio de planilhas por \textbf{base transacional unificada e auditável}.\par}
+  {\dximont\bfseries\fontsize{13}{16}\selectfont\color{lgred}%
+   Base de Scrap \& Rastreabilidade\par}
 
-  \vspace{0.45em}
-  {\dximont\bfseries\fontsize{12}{15}\selectfont\color{dxinavy}%
-   Governança dos Registros\par}
   \vspace{0.20em}
   {\dxiurb\fontsize{10.5}{14}\selectfont\color{dxinavy!85}
   \begin{dxilista}[hanaroverde]
-    \item \textbf{Rastreou transações} por fábrica, data, código de item e ordem de produção.
-    \item \textbf{Consolidou perdas} em valor financeiro (US\$) e em unidades descartadas.
-    \item \textbf{Categorizou defeitos} por Qualidade, Montagem, Componente e Processo.
-    \item \textbf{Integrou fluxo de auditoria} com validação e revisão pelo gestor da produção.
+    \item \textbf{Base unificada}: substituiu o envio de planilhas manuais.
+    \item \textbf{Rastreabilidade}: registros por fábrica, data, item e valor (US\$).
+    \item \textbf{Tipificação}: categorização por defeito de qualidade e montagem.
+    \item \textbf{Auditoria}: conferência e status revisado pelo gestor da produção.
+  \end{dxilista}\par}
+}%
+\dxicol{13.4}{%
+  \telamini{tela-assistente.png}
+
+  \vspace{0.30em}
+  {\dximont\bfseries\fontsize{13}{16}\selectfont\color{lgred}%
+   Assistente de IA \& Planos de Ação\par}
+
+  \vspace{0.20em}
+  {\dxiurb\fontsize{10.5}{14}\selectfont\color{dxinavy!85}
+  \begin{dxilista}[hanaroverde]
+    \item \textbf{Planos em 3 níveis}: propostas de Contenção, Correção e Prevenção.
+    \item \textbf{Human-in-the-loop}: botões para Aceitar, Editar ou Rejeitar ações.
+    \item \textbf{Memória semântica}: resgate automático de casos parecidos.
+    \item \textbf{Validação de PoC}: fluxo aprovado visualmente pela Gerência de Produção.
   \end{dxilista}\par}
 }
 
@@ -207,37 +223,6 @@
 
 
 %% ---------------------------------------------------------------- SLIDE  7 --
-\begin{dxiconteudo}[semdeco]{ASSISTENTE DE IA}
-
-\vspace{-0.45cm}
-\dxicol{17.2}{%
-  \telaslide{tela-assistente.png}
-}%
-\dxicol{10.2}{%
-  {\dximont\bfseries\fontsize{14}{18}\selectfont\color{lgred}%
-   Suporte Analítico com IA\par}
-
-  \vspace{0.30em}
-  {\dxiurb\fontsize{11}{14}\selectfont\color{dxinavy!85}
-   Estruturou arquitetura de agentes para diagnóstico e recomendação de ações.\par}
-
-  \vspace{0.45em}
-  {\dximont\bfseries\fontsize{12}{15}\selectfont\color{dxinavy}%
-   Entregas e Validação\par}
-  \vspace{0.20em}
-  {\dxiurb\fontsize{10.5}{14}\selectfont\color{dxinavy!85}
-  \begin{dxilista}[hanaroverde]
-    \item \textbf{Formulou planos estruturados} em 3 níveis: Contenção, Correção e Prevenção.
-    \item \textbf{Assegurou governança humana} com botões para Aceitar, Editar ou Rejeitar.
-    \item \textbf{Resgatou histórico de desvios} por busca semântica em base de memória.
-    \item \textbf{Validou fluxo em PoC}, com aprovação visual da Gerência de Produção.
-  \end{dxilista}\par}
-}
-
-\end{dxiconteudo}
-
-
-%% ---------------------------------------------------------------- SLIDE  8 --
 %% UM destaque so -- a reducao de horas -- e tres contribuicoes focadas em IA e governanca.
 \begin{dxiconteudo}{RESULTADOS DO PROJETO}
 
