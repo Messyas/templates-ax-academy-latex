@@ -1,0 +1,207 @@
+\chapter{Suporte, Gestão de Usuários e Uso da Plataforma}
+
+\label{cap:manual-8}
+
+\section{Abertura de Chamados e Caixa de Entrada de Suporte}
+
+\subsection*{Objetivo}
+
+Permitir que qualquer colaborador envie dúvidas, sugestões ou relatos de problemas diretamente pelo menu \textbf{Ajuda e suporte}, e oferecer aos Administradores uma \textbf{Caixa de entrada} para consultar as solicitações enviadas.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Estar conectado ao sistema.
+\end{itemize}
+
+\passo[0.50142/0.35814/0.13314/0.31783,0.50142/0.62791/0.13314/0.59690,0.80737/0.90233/0.78470/0.81395]{completo/65-fale-com-suporte}{Enviar solicitação ao suporte}{%
+\begin{elementos}
+\item \textbf{Assunto.} Em Ajuda e suporte, resuma a necessidade.
+\item \textbf{Como podemos ajudar?} Descreva a dúvida, sugestão ou problema. O campo aceita até 5.000 caracteres.
+\item \textbf{Enviar solicitação.} Envie a mensagem à equipe de suporte.
+\end{elementos}
+}
+
+\passo[0.89560/0.22373/0.85714/0.16949,0.38462/0.51977/0.38462/0.51977]{completo/66-solicitacoes-suporte}{Consultar solicitações de suporte}{
+Com perfil Administrador, abra Suporte no menu lateral para acessar Solicitações de suporte.\par
+\begin{elementos}
+\item \textbf{Buscar solicitações.} Use nome, e-mail ou assunto para localizar um chamado.
+\item \textbf{Caixa de entrada.} Consulte as mensagens recebidas. Se a lista estiver vazia, limpe a busca para conferir todas as solicitações.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Assunto} & Sim & Texto curto & Resumo do tema da solicitação. \\
+\rowcolor{guiaareia!70} \textbf{Como podemos ajudar?} & Sim & Texto longo (até 5.000 caracteres) & Explicação detalhada da dúvida, sugestão ou ocorrência. \\
+\rowcolor{white} \textbf{Buscar solicitações} & Não & Texto livre & Filtra a caixa de entrada do administrador por nome, e-mail ou assunto. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Nenhuma solicitação encontrada — As mensagens enviadas aparecerão nesta lista.}\par
+\textbf{Causa provável:} Ainda não há chamados abertos ou o texto digitado na busca não encontrou correspondência.\par
+\textbf{Como resolver:} Limpe o campo \textbf{Buscar solicitações} para ver toda a caixa de entrada.
+\end{remark}
+
+\section{Cadastro e Gestão de Usuários}
+
+\subsection*{Objetivo}
+
+Cadastrar novos colaboradores no sistema, definir seus cargos de acesso (\tech{Analista}, \tech{Gestor} ou \tech{Admin}), ativar ou desativar contas e manter os dados da equipe atualizados. Tela exclusiva do perfil \textbf{Administrador}.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Estar conectado com perfil de \textbf{Administrador}.
+\end{itemize}
+
+\passo[0.45109/0.54545/0.45109/0.54545,0.92174/0.10227/0.90761/0.06818,0.74130/0.50341/0.74457/0.44318,0.88587/0.50341/0.85326/0.56818,0.92065/0.50341/0.96196/0.56818]{completo/67-usuarios}{Consultar os usuários}{%
+\begin{elementos}
+\item \textbf{Tabela.} Em Usuários, confira nome, usuário, e-mail, gestor direto e cargo de cada conta.
+\item \textbf{Novo usuário.} Abra o formulário de cadastro, detalhado no passo~\ref{passo:57}.
+\item \textbf{Ativo.} Confira o status da conta na chave correspondente.
+\item \textbf{Editar.} Use o lápis da linha para alterar os dados.
+\item \textbf{Excluir.} Use a lixeira da conta quando a remoção for necessária e autorizada.
+\end{elementos}
+}
+
+\passo[0.50000/0.18171/0.13889/0.13415,0.50000/0.32561/0.13889/0.28049,0.50000/0.46707/0.13889/0.42683,0.50000/0.61098/0.13889/0.57317,0.50000/0.75488/0.13889/0.70732,0.82778/0.91098/0.75000/0.85366]{completo/68-novo-usuario}{Cadastrar novo usuário}{%
+\begin{elementos}
+\item \textbf{Nome.} Informe o nome de exibição do colaborador, de 2 a 30 caracteres.
+\item \textbf{Usuário.} Informe de 2 a 20 caracteres, apenas letras minúsculas e números, sem espaços ou símbolos.
+\item \textbf{E-mail.} Informe o e-mail corporativo, com até 50 caracteres.
+\item \textbf{Cargo.} Escolha Analista, Gestor ou Admin.
+\item \textbf{Senha inicial.} Use ao menos 12 caracteres. A senha não deve conter nome, usuário ou e-mail do colaborador.
+\item \textbf{Criar usuário.} Conclua o cadastro.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Nome} & Sim & Texto (2 a 30 caracteres) & Nome do colaborador exibido nas telas, tarefas e relatórios. \\
+\rowcolor{guiaareia!70} \textbf{Usuário} & Sim & Letras minúsculas e números (2 a 20 caracteres) & Identificação usada no login; não aceita espaços, acentos ou letras maiúsculas. \\
+\rowcolor{white} \textbf{E-mail} & Sim & Endereço de e-mail (até 50 caracteres) & E-mail corporativo vinculado ao colaborador. \\
+\rowcolor{guiaareia!70} \textbf{Cargo} & Sim & Campo de seleção (\tech{Analista}, \tech{Gestor}, \tech{Admin}) & Define quais telas e ações o colaborador poderá acessar. \\
+\rowcolor{white} \textbf{Senha inicial} & Sim & Texto oculto (12 a 72 caracteres) & Deve ter no mínimo 12 caracteres, ser difícil de adivinhar e não conter o nome, usuário ou e-mail da pessoa. \\
+\rowcolor{guiaareia!70} \textbf{STATUS (``Ativo'')} & Sim & Chave liga/desliga & Permite desativar ou reativar imediatamente o acesso do colaborador. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Aviso de senha muito simples ou fácil de adivinhar}\par
+\textbf{Causa provável:} A senha informada tem menos de 12 caracteres, usa uma sequência muito comum ou contém partes do nome, usuário ou e-mail do colaborador.\par
+\textbf{Como resolver:} Crie uma senha com pelo menos 12 caracteres sem repetir o nome ou login do usuário.
+\end{remark}
+
+\begin{remark}
+\textbf{Erro ao validar o campo Usuário ou Nome}\par
+\textbf{Causa provável:} Foram digitadas letras maiúsculas ou espaços no campo \textbf{Usuário}, ou o \textbf{Nome} passou de 30 caracteres.\par
+\textbf{Como resolver:} Use apenas letras minúsculas e números no campo \textbf{Usuário} e abrevie nomes intermediários se ultrapassar 30 caracteres.
+\end{remark}
+
+\Needspace{190pt}
+\section{Uso da Plataforma e Configuração de Tempos Manuais}
+
+\subsection*{Objetivo}
+
+Acompanhar o tempo economizado pela equipe com o uso do sistema Hanaro (no dia, no mês e no ano), consultar a quantidade de acessos diários e ajustar os tempos médios que cada atividade levava antes da automação. Exclusivo para \textbf{Administradores}.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Estar conectado com perfil de \textbf{Administrador}.
+\end{itemize}
+
+\passo[0.50543/0.24309/0.50543/0.24309,0.49457/0.45635/0.49457/0.45635,0.50543/0.74033/0.50543/0.74033,0.92935/0.54144/0.89674/0.58564]{completo/69-uso-plataforma}{Consultar o uso da plataforma}{%
+\begin{elementos}
+\item \textbf{Tempo economizado.} Em Uso da plataforma, compare Hoje, Este mês e Este ano, observando tempo atual e manual estimado.
+\item \textbf{Utilização.} Confira Acessos, Usuários ativos, Coletas concluídas e Relatórios gerados.
+\item \textbf{Acessos por dia.} Acompanhe a evolução de utilização.
+\item \textbf{Período.} Alterne a exibição entre os últimos 30 e 90 dias.
+\end{elementos}
+}
+
+\passo[0.50000/0.35397/0.13889/0.30159,0.50000/0.54444/0.13889/0.49206,0.50000/0.73651/0.13889/0.68254,0.82222/0.88413/0.75000/0.95238]{completo/70-tempos-manuais}{Configurar os tempos manuais}{
+Em Uso da plataforma, clique em Configurar para abrir Configurar tempos manuais.\par%
+\begin{elementos}
+\item \textbf{Preparação da coleta.} Em Configurar tempos manuais, informe os minutos por tarefa, como 90 minutos.
+\item \textbf{Apresentação dos dados.} Informe a estimativa manual, como 45 minutos.
+\item \textbf{Criação de relatório.} Informe a estimativa para elaborar um relatório, como 120 minutos.
+\item \textbf{Salvar tempos.} Grave as estimativas usadas no cálculo de tempo economizado.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Preparação da coleta} & Sim & Número inteiro (\tech{minutos por tarefa}) & Tempo que era gasto manualmente para extrair e organizar cada carga de dados antes da automação. \\
+\rowcolor{guiaareia!70} \textbf{Apresentação dos dados} & Sim & Número inteiro (\tech{minutos por tarefa}) & Tempo que era gasto manualmente para atualizar planilhas e gráficos de indicadores. \\
+\rowcolor{white} \textbf{Criação de relatório} & Sim & Número inteiro (\tech{minutos por tarefa}) & Tempo que era gasto manualmente para montar e formatar cada relatório executivo. \\
+\rowcolor{guiaareia!70} \textbf{Período do gráfico (``30 dias'' / ``90 dias'')} & Não & Botões de opção & Muda o período exibido no gráfico de \textbf{Acessos por dia}. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Tempo economizado marcando ``0min''}\par
+\textbf{Causa provável:} Não houve coletas ou relatórios gerados no período consultado (como \tech{Hoje}) ou os valores em \textbf{Configurar tempos manuais} estão zerados.\par
+\textbf{Como resolver:} Clique em \textbf{\faCog{} Configurar} no canto superior direito e verifique se os minutos por tarefa estão preenchidos.
+\end{remark}
+
+\fimdecapitulo

@@ -1,0 +1,440 @@
+\chapter{Relatórios de Análise e Planos de Ação}
+
+\label{cap:manual-6}
+
+\section{Central de Relatórios}
+
+\subsection*{Objetivo}
+
+Listar e organizar todos os relatórios técnicos e planos de ação da fábrica, permitindo acompanhar o status, o andamento das tarefas (\tech{12/12}), a quantidade de análises vinculadas, o custo total do caso e o responsável.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Estar conectado ao sistema e acessar o menu lateral \textbf{Relatórios}.
+\end{itemize}
+
+\passo[0.17262/0.20000/0.17262/0.20000,0.96190/0.38182/0.93452/0.30000,0.48214/0.62182/0.48214/0.62182,0.94762/0.06364/0.88690/0.06364]{completo/35-relatorios}{Consultar os relatórios}{%
+Abra Relatórios no menu lateral.\par
+\begin{elementos}
+\item \textbf{Status.} Use Todos, Abertos, Em andamento ou Fechados para localizar os planos.
+\item \textbf{Filtros.} Refine a busca pelos relatórios.
+\item \textbf{Relatório.} Confira código e título, status, tarefas concluídas/total, análises vinculadas, custo do caso, prazo e responsável. Clique na linha para abrir o relatório.
+\item \textbf{Novo relatório.} Inicie o cadastro de um plano.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Abas de Status (``Todos'', ``Abertos'', ``Em andamento'', ``Fechados'')} & Não & Filtro rápido & Filtra a lista de relatórios de acordo com a situação atual de cada plano. \\
+\rowcolor{guiaareia!70} \textbf{CUSTO DO CASO} & Somente leitura & Valor em dólares (\tech{US\$}) & Soma automática dos custos de todas as análises de scrap vinculadas ao relatório. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Um relatório existente não aparece na lista}\par
+\textbf{Causa provável:} Alguma aba de status específica (como \tech{Abertos} ou \tech{Fechados}) está selecionada no topo.\par
+\textbf{Como resolver:} Clique na aba \textbf{Todos} para exibir todos os relatórios cadastrados.
+\end{remark}
+
+\section{Criação de Novo Relatório (Passo a Passo em 4 Etapas)}
+
+\subsection*{Objetivo}
+
+Guiar a criação de um novo relatório técnico em 4 etapas simples: escolha das análises de scrap revisadas, preenchimento dos dados básicos, investigação da causa raiz pelos \textbf{5 Porquês} e registro opcional das primeiras ações.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Existir ao menos \textbf{uma análise de scrap finalizada (``Revisado'')} na Base de Scrap.
+\end{itemize}
+
+\passo[0.49839/0.36413/0.09646/0.33696,0.17846/0.44674/0.09646/0.48913,0.92283/0.93478/0.87621/0.88043]{completo/36-novo-relatorio-analises}{Selecionar as análises do relatório}{%
+Em Relatórios, use Novo relatório para abrir a etapa 1 de 4.\par
+\begin{elementos}
+\item \textbf{Busca.} Localize uma análise revisada pelo título, tipo de scrap ou item.
+\item \textbf{Selecionar análises.} Marque pelo menos uma ocorrência. Os itens selecionados ficam destacados em rosa.
+\item \textbf{Continuar.} Avance para os dados do relatório.
+\end{elementos}
+}
+
+\passo[0.49839/0.40000/0.09646/0.36957,0.49839/0.56522/0.09646/0.57609,0.27331/0.70326/0.24116/0.77174,0.50000/0.70326/0.54662/0.77174,0.72347/0.70326/0.86817/0.77174,0.92283/0.93804/0.87621/0.88043]{completo/38-novo-relatorio-dados}{Preencher os dados do relatório}{%
+\begin{elementos}
+\item \textbf{Título.} Informe um título de até 240 caracteres.
+\item \textbf{Descrição.} Resuma o problema do relatório.
+\item \textbf{Responsável.} Selecione quem conduzirá o plano.
+\item \textbf{Prazo.} Informe a data de conclusão.
+\item \textbf{Etapa do plano.} Selecione a etapa atual, como Mapeamento de causas.
+\item \textbf{Continuar.} Avance para a análise da causa raiz.
+\end{elementos}
+}
+
+\passo[0.49839/0.56522/0.09646/0.54348,0.49839/0.81522/0.09646/0.81522,0.92283/0.95109/0.87621/0.89674]{completo/39-novo-relatorio-5-porques}{Preencher os 5 Porquês}{%
+\begin{elementos}
+\item \textbf{Porquês 1 a 3.} Preencha obrigatoriamente os três primeiros níveis, perguntando por que o problema ocorreu até identificar a causa raiz.
+\item \textbf{Porquês 4 e 5.} Use os campos opcionais para aprofundar a investigação, quando necessário.
+\item \textbf{Continuar.} Avance para as ações iniciais.
+\end{elementos}
+}
+
+\passo[0.23955/0.49239/0.12862/0.56522,0.90997/0.94022/0.86817/0.89130]{completo/40-novo-relatorio-acoes}{Adicionar ações iniciais}{
+\begin{elementos}
+\item \textbf{Adicionar ação.} Na etapa 4 de 4, cadastre as primeiras tarefas, se desejar. Você também poderá incluí-las depois, no relatório.
+\item \textbf{Criar relatório.} Conclua o cadastro com ou sem ações iniciais.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Análises vinculadas (Etapa 1)} & Sim (mínimo 1) & Caixas de marcação & Vincula ao relatório uma ou mais ocorrências já revisadas na Base de Scrap. \\
+\rowcolor{guiaareia!70} \textbf{Título * (Etapa 2)} & Sim & Texto (até 240 caracteres) & Nome principal do relatório e do plano de ação. \\
+\rowcolor{white} \textbf{Descrição (Etapa 2)} & Não & Texto livre & Resumo do contexto e objetivo do relatório. \\
+\rowcolor{guiaareia!70} \textbf{Responsável / Prazo (Etapa 2)} & Não & Seletor e data (\tech{AAAA/MM/DD}) & Definem quem responde pelo plano e a data-limite. A etapa do plano possui uma opção inicial que pode ser ajustada no seletor. \\
+\rowcolor{white} \textbf{Porquê 1, Porquê 2 e Porquê 3 (Etapa 3)} & Sim & Texto livre & Os 3 primeiros porquês são obrigatórios para registrar a cadeia de causa raiz. \\
+\rowcolor{guiaareia!70} \textbf{Porquê 4 e Porquê 5 (Etapa 3)} & Não & Texto livre & Campos complementares opcionais da análise de 5 Porquês. \\
+\rowcolor{white} \textbf{Ações iniciais (Etapa 4)} & Não & Lista de tarefas & Permite adiantar o cadastro de ações corretivas antes de abrir o relatório. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Botão "Continuar" bloqueado na Etapa 1}\par
+\textbf{Causa provável:} Nenhuma análise de scrap foi marcada na lista.\par
+\textbf{Como resolver:} Marque pelo menos uma análise revisada para liberar o avanço.
+\end{remark}
+
+\begin{remark}
+\textbf{Botão "Continuar" bloqueado na Etapa 3}\par
+\textbf{Causa provável:} Algum dos campos obrigatórios (\textbf{Porquê 1}, \textbf{Porquê 2} ou \textbf{Porquê 3}) está em branco.\par
+\textbf{Como resolver:} Preencha no mínimo os 3 primeiros motivos da investigação de causa.
+\end{remark}
+
+\section{Abas Visão geral e Investigação do Relatório}
+
+\subsection*{Objetivo}
+
+Acompanhar na aba \textbf{Visão geral} os indicadores financeiros e a lista de \textbf{Prontidão do relatório} (sete itens de verificação do preenchimento) e detalhar na aba \textbf{Investigação} a causa raiz, os 5 porquês e as análises vinculadas.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Estar com um relatório aberto na tela de \textbf{Relatórios}.
+\end{itemize}
+
+\passo[0.09036/0.19178/0.08434/0.10959,0.32771/0.24795/0.39157/0.31507,0.54578/0.24795/0.60843/0.31507,0.76506/0.19178/0.88554/0.10959,0.24699/0.61644/0.24699/0.61644]{completo/41-relatorio-visao-geral}{Consultar a visão geral}{%
+\begin{elementos}
+\item \textbf{Custo do caso.} Confira o custo consolidado das análises vinculadas.
+\item \textbf{Economia estimada.} Use Informar economia para registrar o valor esperado.
+\item \textbf{Redução observada.} Use Ver efeito para consultar a medição na base.
+\item \textbf{Evidências pendentes.} Confira o que falta registrar.
+\item \textbf{Prontidão do relatório.} Clique no item pendente para ir ao seu preenchimento: causa raiz, 4M, tarefa, medição antes/depois, mês do efeito ou resultados qualitativos.
+\end{elementos}
+}
+
+\passo[0.11257/0.08304/0.08383/0.04678,0.94371/0.19298/0.89222/0.15789,0.93293/0.34971/0.88024/0.40936,0.35329/0.74854/0.35329/0.74854,0.90898/0.75439/0.85629/0.83041]{completo/42-relatorio-investigacao}{Consultar a investigação}{%
+\begin{elementos}
+\item \textbf{Investigação.} Abra a aba do relatório.
+\item \textbf{Editar causa raiz.} Registre a definição final da causa.
+\item \textbf{Editar plano.} Revise a análise dos 5 Porquês.
+\item \textbf{Análises vinculadas.} Confira as ocorrências que compõem o relatório.
+\item \textbf{Caso BP.} Destaque uma ocorrência como boa prática para a apresentação exportada.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Prontidão do relatório (``1 de 7'' a ``7 de 7'')} & Somente leitura & Lista de verificação & Indica quais informações ainda faltam para completar o relatório. A lista é informativa e não impede salvar ou exportar o documento. \\
+\rowcolor{guiaareia!70} \textbf{Causa raiz} & Recomendado & Texto livre & Descrição definitiva da causa fundamental do problema. \\
+\rowcolor{white} \textbf{Botão ``\ensuremath{\heartsuit} Caso BP''} & Não & Botão de destaque & Marca a análise selecionada como estudo de caso em destaque para exportação em PDF e PowerPoint. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Itens pendentes na lista de Prontidão do relatório}\par
+\textbf{Causa provável:} Informações de causa raiz, tarefas ou medição de resultado ainda não foram salvas nas abas correspondentes.\par
+\textbf{Como resolver:} Clique sobre cada item desmarcado na lista \textbf{Prontidão do relatório} para abrir e preencher a seção faltante.
+\end{remark}
+
+\Needspace{190pt}
+\section{Gestão de Tarefas (Abas Lista, Quadro e Cronograma)}
+
+\subsection*{Objetivo}
+
+Cadastrar, atribuir responsáveis, acompanhar prazos e validar a conclusão das ações corretivas, preventivas e de contenção do relatório em três formatos de visualização: \textbf{Lista}, \textbf{Quadro} de colunas e \textbf{Cronograma} no tempo.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Estar dentro de um relatório aberto.
+\end{itemize}
+
+\passo[0.16407/0.07534/0.12575/0.02055,0.52096/0.22329/0.52096/0.22329,0.35329/0.74521/0.36527/0.83562,0.95329/0.74521/0.92814/0.83562]{completo/43-tarefas-lista}{Acompanhar tarefas em lista}{%
+\begin{elementos}
+\item \textbf{Lista.} Consulte as tarefas em formato de tabela.
+\item \textbf{Filtros.} Localize tarefas por busca, estado, tipo, responsável ou agrupamento.
+\item \textbf{Título da nova tarefa.} Digite a descrição curta da ação no campo inferior.
+\item \textbf{Adicionar.} Inclua a tarefa. A tabela apresenta departamento, 4M, responsável, estado, prioridade, prazo e os demais dados de acompanhamento.
+\end{elementos}
+}
+
+\passo[0.21557/0.07853/0.17365/0.02454,0.13413/0.25399/0.13413/0.25399,0.39401/0.25399/0.39401/0.25399,0.64192/0.25399/0.64192/0.25399,0.89222/0.25399/0.89222/0.25399]{completo/44-tarefas-quadro}{Acompanhar tarefas no quadro}{%
+\begin{elementos}
+\item \textbf{Quadro.} Abra a visão de cartões.
+\item \textbf{Planejada.} Identifique as ações ainda não iniciadas.
+\item \textbf{Em andamento.} Acompanhe as ações em execução.
+\item \textbf{Em validação.} Localize as tarefas aguardando aprovação.
+\item \textbf{Concluída.} Confira as ações finalizadas. Para cadastrar uma tarefa diretamente na primeira coluna, consulte o passo~\ref{passo:37}.
+\end{elementos}
+}
+
+\passo[0.48347/0.26667/0.44215/0.11111,0.11157/0.61333/0.09504/0.86667,0.23967/0.61333/0.27686/0.86667,0.32645/0.61333/0.45041/0.86667,0.85950/0.61333/0.81405/0.86667]{completo/45-tarefa-criacao-rapida}{Criar uma tarefa rapidamente}{%
+No Quadro, use Criar tarefa na coluna Planejada para abrir o formulário rápido.\par
+\begin{elementos}
+\item \textbf{Título.} Em Criar tarefa, descreva o que precisa ser feito.
+\item \textbf{Prioridade.} Escolha a prioridade pelo ícone correspondente.
+\item \textbf{Prazo.} Defina a data no ícone de calendário.
+\item \textbf{Responsável.} Selecione o responsável pela tarefa.
+\item \textbf{Confirmar.} Pressione Enter ou use o ícone de confirmação para criar o cartão na coluna Planejada.
+\end{elementos}
+}
+
+\passo[0.44000/0.84828/0.76000/0.96552]{completo/46-tarefa-validar-conclusao}{Validar a conclusão de tarefa}{%
+\begin{elementos}
+\item \textbf{Validar conclusão.} Com perfil Gestor, clique em Validar conclusão na tarefa que estiver na coluna Em validação. O cartão será movido para Concluída.
+\end{elementos}
+}
+
+\passo[0.49620/0.24571/0.05894/0.20000,0.49620/0.42857/0.05894/0.44000,0.38783/0.59314/0.19202/0.65714,0.86502/0.59314/0.91445/0.65714,0.49620/0.78171/0.32510/0.82857,0.05513/0.84800/0.04943/0.91429,0.52662/0.84800/0.59125/0.91429]{completo/47-nova-tarefa-dados}{Cadastrar os dados da tarefa}{%
+\begin{elementos}
+\item \textbf{Título.} Use Nova tarefa no relatório e informe o título da ação.
+\item \textbf{Descrição.} Explique o trabalho a executar.
+\item \textbf{Tipo de ação.} Selecione Não classificada, Contenção, Corretiva ou Preventiva.
+\item \textbf{Prioridade.} Defina o nível de prioridade.
+\item \textbf{Reaproveitar dados.} Aproveite a classificação de uma análise vinculada, quando aplicável.
+\item \textbf{4M.} Role um pouco para preencher a categoria completa.
+\item \textbf{Sintoma.} Preencha o sintoma ou mantenha o valor reaproveitado da análise.
+\end{elementos}
+\par\smallskip {\fontsize{8.2}{11}\selectfont\color{guiacinza}Os rótulos de 4M e Sintoma aparecem no limite inferior da captura. Role a janela para mostrar esses campos por inteiro e prossiga para responsável e prazo, no passo~\ref{passo:40}.\par}
+}
+
+\passo[0.27875/0.33708/0.06433/0.29213,0.76608/0.33708/0.90253/0.29213,0.27875/0.45618/0.06433/0.42135,0.76608/0.45618/0.90253/0.42135,0.51267/0.55618/0.51267/0.59551,0.14230/0.62921/0.08382/0.68539,0.51267/0.72135/0.59064/0.73034,0.51267/0.83146/0.59064/0.85393,0.92203/0.94382/0.88304/0.88764]{completo/48-nova-tarefa-responsavel-prazo}{Definir responsável, prazo e economia}{%
+\begin{elementos}
+\item \textbf{Responsável principal.} Selecione quem executará a tarefa.
+\item \textbf{Área responsável.} Informe a área, como Qualidade.
+\item \textbf{Início.} Defina a data de início.
+\item \textbf{Prazo.} Informe a data de entrega.
+\item \textbf{Participantes.} Inclua as pessoas envolvidas.
+\item \textbf{Bloqueio.} Indique Sem bloqueio ou Bloqueada.
+\item \textbf{Implantação por linha.} Expanda para indicar as linhas de produção atendidas.
+\item \textbf{Economia.} Expanda para informar o ganho financeiro esperado.
+\item \textbf{Salvar.} Grave a tarefa.
+\end{elementos}
+}
+
+\passo[0.45122/0.47273/0.45122/0.47273,0.94390/0.05455/0.90244/0.10303]{completo/50-tarefas-cronograma}{Acompanhar o cronograma}{
+\begin{elementos}
+\item \textbf{Cronograma das tarefas.} Abra a aba Cronograma e acompanhe as barras de duração das ações ao longo dos meses.
+\item \textbf{Ocultar concluídas.} Marque a opção para exibir apenas as tarefas ainda em aberto.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Título * (da Tarefa)} & Sim & Texto curto & Nome da ação prática que deverá ser executada. \\
+\rowcolor{guiaareia!70} \textbf{Tipo de ação} & Sim & Botões de opção (\tech{Não classificada}, \tech{Contenção}, \tech{Corretiva}, \tech{Preventiva}) & Define a finalidade técnica da tarefa no plano de ação. \\
+\rowcolor{white} \textbf{Prioridade} & Sim & Campo de seleção & Define o nível de urgência da tarefa (\tech{Baixa}, \tech{Média}, \tech{Alta}, \tech{Crítica}). \\
+\rowcolor{guiaareia!70} \textbf{Responsável principal / Área responsável} & Não & Seletor de colaborador e Texto & Define quem executará a tarefa (enviando alerta automático para o responsável) e o setor correspondente. \\
+\rowcolor{white} \textbf{Início / Prazo} & Não & Datas (\tech{AAAA/MM/DD}) & Datas previstas para a tarefa, exibidas no \textbf{Cronograma}. Quando ambas forem informadas, o início não pode ser posterior ao prazo. \\
+\rowcolor{guiaareia!70} \textbf{Situação de bloqueio (``Sem bloqueio'' / ``Bloqueada'')} & Não & Botões de opção & Indica se há algum impedimento que impede o andamento da ação. \\
+\rowcolor{white} \textbf{Implantação por linha / Economia} & Não & Seções expansíveis & Registram em quais linhas a melhoria foi aplicada e a economia anual estimada. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Data em vermelho com símbolo de alerta (``\faExclamationTriangle{}'') no cartão da tarefa}\par
+\textbf{Causa provável:} O prazo final da tarefa já passou e ela ainda não foi concluída.\par
+\textbf{Como resolver:} Atualize o andamento junto ao responsável ou edite a tarefa para ajustar o prazo caso tenha sido reprogramada.
+\end{remark}
+
+\section{Resultado, prévia e exportação de relatórios}
+
+\subsection*{Objetivo}
+
+Consultar na aba \textbf{Resultado} a variação de scrap após as ações (comparando os 3 meses anteriores com os 3 meses posteriores ao mês de efeito), revisar o resumo na aba \textbf{Prévia} e baixar o documento pronto em \textbf{PDF A4} ou \textbf{Apresentação PowerPoint 16:9}.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Análises e plano de ação registrados no relatório.
+\end{itemize}
+
+\passo[0.30864/0.13533/0.20988/0.11377,0.05679/0.21078/0.13580/0.22754,0.25926/0.32814/0.17284/0.38323,0.41975/0.63473/0.41975/0.63473,0.85926/0.63473/0.85926/0.63473,0.23457/0.95449/0.23457/0.95449]{completo/51-relatorio-resultado}{Consultar os resultados}{%
+Abra Resultado no relatório. A captura mostra a consulta dos indicadores pós-implantação.\par
+\begin{elementos}
+\item \textbf{Medição antes e depois.} Leia o resumo dos resultados comparados.
+\item \textbf{Mês do efeito.} Confira o mês usado como referência da implantação.
+\item \textbf{Resultados qualitativos.} Leia as melhorias descritas para o caso.
+\item \textbf{Gráfico antes/depois.} Compare os três meses anteriores, em cinza, e os três seguintes, em rosa.
+\item \textbf{Resumo do efeito.} Confira os custos antes/depois e as variações financeira e de quantidade.
+\item \textbf{Por análise.} Consulte a comparação por ocorrência vinculada.
+\end{elementos}
+}
+
+\passo[0.40244/0.36571/0.40244/0.36571,0.46341/0.84800/0.46341/0.84800]{completo/52-relatorio-fotos}{Conferir as fotos da melhoria}{
+Na aba Resultado, role a página até as evidências visuais da melhoria.\par
+\begin{elementos}
+\item \textbf{Fotos antes e depois.} Compare a situação inicial com o resultado das ações. O painel apresenta até seis pares de imagens selecionados entre os anexos das ações do relatório.
+\item \textbf{Fotos do processo.} Confira os registros de Mapeamento de causas, Geração de ideias, Execução e Gestão de resultados.
+\end{elementos}
+}
+
+\passo[0.42424/0.50568/0.42424/0.50568,0.95273/0.17045/0.94545/0.28977]{completo/53-relatorio-previa}{Revisar a prévia do relatório}{
+\begin{elementos}
+\item \textbf{Prévia do relatório.} Abra a aba Prévia e revise o conteúdo consolidado antes de exportar.
+\item \textbf{Menu de ações.} Use o botão de três pontos para acessar Ver detalhes, Editar plano ou Excluir relatório, conforme a ação desejada.
+\end{elementos}
+}
+
+\passo[0.62500/0.17354/0.67029/0.13228,0.18841/0.30899/0.09058/0.28042,0.14130/0.43069/0.07246/0.46032,0.43478/0.43386/0.50725/0.48148,0.39855/0.64339/0.39855/0.64339,0.84964/0.55556/0.84964/0.55556,0.89674/0.94709/0.92391/0.89418]{completo/54-exportar-pdf}{Exportar o relatório em PDF}{%
+Na Prévia do relatório, use Baixar documento para abrir Montar documento.\par
+\begin{elementos}
+\item \textbf{Tradução por IA.} Ative Traduzir o texto para inglês quando precisar traduzir automaticamente o texto digitado.
+\item \textbf{PDF A4.} Escolha o formato executivo para ler e imprimir.
+\item \textbf{Idioma.} Selecione Português, English ou 한국어 para os títulos e rótulos do documento.
+\item \textbf{Atalhos.} Use Completo, Só visão executiva ou Só casos como ponto de partida.
+\item \textbf{Seções.} Marque quais blocos entrarão no arquivo: ficha anual do programa (Task Charter), resumo, efeito na base, casos e gráficos.
+\item \textbf{Estrutura.} Confira a ordem e a prévia das páginas.
+\item \textbf{Baixar PDF.} Gere o arquivo final.
+\end{elementos}
+}
+
+\passo[0.50725/0.30899/0.59783/0.28042,0.14130/0.43069/0.07246/0.46032,0.85145/0.55556/0.85145/0.55556,0.89674/0.94709/0.92391/0.89418]{completo/55-exportar-powerpoint}{Exportar a apresentação}{%
+\begin{elementos}
+\item \textbf{Apresentação 16:9.} Selecione os slides editáveis no PowerPoint.
+\item \textbf{Idioma.} Escolha Português, English ou 한국어.
+\item \textbf{Estrutura.} Confira a lista e a ordem dos slides.
+\item \textbf{Baixar apresentação.} Gere o arquivo para revisar no PowerPoint.
+\end{elementos}
+}
+
+\passo[0.12717/0.29834/0.12717/0.29834,0.13873/0.51934/0.13873/0.51934,0.47399/0.51934/0.47399/0.51934,0.79769/0.30939/0.79769/0.30939,0.79769/0.71823/0.79769/0.71823]{completo/56-slide-exportado}{Conferir o slide exportado}{%
+\begin{elementos}
+\item \textbf{Problema.} Confira o título do caso, os dados da ocorrência e o custo.
+\item \textbf{Causa raiz.} Revise a causa e a classificação apresentadas.
+\item \textbf{Antes e depois.} Confira as fotos e suas descrições.
+\item \textbf{Ações.} Revise as ações executadas, responsáveis, datas e status.
+\item \textbf{Resultados.} Confira a redução de custo, a evolução dos indicadores e a economia prevista antes de compartilhar os slides.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Mês do efeito (aba ``Resultado'')} & Para medir o efeito & Mês e Ano (\tech{mmm. AAAA}) & Mês de referência da melhoria, necessário para comparar os três meses anteriores com os três posteriores. \\
+\rowcolor{guiaareia!70} \textbf{Traduzir o texto para inglês (``IA'')} & Não & Chave liga/desliga & Traduz automaticamente para o inglês os textos abertos do relatório antes de gerar o arquivo. \\
+\rowcolor{white} \textbf{Formato (``PDF A4'' / ``Apresentação 16:9'')} & Sim & Seleção visual & Escolhe entre gerar um documento vertical em \tech{.pdf} ou slides widescreen editáveis em \tech{.pptx}. \\
+\rowcolor{guiaareia!70} \textbf{Idioma do documento} & Sim & Campo de seleção (\tech{Português}, \tech{English}, {\color{guiavermelho}한국어}) & Define o idioma dos títulos e rótulos do arquivo gerado. \\
+\rowcolor{white} \textbf{Atalhos e Chaves de Seção} & Não & Botões e Chaves liga/desliga & Permitem escolher exatamente quais blocos e gráficos entram no documento exportado. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Taxa (scrap ÷ produção) exibe "sem produção cadastrada" na aba Resultado}\par
+\textbf{Causa provável:} Os meses usados na comparação antes/depois ainda não possuem dados de produção salvos em \textbf{Configurações > Dados de produção}.\par
+\textbf{Como resolver:} Cadastre o volume produzido desses meses em \textbf{Configurações > Dados de produção} para que o sistema calcule a taxa relativa.
+\end{remark}
+
+\fimdecapitulo

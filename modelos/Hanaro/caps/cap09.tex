@@ -1,0 +1,168 @@
+\chapter{Governança de Alertas e Integração com Microsoft Teams}
+
+\label{cap:manual-7}
+
+\section{Histórico de Notificações e Regras de Alerta}
+
+\subsection*{Objetivo}
+
+Consultar os avisos recebidos pelo operador (como novas tarefas atribuídas, prazos vencidos ou limites de custo ultrapassados) e configurar regras automáticas para disparo de alertas no sistema e no Microsoft Teams.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Estar conectado ao sistema e acessar o menu lateral \textbf{Alertas}.
+\end{itemize}
+
+\passo[0.43976/0.46328/0.43976/0.46328,0.85663/0.30169/0.81325/0.24859,0.91928/0.30169/0.90964/0.22599,0.94819/0.30169/0.97711/0.36158,0.92651/0.03955/0.88554/0.10169]{completo/57-alertas}{Consultar o histórico de alertas}{%
+\begin{elementos}
+\item \textbf{Histórico.} Abra Alertas e confira título, classificação, data, status e responsável.
+\item \textbf{Ver tarefa.} Abra a tarefa associada ao aviso.
+\item \textbf{Editar.} Use o lápis na mesma linha para editar.
+\item \textbf{Marcar como lido.} Use o ícone de confirmação para registrar a leitura.
+\item \textbf{Configurar alertas.} Abra o cadastro de regras, detalhado no passo~\ref{passo:49}.
+\end{elementos}
+}
+
+\passo[0.38889/0.53488/0.38889/0.53488,0.74722/0.13721/0.63889/0.06977,0.85000/0.40930/0.88889/0.27907]{completo/58-configurar-alertas}{Configurar os alertas}{%
+\begin{elementos}
+\item \textbf{Regras cadastradas.} Em Configurar alertas, localize a regra desejada.
+\item \textbf{Nova regra.} Inicie uma regra de aviso.
+\item \textbf{Editar.} Altere uma regra existente pelo botão da linha.
+\end{elementos}
+}
+
+\passo[0.50000/0.21571/0.06522/0.19372,0.26087/0.31309/0.06522/0.29319,0.71739/0.31309/0.89130/0.29319,0.06522/0.40314/0.10870/0.45026,0.47826/0.57173/0.08696/0.54450,0.25217/0.69738/0.06522/0.67016,0.71957/0.69738/0.89130/0.67016,0.25217/0.84188/0.08696/0.81675,0.71957/0.84188/0.89130/0.81675,0.19565/0.89529/0.60870/0.90890]{completo/59-regra-alerta-condicoes}{Definir quando avisar}{%
+\begin{elementos}
+\item \textbf{Nome da regra.} Identifique claramente o aviso.
+\item \textbf{Tipo.} Escolha a condição, como Custo acima do limite.
+\item \textbf{Severidade.} Defina a classificação do alerta.
+\item \textbf{Habilitada.} Mantenha ligada para avaliar a regra.
+\item \textbf{Avaliar custo por.} Escolha Linha ou Ocorrência.
+\item \textbf{Limiar.} Informe o custo que dispara o aviso, por exemplo 4.000.
+\item \textbf{Moeda.} Selecione a moeda do limite.
+\item \textbf{Início do período.} Informe a data inicial da avaliação.
+\item \textbf{Fim do período.} Informe a data final.
+\item \textbf{Intervalo mínimo.} Role um pouco para preencher o intervalo, em minutos, entre avisos.
+\end{elementos}
+\par\smallskip {\fontsize{8.2}{11}\selectfont\color{guiacinza}O último marcador identifica o rótulo Intervalo mínimo; a caixa de valor continua abaixo do rodapé mostrado. Complete os destinatários e os canais no passo~\ref{passo:51}.\par}
+}
+
+\passo[0.51000/0.20928/0.51000/0.20928,0.51000/0.56701/0.11000/0.48454,0.11000/0.62474/0.21000/0.65464,0.11400/0.73608/0.11000/0.79381,0.55000/0.73608/0.57000/0.79381,0.88800/0.94021/0.87000/0.88660]{completo/60-regra-alerta-destinatarios}{Definir destinatários e canais}{%
+\begin{elementos}
+\item \textbf{Filtros de escopo.} Se necessário, restrinja Organização, Linha, Part number ou Componente/tipo de item.
+\item \textbf{Pessoas.} Selecione ao menos uma pessoa e/ou um perfil destinatário.
+\item \textbf{Perfis.} Selecione os perfis que devem receber o aviso, quando aplicável.
+\item \textbf{No sistema.} Mantenha o canal interno marcado.
+\item \textbf{Microsoft Teams.} Marque também este canal se o destino de Teams estiver configurado.
+\item \textbf{Salvar regra.} Grave as condições e os destinatários.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Nome da regra} & Sim & Texto curto & Nome que identifica o alerta na lista de configuração. \\
+\rowcolor{guiaareia!70} \textbf{Tipo / Severidade} & Sim & Campos de seleção & Definem o motivo do disparo (\tech{Custo acima do limite}, \tech{Ocorrência relevante}, etc.) e a gravidade (\tech{Informativo}, \tech{Crítico}). \\
+\rowcolor{white} \textbf{Habilitada} & Sim & Chave liga/desliga & Permite pausar temporariamente uma regra sem precisar excluí-la. \\
+\rowcolor{guiaareia!70} \textbf{Avaliar custo por} & Sim & Campo de seleção (\tech{Linha}, \tech{Ocorrência}) & Define se o sistema soma o custo acumulado da linha ou avalia cada ocorrência individualmente. \\
+\rowcolor{white} \textbf{Limiar / Moeda} & Sim & Número (\tech{>= 0}) e Moeda (\tech{USD}) & Valor financeiro a partir do qual o alerta é disparado. \\
+\rowcolor{guiaareia!70} \textbf{Início do período / Fim do período} & Sim & Datas (\tech{AAAA/MM/DD}) & Período considerado na avaliação do custo; a data final deve ser igual ou posterior à data inicial. \\
+\rowcolor{white} \textbf{QUEM RECEBE (``Pessoas'' / ``Perfis'')} & Sim (mínimo 1) & Seleção de usuários/perfis & Indica quem receberá a notificação quando a regra for acionada. \\
+\rowcolor{guiaareia!70} \textbf{CANAIS DE NOTIFICAÇÃO} & Sim & Caixas de marcação & O envio \textbf{No sistema} é padrão; marque \textbf{Microsoft Teams} para enviar também ao Teams. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Não é possível salvar a regra de alerta}\par
+\textbf{Causa provável:} Falta preencher o nome da regra, escolher pelo menos um destinatário em \textbf{QUEM RECEBE}, ou a data final é anterior à data inicial.\par
+\textbf{Como resolver:} Revise esses campos e clique novamente em \textbf{Salvar regra}.
+\end{remark}
+
+\section{Integração com Microsoft Teams}
+
+\subsection*{Objetivo}
+
+Cadastrar os endereços de conexão (\emph{Workflows}) do Microsoft Teams para que o sistema Hanaro possa enviar cartões automáticos de alerta para canais, grupos ou pessoas no Teams. Operado pelo perfil \textbf{Administrador}.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Criar previamente um \emph{Workflow} no Microsoft Teams (ou Power Automate) com o gatilho \emph{"When a Teams webhook request is received"} liberado para \emph{Anyone} e copiar o endereço (URL) gerado.
+\end{itemize}
+
+\passo[0.42935/0.26744/0.42935/0.26744,0.95000/0.44767/0.90761/0.43023]{completo/61-integracao-teams}{Abrir a integração com Teams}{
+Na visão administrativa, abra Integrações pelo ícone de globo no menu lateral.\par
+\begin{elementos}
+\item \textbf{Orientação da integração.} Leia os requisitos para conectar o Hanaro ao Microsoft Teams.
+\item \textbf{Novo destino.} Abra o formulário de cadastro do canal, grupo ou pessoa.
+\end{elementos}
+}
+
+\passo[0.26011/0.34426/0.11475/0.30601,0.71257/0.34426/0.92350/0.30601,0.26230/0.46776/0.11475/0.43716,0.49727/0.59016/0.11475/0.57377,0.04699/0.67322/0.06011/0.72678,0.51038/0.67322/0.54098/0.72678,0.93005/0.76503/0.91257/0.83060,0.46448/0.06667/0.46448/0.06667]{completo/62-teams-novo-destino-ingles}{Cadastrar um destino no Teams}{%
+\begin{elementos}
+\item \textbf{Nome do destino.} Informe um nome claro para identificar a pessoa, o grupo ou o canal.
+\item \textbf{Tipo.} Escolha Pessoa, Grupo ou Canal.
+\item \textbf{Idioma do cartão.} Escolha o idioma do aviso enviado ao Teams, como Português ou Inglês.
+\item \textbf{URL do webhook.} Cole o endereço do Workflow do Microsoft Teams.
+\item \textbf{Ativo.} Mantenha o destino habilitado para receber avisos.
+\item \textbf{Destino operacional padrão.} Marque se o destino receberá por padrão os alertas operacionais gerais.
+\item \textbf{Salvar.} Grave o destino.
+\item \textbf{Confirmação.} Após salvar, confira a mensagem ``Workflow aceitou a solicitação; confira o cartão no Teams.'' Abra o Teams para confirmar o recebimento.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Nome do destino} & Sim & Texto curto & Nome de identificação do canal, grupo ou colaborador no sistema. \\
+\rowcolor{guiaareia!70} \textbf{Tipo} & Sim & Campo de seleção (\tech{Pessoa}, \tech{Grupo}, \tech{Canal}) & Define o tipo de destinatário no Microsoft Teams. \\
+\rowcolor{white} \textbf{Idioma do cartão} & Sim & Campo de seleção (\tech{Português}, \tech{Inglês}) & Define o idioma do cartão de aviso enviado ao Teams. \\
+\rowcolor{guiaareia!70} \textbf{URL do webhook} & Sim & Endereço web (\tech{https://...}) & Link gerado pelo \emph{Workflow} configurado no Microsoft Teams. \\
+\rowcolor{white} \textbf{Ativo / Destino operacional padrão} & Não & Caixas de marcação & Habilitam o envio para este endereço e definem se ele é o canal padrão da operação. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}[info]
+\textbf{Workflow aceitou a solicitação; confira o cartão no Teams.}\par
+\textbf{O que significa:} O Workflow aceitou a solicitação de envio; é necessário conferir se o cartão chegou ao destino.\par
+\textbf{Próximo passo:} Abra o canal ou chat no Microsoft Teams para confirmar o recebimento do cartão de teste.
+\end{remark}
+
+\fimdecapitulo

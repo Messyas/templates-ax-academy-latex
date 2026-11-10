@@ -1,0 +1,2 @@
+# Preserve PDF streams and cross-reference offsets during Git checkout.
+*.pdf binary

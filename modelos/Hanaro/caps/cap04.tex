@@ -1,0 +1,433 @@
+\chapter{Configurações e Parametrizações Operacionais}
+
+\label{cap:manual-2}
+
+\section{Painel Geral de Configurações (Tema Visual e Idioma)}
+
+\subsection*{Objetivo}
+
+Permitir ao usuário escolher entre o tema visual claro ou escuro, alterar o idioma de exibição do sistema (Português, Inglês ou Coreano) e acessar os seis painéis de regras e cadastros operacionais da fábrica.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Estar conectado ao sistema e acessar o menu lateral \textbf{Configurações}.
+\end{itemize}
+
+\passo[0.07000/0.31475/0.07000/0.31475,0.36900/0.24044/0.36900/0.24044,0.54300/0.42186/0.51000/0.36393,0.54300/0.52131/0.51000/0.56831,0.78000/0.36066/0.78000/0.36066,0.57500/0.74317/0.57500/0.74317]{completo/03-configuracoes}{Ajustar tema e idioma}{%
+\begin{elementos}
+\item \textbf{Configurações.} Abra o menu de engrenagem.
+\item \textbf{Claro e Escuro.} Escolha o cartão de tema adequado ao ambiente.
+\item \textbf{Tema escuro.} Use a chave para alternar diretamente entre claro e escuro.
+\item \textbf{Usar configuração do sistema.} Ative para acompanhar o tema do computador.
+\item \textbf{Idioma do sistema.} Escolha Português (BR), English ou 한국어. A captura ilustra a seleção de coreano; os controles permanecem nas posições indicadas.
+\item \textbf{Dados e regras.} Os cartões abrem Classificações de Material, Tipos de Scrap, IF Cost, Dados de produção, Programa do ano e Cotação do dólar, detalhados nos passos seguintes.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Tema da interface (``Claro'' / ``Escuro'')} & Sim & Seleção visual / Chave liga/desliga & Altera imediatamente as cores de fundo e textos de todas as telas. \\
+\rowcolor{guiaareia!70} \textbf{Usar configuração do sistema} & Não & Chave liga/desliga & Faz o Hanaro seguir automaticamente o tema claro ou escuro configurado no Windows/Mac. \\
+\rowcolor{white} \textbf{Idioma do sistema} & Sim & Seleção única (\tech{Português (BR)}, \tech{English}, {\color{guiavermelho}한국어}) & Define o idioma em que todos os botões, menus e títulos são exibidos para você. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Menus e textos do sistema aparecem em coreano (``한국어'') ou Inglês}\par
+\textbf{Causa provável:} Outro idioma foi selecionado acidentalmente no quadro superior direito de Configurações.\par
+\textbf{Como resolver:} Clique no último item com ícone de engrenagem no menu lateral esquerdo e selecione a primeira opção do quadro superior direito (\textbf{Português (BR)}).
+\end{remark}
+
+\section{Classificações de Material}
+
+\subsection*{Objetivo}
+
+Traduzir os códigos contábeis e de itens importados do sistema GERP em nomes claros e definir quais contas entram ou ficam fora do cálculo de \emph{IF Cost} no Dashboard, na Base de Scrap e nos Relatórios. Deve ser operada por \textbf{Gestores} e \textbf{Administradores}.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Ter realizado ao menos uma importação de relatório do GERP para que o sistema identifique eventuais códigos novos sem regra.
+\end{itemize}
+
+\passo[0.42424/0.22464/0.42424/0.22464,0.94182/0.39855/0.89697/0.46377,0.93939/0.08696/0.88485/0.03623,0.29818/0.67246/0.29091/0.73913,0.94424/0.56522/0.99030/0.47826,0.83394/0.56522/0.77576/0.49275,0.93576/0.84783/0.84242/0.78986,0.96000/0.84783/0.95152/0.96377]{completo/04-classificacoes-material}{Classificar materiais}{%
+\begin{elementos}
+\item \textbf{Pendências e filtros.} Em Códigos sem regra, filtre Tipo, Situação, Falta e Registros ou busque um código importado do GERP.
+\item \textbf{Criar regra.} Na linha pendente, cadastre o nome ou a classificação que falta.
+\item \textbf{Verificar de novo.} Atualize a lista de códigos sem regra.
+\item \textbf{Buscar regras.} Use o Tipo ou a busca por código ou resultado no quadro Regras.
+\item \textbf{Nova regra.} Cadastre uma tradução manualmente.
+\item \textbf{Reaplicar ao histórico.} Atualize os registros antigos. Uma regra nova já vale para as próximas importações, mas não altera o histórico automaticamente.
+\item \textbf{Editar.} Use o lápis da linha para alterar a regra existente.
+\item \textbf{Excluir.} Use a lixeira da linha para remover a regra.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Filtros de Códigos sem regra (``Tipo'', ``Situação'', ``Falta'', ``Registros'')} & Não & Campos de seleção & Ajudam a localizar códigos vindos do GERP que ainda estão sem nome do item ou sem conta classificada. \\
+\rowcolor{guiaareia!70} \textbf{Tipo (da Regra)} & Sim & Campo de seleção (ex.: \tech{Conta do IF Cost}, \tech{Nome do item}) & Indica qual informação do arquivo GERP será traduzida pela regra. \\
+\rowcolor{white} \textbf{Código de origem} & Sim & Texto exato do GERP & Código original vindo do relatório GERP (por exemplo, \tech{DEFECT - DIRECT CHARGED} ou \tech{CONSUMABLE SUPPLIES EXPENSE}). \\
+\rowcolor{guiaareia!70} \textbf{Resultado} & Sim & Texto / Classificação & Define o nome amigável do item ou se a conta \textbf{Entra no IF Cost} / fica \textbf{Fora do IF Cost}. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Códigos antigos continuam sem classificação no Dashboard após criar uma regra nova}\par
+\textbf{Causa provável:} A regra foi salva, mas ainda não foi aplicada aos lotes importados anteriormente.\par
+\textbf{Como resolver:} Clique no botão \textbf{Reaplicar ao histórico} no topo da lista de \textbf{Regras}.
+\end{remark}
+
+\section{Tipos de Scrap}
+
+\subsection*{Objetivo}
+
+Manter a lista padronizada de categorias de defeito ou perda (como \tech{Montagem}, \tech{Componente}, \tech{Processo}, \tech{Oxidação}, \tech{Avaria de transporte}) que os analistas escolhem ao analisar uma ocorrência na Base de Scrap.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Possuir acesso ao menu \textbf{Configurações}.
+\end{itemize}
+
+\passo[0.11585/0.18978/0.06707/0.12409,0.30122/0.18978/0.34756/0.12409,0.92317/0.35766/0.87195/0.27737,0.65122/0.69635/0.59146/0.62774,0.94268/0.69635/0.85366/0.80292,0.96829/0.69635/0.95366/0.94161]{completo/05-tipos-scrap}{Gerenciar tipos de scrap}{%
+\begin{elementos}
+\item \textbf{Nome.} Informe a categoria de scrap, como Oxidação ou Avaria de transporte.
+\item \textbf{Código.} Confira o valor gerado a partir do nome. Use letras maiúsculas, números, \_ ou -. Ajuste antes de adicionar: o código não poderá ser alterado depois.
+\item \textbf{Adicionar tipo.} Grave a nova categoria.
+\item \textbf{Disponível nas análises.} Libere ou oculte o tipo nos formulários de novas análises.
+\item \textbf{Editar.} Renomeie a categoria com o lápis.
+\item \textbf{Excluir.} Remova a categoria com a lixeira.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Nome *} & Sim & Texto livre & Nome da categoria exibido para toda a equipe durante a análise de ocorrências. \\
+\rowcolor{guiaareia!70} \textbf{Código *} & Sim & Letras maiúsculas, números, \tech{\_} ou \tech{-} & Identificador fixo da categoria (ex.: \tech{MONTAGEM}, \tech{PROCESSO}). Não pode ser alterado após a criação. \\
+\rowcolor{white} \textbf{Disponível nas análises} & Sim & Chave liga/desliga & Controla se a categoria aparece como opção para novos registros na Base de Scrap. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Campo Código bloqueado durante a edição de um tipo existente}\par
+\textbf{Causa provável:} Por segurança do histórico de relatórios já emitidos, o código identificador é fixo após a criação.\par
+\textbf{Como resolver:} Se precisar de um código diferente, desative a chave \textbf{Disponível nas análises} do item antigo e crie um novo tipo.
+\end{remark}
+
+\section{Metas Anuais e Mensais de IF Cost}
+
+\subsection*{Objetivo}
+
+Definir as metas mensais de \emph{IF Cost} em dólares (\tech{US\$}) para o ano, permitindo distribuir os valores automaticamente pelos 12 meses para comparação direta com o custo de scrap no Dashboard.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Contas contábeis do \emph{IF Cost} já classificadas em \textbf{Configurações > Classificações de Material}.
+\end{itemize}
+
+\passo[0.11017/0.20923/0.09831/0.16923,0.48305/0.38462/0.48305/0.28205,0.86271/0.28410/0.93051/0.23590,0.24576/0.56410/0.27966/0.49744,0.16102/0.66359/0.09322/0.71282,0.39492/0.66359/0.39831/0.71282,0.59831/0.66359/0.68644/0.63077,0.14407/0.79897/0.09322/0.87692]{completo/06-metas-if-cost}{Definir metas de IF Cost}{
+Em Configurações, abra IF Cost.\par%
+\begin{elementos}
+\item \textbf{Ano.} Selecione o ano de planejamento.
+\item \textbf{Meta do ano.} Confira Total planejado, Média mensal e a variação em relação ao ano anterior.
+\item \textbf{Ver contas do IF Cost.} Consulte as contas que entram na composição da meta.
+\item \textbf{Modo de preenchimento.} Escolha Reduzir de janeiro a dezembro ou Mesmo valor todo mês.
+\item \textbf{Meta de janeiro.} Informe o valor inicial, por exemplo US\$ 12.000,00.
+\item \textbf{Meta de dezembro.} No modo de redução gradual, informe o valor final, por exemplo US\$ 6.000,00.
+\item \textbf{Preencher tabela.} Distribua os valores pelos doze meses.
+\item \textbf{Cartões mensais.} Confira os valores e ajuste os meses necessários.
+\end{elementos}
+\par\smallskip {\fontsize{8.2}{11}\selectfont\color{guiacinza}Role até o fim da janela e clique em Salvar metas para gravar os valores.\par}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Ano} & Sim & Ano (\tech{AAAA}) & Define o ano das metas de \emph{IF Cost}. \\
+\rowcolor{guiaareia!70} \textbf{Modo de preenchimento} & Não & Botões de opção & Escolhe entre redução progressiva de janeiro a dezembro ou valor fixo mensal. \\
+\rowcolor{white} \textbf{Meta de janeiro / Meta de dezembro} & Não & Valor em dólares (\tech{US\$}) & Valores inicial e final usados pelo botão \textbf{\ensuremath{\checkmark} Preencher tabela}. \\
+\rowcolor{guiaareia!70} \textbf{Valores de ``Jan.'' a ``Dez.''} & Sim & Valor em dólares (\tech{US\$}) & Meta financeira de \emph{IF Cost} de cada mês do ano. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Os valores calculados para os 12 meses não ficaram gravados ao fechar a janela}\par
+\textbf{Causa provável:} O botão \textbf{\ensuremath{\checkmark} Preencher tabela} apenas preenche os campos na tela; é necessário confirmar a gravação no final da janela.\par
+\textbf{Como resolver:} Após clicar em \textbf{\ensuremath{\checkmark} Preencher tabela}, role até o rodapé da janela e clique em \textbf{Salvar metas}.
+\end{remark}
+
+\section{Dados de Produção Mensal}
+
+\subsection*{Objetivo}
+
+Registrar o valor financeiro produzido (em dólares) e a quantidade de peças fabricadas em cada mês. O Dashboard e os Relatórios utilizam esses números para calcular a taxa de refugo em relação à produção (\emph{Scrap Rate}).\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Ter em mãos os números de fechamento mensal de produção da fábrica.
+\end{itemize}
+
+\passo[0.25355/0.23616/0.12322/0.19209,0.58294/0.23616/0.64455/0.18079,0.30806/0.31525/0.38389/0.33898,0.27962/0.52768/0.12322/0.48588,0.72986/0.52768/0.88152/0.48588,0.50000/0.63503/0.54976/0.68927,0.48578/0.87571/0.47867/0.81356,0.82701/0.93333/0.88152/0.98305,0.58531/0.93333/0.52607/0.98305]{completo/07-dados-producao}{Registrar dados de produção}{
+Em Configurações, abra Dados de produção.\par%
+\begin{elementos}
+\item \textbf{Escopo.} Selecione Global (todos os produtos) ou um produto específico.
+\item \textbf{Ano.} Selecione o ano de lançamento.
+\item \textbf{Mês.} Selecione o mês a preencher. Os meses preenchidos exibem um ponto verde.
+\item \textbf{Valor da produção.} Informe o total produzido em dólares.
+\item \textbf{Quantidade produzida.} Informe as unidades fabricadas no mês.
+\item \textbf{Observação.} Registre, se necessário, uma nota do fechamento. Use Enter para avançar entre os campos de valor, quantidade e o mês seguinte.
+\item \textbf{Resumo acumulado.} Confira Valor no ano, Quantidade no ano e Detalhado por produto.
+\item \textbf{Salvar dados.} Grave os lançamentos do ano indicado no botão.
+\item \textbf{Limpar dados.} Use apenas quando precisar apagar os lançamentos do ano selecionado.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Escopo} & Sim & Campo de seleção & Define se o lançamento é do total da fábrica (\tech{Global}) ou por linha de produto. \\
+\rowcolor{guiaareia!70} \textbf{Ano} & Sim & Ano (\tech{AAAA}) & Ano de referência da produção. \\
+\rowcolor{white} \textbf{Valor da produção (USD)} & Sim & Valor em dólares (\tech{US\$}) & Base utilizada pelo sistema para calcular o percentual financeiro de \emph{Scrap Rate}. \\
+\rowcolor{guiaareia!70} \textbf{Quantidade produzida} & Sim & Número inteiro & Total de peças produzidas no mês selecionado. \\
+\rowcolor{white} \textbf{Observação} & Não & Texto livre & Comentário opcional sobre eventos produtivos daquele mês. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Diferença entre "Valor no ano" e "Detalhado por produto"}\par
+\textbf{Causa provável:} A soma dos valores lançados por produto está diferente do valor lançado no escopo Global.\par
+\textbf{Como resolver:} Confira o indicador percentual abaixo do campo de observação e ajuste os valores para que fechem em 100\% antes de salvar.
+\end{remark}
+
+\section{Programa do Ano}
+
+\subsection*{Objetivo}
+
+Preencher a ficha anual do programa de redução de scrap da fábrica. As informações salvas nesta tela compõem automaticamente a abertura executiva dos relatórios exportados no ano.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Metas de \emph{IF Cost} do ano já salvas (para que o sistema apresente a referência automática do indicador).
+\end{itemize}
+
+\passo[0.06506/0.06592/0.03012/0.03506,0.46988/0.28892/0.46988/0.28892,0.10241/0.42216/0.06024/0.37167,0.30120/0.42216/0.31325/0.35764,0.49398/0.42216/0.55422/0.37167,0.48193/0.84432/0.74699/0.77840,0.04819/0.91304/0.10843/0.86255,0.22169/0.91304/0.28916/0.86255,0.42771/0.91304/0.54217/0.89762,0.45422/0.95652/0.74699/0.94670]{completo/08-programa-ano-identificacao}{Identificar o programa do ano}{
+Em Configurações, abra Programa do ano.\par%
+\begin{elementos}
+\item \textbf{Ano.} Escolha o ano do programa e confira a indicação de ficha salva.
+\item \textbf{Tema.} Informe o objetivo anual, como reduzir o IF Cost em 15\% sobre o ano anterior.
+\item \textbf{Período.} Informe a vigência, por exemplo janeiro a dezembro.
+\item \textbf{Equipe.} Identifique as áreas participantes.
+\item \textbf{Local.} Informe a planta ou o local do programa.
+\item \textbf{Indicador.} O KPI usa os dados da base e das metas. Substitua o indicador automático somente se necessário.
+\item \textbf{Nível atual.} Role para preencher o campo completo quando for usar um valor manual.
+\item \textbf{Meta.} Role para conferir ou substituir a meta automática.
+\item \textbf{Nota da meta.} Registre a explicação da meta, quando aplicável.
+\item \textbf{Voltar ao automático.} Restaure os textos e valores obtidos da base e das metas.
+\end{elementos}
+\par\smallskip {\fontsize{8.2}{11}\selectfont\color{guiacinza}Os marcadores inferiores apontam para os rótulos visíveis do KPI. Role a página para mostrar os campos completos antes de preenchê-los.\par}
+}
+
+\passo[0.12048/0.18644/0.10843/0.12429,0.32651/0.18644/0.32530/0.12429,0.65060/0.18644/0.68675/0.12429,0.06627/0.46328/0.26506/0.48588,0.96627/0.18644/0.98313/0.28814,0.10120/0.66667/0.07229/0.61582,0.30120/0.66667/0.28916/0.61582,0.49639/0.66667/0.51807/0.61582,0.24819/0.81356/0.22892/0.75706,0.74096/0.81356/0.74699/0.75706,0.93133/0.93785/0.85542/0.93220]{completo/09-programa-ano-execucao}{Planejar a execução do programa}{%
+\begin{elementos}
+\item \textbf{Etapa.} Nomeie cada etapa do plano. O programa aceita até seis etapas.
+\item \textbf{Período.} Informe quando a etapa será executada.
+\item \textbf{O que é feito.} Descreva o trabalho previsto para a etapa.
+\item \textbf{Adicionar etapa.} Inclua outra linha no plano.
+\item \textbf{Excluir etapa.} Remova a linha com a lixeira correspondente.
+\item \textbf{Patrocinador.} Informe quem patrocina o programa.
+\item \textbf{Responsável.} Informe o responsável pelo programa.
+\item \textbf{Líder.} Identifique quem coordena a execução.
+\item \textbf{Tempo integral.} Informe os participantes dedicados integralmente.
+\item \textbf{Tempo parcial.} Informe os demais participantes.
+\item \textbf{Salvar ficha.} Grave o programa do ano.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Tema / Período / Equipe / Local} & Não & Texto livre & Identificação geral do programa anual. Campos deixados em branco não aparecem no relatório impresso. \\
+\rowcolor{guiaareia!70} \textbf{Indicador / Nível atual / Meta / Nota da meta} & Não & Texto livre & Em branco, usa os valores automáticos das metas do ano; preencha apenas se quiser substituir manualmente. \\
+\rowcolor{white} \textbf{Plano de execução (``Etapa'', ``Período'', ``O que é feito'')} & Não & Lista de até 6 etapas & Descreve as fases do cronograma anual de redução de scrap. \\
+\rowcolor{guiaareia!70} \textbf{Organização (``Patrocinador'', ``Responsável'', ``Líder'', ``Tempo integral'', ``Tempo parcial'')} & Não & Texto livre & Registra a liderança e os integrantes dedicados ao programa. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Não é possível adicionar mais etapas no Plano de execução}\par
+\textbf{Causa provável:} O limite máximo de 6 etapas da ficha anual já foi atingido.\par
+\textbf{Como resolver:} Agrupe atividades semelhantes dentro das 6 etapas disponíveis.
+\end{remark}
+
+\section{Cotação do Dólar}
+
+\subsection*{Objetivo}
+
+Consultar a cotação diária de venda do dólar (PTAX do Banco Central) usada para converter valores nos envios manuais de relatórios e permitir ajustes manuais de taxa quando necessário.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Possuir acesso ao menu \textbf{Configurações}.
+\end{itemize}
+
+\passo[0.11881/0.23316/0.08911/0.18653,0.41584/0.51813/0.41584/0.51813,0.91089/0.37824/0.95050/0.33161]{completo/10-cotacao-dolar}{Consultar a cotação do dólar}{
+Em Configurações, abra Cotação do dólar.\par%
+\begin{elementos}
+\item \textbf{Ano.} Use as setas para escolher o período.
+\item \textbf{Cotações.} Confira Data, R\$ por US\$ com quatro casas decimais e Origem. Automação identifica a atualização automática.
+\item \textbf{Editar.} Use o lápis da data desejada para informar e salvar uma taxa manual. O valor manual tem prioridade sobre a cotação automática.
+\end{elementos}
+\par\smallskip {\fontsize{8.2}{11}\selectfont\color{guiacinza}A captura mostra a lista, antes de abrir a edição da linha.\par}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Data} & Somente leitura & Data (\tech{AAAA-MM-DD}) & Data do lançamento. Em sábados, domingos e feriados, o sistema utiliza automaticamente a cotação do dia útil anterior. \\
+\rowcolor{guiaareia!70} \textbf{R\$ por US\$} & Sim (ao editar) & Número decimal (4 casas, ex.: \tech{5.1500}) & Taxa de conversão de 1 dólar para reais. \\
+\rowcolor{white} \textbf{Origem} & Somente leitura & Texto (\tech{Automação} / Manual) & Mostra se a cotação veio da atualização automática do Banco Central ou se foi digitada por um usuário. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Lançamento de sábado ou domingo usou a cotação de sexta-feira}\par
+\textbf{Causa provável:} Em fins de semana e feriados não há boletim PTAX, por isso o sistema aplica automaticamente a taxa do último dia útil anterior.\par
+\textbf{Como resolver:} Comportamento padrão do sistema. Se precisar de outra taxa para aquela data, clique no ícone de lápis da linha e digite o valor manualmente.
+\end{remark}
+
+\fimdecapitulo

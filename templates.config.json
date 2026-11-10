@@ -100,6 +100,15 @@
       "passes": 2,
       "versionable": true,
       "description": "Apresentação Demo Day Focada (7 slides, sem escopo MVP e sem marca Hanaro, foco em deploy e resultados)"
+    },
+    "hanaro": {
+      "name": "Hanaro",
+      "directory": "modelos/Hanaro",
+      "entrypoint": "main.tex",
+      "output_name": "guia-usuario-hanaro.pdf",
+      "output_subfolder": "Hanaro",
+      "passes": 3,
+      "description": "Guia operacional completo do Hanaro: 10 capítulos e 59 passos; capítulos 1 e 2 originais preservados."
     }
   }
 }

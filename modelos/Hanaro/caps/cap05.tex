@@ -1,0 +1,82 @@
+\chapter{Execuções e Atualização de Dados GERP}
+
+\label{cap:manual-3}
+
+\section{Histórico de Rotinas e Cargas}
+
+\subsection*{Objetivo}
+
+Acompanhar o histórico de todas as cargas de dados importadas do sistema GERP, conferindo horários, tempo de processamento, quantidade de linhas recebidas, válidas ou rejeitadas e a confirmação de que os dados já estão publicados no sistema.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Possuir perfil \textbf{Gestor} ou \textbf{Administrador} com acesso ao menu \textbf{Execuções}.
+\end{itemize}
+
+\begin{remark}[info]
+A abertura do histórico, a conferência do status e o uso dos filtros já estão descritos no guia rápido. Consulte o passo~\ref{passo:3} (\pagina{passo:3}).
+\end{remark}
+
+\Needspace{160pt}
+
+\subsection*{Referência das colunas}
+
+A descrição das colunas está na \autoref{tab:historico}.
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Coluna REJEITADOS com número maior que zero (``> 0'')}\par
+\textbf{Causa provável:} Algumas linhas do arquivo exportado do GERP estavam incompletas ou com formato inválido.\par
+\textbf{Como resolver:} Clique sobre a linha da rotina para verificar o motivo da rejeição, corrija a extração no GERP e envie o arquivo novamente.
+\end{remark}
+
+\section{Envio Manual de Relatório GERP}
+
+\subsection*{Objetivo}
+
+Permitir o envio manual do arquivo \tech{Other Account Transaction Text} exportado do GERP para atualizar imediatamente a Base de Scrap e os gráficos do Dashboard.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Ter exportado do GERP o relatório \tech{Other Account Transaction Text} no formato \textbf{TSV} (texto separado por tabulação, codificação \tech{UTF-8} ou \tech{CP1252}).
+\end{itemize}
+
+\begin{remark}[info]
+A seleção e o envio do arquivo GERP já estão descritos no guia rápido. Use esta seção para conferir requisitos e mensagens de validação. Consulte o passo~\ref{passo:2} (\pagina{passo:2}).
+\end{remark}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Selecionar relatório GERP} & Sim & Arquivo \tech{.tsv} (\tech{UTF-8} ou \tech{CP1252}) & Arquivo original \tech{Other Account Transaction Text} exportado do GERP. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Arquivo recusado ou falha ao processar relatório}\par
+\textbf{Causa provável:} Foi selecionado um arquivo em formato incorreto (como \tech{.xlsx} ou \tech{.pdf}) ou uma planilha com colunas diferentes do padrão do GERP.\par
+\textbf{Como resolver:} Exporte novamente o relatório \tech{Other Account Transaction Text} do GERP em formato \tech{.tsv} e repita o envio.
+\end{remark}
+
+\fimdecapitulo

@@ -1,0 +1,261 @@
+\chapter{Dashboard de Monitoramento e Indicadores}
+
+\label{cap:manual-5}
+
+\section{Visão financeira e tabela Target \ensuremath{\times} realizado}
+
+\subsection*{Objetivo}
+
+Acompanhar o resultado financeiro do refugo (\emph{IF Cost} em dólares) comparado às metas mensais e anuais da planta, permitindo abrir a tabela comparativa mês a mês com as notas explicativas de fechamento.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Relatórios GERP importados em \textbf{Execuções} e metas anuais cadastradas em \textbf{Configurações > IF Cost}.
+\end{itemize}
+
+\begin{remark}[info]
+A abertura do Dashboard e seus controles financeiros já estão descritos no guia rápido. Consulte o passo~\ref{passo:4} (\pagina{passo:4}).
+\end{remark}
+Os exemplos numéricos desta seção ilustram os dados das capturas e variam conforme o período e os filtros selecionados. YTD significa acumulado no ano.
+
+\Needspace{190pt}
+\subsection*{Interpretação dos cartões financeiros}
+\begin{itemize}
+
+\item \textbf{Acumulado:} Total de \emph{IF Cost} realizado no período (ex.: \tech{US\$ 94.176,73});
+\item \textbf{Target de IF Cost:} Meta acumulada até o último mês com dados (ex.: \tech{US\$ 109.020,00});
+\item \textbf{Atingimento do target:} Relação entre a meta e o custo realizado (meta $\div$ realizado $\times 100$). Quando o realizado é menor que a meta, o resultado supera 100\% (ex.: \tech{115,8\%}, favorável);
+\item \textbf{Diferença para a meta:} Situação em relação à meta e folga em dólares (ex.: \tech{Dentro da meta \ensuremath{\checkmark} — Folga de US\$ 14.843,27});
+\item \textbf{Variação de IF Cost:} Comparação percentual com o mesmo período do ano anterior (ex.: \tech{-24,7\% \ensuremath{\downarrow}}).
+
+\end{itemize}
+
+\passo[0.49231/0.54444/0.49231/0.54444,0.43077/0.57333/0.53846/0.62222,0.10154/0.30111/0.07692/0.25556,0.88462/0.30111/0.90769/0.25556]{completo/29-target-realizado}{Abrir a tabela Target \ensuremath{\times} realizado}{%
+No gráfico do Dashboard, escolha Mensal ou Semanal e use o ícone de tabela para abrir este quadro.\par
+\begin{elementos}
+\item \textbf{Dados mensais.} Consulte Realizado, Referência, Meta, Atingimento e Variação por mês.
+\item \textbf{Nota do mês.} Leia a observação que explica a variação do período.
+\item \textbf{Tabela anterior.} Volte ao quadro anterior.
+\item \textbf{Próxima tabela.} Avance entre as seis tabelas do Dashboard.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e controles da tela}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Controle} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e funcionamento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Controle} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e funcionamento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Chave ``Impacto absoluto'' / ``Eficiência relativa''} & Não & Chave de alternância & Alterna entre valores totais (\tech{US\$} ou \tech{Unidades}) e percentual sobre a produção (\tech{Scrap Rate \%}). \\
+\rowcolor{guiaareia!70} \textbf{Chave ``Valor monetário'' / ``Quantidade''} & Não & Chave de alternância & Alterna a unidade de todos os gráficos entre Dólares (\tech{US\$}) e peças (\tech{Unidades}). \\
+\rowcolor{white} \textbf{Botões ``Mensal'' / ``Semanal''} & Não & Botões de opção & Mudam a divisão do gráfico temporal entre meses (\tech{Jan–Dez}) e semanas (\tech{W01–W52}). \\
+\rowcolor{guiaareia!70} \textbf{COMPARAR COM (na tabela)} & Não & Campo de seleção & Escolhe a base de comparação (\tech{YTD anterior}, \tech{Mesmo mês ano anterior} ou \tech{Mês anterior}). \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Meta (``Target'') aparece zerada nos cartões e no gráfico}\par
+\textbf{Causa provável:} As metas mensais do ano selecionado ainda não foram salvas em \textbf{Configurações > IF Cost}.\par
+\textbf{Como resolver:} Acesse \textbf{Configurações > IF Cost}, preencha as metas dos 12 meses e clique em \textbf{Salvar metas}.
+\end{remark}
+
+\section{Visão de Eficiência Relativa (Scrap Rate)}
+
+\subsection*{Objetivo}
+
+Analisar o custo de scrap proporcionalmente ao volume produzido em cada mês (\textbf{Scrap Rate de IF Cost}), permitindo comparar meses de diferentes volumes produtivos na mesma base percentual.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Valores mensais de produção cadastrados em \textbf{Configurações > Dados de produção}.
+\end{itemize}
+
+\passo[0.05366/0.07458/0.03415/0.01695,0.14268/0.20000/0.09756/0.14124,0.39024/0.20000/0.35366/0.14124,0.63537/0.20000/0.62195/0.14124,0.87439/0.20000/0.89024/0.14124,0.32927/0.58192/0.32927/0.58192,0.86098/0.58192/0.86098/0.58192]{completo/30-dashboard-scrap-rate}{Consultar o Scrap Rate}{%
+\begin{elementos}
+\item \textbf{Eficiência relativa.} Ative a chave para consultar as taxas.
+\item \textbf{Acumulado.} Leia o Scrap Rate de IF Cost, a perda percentual em relação à produção.
+\item \textbf{IF Cost do recorte.} Confira o valor de scrap considerado no cálculo.
+\item \textbf{Material Amount.} Confira o valor da produção do mesmo período.
+\item \textbf{Variação da taxa.} Compare com o mesmo acumulado do ano anterior.
+\item \textbf{Evolução mensal.} Acompanhe o gráfico Scrap Rate de IF Cost por mês.
+\item \textbf{Produtos.} Compare as linhas de produto no ranking de Scrap Rate.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e indicadores da tela}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Indicador} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e funcionamento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Indicador} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e funcionamento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Scrap Rate de IF Cost} & Somente leitura & Percentual (\tech{0,0000\%}) & Calculado dividindo o \emph{IF Cost do recorte} pelo \emph{Material Amount} (valor produzido) e multiplicando o resultado por 100. \\
+\rowcolor{guiaareia!70} \textbf{Material Amount} & Somente leitura & Valor em dólares (\tech{US\$}) & Soma do valor de produção cadastrado para os meses e produtos filtrados. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Taxa percentual não calculada para determinado mês}\par
+\textbf{Causa provável:} O mês consultado ainda não possui valor de produção lançado em \textbf{Configurações > Dados de produção}.\par
+\textbf{Como resolver:} Acesse \textbf{Configurações > Dados de produção} e registre o valor produzido daquele mês.
+\end{remark}
+
+\section{Visão por Quantidade de Peças e Comparação Temporal}
+
+\subsection*{Objetivo}
+
+Acompanhar o volume físico de itens descartados ou retrabalhados em \textbf{unidades} e escolher qual período passado será usado como referência comparativa no painel.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Estar na tela do \textbf{Dashboard}.
+\end{itemize}
+
+\passo[0.96707/0.06966/0.96341/0.01910,0.17805/0.20449/0.13415/0.14045,0.49878/0.20449/0.47561/0.14045,0.81707/0.20449/0.84146/0.14045,0.35366/0.63483/0.35366/0.63483,0.82439/0.63483/0.82439/0.63483]{completo/31-dashboard-quantidade}{Consultar a quantidade de peças}{%
+\begin{elementos}
+\item \textbf{Quantidade.} Ative a chave para consultar os indicadores em unidades.
+\item \textbf{Acumulado.} Confira o total de peças do período.
+\item \textbf{Quantidade de referência.} Compare com a quantidade do período de referência.
+\item \textbf{Variação da QTY Scrap.} Leia a diferença percentual entre os períodos.
+\item \textbf{Gráfico semanal.} Acompanhe a evolução de W01 a W52.
+\item \textbf{Produtos/áreas.} Compare a distribuição da quantidade no ranking.
+\end{elementos}
+}
+
+\passo[0.59070/0.22414/0.79070/0.24138]{completo/32-dashboard-periodo}{Escolher o período de comparação}{
+\begin{elementos}
+\item \textbf{Período de comparação.} Abra o seletor vs. YTD ant. e escolha YTD anterior (mesmo acumulado do ano anterior), Mesmo mês ano anterior ou Mês anterior.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e controles da tela}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Controle} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e funcionamento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Controle} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e funcionamento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Chave ``Quantidade''} & Não & Chave de alternância & Altera a exibição dos cartões e gráficos de dólares (\tech{US\$}) para quantidade de peças (\tech{unidades}). \\
+\rowcolor{guiaareia!70} \textbf{Período de comparação (``vs. YTD ant.'')} & Sim & Campo de seleção & Define qual período anterior serve de base para calcular as variações percentuais. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Os gráficos pararam de mostrar valores em dólares (``US\$'')}\par
+\textbf{Causa provável:} A chave \textbf{Quantidade} no canto superior direito está ligada.\par
+\textbf{Como resolver:} Desligue a chave \textbf{Quantidade} para voltar a ver os valores em dólares (\tech{US\$}).
+\end{remark}
+
+\section{Rankings Top 10 e Filtros do Dashboard}
+
+\subsection*{Objetivo}
+
+Visualizar rapidamente os 10 maiores focos de perda da fábrica (por linhas, modelos, componentes e contas ofensoras) e aplicar filtros de período, catálogo ou operação.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Estar na tela do \textbf{Dashboard}.
+\end{itemize}
+
+\begin{remark}[info]
+A localização e a leitura dos rankings Top 10 já estão descritas no guia rápido. Consulte o passo~\ref{passo:4} (\pagina{passo:4}).
+\end{remark}
+Os rankings agrupam o impacto por \textbf{linha}, \textbf{modelo}, \textbf{componente}
+e \textbf{ofensor}. Exemplos de identificadores exibidos são \tech{A02}, \tech{A05},
+\tech{B01}; \tech{Placa principal}, \tech{Moldura superior}, \tech{Tampa traseira};
+\tech{Module}, \tech{PCBA}, \tech{Cover Assembly}; e \tech{D-EXPENSE},
+\tech{D-DIRECT}, \tech{Intransit Shipment}, \tech{A-STOCK}, respectivamente.
+
+
+\passo[0.14615/0.38906/0.03846/0.42188,0.46154/0.24063/0.40385/0.17188,0.80000/0.24063/0.84615/0.17188,0.46154/0.41094/0.40385/0.50000,0.80000/0.41094/0.84615/0.50000,0.91923/0.92813/0.92308/0.84375,0.78654/0.92813/0.75000/0.84375]{completo/34-dashboard-filtros}{Filtrar o Dashboard}{%
+Abra Filtros no Dashboard ou no gráfico desejado. O detalhe mostra os campos da categoria Operação.\par
+\begin{elementos}
+\item \textbf{Categorias.} Escolha Período, Catálogo, Operação ou Estrutura.
+\item \textbf{Produção.} Restrinja o produto ou o grupo de produção.
+\item \textbf{Linha.} Escolha a linha.
+\item \textbf{Departamento.} Restrinja o departamento.
+\item \textbf{Filtro da linha.} Escolha o agrupamento de linhas.
+\item \textbf{Aplicar.} Atualize os gráficos.
+\item \textbf{Limpar seleção.} Remova o recorte.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Categorias de Filtro (``Período'', ``Catálogo'', ``Operação'', ``Estrutura'')} & Não & Campos de seleção & Permitem filtrar todo o Dashboard (botão do topo) ou apenas um gráfico individual (botão no canto do próprio gráfico). \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Um gráfico específico apresenta números diferentes dos cartões principais}\par
+\textbf{Causa provável:} Há um filtro individual aplicado somente àquele gráfico (o botão \textbf{Filtros} do gráfico fica destacado em rosa).\par
+\textbf{Como resolver:} Clique no botão \textbf{Filtros} daquele gráfico e clique em \textbf{Limpar seleção}.
+\end{remark}
+
+\fimdecapitulo

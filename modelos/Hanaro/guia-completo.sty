@@ -1,0 +1,203 @@
+% Carregado somente depois do capítulo 2; preserva o layout do guia rápido.
+
+% Extension for the complete user manual; original identity remains in the sty.
+\makeatletter
+\setcounter{tocdepth}{1}
+% Explicit row shading avoids automatic row-color state across many longtables.
+\renewcommand{\guiazebra}{}
+% Chapter openings already delimit the content; omit a standalone closing badge.
+\renewcommand{\fimdecapitulo}{}
+\setlength{\guiarodapefolga}{0pt}
+\setlength{\headheight}{34pt}
+\setlength{\headsep}{10pt}
+\let\guiaOldSubsection\subsection
+\RenewDocumentCommand{\subsection}{s m}{%
+ \Needspace{100pt}%
+ \IfBooleanTF{#1}{\guiaOldSubsection*{#2}}{\guiaOldSubsection{#2}}}
+\fancyhead[L]{\parbox[t]{0.49\textwidth}{\raggedright\guiacabecalhofonte\leftmark}}
+\fancyhead[R]{\parbox[t]{0.47\textwidth}{\raggedleft\guiacabecalhofonte\rightmark}}
+\titleformat{\part}[display]
+ {\thispagestyle{empty}\vspace*{28pt}\raggedright}
+ {{\guiahead\fontsize{130}{130}\selectfont\bfseries\color{guiavermelho!18}\thepart}}
+ {-36pt}{\guiahead\fontsize{34}{40}\selectfont\bfseries\color{guiatinta}}
+ [\vspace{12pt}{\color{guiavermelho}\rule{0.42\textwidth}{3bp}}\vspace{16pt}
+ {\normalfont\fontsize{11}{16}\selectfont\color{guiacinza}\printcontents{l}{0}{\setcounter{tocdepth}{0}}}]
+\newsavebox{\guiaPainelBox}
+\NewDocumentCommand{\guiapainel}{O{} m m +m}{%
+ \par\addvspace{7pt}%
+ \begin{lrbox}{\guiaPainelBox}\begin{minipage}{\textwidth}
+ \begin{minipage}[t]{\guiacolimagem}\vspace{0pt}
+ \guiatela{#1}{#2}\par
+ {\centering\fontsize{7.5}{10}\selectfont\color{guiacinza}
+ \textbf{Figura \theguiapasso}\ifcsname guiacap@#2\endcsname
+ ~— \csname guiacap@#2\endcsname\fi\par}
+ \end{minipage}\hfill
+ {\color{guiaborda}\vrule width 0.7pt}\hfill
+ \begin{minipage}[t]{\guiacoltexto}\vspace{0pt}
+ \setlength{\parskip}{0.35em}\raggedright\fontsize{9.3}{12.6}\selectfont
+ {\guiahead\bfseries\fontsize{8}{8}\selectfont\colorbox{guiavermelho}{\color{white}\strut PASSO \theguiapasso}}\par
+ \vspace{0.25em}
+ {\guiahead\bfseries\fontsize{13.5}{16.5}\selectfont\color{guiatinta}#3\par}
+ #4\par\end{minipage}\par\vspace{10pt}
+ {\color{guiaborda}\hrule height 0.4pt}
+ \end{minipage}\end{lrbox}
+ \Needspace{\dimexpr\ht\guiaPainelBox+\dp\guiaPainelBox+16pt\relax}
+ \ifguiaRotularPasso
+  \phantomsection\label{passo:\theguiapasso}\guiaRotularPassofalse
+ \fi
+ \noindent\usebox{\guiaPainelBox}\par\vspace{10pt}
+}
+\newif\ifguiaRotularPasso
+\RenewDocumentCommand{\passo}{O{} m m +m}{%
+ \stepcounter{guiapasso}\protected@edef\@currentlabel{\theguiapasso}%
+ \guiaRotularPassotrue
+ \guiapainel[#1]{#2}{#3}{#4}}
+\NewDocumentCommand{\passocontinuacao}{O{} m m +m}{%
+ \guiapainel[#1]{#2}{#3}{#4}}
+
+% Recortes e chamadas numeradas: aplicados somente depois dos capítulos originais.
+\tikzset{guia marcador/.append style={minimum size=13pt,line width=0.9pt,
+ font=\guiahead\bfseries\fontsize{7.5}{7.5}\selectfont}}
+\newcommand{\guiaincluircaptura}[1]{%
+ \ifcsname guiatela@trim@#1\endcsname
+  \edef\guia@imageopts{width=\the\guiacolimagem,trim={\csname guiatela@trim@#1\endcsname},clip}%
+  \expandafter\includegraphics\expandafter[\guia@imageopts]{#1}%
+ \else\includegraphics[width=\guiacolimagem]{#1}\fi}
+\renewcommand{\guiatela}[2]{%
+ \begin{tikzpicture}
+  \node[anchor=south west,inner sep=0pt] (tela) at (0,0) {\guiaincluircaptura{#2}};
+  \draw[overlay,guiaborda,line width=0.7pt] (tela.south west) rectangle (tela.north east);
+  \ifblank{#1}{}{%
+   \begin{scope}[overlay,x={(tela.south east)},y={(tela.north west)}]
+    \foreach \tx/\ty/\lx/\ly [count=\mn] in {#1}{%
+     \draw[white,line width=1.8pt] (\lx,{1-\ly}) -- (\tx,{1-\ty});
+     \draw[guiavermelho,line width=0.7pt] (\lx,{1-\ly}) -- (\tx,{1-\ty});
+     \node[guia marcador] at (\lx,{1-\ly}) {\mn};
+    }%
+   \end{scope}%
+  }%
+ \end{tikzpicture}}
+
+\expandafter\def\csname guiatela@trim@completo/02-perfil\endcsname{0.000bp 11.985bp 0.000bp 55.930bp}
+\expandafter\def\csname guiatela@trim@completo/03-configuracoes\endcsname{0.000bp 12.090bp 0.000bp 56.420bp}
+\expandafter\def\csname guiatela@trim@completo/04-classificacoes-material\endcsname{256.000bp 16.040bp 24.000bp 232.580bp}
+\expandafter\def\csname guiatela@trim@completo/05-tipos-scrap\endcsname{264.000bp 12.075bp 24.000bp 241.500bp}
+\expandafter\def\csname guiatela@trim@completo/06-metas-if-cost\endcsname{328.000bp 7.980bp 328.000bp 11.970bp}
+\expandafter\def\csname guiatela@trim@completo/07-dados-producao\endcsname{460.800bp 43.945bp 464.000bp 47.940bp}
+\expandafter\def\csname guiatela@trim@completo/08-programa-ano-identificacao\endcsname{256.000bp 1.626bp 16.000bp 231.705bp}
+\expandafter\def\csname guiatela@trim@completo/09-programa-ano-execucao\endcsname{256.000bp 7.910bp 16.000bp 83.055bp}
+\expandafter\def\csname guiatela@trim@completo/10-cotacao-dolar\endcsname{392.000bp 8.030bp 400.000bp 20.075bp}
+\expandafter\def\csname guiatela@trim@completo/16-base-scrap-filtros\endcsname{864.000bp 169.470bp 56.000bp 209.820bp}
+\expandafter\def\csname guiatela@trim@completo/17-ocorrencia-problema-local\endcsname{400.000bp 8.110bp 368.000bp 85.155bp}
+\expandafter\def\csname guiatela@trim@completo/18-ocorrencia-causa-risco\endcsname{8.000bp 4.030bp 8.000bp 56.420bp}
+\expandafter\def\csname guiatela@trim@completo/19-finalizar-analise\endcsname{592.000bp 283.605bp 600.000bp 303.030bp}
+\expandafter\def\csname guiatela@trim@completo/21-salvar-modelo-favorito\endcsname{270.750bp 256.335bp 335.730bp 241.475bp}
+\expandafter\def\csname guiatela@trim@completo/29-target-realizado\endcsname{288.000bp 24.210bp 272.000bp 56.490bp}
+\expandafter\def\csname guiatela@trim@completo/30-dashboard-scrap-rate\endcsname{272.000bp 16.140bp 16.000bp 76.665bp}
+\expandafter\def\csname guiatela@trim@completo/31-dashboard-quantidade\endcsname{272.000bp 11.880bp 16.000bp 75.240bp}
+\expandafter\def\csname guiatela@trim@completo/32-dashboard-periodo\endcsname{1040.000bp 495.320bp 216.000bp 81.200bp}
+\expandafter\def\csname guiatela@trim@completo/34-dashboard-filtros\endcsname{592.000bp 120.150bp 176.000bp 168.210bp}
+\expandafter\def\csname guiatela@trim@completo/35-relatorios\endcsname{248.000bp 289.800bp 8.000bp 72.450bp}
+\expandafter\def\csname guiatela@trim@completo/36-novo-relatorio-analises\endcsname{304.000bp 32.080bp 300.800bp 32.080bp}
+\expandafter\def\csname guiatela@trim@completo/38-novo-relatorio-dados\endcsname{304.000bp 32.120bp 300.800bp 32.120bp}
+\expandafter\def\csname guiatela@trim@completo/39-novo-relatorio-5-porques\endcsname{304.000bp 32.160bp 300.800bp 32.160bp}
+\expandafter\def\csname guiatela@trim@completo/40-novo-relatorio-acoes\endcsname{304.000bp 32.240bp 300.800bp 32.240bp}
+\expandafter\def\csname guiatela@trim@completo/41-relatorio-visao-geral\endcsname{248.000bp 88.880bp 24.000bp 129.280bp}
+\expandafter\def\csname guiatela@trim@completo/42-relatorio-investigacao\endcsname{248.000bp 11.985bp 16.000bp 103.870bp}
+\expandafter\def\csname guiatela@trim@completo/43-tarefas-lista\endcsname{248.000bp 96.600bp 16.000bp 120.750bp}
+\expandafter\def\csname guiatela@trim@completo/44-tarefas-quadro\endcsname{248.000bp 12.135bp 16.000bp 137.530bp}
+\expandafter\def\csname guiatela@trim@completo/45-tarefa-criacao-rapida\endcsname{4.743bp 6.760bp 1193.655bp 517.140bp}
+\expandafter\def\csname guiatela@trim@completo/46-tarefa-validar-conclusao\endcsname{816.000bp 469.800bp 384.000bp 147.900bp}
+\expandafter\def\csname guiatela@trim@completo/47-nova-tarefa-dados\endcsname{382.400bp 48.420bp 376.000bp 52.455bp}
+\expandafter\def\csname guiatela@trim@completo/48-nova-tarefa-responsavel-prazo\endcsname{395.200bp 39.050bp 384.000bp 46.860bp}
+\expandafter\def\csname guiatela@trim@completo/50-tarefas-cronograma\endcsname{272.000bp 11.430bp 16.000bp 121.920bp}
+\expandafter\def\csname guiatela@trim@completo/51-relatorio-resultado\endcsname{288.000bp 12.105bp 16.000bp 121.050bp}
+\expandafter\def\csname guiatela@trim@completo/52-relatorio-fotos\endcsname{272.000bp 11.970bp 16.000bp 87.780bp}
+\expandafter\def\csname guiatela@trim@completo/53-relatorio-previa\endcsname{272.000bp 11.835bp 8.000bp 82.845bp}
+\expandafter\def\csname guiatela@trim@completo/54-exportar-pdf\endcsname{352.000bp 24.180bp 364.800bp 20.150bp}
+\expandafter\def\csname guiatela@trim@completo/55-exportar-powerpoint\endcsname{352.000bp 24.180bp 364.800bp 20.150bp}
+\expandafter\def\csname guiatela@trim@completo/56-slide-exportado\endcsname{208.000bp 19.975bp 8.000bp 55.930bp}
+\expandafter\def\csname guiatela@trim@completo/57-alertas\endcsname{264.000bp 11.985bp 8.000bp 79.900bp}
+\expandafter\def\csname guiatela@trim@completo/58-configurar-alertas\endcsname{512.000bp 233.160bp 512.000bp 225.120bp}
+\expandafter\def\csname guiatela@trim@completo/59-regra-alerta-condicoes\endcsname{432.000bp 20.175bp 432.000bp 16.140bp}
+\expandafter\def\csname guiatela@trim@completo/60-regra-alerta-destinatarios\endcsname{376.000bp 8.100bp 424.000bp 16.200bp}
+\expandafter\def\csname guiatela@trim@completo/61-integracao-teams\endcsname{120.000bp 48.300bp 8.000bp 64.400bp}
+\expandafter\def\csname guiatela@trim@completo/62-teams-novo-destino-ingles\endcsname{120.000bp 12.045bp 16.000bp 56.210bp}
+\expandafter\def\csname guiatela@trim@completo/65-fale-com-suporte\endcsname{516.800bp 144.900bp 518.400bp 140.875bp}
+\expandafter\def\csname guiatela@trim@completo/66-solicitacoes-suporte\endcsname{128.000bp 12.225bp 16.000bp 81.500bp}
+\expandafter\def\csname guiatela@trim@completo/67-usuarios\endcsname{120.000bp 32.320bp 8.000bp 64.640bp}
+\expandafter\def\csname guiatela@trim@completo/68-novo-usuario\endcsname{512.000bp 72.810bp 512.000bp 72.810bp}
+\expandafter\def\csname guiatela@trim@completo/69-uso-plataforma\endcsname{120.000bp 12.225bp 8.000bp 65.200bp}
+\expandafter\def\csname guiatela@trim@completo/70-tempos-manuais\endcsname{512.000bp 143.820bp 512.000bp 151.810bp}
+\makeatother
+\expandafter\def\csname guiacap@completo/01-login\endcsname{Tela inicial de acesso ao sistema Hanaro}
+\expandafter\def\csname guiacap@completo/02-perfil\endcsname{Tela de Perfil do colaborador e gerenciamento de sessões conectadas}
+\expandafter\def\csname guiacap@completo/03-configuracoes\endcsname{Tela geral de Configurações com seleção de tema visual, idioma e regras do sistema}
+\expandafter\def\csname guiacap@completo/04-classificacoes-material\endcsname{Tela de Classificações de Material com códigos pendentes e regras cadastradas}
+\expandafter\def\csname guiacap@completo/05-tipos-scrap\endcsname{Tela de cadastro e gerenciamento de Tipos de Scrap}
+\expandafter\def\csname guiacap@completo/06-metas-if-cost\endcsname{Janela de configuração da meta anual e mensal de IF Cost}
+\expandafter\def\csname guiacap@completo/07-dados-producao\endcsname{Janela de lançamento mensal de Dados de produção}
+\expandafter\def\csname guiacap@completo/08-programa-ano-identificacao\endcsname{Parte superior da tela Programa do ano com Identificação e KPI}
+\expandafter\def\csname guiacap@completo/09-programa-ano-execucao\endcsname{Parte inferior da tela Programa do ano com Plano de execução e Organização}
+\expandafter\def\csname guiacap@completo/10-cotacao-dolar\endcsname{Janela de consulta e ajuste da Cotação do dólar}
+\expandafter\def\csname guiacap@completo/11-execucoes\endcsname{Tela de Execuções e atualização com o Histórico de rotinas processadas}
+\expandafter\def\csname guiacap@completo/12-enviar-relatorio\endcsname{Janela para selecionar e processar manualmente o relatório GERP}
+\expandafter\def\csname guiacap@completo/13-base-scrap\endcsname{Tela principal da Base de Scrap listando as ocorrências importadas}
+\expandafter\def\csname guiacap@completo/14-base-scrap-ordenacao\endcsname{Opções de ordenação da tabela de Ocorrências de scrap}
+\expandafter\def\csname guiacap@completo/15-base-scrap-status\endcsname{Filtro rápido por Status da análise na Base de Scrap}
+\expandafter\def\csname guiacap@completo/16-base-scrap-filtros\endcsname{Painel de Filtros da base aberto na categoria Produção}
+\expandafter\def\csname guiacap@completo/17-ocorrencia-problema-local\endcsname{Seções 1 (O problema) e 2 (Onde e quando) do formulário de Análise de Scrap}
+\expandafter\def\csname guiacap@completo/18-ocorrencia-causa-risco\endcsname{Seções 3 (Causa) e 4 (Risco e responsabilidade) do formulário de Análise de Scrap}
+\expandafter\def\csname guiacap@completo/19-finalizar-analise\endcsname{Janela de confirmação da finalização da análise}
+\expandafter\def\csname guiacap@completo/20-ocorrencia-revisada\endcsname{Visualização resumida de uma ocorrência com análise finalizada (Revisado)}
+\expandafter\def\csname guiacap@completo/21-salvar-modelo-favorito\endcsname{Janela Salvar como modelo favorito com definição do nome de referência}
+\expandafter\def\csname guiacap@completo/22-nome-modelo-favorito\endcsname{Ajuste do nome de referência em Salvar como modelo favorito}
+\expandafter\def\csname guiacap@completo/23-modelos-salvos\endcsname{Painel de Modelos Salvos aberto e modo de aplicação em lote ativado}
+\expandafter\def\csname guiacap@completo/24-selecionar-ocorrencias\endcsname{Seleção de múltiplas ocorrências na tabela para aplicação do modelo}
+\expandafter\def\csname guiacap@completo/25-aplicar-modelo-2-ocorrencias\endcsname{Confirmação de aplicação de modelo em lote para 2 ocorrências selecionadas}
+\expandafter\def\csname guiacap@completo/26-aplicar-modelo-3-ocorrencias\endcsname{Confirmação de aplicação de modelo em lote para 3 ocorrências selecionadas}
+\expandafter\def\csname guiacap@completo/27-modelo-lote-concluido\endcsname{Mensagem de conclusão após criar análises em lote com sucesso}
+\expandafter\def\csname guiacap@completo/28-dashboard-financeiro\endcsname{Dashboard na visão financeira padrão (Impacto absoluto em Dólares)}
+\expandafter\def\csname guiacap@completo/29-target-realizado\endcsname{Tabela detalhada Target \ensuremath{\times} realizado mensal com notas explicativas por mês}
+\expandafter\def\csname guiacap@completo/30-dashboard-scrap-rate\endcsname{Dashboard com a visão de Eficiência relativa (Scrap Rate por mês e por produto)}
+\expandafter\def\csname guiacap@completo/31-dashboard-quantidade\endcsname{Dashboard na visão de Quantidade física em unidades e acompanhamento semanal}
+\expandafter\def\csname guiacap@completo/32-dashboard-periodo\endcsname{Menu de seleção do período de comparação histórica no topo do Dashboard}
+\expandafter\def\csname guiacap@completo/33-dashboard-top-10\endcsname{Gráficos de ranking Top 10 linhas, modelos, componentes e ofensores}
+\expandafter\def\csname guiacap@completo/34-dashboard-filtros\endcsname{Janela de Filtros do Dashboard aberta na categoria Operação}
+\expandafter\def\csname guiacap@completo/35-relatorios\endcsname{Tela principal de Relatórios com abas de status e lista de planos}
+\expandafter\def\csname guiacap@completo/36-novo-relatorio-analises\endcsname{Etapa 1 de criação de Novo relatório antes da seleção das análises}
+\expandafter\def\csname guiacap@completo/37-novo-relatorio-analises-selecionadas\endcsname{Etapa 1 de criação de Novo relatório com análises selecionadas}
+\expandafter\def\csname guiacap@completo/38-novo-relatorio-dados\endcsname{Etapa 2 de criação de Novo relatório (Título, Descrição, Responsável e Prazo)}
+\expandafter\def\csname guiacap@completo/39-novo-relatorio-5-porques\endcsname{Etapa 3 de criação de Novo relatório com preenchimento dos 5 Porquês}
+\expandafter\def\csname guiacap@completo/40-novo-relatorio-acoes\endcsname{Etapa 4 de criação de Novo relatório para inclusão opcional de ações iniciais}
+\expandafter\def\csname guiacap@completo/41-relatorio-visao-geral\endcsname{Aba Visão geral do relatório com indicadores do caso e checklist de Prontidão}
+\expandafter\def\csname guiacap@completo/42-relatorio-investigacao\endcsname{Aba Investigação do relatório com Causa raiz, 5 porquês e análises vinculadas}
+\expandafter\def\csname guiacap@completo/43-tarefas-lista\endcsname{Aba Lista de tarefas do relatório com filtros e barra de adição rápida}
+\expandafter\def\csname guiacap@completo/44-tarefas-quadro\endcsname{Aba Quadro de tarefas do relatório com as quatro colunas de andamento}
+\expandafter\def\csname guiacap@completo/45-tarefa-criacao-rapida\endcsname{Criação rápida de tarefa diretamente na base da coluna Planejada}
+\expandafter\def\csname guiacap@completo/46-tarefa-validar-conclusao\endcsname{Cartão de tarefa na coluna Em validação com botão Validar conclusão}
+\expandafter\def\csname guiacap@completo/47-nova-tarefa-dados\endcsname{Parte superior da janela Nova tarefa (Dados da tarefa e Classificação)}
+\expandafter\def\csname guiacap@completo/48-nova-tarefa-responsavel-prazo\endcsname{Parte inferior da janela Nova tarefa (Responsável, prazo, linhas e economia)}
+\expandafter\def\csname guiacap@completo/49-tarefa-area-prazo\endcsname{Detalhe do preenchimento de Área responsável e Prazo na janela de tarefa}
+\expandafter\def\csname guiacap@completo/50-tarefas-cronograma\endcsname{Aba Cronograma exibindo a linha do tempo de execução das tarefas}
+\expandafter\def\csname guiacap@completo/51-relatorio-resultado\endcsname{Aba Resultado com comparativo antes e depois e medição de efeito na base de scrap}
+\expandafter\def\csname guiacap@completo/52-relatorio-fotos\endcsname{Evidências visuais do relatório: fotos antes e depois e registros das etapas do processo}
+\expandafter\def\csname guiacap@completo/53-relatorio-previa\endcsname{Aba Prévia do relatório com menu superior de ações aberto}
+\expandafter\def\csname guiacap@completo/54-exportar-pdf\endcsname{Janela Montar documento configurada para exportar relatório executivo em PDF A4}
+\expandafter\def\csname guiacap@completo/55-exportar-powerpoint\endcsname{Janela Montar documento configurada para exportar Apresentação 16:9 em PowerPoint com seleção de idioma}
+\expandafter\def\csname guiacap@completo/56-slide-exportado\endcsname{Exemplo de slide exportado para PowerPoint com problema, causa raiz, ações e resultados}
+\expandafter\def\csname guiacap@completo/57-alertas\endcsname{Tela principal de Alertas com o Histórico de notificações recebidas}
+\expandafter\def\csname guiacap@completo/58-configurar-alertas\endcsname{Janela Configurar alertas listando as regras de notificação cadastradas}
+\expandafter\def\csname guiacap@completo/59-regra-alerta-condicoes\endcsname{Parte superior do cadastro de Regra de notificação (Identificação e Quando avisar)}
+\expandafter\def\csname guiacap@completo/60-regra-alerta-destinatarios\endcsname{Parte inferior do cadastro de Regra de notificação (Filtros, Quem recebe e Canais)}
+\expandafter\def\csname guiacap@completo/61-integracao-teams\endcsname{Tela inicial de Integrações com o Microsoft Teams antes do cadastro de destinos}
+\expandafter\def\csname guiacap@completo/62-teams-novo-destino-ingles\endcsname{Formulário de cadastro de novo destino do Microsoft Teams com idioma em Inglês}
+\expandafter\def\csname guiacap@completo/63-teams-tipos-destino\endcsname{Opções do campo Tipo no cadastro de destino do Microsoft Teams (Pessoa, Grupo ou Canal)}
+\expandafter\def\csname guiacap@completo/64-teams-novo-destino-portugues\endcsname{Formulário de cadastro de novo destino do Microsoft Teams com idioma em Português}
+\expandafter\def\csname guiacap@completo/65-fale-com-suporte\endcsname{Janela Fale com o suporte para envio de dúvidas, problemas ou sugestões}
+\expandafter\def\csname guiacap@completo/66-solicitacoes-suporte\endcsname{Tela administrativa de Solicitações de suporte (Caixa de entrada)}
+\expandafter\def\csname guiacap@completo/67-usuarios\endcsname{Tela de Usuários listando os colaboradores cadastrados e seus cargos}
+\expandafter\def\csname guiacap@completo/68-novo-usuario\endcsname{Janela Novo usuário preenchida para criação de conta de acesso}
+\expandafter\def\csname guiacap@completo/69-uso-plataforma\endcsname{Painel de Uso da plataforma com tempo economizado e gráfico de acessos por dia}
+\expandafter\def\csname guiacap@completo/70-tempos-manuais\endcsname{Janela Configurar tempos manuais em minutos por tarefa}
+\expandafter\def\csname guiacap@completo/71-modo-tv\endcsname{Modo TV na tela Fábrica com indicadores, ranking e controles de rotação}

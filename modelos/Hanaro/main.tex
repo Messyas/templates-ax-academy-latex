@@ -1,0 +1,129 @@
+% !TEX program = lualatex
+% =============================================================================
+%  Guia Rápido de Uso — Hanaro — modelo AX Academy / IFAM
+%
+%  COMPILAR NA RAIZ: uv run build hanaro (LuaLaTeX, três passadas)
+%
+%  Todo o estilo mora em axacademy-guia.sty. Aqui ficam só os dados do guia e
+%  a ordem dos capítulos, que estão em caps/. As telas ficam em img/.
+%
+%  O conteúdo é o do Hanaro, o sistema de controle de perdas (scrap) da Linha
+%  Final, e serve de gabarito para os outros projetos: telas reais do MVP,
+%  Os capítulos 1 e 2 conservam os oito passos originais. Os demais ampliam a consulta.
+%
+%  Sem número de equipe em nenhum lugar do guia: a autoria é a equipe do Polo
+%  INOVA. Subtítulo e tagline vazios tiram o texto da capa, da folha de rosto
+%  e da contracapa.
+% =============================================================================
+\documentclass[11pt,a4paper,oneside,openany]{book}
+\usepackage{axacademy-guia}
+
+% ---------- DADOS DESTE GUIA ----------
+\guiatitulo{Guia do\\Usuário}
+\guiasubtitulo{}
+\guiasistema{Hanaro}
+\guiatagline{}
+\guiaequipe{equipe do Polo INOVA}
+\guiaano{2026}
+\guiaversao{1.5}
+\guiacidade{Manaus, Amazonas --- Brasil}
+\guiacliente{LG Electronics do Brasil}
+\guiareferencia{}
+
+% ---------- CONTATO (folha de rosto) ----------
+% Campo vazio some da folha de rosto, com o ícone. O suporte do Hanaro é feito
+% pelo próprio sistema (Capítulo 10), por isso não há e-mail.
+\guiaemail{}
+\guiasite{www.ifam.edu.br}
+\guiaendereco{INOVA --- Polo de Inovação do IFAM\\
+    Av. Gov. Danilo de Matos Areosa, 1975 --- Distrito Industrial I\\
+    Manaus/AM --- CEP 69075-351}
+
+% ---------- AVISO DA CAPA ----------
+% Quebras explícitas: a caixa comporta três linhas curtas.
+\guiaaviso{LEIA ANTES DO\\PRIMEIRO ACESSO}
+
+% ---------- MARCA DO SISTEMA ----------
+% O Hanaro tem o logotipo inteiro em arquivo (art/marca/hanaro-assinatura.pdf),
+% então o ícone fica vazio e o nome não é composto em texto.
+\guiamarcaicone{}
+\guiamarcatexto{hanaro-assinatura}
+
+% ---------- IMAGEM DA CAPA ----------
+% Vazio: capa sem imagem. Para pôr uma, nomeie um arquivo de img/.
+\guiacapaimagem{}
+
+% ---------- TEXTO DA CONTRACAPA ----------
+% Sai logo abaixo das marcas da AX Academy e do IFAM.
+\guiasobreaequipe{Orientações de uso e consulta operacional — novembro de 2026}
+
+\begin{document}
+
+% ---------- ABERTURA ----------
+\guiacapa
+\guiafolhaderosto
+\guiaavisodeuso
+
+% ---------- HISTÓRICO DE REVISÕES ----------
+\begin{guiahistorico}
+    \guiarevisao{1.0}{Outubro de 2026}{AX Academy}{Emissão inicial.}
+    \guiarevisao{1.2}{Novembro de 2026}{Equipe do Polo INOVA}{Preservação dos capítulos 1 e 2 do guia rápido e inclusão da consulta detalhada a partir do capítulo 3.}
+    \guiarevisao{1.3}{Novembro de 2026}{Equipe do Polo INOVA}{Consolidação de passos repetidos e referências ao guia rápido, com os capítulos 1 e 2 preservados.}
+    \guiarevisao{1.4}{Novembro de 2026}{Equipe do Polo INOVA}{Revisão dos marcadores, recortes dos formulários e correspondência entre imagem e instruções.}
+    \guiarevisao{1.5}{Novembro de 2026}{Equipe do Polo INOVA}{Revisão editorial, padronização das instruções e esclarecimento das regras e dos indicadores.}
+\end{guiahistorico}
+
+\begin{remark}[info]
+Os capítulos 1 e 2 reproduzem integralmente o guia rápido do perfil Gestor. As indicações de público e escopo nesses capítulos se referem ao uso básico. A partir do capítulo 3, este mesmo volume apresenta a consulta detalhada para os perfis Analista, Gestor e Administrador.
+\end{remark}
+
+\clearpage
+
+\guiasobreax
+
+\guiapagina{Sobre o sistema}{%
+    O Hanaro é o sistema web de controle das perdas produtivas (\emph{scrap}) da
+    Linha Final. Ele recebe o relatório \emph{Other Account Transaction Text}
+    exportado do GERP, consolida a base de scrap e publica o IF Cost no Dashboard e
+    no Modo TV, exibido nas telas da fábrica.
+
+    Antes dele, o analista de Produção reprocessava à mão a planilha enviada pela
+    Qualidade, de 1,5 a 2 horas por dia, para converter os valores, recortar o
+    escopo e eleger os ofensores do período.
+
+    O fluxo básico tem oito passos: entrar no sistema, enviar o relatório do GERP,
+    conferir a execução, ler o Dashboard, revisar a Base de Scrap, consultar a
+    análise de uma ocorrência, aplicar um modelo de análise em lote e exibir o Modo
+    TV. A \autoref{sec:fluxo} apresenta esse fluxo em BPMN; o \autoref{cap:passos}
+    descreve cada passo com a tela correspondente.
+}
+
+\guiasumario
+
+% ---------- PARTE I ----------
+% Um capítulo só por parte; dentro dele, só seções.
+\part{Visão Geral}
+\include{caps/cap01}
+
+% ---------- PARTE II ----------
+\part{Passo a Passo}
+\include{caps/cap02}
+
+% ---------- CONSULTA DETALHADA ----------
+% Os ajustes para blocos extensos começam somente aqui.
+\input{guia-completo.sty}
+\part{Consulta Detalhada}
+\include{caps/cap03}
+\include{caps/cap04}
+\include{caps/cap05}
+\include{caps/cap06}
+\include{caps/cap07}
+\include{caps/cap08}
+\part{Administração e Recursos Complementares}
+\include{caps/cap09}
+\include{caps/cap10}
+
+% ---------- FECHAMENTO ----------
+\guiacontracapa
+
+\end{document}

@@ -1,0 +1,179 @@
+\chapter{Acesso ao Sistema e Gestão da Conta}
+
+\label{cap:manual-1}
+
+\section{Perfis de acesso}
+
+
+Este guia apresenta o uso das principais telas do sistema \textbf{Hanaro}, orientando passo a passo as rotinas diárias de controle de refugo (\emph{scrap}), acompanhamento de metas financeiras (\emph{IF Cost}), investigação de causas, gestão de planos de ação e configuração de alertas.\par
+As telas e menus visíveis para cada colaborador dependem do seu \textbf{Cargo (Perfil de Acesso)} cadastrado no sistema:\par
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{2.425cm}L{4.244cm}L{8.488cm}@{}}
+\toprule
+\guiacabtabela \thead{Perfil de Acesso} & \thead{Quem Utiliza} & \thead{Telas Disponíveis no Menu Lateral} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Perfil de Acesso} & \thead{Quem Utiliza} & \thead{Telas Disponíveis no Menu Lateral} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Analista} & Equipe operacional e técnica de Qualidade e Manufatura & \textbf{Dashboard}, \textbf{Base de Scrap}, \textbf{Relatórios}, \textbf{Alertas}, \textbf{Ajuda e suporte} e \textbf{Perfil} \\
+\rowcolor{guiaareia!70} \textbf{Gestor} & Líderes de área, coordenadores e gerentes industriais & Todas as telas do Analista, além de aprovação de tarefas em validação, gestão de \textbf{Configurações} da planta e \textbf{Execuções} \\
+\rowcolor{white} \textbf{Administrador (Admin)} & Responsáveis pela administração do sistema e integrações & Acesso administrativo às rotinas de \textbf{Uso da plataforma}, \textbf{Execuções}, \textbf{Usuários}, \textbf{Alertas}, \textbf{Integrações (Microsoft Teams)} e caixa de entrada de \textbf{Suporte} \\
+\end{longtable}
+\endgroup
+
+
+\section{Tela de Login}
+
+\subsection*{Objetivo}
+
+Permitir que o colaborador entre no sistema Hanaro com seu usuário e senha individuais. Deve ser utilizada por todos os colaboradores no início do expediente ou quando a sessão for encerrada por inatividade.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Possuir usuário e senha ativos cadastrados pela administração do sistema.
+\end{itemize}
+
+\begin{remark}[info]
+O procedimento de acesso já está descrito no guia rápido. As tabelas abaixo complementam as regras de credenciais e as mensagens de erro. Consulte o passo~\ref{passo:1} (\pagina{passo:1}).
+\end{remark}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Usuário} & Sim & Texto (letras minúsculas e números) & Identificação única do colaborador no sistema. \\
+\rowcolor{guiaareia!70} \textbf{Senha} & Sim & Texto oculto por pontos & Senha pessoal de acesso. Possui botão lateral com ícone de olho para exibir ou ocultar o texto digitado. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}
+\textbf{Informe o nome de usuário e a senha.}\par
+\textbf{Causa provável:} Você clicou em \textbf{Entrar} deixando o campo \textbf{Usuário} ou \textbf{Senha} em branco.\par
+\textbf{Como resolver:} Preencha os dois campos antes de clicar em \textbf{Entrar}.
+\end{remark}
+
+\begin{remark}
+\textbf{Nome de usuário ou senha incorretos.}\par
+\textbf{Causa provável:} O usuário não existe, está desativado ou a senha foi digitada com algum erro.\par
+\textbf{Como resolver:} Clique no ícone de olho para conferir a senha digitada. Se continuar sem acesso, solicite a redefinição de senha ao Administrador.
+\end{remark}
+
+\begin{remark}
+\textbf{Caps Lock ativado.}\par
+\textbf{Causa provável:} A tecla de letras maiúsculas (\emph{Caps Lock}) do teclado está ativada enquanto você digita a senha.\par
+\textbf{Como resolver:} Desative a tecla \emph{Caps Lock} do teclado e digite a senha novamente.
+\end{remark}
+
+\begin{remark}
+\textbf{Muitas tentativas...}\par
+\textbf{Causa provável:} Foram feitas várias tentativas seguidas com senha incorreta.\par
+\textbf{Como resolver:} Aguarde alguns minutos pelo desbloqueio automático antes de tentar novamente.
+\end{remark}
+
+\Needspace{100pt}
+\begin{remark}
+\textbf{Não foi possível entrar. Verifique a conexão e tente novamente.}\par
+\textbf{Causa provável:} O computador está sem comunicação com a rede da empresa ou o sistema está temporariamente indisponível.\par
+\textbf{Como resolver:} Verifique sua conexão de rede e tente acessar novamente em instantes.
+\end{remark}
+
+\section{Meu Perfil e Sessões Ativas}
+
+\subsection*{Objetivo}
+
+Permitir que qualquer colaborador consulte seus dados cadastrais, atualize sua foto de identificação, ative o recebimento de avisos pessoais no Microsoft Teams e encerre acessos abertos em outros computadores.\par
+
+\subsection*{Antes de começar}
+
+\begin{itemize}
+\item Estar conectado ao sistema.
+\item Para trocar a foto de identificação, possuir uma imagem salva no computador nos formatos \tech{JPEG}, \tech{PNG} ou \tech{WebP} com tamanho máximo de \textbf{5 MB}.
+\end{itemize}
+
+\passo[0.06700/0.95847/0.07900/0.90929,0.39000/0.13115/0.39000/0.13115,0.18200/0.40874/0.24000/0.36066,0.87500/0.55628/0.84300/0.49727,0.94100/0.55628/0.96500/0.61749,0.94500/0.71913/0.91000/0.66120,0.93200/0.86776/0.87500/0.83060]{completo/02-perfil}{Consultar perfil e sessões}{%
+\begin{elementos}
+\item \textbf{Nome e cargo.} Clique no seu nome, na parte inferior do menu lateral, para abrir o Perfil.
+\item \textbf{Identificação.} Confira nome completo, usuário, e-mail e cargo cadastrados.
+\item \textbf{Alertas no Teams.} Ative ou desative Receber meus alertas no Teams conforme a disponibilidade do seu destino pessoal.
+\item \textbf{Alterar foto.} Escolha um arquivo JPEG, PNG ou WebP de até 5 MB. Aguarde a mensagem Foto atualizada com sucesso.
+\item \textbf{Remover foto.} Apague a foto atual se desejar retirar a identificação visual.
+\item \textbf{Atualizar sessões.} Confira os computadores e navegadores conectados e recarregue a lista. A indicação Este dispositivo identifica o computador em uso.
+\item \textbf{Encerrar sessão.} Desconecte imediatamente o acesso selecionado.
+\end{elementos}
+}
+
+\Needspace{160pt}
+
+\subsection*{Campos e regras}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{8pt}
+\begin{longtable}{@{}L{3.389cm}L{1.916cm}L{2.652cm}L{6.778cm}@{}}
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Campo} & \thead{Obrigatório} & \thead{Formato} & \thead{Descrição e regra de preenchimento} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Nome completo} & Somente leitura & Texto & Nome completo do colaborador cadastrado pela administração. \\
+\rowcolor{guiaareia!70} \textbf{Usuário} & Somente leitura & Texto (identificação de acesso) & Identificação utilizada pelo colaborador para entrar no sistema. \\
+\rowcolor{white} \textbf{E-mail da conta} & Somente leitura & Endereço de e-mail & E-mail corporativo vinculado à conta do colaborador. \\
+\rowcolor{guiaareia!70} \textbf{Receber meus alertas no Teams} & Não & Chave liga/desliga & Ativa o envio de alertas individuais para o seu Microsoft Teams quando houver um destino pessoal cadastrado. \\
+\rowcolor{white} \textbf{Cargo} & Somente leitura & Texto (\tech{Analista}, \tech{Gestor} ou \tech{Admin}) & Indica o nível de permissão do colaborador no sistema. \\
+\rowcolor{guiaareia!70} \textbf{Foto de identificação} & Não & Imagem (\tech{JPEG}, \tech{PNG} ou \tech{WebP} até 5 MB) & Foto exibida no menu lateral e nos registros de atividades do colaborador. \\
+\rowcolor{white} \textbf{Sessões ativas} & Somente leitura & Lista de dispositivos & Mostra navegador, sistema operacional, data/hora do último acesso e endereço de rede de cada sessão aberta. \\
+\end{longtable}
+\endgroup
+
+\subsection*{Mensagens e solução de problemas}
+
+\begin{remark}[info]
+\textbf{Foto atualizada com sucesso.}\par
+\textbf{O que significa:} A nova foto escolhida foi salva corretamente.\par
+\textbf{Próximo passo:} Nenhuma ação necessária (mensagem de confirmação).
+\end{remark}
+
+\begin{remark}
+\textbf{Use uma imagem JPEG, PNG ou WebP de até 5 MB.}\par
+\textbf{Causa provável:} O arquivo escolhido está em outro formato (como PDF ou BMP) ou pesa mais de 5 MB.\par
+\textbf{Como resolver:} Escolha uma imagem \tech{.jpg} ou \tech{.png} menor que 5 MB e clique novamente em \textbf{Alterar foto}.
+\end{remark}
+
+\begin{remark}
+\textbf{Nenhum destino pessoal configurado}\par
+\textbf{Causa provável:} A chave do Teams está visível, mas ainda não há um canal pessoal vinculado ao seu usuário.\par
+\textbf{Como resolver:} Solicite ao Administrador o cadastro do seu destino individual na tela de \textbf{Integrações > Microsoft Teams}.
+\end{remark}
+
+\fimdecapitulo
