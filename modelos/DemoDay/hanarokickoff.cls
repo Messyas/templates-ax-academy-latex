@@ -553,6 +553,21 @@
     \setlength{\partopsep}{0pt}\setlength{\rightmargin}{0pt}}%
 }{\end{list}}
 
+%% Marcador em ponto circular (bullet). \dxiponto{<cor>}
+\newcommand{\dxiponto}[1]{%
+  \raisebox{0.25ex}{\begin{tikzpicture}[baseline=0pt,x=1ex,y=1ex]
+    \fill[#1] (0,0) circle (0.38ex);
+  \end{tikzpicture}}}
+
+%% Lista com ponto/bullet. \begin{dxipontos}[<cor>] \item ... \end{dxipontos}
+\newenvironment{dxipontos}[1][dxinavy]{%
+  \begin{list}{\dxiponto{#1}}{%
+    \setlength{\leftmargin}{0.75cm}\setlength{\labelwidth}{0.50cm}%
+    \setlength{\labelsep}{0.25cm}\setlength{\itemsep}{0.45em}%
+    \setlength{\parsep}{0pt}\setlength{\topsep}{0pt}%
+    \setlength{\partopsep}{0pt}\setlength{\rightmargin}{0pt}}%
+}{\end{list}}
+
 %% Cartao de numero/KPI. \dxinum[<cor>]{<valor>}{<rotulo>}
 %% Use varios em sequencia para formar uma fileira de indicadores.
 \newcommand{\dxinum}[3][dxired]{%
