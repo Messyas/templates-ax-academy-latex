@@ -25,7 +25,7 @@
 \guiatagline{}
 \guiaequipe{equipe do Polo INOVA}
 \guiaano{2026}
-\guiaversao{1.5}
+\guiaversao{1.6}
 \guiacidade{Manaus, Amazonas --- Brasil}
 \guiacliente{LG Electronics do Brasil}
 \guiareferencia{}
@@ -71,6 +71,7 @@
     \guiarevisao{1.3}{Novembro de 2026}{Equipe do Polo INOVA}{Consolidação de passos repetidos e referências ao guia rápido, com os capítulos 1 e 2 preservados.}
     \guiarevisao{1.4}{Novembro de 2026}{Equipe do Polo INOVA}{Revisão dos marcadores, recortes dos formulários e correspondência entre imagem e instruções.}
     \guiarevisao{1.5}{Novembro de 2026}{Equipe do Polo INOVA}{Revisão editorial, padronização das instruções e esclarecimento das regras e dos indicadores.}
+    \guiarevisao{1.6}{Novembro de 2026}{Equipe do Polo INOVA}{Consolidação de Configurações e IA, revisão de permissões e orientações conforme a versão das capturas.}
 \end{guiahistorico}
 
 \begin{remark}[info]
@@ -98,7 +99,12 @@ Os capítulos 1 e 2 reproduzem integralmente o guia rápido do perfil Gestor. As
     descreve cada passo com a tela correspondente.
 }
 
+% Espaçamento do índice ajustado ao volume completo; conteúdo dos capítulos preservado.
+\begingroup
+\patchcmd{\guiasumario}{\setlength{\cftbeforechapskip}{8pt}}{\setlength{\cftbeforechapskip}{5pt}}{}{\PackageError{hanaro}{Espacamento de capitulos do indice nao localizado}{Verifique o estilo do guia.}}
+\patchcmd{\guiasumario}{\setlength{\cftbeforesecskip}{2pt}}{\setlength{\cftbeforesecskip}{1pt}}{}{\PackageError{hanaro}{Espacamento de secoes do indice nao localizado}{Verifique o estilo do guia.}}
 \guiasumario
+\endgroup
 
 % ---------- PARTE I ----------
 % Um capítulo só por parte; dentro dele, só seções.
@@ -122,8 +128,35 @@ Os capítulos 1 e 2 reproduzem integralmente o guia rápido do perfil Gestor. As
 \part{Administração e Recursos Complementares}
 \include{caps/cap09}
 \include{caps/cap10}
+\include{caps/cap11}
 
 % ---------- FECHAMENTO ----------
+\guiapagina{Fontes, créditos e referência de versão}{%
+    Esta edição integra o guia rápido original e as orientações operacionais da
+    Documentação Técnica do Hanaro, produzidos pela equipe do Polo INOVA.
+    O histórico do repositório registra contribuições de Messyas e de
+    André Filipe Aloise (\texttt{aaloise}); as capturas reais acrescentadas à
+    Apostila e às Configurações foram incorporadas ao repositório pelo PR~1.
+
+    As orientações de Configurações e do Assistente foram adaptadas para este
+    manual. Os esquemas do Assistente são os do documento existente e estão
+    identificados como ilustrações. As capturas originais foram preservadas.
+
+    A referência funcional desta edição é a versão apresentada nas capturas e
+    nos manuais de outubro e novembro de 2026. Os recursos de IA e alguns
+    controles dependem da versão, do ambiente e das permissões da conta.
+    Os capítulos 1 e 2 mantêm o guia rápido da versão-base; suas indicações
+    de escopo e tempo de leitura se referem ao uso básico.
+
+    A arquitetura, os fluxos internos de IA e o modelo de dados permanecem na
+    \emph{Documentação Técnica do Hanaro}, em
+    \href{https://github.com/Messyas/templates-ax-academy-latex/tree/main/modelos/Guia-Usuario-Hanaro}{modelos/Guia-Usuario-Hanaro}.
+
+    Fontes do conteúdo: guia rápido, versão-base \texttt{20bda03}; Documentação
+    Técnica e capturas do repositório até \texttt{de705b5}; consolidação do guia
+    operacional na branch \texttt{doc/guia-hanaro}.
+}
+
 \guiacontracapa
 
 \end{document}

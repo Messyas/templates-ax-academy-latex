@@ -1,0 +1,142 @@
+\chapter{Assistente de IA e Consulta}\label{cap:assistente-uso}
+
+\section{Disponibilidade e uso das propostas}
+
+O Assistente prepara propostas a partir dos dados do Hanaro e de análises já
+aprovadas. Cabe ao Analista ou Gestor conferir os fatos e decidir o que aproveitar.
+Uma sugestão de causa deve ser tratada como hipótese até a verificação na linha.
+
+\begin{remark}[info]
+Assistente, Consulta, Memória, Desempenho e tradução dependem dos recursos
+disponibilizados no ambiente e das permissões da conta. Se uma opção não aparecer,
+confirme sua disponibilidade com o responsável pelo sistema. As figuras deste
+capítulo são \textbf{esquemas ilustrativos de referência}; os rótulos e a disposição
+dos controles podem variar. Elas não representam capturas reais de uma sessão.
+\end{remark}
+\begingroup
+\fontsize{9}{12}\selectfont
+\begin{longtable}{@{}L{3.1cm}L{12.1cm}@{}}
+\toprule
+\guiacabtabela \thead{Função} & \thead{Quem utiliza, quando disponível} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Função} & \thead{Quem utiliza, quando disponível} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} Pré-análise e Consulta & Analista e Gestor, nas opções liberadas para o ambiente. \\
+\rowcolor{guiaareia!70} Memória & Gestor e administrador autorizado pela manutenção da memória. \\
+\rowcolor{white} Desempenho & Perfis de gestão autorizados a consultar os indicadores. \\
+\rowcolor{guiaareia!70} Tradução & Usuários com acesso à emissão do relatório e ao recurso de tradução. \\
+\end{longtable}
+\endgroup
+
+Uma pré-análise pode ser preparada a partir de uma regra de alerta configurada
+para solicitar apoio do Assistente. A proposta pode seguir a rota de
+\textbf{Recorrência}, \textbf{Caso parecido} ou \textbf{Sem precedente}. Confira a
+rota antes de usar as sugestões: um caso semelhante não comprova a mesma causa.
+
+\Needspace{330pt}
+\section{Abrir e conferir a pré-análise}
+
+\passo[0.07000/0.14911/0.08000/0.22367,0.35000/0.09586/0.15500/0.09586,0.35000/0.20237/0.15500/0.25562,0.35000/0.38343/0.15500/0.44734]{ia/01-assistente-lista}{Abrir a lista do Assistente}{%
+\begin{elementos}
+\item \textbf{Assistente.} Abra o menu para consultar as pré-análises. O contador indica as propostas prontas que aguardam decisão.
+\item \textbf{Seções.} Use Pré-análises, Consulta, Memória ou Desempenho conforme os acessos da conta.
+\item \textbf{Abas e filtros.} Escolha Aguardando decisão, Decididas ou Todas e refine a lista por gatilho, rota, linha ou período.
+\item \textbf{Pré-análise.} Confira item, linha, valor, gatilho e rota. Abra a proposta desejada para ler os detalhes.
+\end{elementos}
+}
+
+\passo[0.35000/0.12781/0.15500/0.17041,0.35000/0.42604/0.15500/0.47929,0.35000/0.70296/0.15500/0.75621,0.70000/0.70296/0.61000/0.77751]{ia/02-preanalise-leitura}{Conferir fatos, sugestões e fontes}{%
+\begin{elementos}
+\item \textbf{Rota e fatos.} Leia O que aconteceu e confira item, linha, ocorrências, período e valores com os registros do caso.
+\item \textbf{Proposta de análise.} Revise título, descrição, tipo de scrap, categoria 4M, hipótese de causa e contenção.
+\item \textbf{Casos parecidos.} Abra as análises citadas e confira se a situação é aplicável. Use Não é parecido quando a comparação não fizer sentido.
+\item \textbf{Justificativa e fontes.} Leia por que cada campo foi sugerido e confira a origem dos dados antes de aceitar a proposta.
+\end{elementos}
+}
+
+\Needspace{330pt}
+\section{Decidir sobre a proposta}
+
+\passo[0.35000/0.12781/0.15500/0.17041,0.35000/0.38343/0.15500/0.42604,0.35000/0.63905/0.15500/0.68166,0.35000/0.85207/0.15500/0.90533]{ia/03-preanalise-decisao}{Aceitar, editar ou rejeitar sugestões}{%
+\begin{elementos}
+\item \textbf{Campos propostos.} Decida entre Aceitar, Editar e Rejeitar para cada campo. Use Desfazer para rever a decisão e confira o conteúdo antes de Aceitar tudo.
+\item \textbf{Tarefas propostas.} Revise separadamente as ações sugeridas. Elas só serão criadas quando forem aceitas e vinculadas a um relatório.
+\item \textbf{Relatório e finalização.} Se quiser finalizar a análise e criar o relatório, marque a opção correspondente e informe os dados solicitados. Sem essa opção, a análise permanece em rascunho.
+\item \textbf{Aplicar decisões.} Grave as escolhas. Dispensar encerra a proposta sem aproveitá-la e solicita um motivo. Quando aparecer a avaliação A pré-análise ajudou?, registre sua percepção.
+\end{elementos}
+}
+
+\begin{remark}
+Se o sistema informar que existe uma versão mais nova da pré-análise ou que ela
+mudou durante a revisão, use \textbf{Carregar a versão nova} e confira novamente
+os dados antes de aplicar. Em propostas para um grupo de ocorrências, confira
+quais análises e qual relatório serão criados; as análises já existentes são mantidas.
+\end{remark}
+\begingroup
+\fontsize{9}{12}\selectfont
+\begin{longtable}{@{}L{3.1cm}L{12.1cm}@{}}
+\toprule
+\guiacabtabela \thead{Situação} & \thead{Significado} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Situação} & \thead{Significado} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} Aguardando decisão & A proposta está pronta e ainda depende da conferência de uma pessoa. \\
+\rowcolor{guiaareia!70} Aplicada & As decisões foram gravadas e os itens aceitos foram criados. \\
+\rowcolor{white} Aplicada em parte & Parte das decisões foi gravada; confira os avisos para identificar o que ainda precisa de tratamento. \\
+\rowcolor{guiaareia!70} Dispensada & A proposta foi descartada, com o motivo informado. \\
+\rowcolor{white} Substituída & Uma proposta mais nova passou a ser a referência; a anterior fica no histórico. \\
+\end{longtable}
+\endgroup
+
+\Needspace{330pt}
+\section{Consultar casos já tratados}
+
+\passo[0.78000/0.09586/0.65000/0.15976,0.35000/0.83077/0.15500/0.88402,0.35000/0.23432/0.15500/0.28757,0.35000/0.52189/0.15500/0.58580]{ia/04-consulta}{Perguntar na Consulta}{%
+\begin{elementos}
+\item \textbf{Conversas.} Use Nova conversa para iniciar uma consulta ou Histórico para retomar uma conversa. A opção de apagar remove a conversa escolhida.
+\item \textbf{Pergunta.} Descreva o que procura em texto livre, por exemplo como foi tratado um defeito em determinada linha, e clique em Perguntar.
+\item \textbf{Resposta.} Leia a orientação e confira se ela responde à situação descrita. A Consulta utiliza análises aprovadas disponíveis na memória.
+\item \textbf{Fontes.} Use Abrir análise para conferir os registros citados. Registre Útil ou Não útil para avaliar a resposta.
+\end{elementos}
+}
+
+Se não houver resultados, tente outras palavras, o código do item ou a linha.
+A ausência de casos semelhantes não confirma uma causa nem dispensa a investigação.
+
+\clearpage
+\section{Memória e desempenho}
+
+\passo[0.35000/0.12781/0.15500/0.18107,0.35000/0.30888/0.15500/0.36213,0.35000/0.42604/0.15500/0.50059,0.35000/0.85207/0.15500/0.90533]{ia/05-memoria}{Acompanhar a memória do Assistente}{%
+\begin{elementos}
+\item \textbf{Indicadores.} Confira as análises aprovadas, os itens na memória, os que aguardam envio, os retirados e eventuais falhas.
+\item \textbf{Busca e situação.} Localize uma análise pelo título ou item e filtre sua situação na memória.
+\item \textbf{Análises aprovadas.} Confira item, linha e data. Retirar da memória suspende o uso do caso como exemplo; Colocar de volta restaura sua participação.
+\item \textbf{Reenviar tudo.} Use quando houver orientação para reconstruir ou atualizar a memória. O envio acontece em lotes; acompanhe a fila e as falhas após a solicitação.
+\end{elementos}
+}
+
+\Needspace{100pt}
+Na aba \textbf{Desempenho}, selecione o período e acompanhe o total de propostas
+decididas, a parcela aceita sem alteração, o tempo de preparação, os campos
+rejeitados e seus motivos e as avaliações registradas. Esses indicadores ajudam
+a revisar o uso do Assistente; o aceite de uma proposta não comprova o resultado
+da ação na fábrica.
+
+\section{Tradução e emissão do relatório}
+
+A emissão e o acompanhamento da tradução estão no passo~\ref{passo:45}
+(\pagina{passo:45}); o formato de apresentação está no passo~\ref{passo:46}.
+Use essas orientações para conferir a fila, o andamento, os trechos mantidos em
+português e as alternativas em caso de falha, sem repetir o procedimento de exportação.
+
+\fimdecapitulo

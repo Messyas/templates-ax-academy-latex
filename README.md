@@ -27,7 +27,7 @@ O repositório unifica todos os modelos oficiais de relatórios e apresentaçõe
 | Modelo | Diretório | Arquivo Principal | Saída Oficial (PDF) | Descrição |
 | :--- | :--- | :--- | :--- | :--- |
 | **Apostila** | `modelos/Apostila/` | `guia-rapido.tex` | `dist/Apostila/guia-rapido.pdf` | Guia Rápido de Uso multi-página (classe `book`, capa composta, sumário, capítulos em `caps/`, marcas em `art/`, telas em `img/`). Requer 2 passadas. |
-| **Hanaro — guia operacional completo** | `modelos/Hanaro/` | `main.tex` | `dist/Hanaro/guia-usuario-hanaro.pdf` | Guia do usuário v1.5 com 10 capítulos e 59 passos. Preserva os capítulos 1 e 2 da versão-base do guia rápido. Requer 3 passadas. |
+| **Hanaro — guia operacional completo** | `modelos/Hanaro/` | `main.tex` | `dist/Hanaro/guia-usuario-hanaro.pdf` | Guia do usuário v1.6 com 11 capítulos e 64 passos. Preserva os capítulos 1 e 2 da versão-base do guia rápido. Requer 3 passadas. |
 | **Flyer A3** | `modelos/Flyer/` | `guia-flyer.tex` | `dist/Flyer/guia-flyer.pdf` | Folha única em formato **A3 paisagem** com grade 4x2 de cartões. Ideal para guias rápidos afixados no posto de trabalho. Requer 1 passada. |
 | **OnePage Sumarização** | `modelos/OnePage-Sumarizacao/` | `onepage-lg.tex` | `dist/OnePage-Sumarizacao/onepage-lg.pdf` | Slide executivo Antes/Depois/Resultado (33.87 x 19.05 cm) adaptado para o sistema Hanaro. Requer 2 passadas. |
 | **Status Report** | `modelos/Status-Report/` | `status-report-equipe3.tex` | `dist/Status-Report/status-report-equipe3.pdf` | Relatório semanal de sprint (32 x 18 cm) com cartões equalizados via `tcolorbox` e retratos da equipe. Requer 2 passadas. |
@@ -364,7 +364,7 @@ O projeto está totalmente preparado para ser operado por agentes de IA e desenv
 ## Guia operacional completo do Hanaro
 
 A versão revisada do guia de uso está em [`modelos/Hanaro/`](modelos/Hanaro/README.md).
-São 10 capítulos e 59 passos, com os capítulos 1 e 2 da versão-base do guia rápido
+São 11 capítulos e 64 passos, com os capítulos 1 e 2 da versão-base do guia rápido
 preservados. Os arquivos editáveis ficam em `modelos/Hanaro/caps/`; a entrada é
 `modelos/Hanaro/main.tex`. A documentação de arquitetura e IA permanece em
 `modelos/Guia-Usuario-Hanaro/`.
@@ -376,3 +376,17 @@ uv run build hanaro
 
 Saída: `dist/Hanaro/guia-usuario-hanaro.pdf`. As três passadas de LuaLaTeX usam
 as fontes compartilhadas em `modelos/fonts/`. PDFs compilados ficam fora do Git.
+
+### Qual documento do Hanaro utilizar
+
+| Necessidade | Documento | Compilação |
+| --- | --- | --- |
+| Aprender o fluxo resumido de uso | [Guia Rápido — Apostila](modelos/Apostila/guia-rapido.tex) | `uv run build apostila` |
+| Consultar formulários, Configurações, tarefas e recursos de IA disponíveis | [Guia operacional completo](modelos/Hanaro/README.md) | `uv run build hanaro` |
+| Entender arquitetura, IA interna, implantação e dados | [Documentação Técnica](modelos/Guia-Usuario-Hanaro/guia-usuario.tex) | `uv run build guia-usuario` |
+
+O alvo `guia-arquitetura` gera uma edição reduzida da documentação técnica a partir
+dos mesmos capítulos. O guia operacional v1.6 adapta o conteúdo de uso já existente,
+com créditos aos contribuidores e preservação dos capítulos 1 e 2 da versão-base.
+Sua referência funcional é a versão das capturas e dos manuais; as funções de IA
+são descritas conforme a disponibilidade no ambiente.

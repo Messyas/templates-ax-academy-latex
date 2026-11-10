@@ -6,7 +6,7 @@
 
 \subsection*{Objetivo}
 
-Permitir ao usuário escolher entre o tema visual claro ou escuro, alterar o idioma de exibição do sistema (Português, Inglês ou Coreano) e acessar os seis painéis de regras e cadastros operacionais da fábrica.\par
+Permitir ao usuário escolher entre o tema visual claro ou escuro, alterar o idioma de exibição do sistema (Português, Inglês ou Coreano) e acessar os painéis de regras e cadastros operacionais disponíveis para a fábrica.\par
 
 \subsection*{Antes de começar}
 
@@ -24,6 +24,24 @@ Permitir ao usuário escolher entre o tema visual claro ou escuro, alterar o idi
 \item \textbf{Dados e regras.} Os cartões abrem Classificações de Material, Tipos de Scrap, IF Cost, Dados de produção, Programa do ano e Cotação do dólar, detalhados nos passos seguintes.
 \end{elementos}
 }
+
+\Needspace{140pt}
+\subsection*{Salvar alterações e editar em equipe}
+
+
+Cada janela de Configurações grava seus próprios dados. O contador de alterações
+não salvas indica o que ainda precisa ser confirmado no botão de salvar.
+\begin{itemize}
+\item Ao fechar com alterações pendentes, use \textbf{Continuar editando} para voltar
+ao formulário ou \textbf{Descartar} para abandonar o preenchimento.
+\item Se outra pessoa gravar os mesmos dados durante sua edição, use
+\textbf{Recarregar}, confira a versão atual e refaça a alteração necessária.
+\item Confira o ano e o escopo antes de salvar metas, produção ou programa anual.
+\item Quando a mensagem apresentar um código de suporte, informe esse código junto
+com a descrição do problema ao solicitar atendimento.
+\end{itemize}
+
+
 
 \Needspace{160pt}
 
@@ -62,7 +80,7 @@ Permitir ao usuário escolher entre o tema visual claro ou escuro, alterar o idi
 
 \subsection*{Objetivo}
 
-Traduzir os códigos contábeis e de itens importados do sistema GERP em nomes claros e definir quais contas entram ou ficam fora do cálculo de \emph{IF Cost} no Dashboard, na Base de Scrap e nos Relatórios. Deve ser operada por \textbf{Gestores} e \textbf{Administradores}.\par
+Traduzir os códigos contábeis e de itens importados do sistema GERP em nomes claros e definir quais contas entram ou ficam fora do cálculo de \emph{IF Cost} no Dashboard, na Base de Scrap e nos Relatórios. É utilizada por \textbf{Analistas} e \textbf{Gestores} com acesso às Configurações da planta.\par
 
 \subsection*{Antes de começar}
 
@@ -82,6 +100,46 @@ Traduzir os códigos contábeis e de itens importados do sistema GERP em nomes c
 \item \textbf{Excluir.} Use a lixeira da linha para remover a regra.
 \end{elementos}
 }
+
+\Needspace{140pt}
+\subsection*{Como preencher cada tipo de regra}
+
+\begingroup
+\fontsize{9}{12}\selectfont
+\begin{longtable}{@{}L{3.1cm}L{12.1cm}@{}}
+\toprule
+\guiacabtabela \thead{Tipo de regra} & \thead{Campos e efeito} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Tipo de regra} & \thead{Campos e efeito} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Nome do item} & Informe o part number e o nome exibido. A tradução torna o item legível na Base de Scrap e nos relatórios; confira o resultado após salvar. \\
+\rowcolor{guiaareia!70} \textbf{Produto e divisão} & Associe a organização do GERP a Filter 1, Filter 2, Divisão e código de produção. Quando disponível, Mapa do painel indica se a organização usa o registro da região do defeito. \\
+\rowcolor{white} \textbf{Departamento da linha} & Associe o código da linha ao departamento e indique se participa do Filtro da linha do Dashboard. \\
+\rowcolor{guiaareia!70} \textbf{Conta do IF Cost} & Confira descrição da conta e alias; marque Entra no IF Cost quando os lançamentos devem compor o indicador e a comparação com a meta. \\
+\rowcolor{white} \textbf{Tipo de item} & Escolha texto exato ou expressão regular e o tipo de item resultante. Se várias regras combinarem, a menor prioridade numérica prevalece. Teste com uma descrição real antes de salvar. \\
+\end{longtable}
+\endgroup
+
+\textbf{Exemplo de nome do item.} O part number \tech{ABC123456} pode receber o nome
+\emph{Placa principal 55 pol.}. Os valores deste exemplo são ilustrativos.
+
+\textbf{Regras ativas e histórico.} A chave \emph{Regra ativa} permite suspender uma
+regra sem excluí-la. As regras de classificação das importações passam a valer
+nos novos registros; use \emph{Reaplicar ao histórico} para reclassificar dados
+já importados. A tradução do nome exibido tem efeito imediato.
+
+\begin{remark}
+Se o código já possuir uma regra, edite a existente. Em expressões regulares,
+confira o teste antes de salvar: uma correspondência ampla pode classificar itens
+de grupos diferentes. Aguarde o resultado de uma reaplicação antes de repeti-la.
+\end{remark}
+
+
 
 \Needspace{160pt}
 
@@ -173,6 +231,7 @@ Manter a lista padronizada de categorias de defeito ou perda (como \tech{Montage
 \textbf{Como resolver:} Se precisar de um código diferente, desative a chave \textbf{Disponível nas análises} do item antigo e crie um novo tipo.
 \end{remark}
 
+\clearpage
 \section{Metas Anuais e Mensais de IF Cost}
 
 \subsection*{Objetivo}
@@ -199,6 +258,36 @@ Em Configurações, abra IF Cost.\par%
 \end{elementos}
 \par\smallskip {\fontsize{8.2}{11}\selectfont\color{guiacinza}Role até o fim da janela e clique em Salvar metas para gravar os valores.\par}
 }
+
+\Needspace{140pt}
+\subsection*{Distribuição da meta e outros custos do IF Cost}
+
+
+No modo \textbf{Reduzir de janeiro a dezembro}, os valores inicial e final definem
+a distribuição gradual. No modo \textbf{Mesmo valor todo mês}, informe a
+\textbf{Meta total do ano}: o sistema a divide pelos doze meses. Revise os valores
+mensais e confirme em \textbf{Salvar metas}.
+
+\textbf{Exemplo.} Para reduzir a meta de US\$ 12.000,00 em janeiro para
+US\$ 6.000,00 em dezembro, escolha a redução gradual e preencha a tabela.
+Se a meta anual for US\$ 120.000,00 e o valor mensal for fixo, cada mês receberá
+US\$ 10.000,00. Preencher a tabela e salvar são ações distintas.
+
+Quando disponível na janela de IF Cost, role até \textbf{Outros custos do IF Cost}.
+Esses valores complementam o indicador; o scrap importado entra pela base.
+\begin{enumerate}
+\item Confira ano e escopo e informe os custos mensais de \textbf{reparo},
+\textbf{retrabalho} e \textbf{parada}. Na versão ilustrada, os valores são em
+\textbf{US\$}; se houver seletor de moeda, confira-o antes de preencher.
+\item Escolha a \textbf{Origem dos valores}, como lançamento manual, planilha,
+ERP ou financeiro, e registre referência e observação quando necessário.
+\item Revise o total mensal, salve e consulte o \textbf{Histórico de revisões}
+para conferir alterações anteriores.
+\end{enumerate}
+Deixe em branco os componentes sem lançamento. Registre o scrap pelo relatório
+do GERP, sem repetir esse mesmo valor entre os outros custos.
+
+
 
 \Needspace{160pt}
 
@@ -261,6 +350,21 @@ Em Configurações, abra Dados de produção.\par%
 \end{elementos}
 }
 
+\Needspace{140pt}
+\subsection*{Validação dos lançamentos de produção}
+
+
+Informe números maiores ou iguais a zero e preencha pelo menos um mês antes de
+salvar. Os campos inválidos ficam destacados para correção. O escopo
+\textbf{Global} representa o total da fábrica; cada produto tem seus próprios
+lançamentos. Salve cada escopo separadamente e confira os totais do ano.
+
+O quadro \textbf{Detalhado por produto} ajuda a conferir quanto já foi detalhado
+em relação ao total global. Uma diferença pode indicar produtos ainda sem
+lançamento ou valores que precisam de revisão.
+
+
+
 \Needspace{160pt}
 
 \subsection*{Campos e regras}
@@ -293,7 +397,7 @@ Em Configurações, abra Dados de produção.\par%
 \begin{remark}
 \textbf{Diferença entre "Valor no ano" e "Detalhado por produto"}\par
 \textbf{Causa provável:} A soma dos valores lançados por produto está diferente do valor lançado no escopo Global.\par
-\textbf{Como resolver:} Confira o indicador percentual abaixo do campo de observação e ajuste os valores para que fechem em 100\% antes de salvar.
+\textbf{Como resolver:} Confira ano, mês e escopo e revise os lançamentos por produto. O indicador ajuda a identificar diferenças; salve os dados de cada escopo separadamente.
 \end{remark}
 
 \section{Programa do Ano}
@@ -340,6 +444,40 @@ Em Configurações, abra Programa do ano.\par%
 \item \textbf{Salvar ficha.} Grave o programa do ano.
 \end{elementos}
 }
+
+\Needspace{140pt}
+\subsection*{Contexto e resultados do programa anual}
+
+
+Além da identificação, do KPI e da organização, a ficha pode apresentar os blocos
+abaixo. Role até eles quando estiverem disponíveis e registre um item por linha.
+Os trechos não aparecem nos recortes dos passos anteriores.
+\begingroup
+\fontsize{9}{12}\selectfont
+\begin{longtable}{@{}L{3.1cm}L{12.1cm}@{}}
+\toprule
+\guiacabtabela \thead{Bloco} & \thead{O que registrar} \\
+\midrule
+\endfirsthead
+\toprule
+\guiacabtabela \thead{Bloco} & \thead{O que registrar} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{white} \textbf{Problema de negócio} & O efeito da perda para a operação, por exemplo retrabalho recorrente na inspeção final. \\
+\rowcolor{guiaareia!70} \textbf{Ideias de ruptura} & As mudanças propostas para tratar o problema, como substituir um ponto de manuseio que danifica o produto. \\
+\rowcolor{white} \textbf{Resultados qualitativos} & Benefícios observados, como redução de movimentação, padronização do trabalho ou melhoria da identificação. \\
+\rowcolor{guiaareia!70} \textbf{Pontos críticos} & Condições que exigem acompanhamento para sustentar os resultados. \\
+\end{longtable}
+\endgroup
+
+Confira o ano e clique em \textbf{Salvar ficha}. A indicação de versão salva
+confirma a gravação. Campos vazios podem ser omitidos do documento exportado.
+Um KPI preenchido manualmente deixa de acompanhar automaticamente a base; use
+\textbf{Voltar ao automático} quando quiser restaurar essa referência.
+
+
 
 \Needspace{160pt}
 
@@ -392,10 +530,26 @@ Em Configurações, abra Cotação do dólar.\par%
 \begin{elementos}
 \item \textbf{Ano.} Use as setas para escolher o período.
 \item \textbf{Cotações.} Confira Data, R\$ por US\$ com quatro casas decimais e Origem. Automação identifica a atualização automática.
-\item \textbf{Editar.} Use o lápis da data desejada para informar e salvar uma taxa manual. O valor manual tem prioridade sobre a cotação automática.
+\item \textbf{Editar, quando disponível.} Use o lápis da data desejada para informar e salvar uma taxa manual. O valor manual tem prioridade sobre a cotação automática.
 \end{elementos}
 \par\smallskip {\fontsize{8.2}{11}\selectfont\color{guiacinza}A captura mostra a lista, antes de abrir a edição da linha.\par}
 }
+
+\Needspace{140pt}
+\subsection*{Disponibilidade da consulta e do ajuste de cotação}
+
+
+A captura deste guia mostra a versão que permite ajuste pelo lápis. O procedimento
+de edição se aplica quando esse controle estiver disponível para o seu perfil.
+Em versões que oferecem apenas consulta, confira Data, Origem e taxa e solicite
+ao responsável pelo sistema a verificação de uma cotação incorreta ou ausente.
+
+Se a sua versão apresentar \textbf{Recalcular dados carregados}, esse comando
+recalcula valores dos \textbf{uploads manuais} com as cotações disponíveis.
+Confirme a necessidade da atualização antes de executá-lo; os dados vindos da
+automação seguem o seu próprio processamento.
+
+
 
 \Needspace{160pt}
 
@@ -427,7 +581,28 @@ Em Configurações, abra Cotação do dólar.\par%
 \begin{remark}
 \textbf{Lançamento de sábado ou domingo usou a cotação de sexta-feira}\par
 \textbf{Causa provável:} Em fins de semana e feriados não há boletim PTAX, por isso o sistema aplica automaticamente a taxa do último dia útil anterior.\par
-\textbf{Como resolver:} Comportamento padrão do sistema. Se precisar de outra taxa para aquela data, clique no ícone de lápis da linha e digite o valor manualmente.
+\textbf{Como resolver:} Comportamento padrão do sistema. Se houver divergência, confira a data efetiva da taxa. Use o lápis somente nas versões que oferecem edição ou solicite a verificação ao responsável pelo sistema.
 \end{remark}
+
+
+\Needspace{190pt}
+\section{Áreas responsáveis}
+
+O cadastro padroniza os nomes sugeridos nas tarefas. A manutenção deve ser feita
+pelo administrador autorizado; Analistas e Gestores utilizam as áreas disponíveis
+ao preencher as ações. A localização do cadastro varia conforme a versão.
+
+\begin{enumerate}
+\item Abra o cadastro de áreas disponibilizado ao perfil administrativo. Se ele
+não aparecer no seu menu, solicite o cadastro ao administrador.
+\item Informe um nome claro e único, como \emph{Qualidade}, e use o botão de
+cadastrar ou adicionar apresentado na tela.
+\item Para atualizar uma área, use a opção de edição. Para retirá-la das
+sugestões, desative-a ou use Remover, conforme a versão. Os registros anteriores
+mantêm a identificação já associada às tarefas.
+\end{enumerate}
+
+Use o mesmo nome para o mesmo setor e confira se a área já existe antes de criar
+outra abreviação. Este cadastro não está ilustrado nas capturas disponíveis.
 
 \fimdecapitulo
