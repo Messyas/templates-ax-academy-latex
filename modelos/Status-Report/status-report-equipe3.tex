@@ -1,8 +1,8 @@
 % =============================================================
 % Status Report (One Page) — Equipe 3 · AX Academy / Digital Transformation
-%   Fase atual: Agente ReAct (LangGraph) & Validação com a Área. Página 16:9.
-%   Semana 8 de 11 (Sprint 02 · W36).
-%   Compilar: uv run build status-report  (2 passadas automáticas).
+%   Fase atual: Agentes ReAct (LangGraph) & Evolução para Homologação. Página 16:9.
+%   Semana 9 de 11 (Sprint 03 · W45-W47).
+%   Compilar: uv run build status-report -t w45-w47  (2 passadas automáticas).
 % =============================================================
 \documentclass[10pt]{article}
 \usepackage[paperwidth=32cm, paperheight=18cm, top=0.38cm, bottom=0.20cm,
@@ -125,7 +125,7 @@
 \noindent
 \begin{minipage}[c]{0.33\textwidth}
   {\lghead\fontsize{18}{21}\selectfont\color{srdark} AX Academy \textcolor{srmut}{\textbar}
-   Automação do \mbox{Relatório} de \mbox{Scrap}}\\[2pt]
+   Agentes de \mbox{IA} no \mbox{Controle} de \mbox{Scrap}}\\[2pt]
   {\color{srred}\rule{3.0cm}{2.2pt}}\\[6pt]
   {\lgheadr\normalsize\color{srdark} Área: \textbf{Produção}\\[2pt]
    Manager: \textbf{Leandro Corazza}}
@@ -144,10 +144,10 @@
   \begin{tcolorbox}[enhanced, colback=white, colframe=srgreen, boxrule=1.2pt, arc=12pt,
       left=4pt, right=4pt, top=6pt, bottom=6pt, halign=center, valign=center, before skip=0pt, after skip=0pt, equal height group=hdr]
     {\lgtext\footnotesize\color{srdark}DURAÇÃO: \textbf{11 semanas}}\\[3pt]
-    {\lgtext\scriptsize\color{srmut}Semana \textbf{\color{srdark}8} de 11}\\[2pt]
+    {\lgtext\scriptsize\color{srmut}Semana \textbf{\color{srdark}9} de 11}\\[2pt]
     \begin{tikzpicture}[baseline=0]
       \fill[srtrack, rounded corners=2pt] (0,0) rectangle (3.0,0.16);
-      \fill[srgreen, rounded corners=2pt] (0,0) rectangle ({3.0*8/11},0.16);
+      \fill[srgreen, rounded corners=2pt] (0,0) rectangle ({3.0*9/11},0.16);
     \end{tikzpicture}\\[4pt]
     {\lgtext\footnotesize\color{srdark}STATUS: \textbf{\color{srgreen}EM ANDAMENTO}}
   \end{tcolorbox}
@@ -161,9 +161,9 @@
   \begin{card}[equal height group=row1]
     \cardtitle{Sprint Progress}
     \centering
-    {\lgtext\footnotesize\color{srdark}SPRINT 02 \textbullet\ \textbf{W36-37}}\\[0pt]
-    {\lgtext\scriptsize\color{srmut}05/09 a 18/09 \textbullet\ Agentes ReAct \& LangGraph}\\[5pt]
-    \donut{83}\\[5pt]           % Média ponderada das 8 frentes técnicas: (100+95+100+90+95+95+85+0)/8 = 82.5% ~ 83%
+    {\lgtext\footnotesize\color{srdark}SPRINT 03 \textbullet\ \textbf{W45-W47}}\\[0pt]
+    {\lgtext\scriptsize\color{srmut}Novembro/2026 \textbullet\ Agentes ReAct \& LangGraph}\\[5pt]
+    \donut{80}\\[5pt]           % Média ponderada das 8 frentes: (90*7 + 10)/8 = 640/8 = 80%
     {\lgtext\small\bfseries\color{srdark}STATUS: \color{srgreen}PoC APROVADA VISUALMENTE}
   \end{card}
 \end{minipage}\hfill
@@ -171,32 +171,36 @@
   \begin{card}[equal height group=row1]
     \cardtitle{Main Tasks \textnormal{\lgtext\footnotesize\color{srmut}(evolução das 8 frentes técnicas do projeto)}}
     \begin{minipage}[t]{0.48\linewidth}
-      \tarefa{1. Ingestão GERP \& Base}{100}{srgreen}{1.063 itens processados sem rejeições.}\vspace{1pt}
-      \tarefa{2. Agentes ReAct (LangGraph)}{95}{srwarn}{Aprovado visualmente em PoC.}\vspace{1pt}
-      \tarefa{3. Busca Semântica \& Memória}{100}{srgreen}{Resgate de histórico e base vetorial.}\vspace{1pt}
-      \tarefa{4. Assistente Human-in-the-Loop}{90}{srwarn}{Fluxo aprovado em PoC pela gerência.}
+      \tarefa{1. Ingestão GERP \& Base}{90}{srwarn}{Base estruturada para consulta dos agentes.}\vspace{1pt}
+      \tarefa{2. Agentes ReAct (LangGraph)}{90}{srwarn}{Orquestração de raciocínio e ferramentas.}\vspace{1pt}
+      \tarefa{3. Busca Semântica \& Memória}{90}{srwarn}{Base vetorial de casos históricos.}\vspace{1pt}
+      \tarefa{4. Assistente Human-in-the-Loop}{90}{srwarn}{Revisão e aprovação pelo gestor.}
     \end{minipage}\hfill
     \begin{minipage}[t]{0.48\linewidth}
-      \tarefa{5. Relatórios \& Planos de Ação}{95}{srwarn}{Geração formal de hipóteses e tarefas.}\vspace{1pt}
-      \tarefa{6. Frontend da Aplicação}{95}{srwarn}{Telas do Assistente no ar (:4203).}\vspace{1pt}
-      \tarefa{7. Dashboard \& Indicadores}{85}{srwarn}{Gráficos montados e ranking em ajuste.}\vspace{1pt}
-      \tarefaimpedimento{8. RPA \& Coleta Automatizada}{0}{Incompleto: contas sem autorização GERP.}
+      \tarefa{5. Relatórios \& Planos de Ação}{90}{srwarn}{Hipóteses de contenção, correção e prevenção.}\vspace{1pt}
+      \tarefa{6. Frontend da Aplicação}{90}{srwarn}{Interface do Assistente e fluxos de revisão.}\vspace{1pt}
+      \tarefa{7. Dashboard \& Indicadores}{90}{srwarn}{Painéis de IF Cost e ofensores.}\vspace{1pt}
+      \tarefa{8. RPA \& Coleta Automatizada}{10}{srwarn}{Coleta automatizada em fase inicial.}
     \end{minipage}
   \end{card}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.30\textwidth}
   \begin{card}[equal height group=row1]
-    \cardtitle{Impedimentos}
-    \begin{tcolorbox}[enhanced, colback=srred!8, colframe=srred, boxrule=1pt,
-        arc=3pt, left=5pt, right=5pt, top=3pt, bottom=3pt, before skip=0pt, after skip=5pt]
-      {\lgtext\fontsize{6.6}{8.4}\selectfont\color{srdark}
-      \textbf{\color{srred}\faExclamationTriangle\ Bloqueio de Acesso GERP (RPA):}\\[2pt]
-      $\bullet$~\textbf{Contas sem autorização:} Ausência de credenciais no GERP.\\
-      $\bullet$~\textbf{RPA em 0\% (incompleto):} Coleta automática paralisada.\\
-      $\bullet$~\textbf{Dependência LG:} Aguarda liberação das contas de serviço.\\
-      $\bullet$~\textbf{Impacto:} Coleta paliativa via importação de arquivo.}
+    \cardtitle{Uso de Agentes (IA)}
+    \begin{tcolorbox}[enhanced, colback=srteal!8, colframe=srteal, boxrule=1pt,
+        arc=3pt, left=5pt, right=5pt, top=4pt, bottom=4pt, before skip=0pt, after skip=5pt]
+      {\lgtext\fontsize{6.6}{8.5}\selectfont\color{srdark}
+      \textbf{\color{srteal!80!black}\faRobot\ Orquestração ReAct (LangGraph):}\\[3pt]
+      $\bullet$~\textbf{Investigação autônoma:} Consulta histórico e padrões de scrap.\\
+      $\bullet$~\textbf{Busca semântica:} Resgata ocorrências similares em base vetorial.\\
+      $\bullet$~\textbf{Planos em 3 níveis:} Propõe contenção, correção e prevenção.\\
+      $\bullet$~\textbf{Human-in-the-Loop:} Decisão final e auditoria sob controle do gestor.}
     \end{tcolorbox}
-    \linkbtn{\faServer}{Deploy no Ar: Intranet LG (Porta 4203)}{http://localhost:4203/}
+    \begin{tcolorbox}[enhanced, colback=srgreen!8, colframe=srgreen, boxrule=0.8pt,
+        arc=3pt, left=5pt, right=5pt, top=3pt, bottom=3pt, before skip=0pt, after skip=0pt]
+      {\lgtext\fontsize{6.6}{8.3}\selectfont\color{srdark}
+      \textbf{\color{srgreen!80!black}\faCheckCircle\ Validação:} Fluxo e PoC aprovados visualmente; em evolução para homologação.}
+    \end{tcolorbox}
   \end{card}
 \end{minipage}
 
@@ -207,10 +211,10 @@
 {\color{srline}\rule{\textwidth}{0.7pt}}\\[3pt]
 \noindent
 \begin{minipage}[t]{0.325\textwidth}
-  \kpi{srred}{REGISTROS INGERIDOS}{1.063}{100\% válidos apurados na execução GERP}
+  \kpi{srteal}{ARQUITETURA DE AGENTES}{LangGraph}{Ciclo ReAct com memória vetorial e ferramentas}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.325\textwidth}
-  \kpi{srteal}{PRÉ-ANÁLISES DO AGENTE}{US\$ 12,5 mil}{Ocorrências > US\$ 6k tratadas com plano de ação}
+  \kpi{srred}{PRÉ-ANÁLISES DO AGENTE}{3 Níveis}{Ações de contenção, correção e prevenção}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.325\textwidth}
   \kpi{srgreen}{VALIDAÇÃO VISUAL}{Aprovado}{$\blacktriangle$ PoC aprovada pelo Gerente de Produção}
@@ -226,14 +230,14 @@
   \tcbox[on line, colback=srgreen!20, colframe=srgreen, boxrule=0.8pt, arc=3pt,
          left=5pt, right=5pt, top=1pt, bottom=1pt]{\lgtext\footnotesize\bfseries\color{srgreen!80!black}Em Dia / Homologado}\\[1pt]
   {\color{srline}\rule{\linewidth}{0.7pt}}\\[5pt]
-  \marco{M1 (13/08)}{Documentação de especificação e requisitos na v1 + MVP (Concluído)}
-  \marco{M2 (03/09)}{PoC e validação visual do MVP com a Produção (Homologado)}
-  \marco{M3 (02/10)}{Módulo funcional: testes e deploy produtivo dos agentes (Em andamento)}
+  \marco{M1 (13/08)}{Especificação, arquitetura e base de dados do MVP (Concluído)}
+  \marco{M2 (03/09)}{PoC dos agentes ReAct e validação visual com a Produção (Homologado)}
+  \marco{M3 (W45-W47)}{Refinamento dos agentes, planos de ação e homologação (Em andamento)}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.34\textwidth}
   {\lghead\large\color{srdark} Descrição / Impacto Estratégico}\\[1pt]
   {\color{srline}\rule{\linewidth}{0.7pt}}\\[5pt]
-  {\lgtext\fontsize{7.3}{9.1}\selectfont\color{srdark} A aplicação Hanaro está em deploy na intranet LG (:4203). O módulo de agentes ReAct (LangGraph) não está em produção definitiva, mas teve seu fluxo validado e aprovado visualmente pelo Gerente da Produção (Leandro Corazza) em fase de PoC. O agente consulta o histórico de scrap do GERP e formula propostas de causa e planos de ação para revisão do analista (human-in-the-loop). A inteligência seguirá para homologação antes do deploy produtivo (M3).}
+  {\lgtext\fontsize{7.3}{9.1}\selectfont\color{srdark} O projeto Hanaro concentra-se no uso de agentes inteligentes ReAct (LangGraph) para automatizar a pré-análise de perdas (scrap). Os agentes investigam desvios na base histórica via busca semântica, formulam hipóteses de causa raiz e propõem planos de ação em três níveis para revisão humana (human-in-the-loop). O fluxo foi aprovado visualmente pelo Gerente da Produção (Leandro Corazza) em PoC e segue em evolução para homologação antes da entrada em produção.}
 \end{minipage}
 
 \end{document}
