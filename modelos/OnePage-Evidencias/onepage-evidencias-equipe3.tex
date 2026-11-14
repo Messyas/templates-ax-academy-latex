@@ -80,28 +80,26 @@
   leftrule=3pt, arc=1pt, left=11pt, right=11pt, top=5pt, bottom=5pt,
   height=2.9cm, valign=center, before skip=0pt, after skip=7pt]
 {\hd{\large O que mudou nesta sprint (Semana 9 de 11)}}\\[1pt]
-{\small Na \textbf{Sprint 06 (W45-W47)}, a equipe concentrou esforços em três frentes principais para preparar o Hanaro rumo à homologação final: \textbf{(1) Revisões de UI no Dashboard}, refinando os cartões de KPIs, o comparativo \textit{Target $\times$ Realizado}, o gráfico de \textit{Linhas por componente} e o \textit{Mapa do Painel}; \textbf{(2) Assinatura Digital}, funcionalidade solicitada pelo analista para cadastrar e salvar sua assinatura diretamente no perfil; e \textbf{(3) Melhorias nos Agentes de IA (ReAct/LangGraph)}, aprimorando a edição \textit{inline} das tarefas sugeridas em 3 níveis (\textit{Contenção, Corretiva e Preventiva}) e a rastreabilidade de \textit{Casos parecidos}.}
+{\small Na \textbf{Sprint 06 (W45-W47)}, a equipe concentrou esforços em três frentes principais para preparar o Hanaro rumo à homologação final: \textbf{(1) Revisões de UI no Dashboard}, refinando os cartões de KPIs, o comparativo \textit{Target $\times$ Realizado}, os rankings \textit{Top 10} e o \textit{Mapa do Painel}; \textbf{(2) Assinatura Digital}, funcionalidade solicitada pelo analista para cadastrar e salvar sua assinatura diretamente no perfil; e \textbf{(3) Melhorias nos Agentes de IA (ReAct/LangGraph)}, aprimorando a edição \textit{inline} das tarefas sugeridas em 3 níveis (\textit{Contenção, Corretiva e Preventiva}) e a rastreabilidade de \textit{Casos parecidos}.}
 \end{tcolorbox}
 
 % ===================== LINHA A: 3 EVIDÊNCIAS =====================
-\noindent\begin{minipage}[t]{0.355\textwidth}
+\noindent\begin{minipage}[t]{0.325\textwidth}
 \begin{card}[equal height group=evid]{Evidência 1 \textbullet\ Revisões de Interface (UI) no Dashboard}
 {\footnotesize
 \textbf{REVISADO} \ Ajustes visuais e analíticos apontados na revisão de UI:\vspace{2pt}
 \begin{itemize}
-  \item \textbf{Visão Resumo:} KPIs consolidados (\textit{Acumulado, Scrap Rate, Target de IF Cost, Meta/Realizado}), curva mensal e rankings Top 10.
-  \item \textbf{Linhas por Componente:} barras empilhadas por tipo de componente (\textit{Resistor, Capacitor, Diode, IC, Inductor}) com alternância \textbf{Quantidade / Custo}.
-  \item Leitura imediata dos maiores ofensores por produto, linha, modelo e componente.
+  \item \textbf{KPIs Consolidados:} exibição direta de \textit{Acumulado, Scrap Rate, Target de IF Cost, Meta/Realizado} e variação anual.
+  \item \textbf{Target $\times$ Realizado:} evolução mensal/semanal comparando realizado atual, referência 2025 e meta de IF Cost.
+  \item \textbf{Rankings Top 10:} leitura imediata dos maiores ofensores por produto/área, linha, modelo e componente.
 \end{itemize}}
 \vspace{4pt}
-{\centering
-  \begin{minipage}[c]{0.485\linewidth}\centering\evimg{ev6_dashboard_resumo.jpg}{\linewidth}\end{minipage}\hfill
-  \begin{minipage}[c]{0.485\linewidth}\centering\evimg{ev6_dashboard_componentes.png}{\linewidth}\end{minipage}\par}
-\vspace{4pt}
-{\scriptsize\color{lgred}\textbf{Foco: Clareza visual \textbullet\ Rankings Top 10 \textbullet\ Quantidade vs. Custo}}
+{\centering\evphoto{ev6_dashboard_resumo.jpg}{3.9cm}\par}
+\vspace{3pt}
+{\scriptsize\color{lgred}\textbf{Foco: Clareza visual \textbullet\ Target $\times$ Realizado \textbullet\ Rankings Top 10}}
 \end{card}
 \end{minipage}\hfill
-\begin{minipage}[t]{0.315\textwidth}
+\begin{minipage}[t]{0.325\textwidth}
 \begin{card}[equal height group=evid]{Evidência 2 \textbullet\ Assinatura Digital no Perfil}
 {\footnotesize
 \textbf{SOLICITADO PELO ANALISTA} \ Cadastro de assinatura para relatórios:\vspace{2pt}
@@ -116,7 +114,7 @@
 {\scriptsize\color{lgred}\textbf{Foco: Demanda do analista \textbullet\ Rastreabilidade \textbullet\ UX do Perfil}}
 \end{card}
 \end{minipage}\hfill
-\begin{minipage}[t]{0.315\textwidth}
+\begin{minipage}[t]{0.325\textwidth}
 \begin{card}[equal height group=evid]{Evidência 3 \textbullet\ Melhorias nos Agentes de IA}
 {\footnotesize
 \textbf{EVOLUÍDO} \ Refinamento do Assistente ReAct (LangGraph):\vspace{2pt}
@@ -142,7 +140,7 @@
 
 {\normalsize\lghead\color{lgred}Resultados da Sprint 06 (Semana 9)}\vspace{1pt}
 \begin{itemize}
-  \item \textbf{UI do Dashboard revisada:} ajustes de leitura, filtros e gráfico de componentes por linha concluídos.
+  \item \textbf{UI do Dashboard revisada:} ajustes de leitura, KPIs, rankings Top 10 e Mapa do Painel concluídos.
   \item \textbf{Assinatura digital entregue:} fluxo completo de desenho/upload atendendo à solicitação do analista.
   \item \textbf{Agentes de IA refinados:} edição \textit{inline} e explicabilidade na busca de casos parecidos (PoC aprovada).
   \item \textbf{Evolução geral em 80\%:} 7 frentes técnicas em 90\% e frente de RPA iniciada (10\%).
