@@ -94,7 +94,7 @@ DEFAULT_CONFIG: Dict[str, Any] = {
             "name": "OnePage-Evidencias",
             "directory": "modelos/OnePage-Evidencias",
             "entrypoint": "onepage-evidencias-equipe3.tex",
-            "output_name": "onepage-evidencias-equipe3.pdf",
+            "output_name": "onepage-entregas-equipe3.pdf",
             "output_subfolder": "OnePage-Evidencias",
             "passes": 2,
             "versionable": True,
