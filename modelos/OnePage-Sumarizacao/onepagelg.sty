@@ -210,22 +210,22 @@
 
 \newcommand{\lg@diagrama}{%
 \begin{tikzpicture}[x=1cm, y=1cm]
-  % 3 pilares da entrega nos vaos entre os raios (UI/Painel, Assinatura, LangGraph)
+  % 3 delivery pillars between the spokes (UI / Panel, Signature, AI Agents)
   \node[anchor=center, inner sep=0pt, text=lgteal] at (157.5:1.30) {\pt{10}{10}\faChartBar};
   \node[anchor=north, inner sep=0.4pt, text=lgteal] at ($(157.5:1.30)+(0,-0.16)$)
-    {\pt{4.2}{4.8}\bfseries UI / Painel};
+    {\pt{4.2}{4.8}\bfseries UI / Panel};
   \node[anchor=center, inner sep=0pt, text=lgteal] at (202.5:1.30) {\pt{10}{10}\faPenNib};
   \node[anchor=north, inner sep=0.4pt, text=lgteal] at ($(202.5:1.30)+(0,-0.16)$)
-    {\pt{4.2}{4.8}\bfseries Assinatura};
+    {\pt{4.2}{4.8}\bfseries Signature};
   \node[anchor=center, inner sep=0pt, text=lgteal] at (-22.5:1.30) {\pt{10}{10}\faBrain};
   \node[anchor=north, inner sep=0.4pt, text=lgteal] at ($(-22.5:1.30)+(0,-0.16)$)
-    {\pt{4.2}{4.8}\bfseries LangGraph};
-  % nucleo central HANARO / ReAct IA
+    {\pt{4.2}{4.8}\bfseries AI Agents};
+  % central core HANARO / ReAct AI
   \fill[lgteal] (0,0) circle (0.64);
   \draw[white, line width=1.2pt] (0,0) circle (0.58);
   \node[anchor=center, text=white] at (0,0.16) {\pt{12}{12}\faRobot};
   \node[anchor=center, text=white] at (0,-0.15) {\pt{5.8}{6.5}\bfseries HANARO};
-  \node[anchor=center, text=white!90] at (0,-0.34) {\pt{4.2}{4.8}ReAct IA};
+  \node[anchor=center, text=white!90] at (0,-0.34) {\pt{4.2}{4.8}ReAct AI};
   \lg@desenha{area}
 \end{tikzpicture}}
 
@@ -354,19 +354,19 @@
 \pgfmathsetmacro{\lg@y}{\lgafirmacaoinicio}
 \lg@desenha{afirmacao}
 
-% Fluxo visual inferior condizente com Hanaro (Dashboard + Assinatura <-> Agentes ReAct -> Producao LG)
+% Bottom visual flow matching Hanaro (Dashboard + Signature <-> ReAct Agents -> LG Production)
 \draw[lgteal, fill=lgteal!7, line width=0.8pt, rounded corners=4pt] (14.25,14.25) rectangle ++(3.55,2.30);
 \node[anchor=center, text=lgteal] at (15.35,15.05) {\pt{18}{18}\faChartBar};
 \node[anchor=center, text=lgred] at (16.70,15.05) {\pt{17}{17}\faPenNib};
-\node[anchor=center, text=lgink] at (16.02,15.92) {\pt{7.5}{9}\bfseries Dashboard \& Assinatura};
-\node[anchor=center, text=lgmuted] at (16.02,16.25) {\pt{6.2}{7.5}UI Revisada + Perfil};
+\node[anchor=center, text=lgink] at (16.02,15.92) {\pt{7.5}{9}\bfseries Dashboard \& Signature};
+\node[anchor=center, text=lgmuted] at (16.02,16.25) {\pt{6.2}{7.5}Revised UI + Profile};
 
 \node[anchor=center, text=lgred] at (18.62,15.40) {\pt{16}{16}\faIcon{exchange-alt}};
 
 \draw[lgred, fill=lgred!5, line width=0.8pt, rounded corners=4pt] (19.45,14.25) rectangle ++(4.35,2.30);
 \node[anchor=center, text=lgred] at (20.75,15.05) {\pt{18}{18}\faRobot};
 \node[anchor=center, text=lgteal] at (22.45,15.05) {\pt{17}{17}\faCheckDouble};
-\node[anchor=center, text=lgink] at (21.62,15.92) {\pt{7.5}{9}\bfseries Agentes ReAct $\rightarrow$ LG};
+\node[anchor=center, text=lgink] at (21.62,15.92) {\pt{7.5}{9}\bfseries ReAct Agents $\rightarrow$ LG};
 \node[anchor=center, text=lgmuted] at (21.62,16.25) {\pt{6.2}{7.5}Human-in-the-Loop + RAG};
 
 % =============== COLUNA 3 — RESULT ===============

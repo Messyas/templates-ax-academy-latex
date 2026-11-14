@@ -11,73 +11,73 @@
 \usepackage{onepagelg}
 \begin{document}
 
-% ======================= CABECALHO E RODAPE =======================
-\avisotopo{LGE — Uso Interno}
-\titulo{1. Hanaro — Scrap, IF Cost \& Assistente IA}
-\subtitulo{Plataforma para centralizar dados de Material Scrap do GERP, automatizar análises com agentes inteligentes e estruturar planos de ação.}
-\colunas{Antes}{Depois}{Resultado}
-\rodape{| \ C\,O\,N\,F\,I\,D\,E\,N\,C\,I\,A\,L\ |}{W46}
+% ======================= HEADER AND FOOTER =======================
+\avisotopo{LGE — Internal Use}
+\titulo{1. Hanaro — Scrap, IF Cost \& AI Assistant}
+\subtitulo{Platform to centralize GERP Material Scrap data, automate analysis with intelligent agents, and structure action plans.}
+\colunas{Before}{After}{Result}
+\rodape{| \ C\,O\,N\,F\,I\,D\,E\,N\,T\,I\,A\,L\ |}{W46}
 
-% ======================= COLUNA 1 — ANTES =======================
-\tituloantes{Contexto / Problema}
-\textoantes{Antes das melhorias desta sprint, a interface do Dashboard, o fluxo de
-  assinatura e a edição das propostas dos agentes ainda limitavam a agilidade na
-  homologação.}
+% ======================= COLUMN 1 — BEFORE =======================
+\tituloantes{Context / Issue}
+\textoantes{Before this sprint's improvements, the Dashboard UI, signature
+  workflow, and editing of agent proposals still limited agility during
+  validation.}
 
-% Textos mantidos curtos para respeitar a densidade do modelo original.
-\ponto[1.18]{ico-repetitivo.png}{Termos de estados de desempenho e leitura por painel exigiam revisão de UI.}
-\ponto[1.08]{ico-sobrecarga.png}{Analista não tinha cadastro de assinatura digital integrado ao próprio perfil.}
-\ponto[0.90]{ico-planilhas.png}{Tarefas dos agentes não permitiam edição inline nem explicavam casos parecidos.}
+% Short texts to preserve the density of the corporate template.
+\ponto[1.18]{ico-repetitivo.png}{Performance status terms and panel-level view required UI revision.}
+\ponto[1.08]{ico-sobrecarga.png}{Analysts lacked a digital signature setup integrated into their user profile.}
+\ponto[0.90]{ico-planilhas.png}{Agent-suggested tasks lacked inline editing and clear similar-case reasoning.}
 
-\alerta{ico-seguranca.png}{Interface e revisão dos agentes precisavam de ajustes para homologação}
+\alerta{ico-seguranca.png}{UI and agent review workflow required adjustments prior to final UAT}
 
-% quadro de baixo: titulo, o fluxo "de ... para ..." e os numeros de impacto
-\tituloquadro{Situação anterior}
-\fluxo{Antes da W46}{Pré-revisão UI \& IA}
-\destaque[0.96]{ico-pessoas.png}{Sem assinatura digital no perfil}
-\destaque[0.96]{ico-oportunidades.png}{Sem edição inline nas tarefas da IA}
+% bottom box: title, "from ... to ..." flow and impact items
+\tituloquadro{Previous State}
+\fluxo{Before W46}{Pre-UI \& AI Review}
+\destaque[0.96]{ico-pessoas.png}{No digital signature in user profile}
+\destaque[0.96]{ico-oportunidades.png}{No inline editing for AI tasks}
 
-% ======================= COLUNA 2 — DEPOIS =======================
-\titulodepois{Melhoria Implementada}
-\textodepois{O Hanaro traz Dashboard revisado com estados de desempenho e Mapa do Painel,
-  assinatura digital no perfil e agentes ReAct (LangGraph) com edição inline.}
+% ======================= COLUMN 2 — AFTER =======================
+\titulodepois{Implemented Improvement}
+\textodepois{Hanaro delivers a revised Dashboard with clear performance states and
+  Panel Map, profile digital signature, and ReAct agents with inline editing.}
 
-\melhoria{UI revisada: estados de desempenho, Mapa do Painel e assinatura.}
-\melhoria{PoC dos agentes ReAct aprovada; edição inline em 3 níveis.}
+\melhoria{Revised UI: performance states, Panel Map, and digital signature.}
+\melhoria{ReAct agent PoC approved; 3-level inline task editing.}
 
-\abas{HANARO}{AGENTE IA}
+\abas{HANARO}{AI AGENT}
 
-% \area{angulo}{rotulo} — o rotulo se posiciona sozinho pelo angulo
-\area{90}{Ingestão}
+% \area{angle}{label} — label positions itself from the angle
+\area{90}{Ingestion}
 \area{45}{Scrap}
 \area{0}{IF Cost}
-\area{-45}{Assinatura}
-\area{270}{Metas}
-\area{225}{Relatórios}
-\area{180}{Planos de Ação}
-\area{135}{Agentes IA}
+\area{-45}{Signature}
+\area{270}{Targets}
+\area{225}{Reports}
+\area{180}{Action Plans}
+\area{135}{AI Agents}
 
-\afirmacao{Dashboard executivo com termos de desempenho revisados e Mapa do Painel.}
-\afirmacao{Analista cadastra assinatura e edita tarefas sugeridas pelos agentes inline.}
-\afirmacao{PoC aprovada (M2); homologação em andamento aguardando deploy do serviço de IA.}
+\afirmacao{Executive Dashboard with revised performance terms and Panel Map.}
+\afirmacao{Analysts register signatures and edit agent-suggested tasks inline.}
+\afirmacao{PoC approved (M2); final UAT in progress awaiting AI service deploy.}
 
 \ilustracoes{robo-analista.png}{troca.png}{lg-ia.png}
 
-% ======================= COLUNA 3 — RESULTADO =======================
-\tituloresultado{Efeito da Melhoria}
+% ======================= COLUMN 3 — RESULT =======================
+\tituloresultado{Improvement Impact}
 
-\efeito{Dashboard claro com estados de desempenho e assinatura digital}
-\efeito{Revisão human-in-the-loop ágil com edição inline e casos parecidos}
-\efeito{80\% de evolução na W46, rumo à homologação final (M3)}
+\efeito{Clearer Dashboard states and digital signature}
+\efeito{Agile human-in-the-loop review with inline editing and similar cases}
+\efeito{80\% progress in W46, moving toward final UAT sign-off (M3)}
 
-% \graficobarra{categoria}{rotulo do valor}{altura em cm}
-\graficoeixo{Fluxo}
-\graficobarra{Antes}{Manual}{1.04}
-\graficobarra{Hanaro}{ReAct IA}{2.42}
-\graficonota{LangGraph + RAG}
+% \graficobarra{category}{value label}{height in cm}
+\graficoeixo{Workflow}
+\graficobarra{Before}{Manual}{1.04}
+\graficobarra{Hanaro}{ReAct AI}{2.42}
+\graficonota{Agents + RAG}
 
-\impacto{ico-areas.png}{Impacto no Negócio}{Produção \& Qualidade}
-\resultado{W46 / M3}{PoC Aprovada · 80\%}
+\impacto{ico-areas.png}{Business Impact}{Production \& Quality}
+\resultado{W46 / M3}{PoC Approved · 80\%}
 
 % =============================================================
 \onepage
