@@ -3,7 +3,7 @@
 % OnePage LG — Hanaro / Antes / Depois / Resultado
 %
 %   BASEADO ESTRITAMENTE NO MODELO CORPORATIVO FORNECIDO.
-%   Semana 8 de 11 (Sprint 02 · W36-37) — Incorporação dos Agentes ReAct.
+%   Semana 9 de 11 (Sprint 06 · W45-W47) — UI, Assinatura Digital e Agentes ReAct.
 %
 %   Compilar: uv run build onepage-sumarizacao   (2 passadas).
 % =============================================================
@@ -16,7 +16,7 @@
 \titulo{1. Hanaro — Scrap, IF Cost \& Assistente IA}
 \subtitulo{Plataforma para centralizar dados de Material Scrap do GERP, automatizar análises com agentes ReAct (LangGraph) e estruturar planos de ação.}
 \colunas{Antes}{Depois}{Resultado}
-\rodape{| \ C\,O\,N\,F\,I\,D\,E\,N\,C\,I\,A\,L\ |}{Semana 8 / 11}
+\rodape{| \ C\,O\,N\,F\,I\,D\,E\,N\,C\,I\,A\,L\ |}{Semana 9 / 11}
 
 % ======================= COLUNA 1 — ANTES =======================
 \tituloantes{Contexto / Problema}
@@ -38,12 +38,11 @@
 
 % ======================= COLUNA 2 — DEPOIS =======================
 \titulodepois{Melhoria Implementada}
-\textodepois{O Hanaro consolida a base do GERP, e agora opera com agentes ReAct no
-  LangGraph que consultam análises passadas, sugerem causas e formulam planos de
-  ação para revisão do analista.}
+\textodepois{O Hanaro traz Dashboard revisado com estados de desempenho e Mapa do Painel,
+  assinatura digital no perfil e agentes ReAct (LangGraph) com edição inline.}
 
-\melhoria{Ingestão ponta a ponta com 1.063 transações válidas e zero rejeições.}
-\melhoria{PoC do agente ReAct aprovada visualmente pela gerência da Produção.}
+\melhoria{UI revisada: estados de desempenho, Mapa do Painel e assinatura.}
+\melhoria{PoC dos agentes ReAct aprovada; edição inline em 3 níveis.}
 
 \abas{HANARO}{AGENTE IA}
 
@@ -51,24 +50,24 @@
 \area{90}{Ingestão}
 \area{45}{Scrap}
 \area{0}{IF Cost}
-\area{-45}{Revisões}
+\area{-45}{Assinatura}
 \area{270}{Metas}
 \area{225}{Relatórios}
 \area{180}{Planos de Ação}
 \area{135}{Agentes IA}
 
-\afirmacao{Dashboard executivo e Modo TV apoiam a priorização de perdas.}
-\afirmacao{Analista atua como revisor human-in-the-loop, validando causas e tarefas.}
-\afirmacao{Marco M2 concluído com aprovação visual da PoC; rumo ao Marco M3.}
+\afirmacao{Dashboard executivo com termos de desempenho revisados e Mapa do Painel.}
+\afirmacao{Analista cadastra assinatura e edita tarefas sugeridas pelos agentes inline.}
+\afirmacao{PoC aprovada (M2); homologação em andamento aguardando deploy do serviço de IA.}
 
 \ilustracoes{robo-analista.png}{troca.png}{lg-ia.png}
 
 % ======================= COLUNA 3 — RESULTADO =======================
 \tituloresultado{Efeito da Melhoria}
 
-\efeito{Visão única e rastreável de Scrap e IF Cost a partir do GERP}
-\efeito{Redução de ~80\% no tempo de elaboração de análises e pareceres}
-\efeito{Planos de ação padronizados no sistema para erradicar o refugo}
+\efeito{Dashboard claro com estados de desempenho e assinatura digital}
+\efeito{Revisão human-in-the-loop ágil com edição inline e casos parecidos}
+\efeito{80\% de evolução na Semana 9, rumo à homologação final (M3)}
 
 % \graficobarra{categoria}{rotulo do valor}{altura em cm}
 \graficoeixo{Fluxo}
@@ -77,7 +76,7 @@
 \graficonota{LangGraph + RAG}
 
 \impacto{ico-areas.png}{Impacto no Negócio}{Produção \& Qualidade}
-\resultado{Marco M2 / M3}{PoC Aprovada pela Área}
+\resultado{Semana 9 / M3}{PoC Aprovada · 80\%}
 
 % =============================================================
 \onepage
