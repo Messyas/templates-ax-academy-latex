@@ -21,6 +21,7 @@
 \RequirePackage{xcolor}
 \RequirePackage{amssymb}
 \RequirePackage{graphicx}
+\RequirePackage{fontawesome5}
 \RequirePackage{tikz}
 \usetikzlibrary{calc,arrows.meta}
 
@@ -209,12 +210,22 @@
 
 \newcommand{\lg@diagrama}{%
 \begin{tikzpicture}[x=1cm, y=1cm]
-  % icones "AI Devs" (recorte do diagrama original), nos vaos entre os raios
-  \foreach \a in {157.5, 202.5, -22.5}{%
-    \node[anchor=center, inner sep=0pt] at (\a:1.30) {\includegraphics[width=0.48cm]{img/ai-devs.png}};
-    \node[anchor=north, inner sep=0.4pt, text=lgteal] at ($(\a:1.30)+(0,-0.13)$)
-      {\pt{4}{4.5}\bfseries AI Devs};}
-  \node[anchor=center, inner sep=0pt] at (0,0) {\includegraphics[width=1.30cm]{img/ai-core.png}};
+  % 3 pilares da entrega nos vaos entre os raios (UI/Painel, Assinatura, LangGraph)
+  \node[anchor=center, inner sep=0pt, text=lgteal] at (157.5:1.30) {\pt{10}{10}\faChartBar};
+  \node[anchor=north, inner sep=0.4pt, text=lgteal] at ($(157.5:1.30)+(0,-0.16)$)
+    {\pt{4.2}{4.8}\bfseries UI / Painel};
+  \node[anchor=center, inner sep=0pt, text=lgteal] at (202.5:1.30) {\pt{10}{10}\faPenNib};
+  \node[anchor=north, inner sep=0.4pt, text=lgteal] at ($(202.5:1.30)+(0,-0.16)$)
+    {\pt{4.2}{4.8}\bfseries Assinatura};
+  \node[anchor=center, inner sep=0pt, text=lgteal] at (-22.5:1.30) {\pt{10}{10}\faBrain};
+  \node[anchor=north, inner sep=0.4pt, text=lgteal] at ($(-22.5:1.30)+(0,-0.16)$)
+    {\pt{4.2}{4.8}\bfseries LangGraph};
+  % nucleo central HANARO / ReAct IA
+  \fill[lgteal] (0,0) circle (0.64);
+  \draw[white, line width=1.2pt] (0,0) circle (0.58);
+  \node[anchor=center, text=white] at (0,0.16) {\pt{12}{12}\faRobot};
+  \node[anchor=center, text=white] at (0,-0.15) {\pt{5.8}{6.5}\bfseries HANARO};
+  \node[anchor=center, text=white!90] at (0,-0.34) {\pt{4.2}{4.8}ReAct IA};
   \lg@desenha{area}
 \end{tikzpicture}}
 
@@ -273,8 +284,10 @@
 
 % ---------- cabecalho ----------
 \node[anchor=north, inner sep=0pt] at (16.93,0.30) {\pt{11}{13}\color{lgmuted}\lg@avisotopo};
-\node[anchor=north west, text width=18cm, align=left, inner sep=0pt] at (0.68,0.66)
+\node[anchor=north west, text width=20cm, align=left, inner sep=0pt] at (0.68,0.66)
   {\pt{20}{23}\bfseries\lg@titulo};
+\node[anchor=north east, inner sep=0pt] at (33.15,0.72)
+  {\pt{10}{12}\bfseries\color{lgred}\faCog\ HANARO \ \color{lgmuted}\textbar\ \color{lgink}AX Academy $\cdot$ LGE};
 \draw[lgline, line width=0.7pt] (0.91,1.53) -- (33.21,1.53);
 \node[anchor=north west, text width=31.26cm, align=left, inner sep=0pt] at (0.72,1.74)
   {\pt{13}{16}\bfseries\lg@subtitulo};
@@ -341,9 +354,20 @@
 \pgfmathsetmacro{\lg@y}{\lgafirmacaoinicio}
 \lg@desenha{afirmacao}
 
-\node[anchor=north west, inner sep=0pt] at (14.32,14.37) {\includegraphics[width=3.23cm]{img/\lg@ilusA}};
-\node[anchor=north west, inner sep=0pt] at (18.10,14.88) {\includegraphics[width=1.04cm]{img/\lg@ilusB}};
-\node[anchor=north west, inner sep=0pt] at (19.48,13.65) {\includegraphics[width=3.26cm]{img/\lg@ilusC}};
+% Fluxo visual inferior condizente com Hanaro (Dashboard + Assinatura <-> Agentes ReAct -> Producao LG)
+\draw[lgteal, fill=lgteal!7, line width=0.8pt, rounded corners=4pt] (14.25,14.25) rectangle ++(3.55,2.30);
+\node[anchor=center, text=lgteal] at (15.35,15.05) {\pt{18}{18}\faChartBar};
+\node[anchor=center, text=lgred] at (16.70,15.05) {\pt{17}{17}\faPenNib};
+\node[anchor=center, text=lgink] at (16.02,15.92) {\pt{7.5}{9}\bfseries Dashboard \& Assinatura};
+\node[anchor=center, text=lgmuted] at (16.02,16.25) {\pt{6.2}{7.5}UI Revisada + Perfil};
+
+\node[anchor=center, text=lgred] at (18.62,15.40) {\pt{16}{16}\faIcon{exchange-alt}};
+
+\draw[lgred, fill=lgred!5, line width=0.8pt, rounded corners=4pt] (19.45,14.25) rectangle ++(4.35,2.30);
+\node[anchor=center, text=lgred] at (20.75,15.05) {\pt{18}{18}\faRobot};
+\node[anchor=center, text=lgteal] at (22.45,15.05) {\pt{17}{17}\faCheckDouble};
+\node[anchor=center, text=lgink] at (21.62,15.92) {\pt{7.5}{9}\bfseries Agentes ReAct $\rightarrow$ LG};
+\node[anchor=center, text=lgmuted] at (21.62,16.25) {\pt{6.2}{7.5}Human-in-the-Loop + RAG};
 
 % =============== COLUNA 3 — RESULT ===============
 \node[anchor=north west, text width=7cm, align=left, inner sep=0pt] at (25.79,3.90)
